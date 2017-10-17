@@ -12,6 +12,7 @@ CREATE TABLE posting (
     created timestamp NOT NULL,
     text text NOT NULL,
     user_id int NOT NULL,
+    likes int NOT NULL,
     CONSTRAINT posting_pk PRIMARY KEY (id)
 );
 
