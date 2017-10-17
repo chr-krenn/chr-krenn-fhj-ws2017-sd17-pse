@@ -1,17 +1,18 @@
 -- tables
 -- Table: news_feed
 CREATE TABLE news_feed (
+    id int NOT NULL,
     profile_id int NOT NULL,
     posting_id int NOT NULL,
-    CONSTRAINT news_feed_pk PRIMARY KEY (profile_id,posting_id)
+    CONSTRAINT news_feed_pk PRIMARY KEY (id)
 );
 
 -- Table: posting
 CREATE TABLE posting (
     id int NOT NULL,
+    user_id int NOT NULL,
     created timestamp NOT NULL,
     text text NOT NULL,
-    user_id int NOT NULL,
     likes int NOT NULL,
     CONSTRAINT posting_pk PRIMARY KEY (id)
 );
@@ -53,7 +54,7 @@ ALTER TABLE news_feed ADD CONSTRAINT news_feed_posting FOREIGN KEY news_feed_pos
     REFERENCES posting (id);
 
 -- Reference: news_feed_profile (table: news_feed)
-ALTER TABLE news_feed ADD CONSTRAINT news_feed_profile FOREIGN KEY news_feed_profile (posting_id)
+ALTER TABLE news_feed ADD CONSTRAINT news_feed_profile FOREIGN KEY news_feed_profile (profile_id)
     REFERENCES profile (id);
 
 -- Reference: posting_user (table: posting)
