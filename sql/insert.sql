@@ -1,3 +1,3 @@
-insert into usertype(id, type)  values (1, "admin");
-insert into profile(id, description)  values (1, "empty profile");
-insert into users(id, username, password,profile_id,usertype_id)  values (1,'frank','pass',1,1);
+insert into usertype(id, type) values (1, "admin");
+insert into users(id, usertype_id, username, password) values (1, 1, 'frank', 'pass');
+insert into profile(id, user_id, description) values (1, 1, "empty profile");
