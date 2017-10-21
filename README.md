@@ -9,29 +9,29 @@ Clone Repository
 <pre>
 cd ~/eclipse-workspace
 git clone https://github.com/chr-krenn/chr-krenn-fhj-ws2017-sd17-pse
-cd chr-krenn-fhj-ws2017-sd17-pse/
 </pre>
 Use MySQL shell to set up the database, grant privileges, and insert test data:
 <pre>
+cd chr-krenn-fhj-ws2017-sd17-pse/
 systemctl start mariadb.service
 mysql -u root -p
 CREATE DATABASE pse;
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `pse`.* TO 'student'@'localhost';
 use pse;
-source sql/create.sql
-source sql/insert.sql 
+source sql/create.sql;
+source sql/insert.sql;
 exit
 </pre>
-Set up management user to access WildFly management console at http://localhost:9990 (optional)
+Set up management user to access WildFly management console at http://localhost:9990 (optional):
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/add-user.sh
 </pre>
 ## Run
-Start WildFly server
+Start WildFly server:
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
 </pre>
-Deploy App
+Deploy App:
 <pre>
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
 mvn wildfly:deploy
