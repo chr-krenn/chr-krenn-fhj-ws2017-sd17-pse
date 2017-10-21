@@ -21,7 +21,7 @@ source sql/create.sql
 source sql/insert.sql 
 exit
 </pre>
-Set up management user to access WildFly management console at http://localhost:9990
+Set up management user to access WildFly management console at http://localhost:9990 (optional)
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/add-user.sh
 </pre>
@@ -34,6 +34,7 @@ Deploy App
 <pre>
 mvn wildfly:deploy
 </pre>
+Open in Browser: http://localhost:8080/pse/
 
 ## Database Design
 ![Database overview](doc/database_overview.png)
