@@ -1,10 +1,10 @@
 -- tables
--- Table: news_feed
-CREATE TABLE news_feed (
+-- Table: feed
+CREATE TABLE feed (
     id int NOT NULL,
     profile_id int NOT NULL,
     posting_id int NOT NULL,
-    CONSTRAINT news_feed_pk PRIMARY KEY (id)
+    CONSTRAINT feed_pk PRIMARY KEY (id)
 );
 
 -- Table: posting
@@ -21,7 +21,7 @@ CREATE TABLE posting (
 CREATE TABLE profile (
     id int NOT NULL,
     address varchar(255) NOT NULL,
-    telephone varchar(64) NOT NULL,
+    phone varchar(64) NOT NULL,
     mobile varchar(64) NOT NULL,
     mail varchar(255) NOT NULL,
     fax varchar(64) NOT NULL,
@@ -30,15 +30,17 @@ CREATE TABLE profile (
     CONSTRAINT profile_pk PRIMARY KEY (id)
 );
 
--- Table: user
-CREATE TABLE user (
+-- Table: users
+CREATE TABLE users (
     id int NOT NULL,
     first_name varchar(255) NOT NULL,
     last_name varchar(255) NOT NULL,
     email varchar(255) NOT NULL,
     usertype_id int NOT NULL,
     profile_id int NOT NULL,
-    CONSTRAINT user_pk PRIMARY KEY (id)
+    uname varchar(64) NOT NULL,
+    passwd varchar(64) NOT NULL,
+    CONSTRAINT users_pk PRIMARY KEY (id)
 );
 
 -- Table: usertype
@@ -49,24 +51,24 @@ CREATE TABLE usertype (
 );
 
 -- foreign keys
--- Reference: news_feed_posting (table: news_feed)
-ALTER TABLE news_feed ADD CONSTRAINT news_feed_posting FOREIGN KEY news_feed_posting (posting_id)
+-- Reference: news_feed_posting (table: feed)
+ALTER TABLE feed ADD CONSTRAINT news_feed_posting FOREIGN KEY news_feed_posting (posting_id)
     REFERENCES posting (id);
 
--- Reference: news_feed_profile (table: news_feed)
-ALTER TABLE news_feed ADD CONSTRAINT news_feed_profile FOREIGN KEY news_feed_profile (profile_id)
+-- Reference: news_feed_profile (table: feed)
+ALTER TABLE feed ADD CONSTRAINT news_feed_profile FOREIGN KEY news_feed_profile (profile_id)
     REFERENCES profile (id);
 
 -- Reference: posting_user (table: posting)
 ALTER TABLE posting ADD CONSTRAINT posting_user FOREIGN KEY posting_user (user_id)
-    REFERENCES user (id);
+    REFERENCES users (id);
 
--- Reference: user_profile (table: user)
-ALTER TABLE user ADD CONSTRAINT user_profile FOREIGN KEY user_profile (profile_id)
+-- Reference: user_profile (table: users)
+ALTER TABLE users ADD CONSTRAINT user_profile FOREIGN KEY user_profile (profile_id)
     REFERENCES profile (id);
 
--- Reference: user_usertype (table: user)
-ALTER TABLE user ADD CONSTRAINT user_usertype FOREIGN KEY user_usertype (usertype_id)
+-- Reference: user_usertype (table: users)
+ALTER TABLE users ADD CONSTRAINT user_usertype FOREIGN KEY user_usertype (usertype_id)
     REFERENCES usertype (id);
 
 -- End of file.
