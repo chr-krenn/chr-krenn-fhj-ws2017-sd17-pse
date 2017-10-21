@@ -19,8 +19,17 @@ CREATE DATABASE pse;
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `pse`.* TO 'student'@'localhost';
 exit
 </pre>
+Create tables:
 <pre>
 mysql pse -u student -p < sql/create.sql
+</pre>
+Set up Wildfly management user to access management console at http://localhost:9990
+<pre>
+~/install/wildfly-10.1.0.Final/bin/add-user.sh
+</pre>
+## Run
+<pre>
+todo..
 </pre>
 
 ## Database Design
