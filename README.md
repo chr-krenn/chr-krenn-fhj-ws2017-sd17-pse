@@ -17,6 +17,7 @@ systemctl start mariadb.service
 mysql -u root -p
 CREATE DATABASE pse;
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `pse`.* TO 'student'@'localhost';
+use pse;
 source sql/create.sql
 source sql/insert.sql 
 exit
@@ -32,6 +33,7 @@ Start WildFly server
 </pre>
 Deploy App
 <pre>
+cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
 mvn wildfly:deploy
 </pre>
 Open in Browser: http://localhost:8080/pse/
