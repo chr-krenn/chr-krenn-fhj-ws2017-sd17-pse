@@ -38,8 +38,8 @@ CREATE TABLE users (
     email varchar(255) NOT NULL,
     usertype_id int NOT NULL,
     profile_id int NOT NULL,
-    uname varchar(64) NOT NULL,
-    passwd varchar(64) NOT NULL,
+    username varchar(64) NOT NULL,
+    password varchar(64) NOT NULL,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
 
