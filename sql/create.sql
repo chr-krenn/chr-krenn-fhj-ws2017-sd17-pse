@@ -1,12 +1,9 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-10-25 07:57:56.446
-
 -- tables
 -- Table: community
 CREATE TABLE community (
     id int NOT NULL,
-    community_id int NOT NULL,
-    user_id int NOT NULL,
+    name varchar(256) NOT NULL,
+    status varchar(64) NOT NULL,
     CONSTRAINT community_pk PRIMARY KEY (id)
 );
 
@@ -32,10 +29,19 @@ CREATE TABLE post (
 -- Table: private_message
 CREATE TABLE private_message (
     id int NOT NULL,
-    text varchar(1024) NOT NULL,
     from_id int NOT NULL,
     to_id int NOT NULL,
+    text varchar(1024) NOT NULL,
+    created timestamp NOT NULL,
     CONSTRAINT private_message_pk PRIMARY KEY (id)
+);
+
+-- Table: user_community
+CREATE TABLE user_community (
+    id int NOT NULL,
+    user_id int NOT NULL,
+    community_id int NOT NULL,
+    CONSTRAINT user_community_pk PRIMARY KEY (id)
 );
 
 -- Table: users
@@ -55,13 +61,9 @@ CREATE TABLE users (
 );
 
 -- foreign keys
--- Reference: community_users (table: community)
-ALTER TABLE community ADD CONSTRAINT community_users FOREIGN KEY community_users (user_id)
-    REFERENCES users (id);
-
 -- Reference: contact_users (table: contact)
-ALTER TABLE contact ADD CONSTRAINT contact_users FOREIGN KEY contact_users (user_id,contact_id)
-    REFERENCES users (id,id);
+ALTER TABLE contact ADD CONSTRAINT contact_users FOREIGN KEY contact_users (user_id)
+    REFERENCES users (id);
 
 -- Reference: post_community (table: post)
 ALTER TABLE post ADD CONSTRAINT post_community FOREIGN KEY post_community (community_id)
@@ -76,8 +78,16 @@ ALTER TABLE post ADD CONSTRAINT posting_user FOREIGN KEY posting_user (user_id)
     REFERENCES users (id);
 
 -- Reference: private_message_users (table: private_message)
-ALTER TABLE private_message ADD CONSTRAINT private_message_users FOREIGN KEY private_message_users (from_id,to_id)
-    REFERENCES users (id,id);
+ALTER TABLE private_message ADD CONSTRAINT private_message_users FOREIGN KEY private_message_users (from_id)
+    REFERENCES users (id);
+
+-- Reference: user_community_community (table: user_community)
+ALTER TABLE user_community ADD CONSTRAINT user_community_community FOREIGN KEY user_community_community (community_id)
+    REFERENCES community (id);
+
+-- Reference: user_community_users (table: user_community)
+ALTER TABLE user_community ADD CONSTRAINT user_community_users FOREIGN KEY user_community_users (user_id)
+    REFERENCES users (id);
 
 -- End of file.
 
