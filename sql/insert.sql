@@ -24,5 +24,5 @@ INSERT INTO post(id, user_id, community_id,parent_post_id, text) VALUES (2,1,1,1
 
 -- bob posts on community SWD15, alice posts a reply
 INSERT INTO post(id, user_id, community_id,text) VALUES (3,2,1,'This is a post from bob!');
-INSERT INTO post(id, user_id, community_id,text) VALUES (4,3,1,'This is a reply from alice to bob.');
+INSERT INTO post(id, user_id, community_id,parent_post_id,text) VALUES (4,3,1,3,'This is a reply from alice to bob.');
 
