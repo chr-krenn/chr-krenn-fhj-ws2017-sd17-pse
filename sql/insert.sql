@@ -26,5 +26,7 @@ INSERT INTO post(id, user_id, community_id,parent_post_id, text) VALUES (2,1,1,1
 INSERT INTO post(id, user_id, community_id,text) VALUES (3,2,1,'This is a post from bob!');
 INSERT INTO post(id, user_id, community_id,parent_post_id,text) VALUES (4,3,1,3,'This is a reply from alice to bob.');
 
--- create user profile for alice
-INSERT INTO userprofile (id, user_id, firstname, lastname, description) VALUES (1,3, 'Alice', 'Carroll', 'Adventurer');
+-- create user profiles for admin, bob and alice
+INSERT INTO userprofile (id, user_id, firstname, lastname, description) VALUES (1,1, 'Homer', 'Simpson', 'Technician');
+INSERT INTO userprofile (id, user_id, firstname, lastname, description) VALUES (2,2, 'Bob', 'Carter', 'User');
+INSERT INTO userprofile (id, user_id, firstname, lastname, description) VALUES (3,3, 'Alice', 'Carroll', 'Adventurer');
