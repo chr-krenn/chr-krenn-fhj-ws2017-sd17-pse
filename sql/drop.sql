@@ -1,3 +1,6 @@
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2017-10-26 07:16:01.557
+
 -- foreign keys
 ALTER TABLE contact
     DROP FOREIGN KEY contact_users;
@@ -20,6 +23,9 @@ ALTER TABLE user_community
 ALTER TABLE user_community
     DROP FOREIGN KEY user_community_users;
 
+ALTER TABLE userprofile
+    DROP FOREIGN KEY userprofile_users;
+
 -- tables
 DROP TABLE community;
 
@@ -30,6 +36,8 @@ DROP TABLE post;
 DROP TABLE private_message;
 
 DROP TABLE user_community;
+
+DROP TABLE userprofile;
 
 DROP TABLE users;
 

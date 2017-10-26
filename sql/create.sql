@@ -1,3 +1,6 @@
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2017-10-26 07:16:01.557
+
 -- tables
 -- Table: community
 CREATE TABLE community (
@@ -44,18 +47,26 @@ CREATE TABLE user_community (
     CONSTRAINT user_community_pk PRIMARY KEY (id)
 );
 
+-- Table: userprofile
+CREATE TABLE userprofile (
+    id int NOT NULL,
+    user_id int NOT NULL,
+    firstname varchar(64) NOT NULL,
+    lastname varchar(64) NOT NULL,
+    email varchar(256) NOT NULL,
+    phone varchar(256) NOT NULL,
+    mobile varchar(256) NOT NULL,
+    description varchar(1024) NOT NULL,
+    created timestamp NOT NULL,
+    CONSTRAINT userprofile_pk PRIMARY KEY (id)
+);
+
 -- Table: users
 CREATE TABLE users (
     id int NOT NULL,
     username varchar(64) NOT NULL,
     password varchar(64) NOT NULL,
     role varchar(64) NOT NULL,
-    firstname varchar(255) NULL,
-    lastname varchar(255) NULL,
-    email varchar(255) NULL,
-    phone varchar(64) NULL,
-    mobile varchar(64) NULL,
-    description varchar(256) NULL,
     created timestamp NOT NULL,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
@@ -87,6 +98,10 @@ ALTER TABLE user_community ADD CONSTRAINT user_community_community FOREIGN KEY u
 
 -- Reference: user_community_users (table: user_community)
 ALTER TABLE user_community ADD CONSTRAINT user_community_users FOREIGN KEY user_community_users (user_id)
+    REFERENCES users (id);
+
+-- Reference: userprofile_users (table: userprofile)
+ALTER TABLE userprofile ADD CONSTRAINT userprofile_users FOREIGN KEY userprofile_users (user_id)
     REFERENCES users (id);
 
 -- End of file.
