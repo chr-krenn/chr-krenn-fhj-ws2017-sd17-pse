@@ -1,11 +1,14 @@
 package org.se.lab.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -68,6 +71,14 @@ public class User implements Serializable
 		this.password = passwd;
 	}
 
+	@ManyToMany(mappedBy = "users")
+	private List<Community> communities = new ArrayList<Community>();
+	public void addCommunity(Community community) {
+		if(community == null)
+			throw new IllegalArgumentException();
+		communities.add(community);
+		
+	}
 	
 	/*
 	 * Object methods
@@ -102,4 +113,6 @@ public class User implements Serializable
 			return false;
 		return true;
 	}
+
+
 }
