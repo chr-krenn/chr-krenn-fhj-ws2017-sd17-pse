@@ -1,101 +1,139 @@
 package org.se.lab.service;
 
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
 import org.apache.log4j.Logger;
 import org.se.lab.data.User;
 import org.se.lab.data.UserDAO;
 
-@Stateless
-public class UserService{
-	private final Logger LOG=Logger.getLogger(UserService.class);
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.util.List;
 
-	@Inject
-	private UserDAO dao;
+@Stateless
+public class UserService {
+    private final Logger LOG = Logger.getLogger(UserService.class);
+
+    @Inject
+    private UserDAO dao;
 
 	/*
-	 * API Operations
+     * API Operations
 	 */
 
-	public List<User> findByName(String name){
-		return null;
-	}
+    public List<User> findByName(String name) {
+        return null;
+    }
 
-	public void insert(User article){
-		LOG.debug("insert "+article);
+    public void insert(User user) {
+        LOG.debug("insert " + user);
 
-		try{
-			dao.insert(article);
-		}catch(Exception e){
-			LOG.error("Can't insert article "+article,e);
-			throw new ServiceException("Can't insert article "+article);
-		}
-	}
+        try {
+            dao.insert(user);
+        } catch (Exception e) {
+            LOG.error("Can't insert user " + user, e);
+            throw new ServiceException("Can't insert user " + user);
+        }
+    }
 
-	public void delete(User article){
-		LOG.debug("delete "+article);
+    public void delete(User user) {
+        LOG.debug("delete " + user);
 
-		// TODO
-	}
+        try {
+            dao.delete(user);
+        } catch (Exception e) {
+            LOG.error("Can't delete user " + user, e);
+            throw new ServiceException("Can't delete user " + user);
+        }
+    }
 
-	public User login(String username,String password){
-		LOG.debug("login for "+username);
-		// TODO +hashing
-		return null;
-	}
+    public User login(String username, String password) {
+        LOG.debug("login for " + username);
+        // TODO +hashing
 
-	public void addContact(User article,User contact){
-		LOG.debug("add contact to "+article);
+        User user = loadUserByUsername(username);
 
-		// TODO
-	}
+        if(!user.getPassword().equals(password)){
+            LOG.error("Password incorrect for user " + user);
+            throw new ServiceException("Password incorrect for user " + user);
+        }
 
-	public void removeContact(User article,User contact){
-		LOG.debug("remove contact from "+article);
+        return user;
+    }
 
-		// TODO
-	}
+    private User loadUserByUsername(String username) {
+        try{
+            return dao.findByUsername(username);
+        } catch (Exception e) {
+            LOG.error("Can't find user " + username, e);
+            throw new ServiceException("Can't find user " + username);
+        }
+    }
 
-	public void update(User article){
-		LOG.debug("update "+article);
+    public void addContact(User user, User contact) {
+        LOG.debug("add contact to " + user);
+        // TODO
+    }
 
-		// TODO
-	}
+    public void removeContact(User user, User contact) {
+        LOG.debug("remove contact from " + user);
 
-	public List<User> findAll(){
-		LOG.debug("find all articles");
+        // TODO
+    }
 
-		try{
-			List<User> list=dao.findAll();
-			return list;
-		}catch(Exception e){
-			LOG.error("Can't find all articles!",e);
-			throw new ServiceException("Can't find all articles!");
-		}
-	}
+    public List<User> getAllContactsBy(User user) {
+        LOG.debug("get all contacts from " + user);
+
+        // TODO
+        return null;
+    }
+
+    public void update(User user) {
+        LOG.debug("update " + user);
+
+        try {
+            dao.update(user);
+        } catch (Exception e){
+            LOG.error("Can't update user " + user, e);
+            throw new ServiceException("Can't update user " + user);
+        }
+    }
+
+    public List<User> findAll() {
+        LOG.debug("find all users");
+
+        try {
+            List<User> list = dao.findAll();
+            return list;
+        } catch (Exception e) {
+            LOG.error("Can't find all users!", e);
+            throw new ServiceException("Can't find all users!");
+        }
+    }
 
 	/*
 	 * TODO check if methods delete(id), findById(id) required
 	 */
 
-	public void delete(int id){
-		LOG.info("delete: "+id);
+    public void delete(int id) {
+        LOG.info("delete: " + id);
 
-		// TODO
-	}
+        try {
+            User user = findById(id);
+            dao.delete(user);
+        } catch (Exception e) {
+            LOG.error("Can't delete user with ID " + id, e);
+            throw new ServiceException("Can't delete user with ID " + id);
+        }
 
-	public User findById(int id){
-		LOG.debug("find User with id="+id);
+    }
 
-		try{
-			User article=dao.findById(id);
-			return article;
-		}catch(Exception e){
-			LOG.error("Can't find article with id "+id,e);
-			throw new ServiceException("Can't find article with id "+id);
-		}
-	}
+    public User findById(int id) {
+        LOG.debug("find User with id=" + id);
+
+        try {
+            return dao.findById(id);
+        } catch (Exception e) {
+            LOG.error("Can't find user with id " + id, e);
+            throw new ServiceException("Can't find user with id " + id);
+        }
+    }
 }
