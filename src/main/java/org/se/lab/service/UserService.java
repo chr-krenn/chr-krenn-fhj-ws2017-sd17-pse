@@ -79,6 +79,13 @@ public class UserService {
         // TODO
     }
 
+    public List<User> getAllContactsBy(User user) {
+        LOG.debug("get all contacts from " + user);
+
+        // TODO
+        return null;
+    }
+
     public void update(User user) {
         LOG.debug("update " + user);
 
