@@ -1,6 +1,3 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-10-26 07:16:01.557
-
 -- tables
 -- Table: community
 CREATE TABLE community (
