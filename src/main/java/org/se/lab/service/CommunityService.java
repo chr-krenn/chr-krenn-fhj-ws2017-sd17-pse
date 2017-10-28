@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
-import org.se.lab.data.CommunityDAO;
+import org.se.lab.data.CommunityDAOImpl;
 import org.se.lab.data.User;
 
 @Stateless
@@ -15,7 +15,7 @@ public class CommunityService{
 	private final Logger LOG=Logger.getLogger(CommunityService.class);
 
 	@Inject
-	private CommunityDAO dao;
+	private CommunityDAOImpl dao;
 
 	public List<Community> getApproved(){
 		// TODO get all communities with status=approved

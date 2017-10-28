@@ -77,8 +77,12 @@ public class User implements Serializable
 		if(community == null)
 			throw new IllegalArgumentException();
 		communities.add(community);
-		
 	}
+	
+	public List<Community> getCommunities(){
+		return communities;
+	}
+	
 	
 	/*
 	 * Object methods

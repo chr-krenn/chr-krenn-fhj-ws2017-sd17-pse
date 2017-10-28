@@ -24,7 +24,7 @@
   <class id="3" language="java" name="org.se.lab.service.ActivityStreamService" project="chr-krenn-fhj-ws2017-sd17-pse" 
     file="/chr-krenn-fhj-ws2017-sd17-pse/src/main/java/org/se/lab/service/ActivityStreamService.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="574" y="214"/>    
+    <position height="-1" width="-1" x="606" y="217"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
