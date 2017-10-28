@@ -1,0 +1,58 @@
+ .panel{
+    background-color: lightgrey;
+}
+
+body {
+    background-color: lightblue;
+}
+
+h1 {
+    color: black;
+    text-align: center;
+}
+
+h2 {
+    color: black;
+    text-align: center;
+}
+
+.buttons {
+	float: right;
+display: block;
+right: 8px;
+}
+
+.contactcommunities{
+	
+	float: left;
+}
+
+.contactlist {
+	float: left;
+	background-color: lightgrey;
+	margin-right: 150px;
+}
+
+.communitylist {
+	background-color: lightgrey;
+	float: left;
+	margin-right: 300px;
+}
+.image {
+	float: left;
+}
+
+#headerBtnLeft{
+	float: left;
+}
+
+#headerBtnRight{
+	float: right;
+}
+
+#footer{
+	background-color: grey;
+}
+#header{
+	background-color: grey;
+}

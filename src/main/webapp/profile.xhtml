@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+<h:form>
+    <div id="header">
+        <ui:insert name="header">
+            <ui:include src="templates/header.xhtml" />
+        </ui:insert>
+        <h:outputStylesheet library = "css" name = "style.css"  />
+    </div>
+<div id="content">
+        <h1>Profile</h1>
+        <p:layout style="min-width:400px;min-height:600px;">
+ <p:layoutUnit position="center">
+ <div class="buttons">
+ <p:commandButton value="Admin Area"  action="adminArea.xhtml?faces-redirect=true" />
+ <p:commandButton value="Add Contact"  action="#{userDataBean.addContact()}" />
+ </div>
+ <h2>User-Profile</h2>
+  <p:repeat value="#{userDataBean.user}" var="u">
+        <h:panelGrid columns="2" style="width:100%" class="panel" columnClasses="logo,detail">
+            
+ 
+            <p:outputPanel class="panel">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText value="Id:" />
+                    <h:outputText value="#{u.id}" style="font-weight: bold"/>
+                    
+ 					<h:outputText value="Username" />
+                    <h:outputText value="#{u.username}" style="font-weight: bold"/>
+                    
+ 
+                </h:panelGrid>
+            </p:outputPanel>
+        </h:panelGrid>
+        <hr />
+    </p:repeat>
+ <br/>
+ 
+ <div class="contactcommunities">
+<div class="contactlist">
+<h2>Contacts</h2>
+     <p:repeat value="#{userDataBean.contacts}" var="contact">
+        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+            
+ 
+            <p:outputPanel>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText value="Id:" />
+                    <h:outputText value="#{contact.id}" style="font-weight: bold"/>
+ <h:outputText value="Username" />
+                    <h:outputText value="#{contact.username}" style="font-weight: bold"/>
+               
+                </h:panelGrid>
+            </p:outputPanel>
+        </h:panelGrid>
+        <hr />
+    </p:repeat>
+    </div>
+    <div class="communitylist">
+    <h2>Communities</h2>
+         <p:repeat value="#{userDataBean.contacts}" var="contact">
+        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+            
+ 
+            <p:outputPanel>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText value="Id:" />
+                    <h:outputText value="#{contact.id}" style="font-weight: bold"/>
+ <h:outputText value="Username" />
+                    <h:outputText value="#{contact.username}" style="font-weight: bold"/>
+               
+                </h:panelGrid>
+            </p:outputPanel>
+        </h:panelGrid>
+        <hr />
+    </p:repeat>
+ </div>
+ 
+ <!-- Einkommentieren wenn Community Entity OK ist-->
+ 
+ <!--
+   <p:repeat value="#{userDataBean.communities}" var="community">
+        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+        
+ 
+            <p:outputPanel>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText value="Id:" />
+                    <h:outputText value="#{community.id}" style="font-weight: bold"/>
+ 
+    
+                </h:panelGrid>
+            </p:outputPanel>
+        </h:panelGrid>
+        <hr />
+    </p:repeat>
+ -->
+ 
+ </div>
+ <div class="image">
+ <h2>image</h2>
+ <p:graphicImage value="#{userDataBean.photo}" />
+       </div>
+    </p:layoutUnit>
+    </p:layout>
+    </div>
+    
+    
+      <div id="footer">
+        <ui:insert name="footer">
+            <ui:include src="templates/footer.xhtml" />
+        </ui:insert>
+    </div>
+    </h:form>
+</h:body>
+</html>

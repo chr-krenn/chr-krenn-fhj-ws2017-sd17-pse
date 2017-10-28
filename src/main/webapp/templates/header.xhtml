@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+            <head>
+      
+<h:outputStylesheet library = "css" name = "style.css"  />
+      </head>
+<body>
+<ui:composition>
+<p:layout style="min-width:400px;min-height:50px;">
+    
+    <p:layoutUnit position="center" resizable="true" size="100" minSize="40" maxSize="200">
+        <div id="header">
+        <div id="headerBtnLeft">
+    
+	<p:commandButton value="Home" action="index.xhtml?faces-redirect=true" />
+	<p:spacer width="30" height="10" />
+	<p:commandButton value="Communities" action="communities.xhtml?faces-redirect=true" />
+<p:spacer width="30" height="10" />
+	<p:commandButton value="All Users" action="users.xhtml?faces-redirect=true" />
+	<p:spacer width="1250" height="10" />
+	</div>
+	    <div id="headerBtnRight">
+    
+	<p:commandButton value="User" action="profile.xhtml?faces-redirect=true" />
+	<p:spacer width="30" height="10" />
+	<p:commandButton value="Logout" action="#{LoginBean.logout()}" />	
+</div>
+</div>
+</p:layoutUnit>
+
+</p:layout>
+</ui:composition>
+</body>
+</html>
