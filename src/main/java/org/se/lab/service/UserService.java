@@ -37,13 +37,35 @@ public class UserService {
     public void delete(User user) {
         LOG.debug("delete " + user);
 
-        // TODO
+        try {
+            dao.delete(user);
+        } catch (Exception e) {
+            LOG.error("Can't delete user " + user, e);
+            throw new ServiceException("Can't delete user " + user);
+        }
     }
 
     public User login(String username, String password) {
         LOG.debug("login for " + username);
         // TODO +hashing
-        return null;
+
+        User user = loadUserByUsername(username);
+
+        if(!user.getPassword().equals(password)){
+            LOG.error("Password incorrect for user " + user);
+            throw new ServiceException("Password incorrect for user " + user);
+        }
+
+        return user;
+    }
+
+    private User loadUserByUsername(String username) {
+        try{
+            return dao.findByUsername(username);
+        } catch (Exception e) {
+            LOG.error("Can't find user " + username, e);
+            throw new ServiceException("Can't find user " + username);
+        }
     }
 
     public void addContact(User user, User contact) {

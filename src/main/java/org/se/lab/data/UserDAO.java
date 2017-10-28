@@ -13,4 +13,6 @@ public interface UserDAO
 	List<User> findAll();
 	
 	User createUser(String username, String password);
+
+    User findByUsername(String username);
 }

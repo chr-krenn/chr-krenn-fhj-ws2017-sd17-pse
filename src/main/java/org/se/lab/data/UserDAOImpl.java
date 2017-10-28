@@ -1,11 +1,10 @@
 package org.se.lab.data;
 
-import java.util.List;
+import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.apache.log4j.Logger;
+import java.util.List;
 
 class UserDAOImpl
 	implements UserDAO
@@ -73,5 +72,11 @@ class UserDAOImpl
 		u.setPassword(password);	
 		insert(u);
 		return u;
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		//TODO implement
+		return null;
 	}
 }
