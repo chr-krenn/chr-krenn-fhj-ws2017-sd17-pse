@@ -33,7 +33,7 @@ INSERT INTO post(id, user_id, community_id,parent_post_id, text) VALUES (2,1,1,1
 INSERT INTO post(id, user_id, community_id,text) VALUES (3,2,1,'This is a post from bob on SWD15!');
 INSERT INTO post(id, user_id, community_id,parent_post_id,text) VALUES (4,3,1,3,'This is a reply from alice to bob.');
 
--- create user profiles for admin, bob and alice
+-- create user profiles for admin, bob, alice and frank
 INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, mobile, description) 
 VALUES (1,1, 'Homer', 'Simpson', 'ho.j.simpson@example.com', '555-1234', '31337', 'Technician');
 
