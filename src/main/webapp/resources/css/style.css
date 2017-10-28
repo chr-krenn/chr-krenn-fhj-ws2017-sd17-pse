@@ -1,29 +1,28 @@
- .panel{
-    background-color: lightgrey;
+.panel {
+	background-color: lightgrey;
 }
 
 body {
-    background-color: lightblue;
+	background-color: lightblue;
 }
 
 h1 {
-    color: black;
-    text-align: center;
+	color: black;
+	text-align: center;
 }
 
 h2 {
-    color: black;
-    text-align: center;
+	color: black;
+	text-align: center;
 }
 
 .buttons {
 	float: right;
-display: block;
-right: 8px;
+	display: block;
+	right: 8px;
 }
 
-.contactcommunities{
-	
+.contactcommunities {
 	float: left;
 }
 
@@ -38,21 +37,23 @@ right: 8px;
 	float: left;
 	margin-right: 300px;
 }
+
 .image {
 	float: left;
 }
 
-#headerBtnLeft{
+#headerBtnLeft {
 	float: left;
 }
 
-#headerBtnRight{
+#headerBtnRight {
 	float: right;
 }
 
-#footer{
+#footer {
 	background-color: grey;
 }
-#header{
+
+#header {
 	background-color: grey;
 }
