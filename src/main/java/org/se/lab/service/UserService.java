@@ -84,7 +84,7 @@ public class UserService {
 
         try {
             dao.update(user);
-        } catch (Exception e) {
+        } catch (Exception e){
             LOG.error("Can't update user " + user, e);
             throw new ServiceException("Can't update user " + user);
         }
