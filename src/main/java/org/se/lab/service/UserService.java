@@ -70,7 +70,6 @@ public class UserService {
 
     public void addContact(User user, User contact) {
         LOG.debug("add contact to " + user);
-
         // TODO
     }
 
@@ -83,7 +82,12 @@ public class UserService {
     public void update(User user) {
         LOG.debug("update " + user);
 
-        // TODO
+        try {
+            dao.update(user);
+        } catch (Exception e) {
+            LOG.error("Can't update user " + user, e);
+            throw new ServiceException("Can't update user " + user);
+        }
     }
 
     public List<User> findAll() {
@@ -105,15 +109,21 @@ public class UserService {
     public void delete(int id) {
         LOG.info("delete: " + id);
 
-        // TODO
+        try {
+            User user = findById(id);
+            dao.delete(user);
+        } catch (Exception e) {
+            LOG.error("Can't delete user with ID " + id, e);
+            throw new ServiceException("Can't delete user with ID " + id);
+        }
+
     }
 
     public User findById(int id) {
         LOG.debug("find User with id=" + id);
 
         try {
-            User user = dao.findById(id);
-            return user;
+            return dao.findById(id);
         } catch (Exception e) {
             LOG.error("Can't find user with id " + id, e);
             throw new ServiceException("Can't find user with id " + id);
