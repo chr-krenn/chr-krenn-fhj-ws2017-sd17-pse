@@ -1,15 +1,9 @@
 package org.se.lab.data;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name="users")
@@ -18,17 +12,17 @@ public class User implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	public User(int id, String username, String password)
-	{		
+	{
 		setId(id);
 		setUsername(username);
 		setPassword(password);
 	}
-	
+
 	protected User()
 	{
 	}
 
-	
+
 	@Id
 	@Column(name="ID")
 	@GeneratedValue
@@ -44,9 +38,9 @@ public class User implements Serializable
 		this.id = id;
 	}
 
-	
+
 	@Column(name="USERNAME")
-	private String username;	
+	private String username;
 	public String getUsername()
 	{
 		return username;
@@ -59,7 +53,7 @@ public class User implements Serializable
 	}
 
 
-	@Column(name="PASSWORD")	
+	@Column(name="PASSWORD")
 	private String password;
 	public String getPassword()
 	{
@@ -71,6 +65,20 @@ public class User implements Serializable
 		this.password = passwd;
 	}
 
+	@OneToOne (mappedBy="user")
+	private UserProfile userprofile;
+
+	public void setUserProfile(UserProfile userprofile) {
+		if(userprofile == null)
+			throw new IllegalArgumentException();
+		this.userprofile = userprofile;
+	}
+
+	public UserProfile getUserProfile() {
+		return userprofile;
+	}
+
+
 	@ManyToMany(mappedBy = "users")
 	private List<Community> communities = new ArrayList<Community>();
 	public void addCommunity(Community community) {
@@ -78,12 +86,12 @@ public class User implements Serializable
 			throw new IllegalArgumentException();
 		communities.add(community);
 	}
-	
+
 	public List<Community> getCommunities(){
 		return communities;
 	}
-	
-	
+
+
 	/*
 	 * Object methods
 	 */
@@ -92,8 +100,8 @@ public class User implements Serializable
 	{
 		return getId() + "," + getUsername() + "," + "***";
 	}
-		
-	
+
+
 	@Override
 	public int hashCode()
 	{
@@ -102,7 +110,7 @@ public class User implements Serializable
 		result = prime * result + id;
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj)
 	{
