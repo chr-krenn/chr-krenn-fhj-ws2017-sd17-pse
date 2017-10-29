@@ -60,7 +60,7 @@ public class Community implements Serializable {
 	@Column(name = "description")
 	private String description;
 
-	public String getDesciption() {
+	public String getDescription() {
 		return description;
 	}
 
