@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+<h:form>
+    <div id="header">
+        <ui:insert name="header">
+            <ui:include src="templates/header.xhtml" />
+        </ui:insert>
+        <h:outputStylesheet library = "css" name = "style.css"  />
+    </div>
+    <div id="overview">
+    <p:dataGrid var="community" value="#{communityOverviewBean.communities}" columns="3" layout="grid"
+        rows="12" paginator="true" id="communities"
+        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+        rowsPerPageTemplate="6,12,16">
+ 
+        <f:facet name="header">
+            Available Communities
+        </f:facet>
+ 
+        <p:panel header="#{community.id}" style="text-align:center">
+            <h:panelGrid columns="1" style="width:100%">
+ 
+                <h:outputText value="#{community.description}" />
+                
+ 		   <p:commandLink  action="#{communityOverviewBean.gotoCom()}" title="View Detail">
+                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                    <f:setPropertyActionListener value="#{community}"  target="#{communityOverviewBean.selectedCommunity}" />
+                </p:commandLink>
+               
+            </h:panelGrid>
+        </p:panel>
+ 
+    </p:dataGrid>
+     
+    
+    </div>
+      <div id="footer">
+        <ui:insert name="footer">
+            <ui:include src="templates/footer.xhtml" />
+        </ui:insert>
+    </div>
+    </h:form>
+</h:body>
+</html>
+ 
