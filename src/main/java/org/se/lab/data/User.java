@@ -92,9 +92,23 @@ public class User implements Serializable
 	}
 
 
+	@OneToMany(mappedBy="user")
+	private List<UserContact> usercontacts = new ArrayList<>();
+
+	public void addUserContacts(UserContact usercontact) {
+		if(usercontact == null)
+			throw new IllegalArgumentException();
+		usercontacts.add(usercontact);
+	}
+
+	public List<UserContact> getUserContacts(){
+		return usercontacts;
+	}
+
 	/*
 	 * Object methods
 	 */
+
 	@Override
 	public String toString()
 	{

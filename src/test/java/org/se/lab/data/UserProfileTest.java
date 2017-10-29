@@ -7,11 +7,13 @@ import org.junit.Test;
 
 public class UserProfileTest {
 
+    private User u;
     private UserProfile up;
 
     @Before
     public void setUp() throws Exception{
-        up = new UserProfile(1, 1, "test", "test", "test", "test" , "test", "test userprofile");
+        u = new User(1, "testuser", "*****");
+        up = new UserProfile(1, u, "test", "test", "test", "test" , "test", "test userprofile");
     }
 
     @After
@@ -22,7 +24,6 @@ public class UserProfileTest {
     @Test
     public void testConstructor(){
         Assert.assertEquals(1, up.getId());
-        Assert.assertEquals(1, up.getUser_Id());
         Assert.assertEquals("test", up.getFirstname());
         Assert.assertEquals("test", up.getLastname());
         Assert.assertEquals("test", up.getEmail());
@@ -38,36 +39,41 @@ public class UserProfileTest {
     }
 
     @Test
-    public void testUsers() {
+    public void testUser() {
+        User u2 = up.getUser();
 
-        up.setUser(new User(1, "testuser", "*****"));
-
-        User user = up.getUser();
-
-        Assert.assertTrue(user.getId() == 1);
-        Assert.assertTrue(user.getUsername().equals("testuser"));
-        Assert.assertTrue(user.getPassword().equals("*****"));
-
+        Assert.assertTrue(u.equals(u2));
+        Assert.assertTrue(up.getUser().getId() == u2.getId());
     }
 
     @Test
+    public void testUserProfile() {
+        User u2 = new User(1, "testuser", "*****");
+        u2.setUserProfile(up);
+
+        UserProfile up2 = u.getUserProfile();
+        Assert.assertTrue(up.equals(up2));
+    }
+
+
+    @Test
     public void testHash() {
-        UserProfile up2 = new UserProfile(1, 1, "test", "test", "test", "test" , "test", "test userprofile");
+        UserProfile up2 = new UserProfile(1, u, "test", "test", "test", "test" , "test", "test userprofile");
         Assert.assertTrue(up.hashCode() == up2.hashCode());
     }
 
     @Test
     public void testEquals() {
-        UserProfile up2 = new UserProfile(1, 1, "test", "test", "test", "test" , "test", "test userprofile");
+        UserProfile up2 = new UserProfile(1, u, "test", "test", "test", "test" , "test", "test userprofile");
         Assert.assertTrue(up.equals(up2));
     }
 
     @Test
     public void testToString() {
-        String s = "UserProfile [id=1, user_id=1, firstname=test, lastname=test, email=test, phone=test, mobile=test, description=test userprofile]";
+        String s = "UserProfile [id=1, firstname=test, lastname=test, email=test, phone=test, mobile=test, description=test userprofile]";
         Assert.assertTrue(up.toString().equals(s));
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testAddUserFail() {
         up.setUser(null);

@@ -1,12 +1,11 @@
 package org.se.lab.data;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
+
+import java.util.ArrayList;
 
 public class CommunityTest {
 
@@ -26,7 +25,7 @@ public class CommunityTest {
 	public void testConstructor(){
 		Assert.assertEquals(1, com.getId());
 		Assert.assertEquals("test", com.getName());
-		Assert.assertEquals("test community", com.getDesciption());
+		Assert.assertEquals("test community", com.getDescription());
 	}
 	
 	@Test

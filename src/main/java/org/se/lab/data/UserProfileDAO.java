@@ -14,6 +14,6 @@ public interface UserProfileDAO {
     UserProfile findByFirstname(UserProfile firstname);
     UserProfile findByLastname(UserProfile lastname);
 
-    UserProfile createUserProfile(int id, int user_id, String firstname, String lastname, String email, String phone, String mobile, String description);
+    UserProfile createUserProfile(int id, User user, String firstname, String lastname, String email, String phone, String mobile, String description);
 
 }

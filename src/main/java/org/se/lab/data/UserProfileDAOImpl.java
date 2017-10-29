@@ -64,9 +64,10 @@ public class UserProfileDAOImpl implements UserProfileDAO {
     }
 
     @Override
-    public UserProfile createUserProfile(int id, int user_id, String firstname, String lastname, String email, String phone, String mobile, String description) {
+    public UserProfile createUserProfile(int id, User user, String firstname, String lastname, String email, String phone, String mobile, String description) {
 
         UserProfile up = new UserProfile();
+        up.setUser(user);
         up.setFirstname(firstname);
         up.setLastname(lastname);
         up.setEmail(email);

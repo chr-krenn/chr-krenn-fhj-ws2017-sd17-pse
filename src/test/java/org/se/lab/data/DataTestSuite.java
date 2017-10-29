@@ -8,7 +8,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	CommunityTest.class,
 	PostTest.class,
+        UserContactTest.class,
 	UserProfileTest.class
+
 })
 public class DataTestSuite {
 	
