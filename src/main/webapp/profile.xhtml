@@ -66,17 +66,17 @@
     </div>
     <div class="communitylist">
     <h2>Communities</h2>
-         <p:repeat value="#{userDataBean.contacts}" var="contact">
+    <p:repeat value="#{userDataBean.communities}" var="community">
         <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-            
+        
  
             <p:outputPanel>
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText value="Id:" />
-                    <h:outputText value="#{contact.id}" style="font-weight: bold"/>
- <h:outputText value="Username" />
-                    <h:outputText value="#{contact.username}" style="font-weight: bold"/>
-               
+                    <h:outputText value="#{community.id}" style="font-weight: bold"/>
+ 					<h:outputText value="Description:" />
+                    <h:outputText value="#{community.description}" style="font-weight: bold"/>
+    
                 </h:panelGrid>
             </p:outputPanel>
         </h:panelGrid>
@@ -87,27 +87,14 @@
  <!-- Einkommentieren wenn Community Entity OK ist-->
  
  <!--
-   <p:repeat value="#{userDataBean.communities}" var="community">
-        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-        
  
-            <p:outputPanel>
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputText value="Id:" />
-                    <h:outputText value="#{community.id}" style="font-weight: bold"/>
- 
-    
-                </h:panelGrid>
-            </p:outputPanel>
-        </h:panelGrid>
-        <hr />
-    </p:repeat>
  -->
  
  </div>
  <div class="image">
  <h2>image</h2>
  <p:graphicImage value="#{userDataBean.photo}" />
+ <h:graphicImage library="images" name="index.png" />
        </div>
     </p:layoutUnit>
     </p:layout>

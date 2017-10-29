@@ -34,6 +34,7 @@ public class UserDataBean implements Serializable
 	private UserService service;
 	
 	private User user;
+	private User dummyUser = new User(2, "bob", "pass");
 	
 	private List<User> contacts;
 	private List<Community> communities;
@@ -42,6 +43,7 @@ public class UserDataBean implements Serializable
 	public void init() 
 	{
 		contacts = new ArrayList<User>();
+		communities = new ArrayList<Community>();
 		/*
 		 * Suchen aller Kontakte zur ID dieses Users - must be done!
 		 */
@@ -50,7 +52,7 @@ public class UserDataBean implements Serializable
 		/*
 		 * Suchen aller Communities zur ID dieses Users - must be done!
 		 */
-		//contacts = this.findAllCommunities(0);
+				//communities = this.findAllCommunities();
 		
 		
 		//Dummy Data
@@ -58,9 +60,20 @@ public class UserDataBean implements Serializable
 		contacts.add(new User(41,"User41","**"));
 		contacts.add(new User(42,"User42","**"));
 		
+		communities.add(new Community(1,"C1","NewC1"));
+		communities.add(new Community(2,"C2","NewC2"));
+		communities.add(new Community(3,"C3","NewC3"));
 		
-		user = this.getUser(1);
-		 
+		//Sollte gehen - wurde etwas in der DB geändert??
+		//Userdaten von dem User werden im Profil angezeigt
+		//user = this.getUser(1);
+		
+		
+		//Activate when function in service works
+		//contacts = this.findAllContacts();
+		
+		
+		
 		/*
 		File chartFile = new File("dynamichart");
 		try {
@@ -82,10 +95,11 @@ public User getUser(int id)
  * bestimmten User(einer ID) zurück liefert
  */
 
-public List<User> findAllContacts(int id)
+public List<User> findAllContacts()
 {
-	
-	return null;
+	//
+	//return null;
+	return service.getAllContactsBy(user);
 }	
 
 
@@ -94,10 +108,11 @@ public List<User> findAllContacts(int id)
  * bestimmten User(einer ID) zurück liefert
  */
 
-public List<Community> findAllCommunities(int id)
+public List<Community> findAllCommunities()
 {
-	
 	return null;
+	//To be activated if method exists in userService - to be done from backend team!!
+	//return service.getAllCommunitiesBy(user);
 }
 
 
@@ -123,11 +138,17 @@ public void setUser(User user) {
 	public StreamedContent getPhoto() {
 		return photo;
 	}
+	
+	/*
+	 * To Be Done: Welcher User bin ich? (Login merken) und auf welchem Profil bin ich gerade?
+	 * Kann zb über die Id die im Profil angezeigt wird bestimmt werden.
+	 */
 
 public void addContact()
 {
-	System.out.println("Contact add - to be done!");
-	//contacts.add(e)
+
+	service.addContact(dummyUser,user );
+	
 }
 
 
