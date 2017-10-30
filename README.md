@@ -6,8 +6,8 @@ Students SW-Project
 * SCRUM and Task-Management: https://tree.taiga.io/project/p0intr-swd15-pswengi/
 # Configure WildFly server:
 * Configure WildFly according to instructions in doc/SETUP_WILDFLY/![README.md](/doc/SETUP_WILDFLY/README.md)
-* __fix WRONG JPA Annotations in the Java source!__
-* make sure index.xhtml displays all sample users after following the setup instructions below:
+* __FIX WRONG JPA ANNOTATIONS in the Java source!__
+* Make sure index.xhtml displays all sample users __after following the setup instructions below:__
 ![screenshot index.xhtml](doc/SETUP_WILDFLY/screenshot_index_xhtml.png)
 ## Setup
 Clone Repository
