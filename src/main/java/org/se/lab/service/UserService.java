@@ -1,5 +1,6 @@
 package org.se.lab.service;
 
+
 import org.apache.log4j.Logger;
 import org.se.lab.data.User;
 import org.se.lab.data.UserContact;
@@ -75,20 +76,29 @@ public class UserService {
     public void addContact(User user, String contactName) {
         LOG.debug("add contact" + contactName + " to " + user);
 
-        //todo user doesConatctExist
         User userToAdd = userDAO.findByUsername(user.getUsername());
         if (!userContactDAO.doesConatctExist(userToAdd.getId())) {
+            //todo remove id if possible
             UserContact userContact = new UserContact(1, user, userToAdd.getId());
             userContactDAO.insert(userContact);
         } else {
-            //todo exc
+            LOG.error("Contact " + userToAdd.getUsername() + " already exist ");
+            throw new ServiceException("Contact " + userToAdd.getUsername() + " already exist ");
         }
     }
 
-    public void removeContact(User user, User contact) {
+    public void removeContact(User user, String contactName) {
         LOG.debug("remove contact from " + user);
 
-        // TODO
+        User userToRemove = userDAO.findByUsername(user.getUsername());
+        if (userContactDAO.doesConatctExist(userToRemove.getId())) {
+            //todo remove id if possible
+            UserContact userContact = userContactDAO.findById(userToRemove.getId());
+            userContactDAO.delete(userContact);
+        } else {
+            LOG.error("Contact " + userToRemove.getUsername() + " is missing ");
+            throw new ServiceException("Contact " + userToRemove.getUsername() + "  is missing ");
+        }
     }
 
     public List<User> getAllContactsBy(User user) {
@@ -103,7 +113,7 @@ public class UserService {
 
         try {
             userDAO.update(user);
-        } catch (Exception e){
+        } catch (Exception e) {
             LOG.error("Can't update user " + user, e);
             throw new ServiceException("Can't update user " + user);
         }
@@ -122,7 +132,7 @@ public class UserService {
     }
 
 	/*
-	 * TODO check if methods delete(id), findById(id) required
+     * TODO check if methods delete(id), findById(id) required
 	 */
 
     public void delete(int id) {
