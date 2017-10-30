@@ -9,11 +9,13 @@ import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Named
@@ -35,11 +37,27 @@ public class UserDataBean implements Serializable
 	private List<User> contacts;
 	private List<Community> communities;
 	
+	
+	
 	@PostConstruct
 	public void init() 
 	{
 		contacts = new ArrayList<User>();
 		communities = new ArrayList<Community>();
+		
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+       
+        /*
+         * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
+         * 
+         */
+		
+        Map<String, Object> session = context.getExternalContext().getSessionMap();
+        int userId = (int) session.get("user");
+	System.out.println("UserId: " + userId);
+       
+		
 		/*
 		 * Suchen aller Kontakte zur ID dieses Users - must be done!
 		 */
@@ -62,9 +80,12 @@ public class UserDataBean implements Serializable
 		
 		//Sollte gehen - wurde etwas in der DB geändert??
 		//Userdaten von dem User werden im Profil angezeigt
-		//user = this.getUser(1);
+		//user = this.getUser(userId);
 		
 		
+		//Testuser weil die DAO-Methode zwei Zeilen weiter oben noch nicht funktioniert - wenn die funktioniert
+		//Kann man den Test-User eliminieren
+		user = new User(99,"User99","**");
 		//Activate when function in service works
 		//contacts = this.findAllContacts();
 		
@@ -93,10 +114,12 @@ public User getUser(int id)
 
 public List<UserContact> findAllContacts()
 {
-	//
-	//return null;
+	
 	return service.getAllContactsBy(user);
 }	
+
+
+
 
 
 /*
@@ -109,14 +132,6 @@ public List<Community> findAllCommunities()
 	return null;
 	//To be activated if method exists in userService - to be done from backend team!!
 	//return service.getAllCommunitiesBy(user);
-}
-
-
-public String refresh()
-{
-	LOG.info("update");		
-	user = this.getUser(1);
-	return "";
 }
 
 	/*
