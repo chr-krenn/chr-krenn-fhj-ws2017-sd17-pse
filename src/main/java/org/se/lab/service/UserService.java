@@ -66,7 +66,7 @@ public class UserService {
 
     private User loadUserByUsername(String username) {
         try {
-            return userDAO.findByUsername(username);
+            return userDAO.loadByUsername(username);
         } catch (Exception e) {
             LOG.error("Can't find user " + username, e);
             throw new ServiceException("Can't find user " + username);
@@ -76,7 +76,7 @@ public class UserService {
     public void addContact(User user, String contactName) {
         LOG.debug("add contact" + contactName + " to " + user);
 
-        User userToAdd = userDAO.findByUsername(user.getUsername());
+        User userToAdd = userDAO.loadByUsername(user.getUsername());
         if (!userContactDAO.doesConatctExist(userToAdd.getId())) {
             //todo remove id if possible
             UserContact userContact = new UserContact(1, user, userToAdd.getId());
@@ -90,7 +90,7 @@ public class UserService {
     public void removeContact(User user, String contactName) {
         LOG.debug("remove contact from " + user);
 
-        User userToRemove = userDAO.findByUsername(user.getUsername());
+        User userToRemove = userDAO.loadByUsername(user.getUsername());
         if (userContactDAO.doesConatctExist(userToRemove.getId())) {
             //todo remove id if possible
             UserContact userContact = userContactDAO.findById(userToRemove.getId());
@@ -101,11 +101,10 @@ public class UserService {
         }
     }
 
-    public List<User> getAllContactsBy(User user) {
+    public List<UserContact> getAllContactsBy(User user) {
         LOG.debug("get all contacts from " + user);
 
-        // TODO
-        return null;
+        return userContactDAO.findAll();
     }
 
     public void update(User user) {

@@ -75,7 +75,7 @@ class UserDAOImpl
 	}
 
 	@Override
-	public User findByUsername(String username) {
+	public User loadByUsername(String username) {
 		//TODO implement
 		return null;
 	}
