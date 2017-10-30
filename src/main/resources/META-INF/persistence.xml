@@ -12,7 +12,6 @@
         <property name="hibernate.connection.username" value="student"/>
         <property name="hibernate.connection.password" value="student"/>
         <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-        <property name="hibernate.hbm2ddl.auto" value="create"/>
         <property name="hibernate.show_sql" value="true"/>
         <property name="jboss.as.jpa.providerModule" value="org.hibernate:5.0"/>
     </properties>
