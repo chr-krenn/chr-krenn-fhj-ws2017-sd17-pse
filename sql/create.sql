@@ -78,7 +78,7 @@ CREATE TABLE enumeration (
 -- Table: enumeration_item
 CREATE TABLE enumeration_item (
 	id int NOT NULL,
-	enum_id int NOT NULL,
+	enumeration_id int NOT NULL,
 	post_id int,
 	user_id int,
 	community_id int,
@@ -119,12 +119,17 @@ ALTER TABLE userprofile ADD CONSTRAINT userprofile_users FOREIGN KEY userprofile
     REFERENCES users (id);
 
 -- Reference: enumeration_item
-ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_user FOREIGN KEY enumeration_item (user_id)
-    REFERENCES users (id);
-ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_post FOREIGN KEY enumeration_item (post_id)
-    REFERENCES post (id);
-ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_community FOREIGN KEY enumeration_item (community_id)
-    REFERENCES community (id);
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_enumeration 
+	FOREIGN KEY enumeration_item_enumeration (enumeration_id) REFERENCES enumeration (id);
+	
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_user 
+	FOREIGN KEY enumeration_item_user (user_id) REFERENCES users (id);
+	
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_post 
+	FOREIGN KEY enumeration_item_post (post_id) REFERENCES post (id);
+
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_community 
+	FOREIGN KEY enumeration_item_community (community_id) REFERENCES community (id);
     
 -- End of file.
 

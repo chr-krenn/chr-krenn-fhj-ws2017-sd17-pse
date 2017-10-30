@@ -24,13 +24,16 @@ ALTER TABLE userprofile
     DROP FOREIGN KEY userprofile_users;
     
 ALTER TABLE enumeration_item
-    DROP FOREIGN KEY enumeration_user;
-
-ALTER TABLE enumeration_item
-    DROP FOREIGN KEY enumeration_post;
+    DROP FOREIGN KEY enumeration_item_enumeration;
     
 ALTER TABLE enumeration_item
-    DROP FOREIGN KEY enumeration_community;
+    DROP FOREIGN KEY enumeration_item_user;
+
+ALTER TABLE enumeration_item
+    DROP FOREIGN KEY enumeration_item_post;
+    
+ALTER TABLE enumeration_item
+    DROP FOREIGN KEY enumeration_item_community;
     
 -- tables
 DROP TABLE community;
@@ -47,8 +50,9 @@ DROP TABLE userprofile;
 
 DROP TABLE users;
 
+DROP TABLE enumeration_item;
+
 DROP TABLE enumeration;
 
-DROP TABLE enumeration_item;
 -- End of file.
 

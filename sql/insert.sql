@@ -54,5 +54,5 @@ INSERT INTO enumeration (id,name) VALUES (4,'INSPECTION');
 INSERT INTO enumeration (id,name) VALUES (5,'VERIFICATION');
 
 -- add status open to communitys
-INSERT INTO enumeration_item (id,enum_id,post_id,user_id,community_id) VALUES (1,2,NULL,NULL,1);
-INSERT INTO enumeration_item (id,enum_id,post_id,user_id,community_id) VALUES (2,1,NULL,NULL,2);
+INSERT INTO enumeration_item (id,enumeration_id,post_id,user_id,community_id) VALUES (1,2,NULL,NULL,1);
+INSERT INTO enumeration_item (id,enumeration_id,post_id,user_id,community_id) VALUES (2,1,NULL,NULL,2);
