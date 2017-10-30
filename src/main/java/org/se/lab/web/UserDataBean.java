@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.primefaces.model.StreamedContent;
 import org.se.lab.data.Community;
 import org.se.lab.data.User;
+import org.se.lab.data.UserContact;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -90,7 +91,7 @@ public User getUser(int id)
  * bestimmten User(einer ID) zurück liefert
  */
 
-public List<User> findAllContacts()
+public List<UserContact> findAllContacts()
 {
 	//
 	//return null;
