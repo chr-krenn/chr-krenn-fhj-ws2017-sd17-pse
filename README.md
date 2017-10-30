@@ -25,7 +25,7 @@ Use MySQL shell to set up the database, grant privileges, and insert test data:
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
 mysql -u root -p
 </pre>
-Copy/paste the following commands:
+Copy/paste the following commands to __create the database__ and __insert sample data__:
 <pre>
 CREATE DATABASE pse;
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `pse`.* TO 'student'@'localhost';
@@ -51,4 +51,5 @@ mvn wildfly:deploy
 Open in Browser: http://localhost:8080/pse/
 
 ## Database Design
+This is the database created by the sql/create.sql script:
 ![Database overview](doc/database_overview.png)
