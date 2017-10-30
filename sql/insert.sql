@@ -46,9 +46,13 @@ VALUES (3,3, 'Alice', 'Carroll', 'a.carroll@example.com', '555-1236', 'Accountin
 INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, description) 
 VALUES (4,4, 'Frank', 'Morlar', 'fm@example.com', '555-1237', 'HR');
 
+-- add status to enumeration
+INSERT INTO enumeration (id,name) VALUES (1,'OPEN');
+INSERT INTO enumeration (id,name) VALUES (2,'CLOSED');
+INSERT INTO enumeration (id,name) VALUES (3,'BLOCKED');
+INSERT INTO enumeration (id,name) VALUES (4,'INSPECTION');
+INSERT INTO enumeration (id,name) VALUES (5,'VERIFICATION');
 
-INSERT INTO enumeration (id, name) VALUES (1, 'Aktiv');
-INSERT INTO enumeration (id, name) VALUES (2, 'Inaktiv');
-
--- set enumeration value 'Aktiv' to community SWD15
-INSERT INTO enumeration_item (id, enumeration_id, post_id, user_id, community_id) VALUES (1, 1, 0, 0, 1);
+-- add status open to communitys
+INSERT INTO enumeration_item (id,enum_id,post_id,user_id,community_id) VALUES (1,2,NULL,NULL,1);
+INSERT INTO enumeration_item (id,enum_id,post_id,user_id,community_id) VALUES (2,1,NULL,NULL,2);

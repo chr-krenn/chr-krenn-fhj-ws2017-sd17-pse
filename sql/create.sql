@@ -70,19 +70,19 @@ CREATE TABLE users (
 
 -- Table: enumeration
 CREATE TABLE enumeration (
-    id int NOT NULL,
-    name varchar(64) NOT NULL,
-    CONSTRAINT enumeration_pk PRIMARY KEY (id)
+	id int NOT NULL,
+	name varchar(64) NOT NULL,
+	CONSTRAINT enumeration_pk PRIMARY KEY (id)
 );
 
 -- Table: enumeration_item
 CREATE TABLE enumeration_item (
-    id int NOT NULL,   
-    enumeration_id int NOT NULL,
-    post_id int,
-    user_id int,
-    community_id,
-    CONSTRAINT enumeration_item_pk PRIMARY KEY (id)
+	id int NOT NULL,
+	enum_id int NOT NULL,
+	post_id int,
+	user_id int,
+	community_id int,
+	CONSTRAINT enumeration_item_pk PRIMARY KEY (id)
 );
 
 -- foreign keys
@@ -118,21 +118,13 @@ ALTER TABLE user_community ADD CONSTRAINT user_community_users FOREIGN KEY user_
 ALTER TABLE userprofile ADD CONSTRAINT userprofile_users FOREIGN KEY userprofile_users (user_id)
     REFERENCES users (id);
 
--- Reference: enumeration_item_enumeration (table: enumeration_item)
-ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_enumeration FOREIGN KEY enumeration_item_enumeration (enumeration_id)
-    REFERENCES enumeration (id);
-    
--- Reference: enumeration_item_post (table: enumeration_item)
-ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_post FOREIGN KEY enumeration_item_post (post_id)
-    REFERENCES post (id);
-    
--- Reference: enumeration_item_user (table: enumeration_item)
-ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_user FOREIGN KEY enumeration_item_user (user_id)
+-- Reference: enumeration_item
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_user FOREIGN KEY enumeration_item (user_id)
     REFERENCES users (id);
-    
--- Reference: enumeration_item_community (table: enumeration_item)
-ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_community FOREIGN KEY enumeration_item_community (community_id)
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_post FOREIGN KEY enumeration_item (post_id)
+    REFERENCES post (id);
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_community FOREIGN KEY enumeration_item (community_id)
     REFERENCES community (id);
-
+    
 -- End of file.
 
