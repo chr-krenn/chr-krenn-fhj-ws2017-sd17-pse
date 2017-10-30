@@ -72,8 +72,8 @@ public class Community implements Serializable {
 
 	@ManyToMany
 	@JoinTable(name = "User_Community", 
-	joinColumns = @JoinColumn(name = "FK_UserID", referencedColumnName = "UserID"), 
-	inverseJoinColumns = @JoinColumn(name = "FK_CommunityID"))
+	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "community_id"))
 	private List<User> users = new ArrayList<User>();
 
 	public List<User> getUsers() {
