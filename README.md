@@ -4,6 +4,11 @@ Students SW-Project
 ## Links
 * Virtual Machine: ftp://mesen.fh-joanneum.at/common/Teiniker-Fedora-VMs/Fedora-26-XFCE-2017-09-30.ova
 * SCRUM and Task-Management: https://tree.taiga.io/project/p0intr-swd15-pswengi/
+# Configure WildFly server:
+* Configure WildFly according to instructions in doc/SETUP_WILDFLY/![README.md](/doc/SETUP_WILDFLY/README.md)
+* __fix WRONG JPA Annotations in the Java source!__
+* make sure index.xhtml displays all sample users after following the setup instructions below:
+![screenshot index.xhtml](doc/SETUP_WILDFLY/screenshot_index_xhtml.png)
 ## Setup
 Clone Repository
 <pre>
