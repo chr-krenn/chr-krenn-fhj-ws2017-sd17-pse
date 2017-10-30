@@ -2,6 +2,8 @@ package org.se.lab.service;
 
 import org.apache.log4j.Logger;
 import org.se.lab.data.User;
+import org.se.lab.data.UserContact;
+import org.se.lab.data.UserContactDAO;
 import org.se.lab.data.UserDAO;
 
 import javax.ejb.Stateless;
@@ -13,7 +15,9 @@ public class UserService {
     private final Logger LOG = Logger.getLogger(UserService.class);
 
     @Inject
-    private UserDAO dao;
+    private UserDAO userDAO;
+    @Inject
+    private UserContactDAO userContactDAO;
 
 	/*
      * API Operations
@@ -27,7 +31,7 @@ public class UserService {
         LOG.debug("insert " + user);
 
         try {
-            dao.insert(user);
+            userDAO.insert(user);
         } catch (Exception e) {
             LOG.error("Can't insert user " + user, e);
             throw new ServiceException("Can't insert user " + user);
@@ -38,7 +42,7 @@ public class UserService {
         LOG.debug("delete " + user);
 
         try {
-            dao.delete(user);
+            userDAO.delete(user);
         } catch (Exception e) {
             LOG.error("Can't delete user " + user, e);
             throw new ServiceException("Can't delete user " + user);
@@ -51,7 +55,7 @@ public class UserService {
 
         User user = loadUserByUsername(username);
 
-        if(!user.getPassword().equals(password)){
+        if (!user.getPassword().equals(password)) {
             LOG.error("Password incorrect for user " + user);
             throw new ServiceException("Password incorrect for user " + user);
         }
@@ -60,17 +64,25 @@ public class UserService {
     }
 
     private User loadUserByUsername(String username) {
-        try{
-            return dao.findByUsername(username);
+        try {
+            return userDAO.findByUsername(username);
         } catch (Exception e) {
             LOG.error("Can't find user " + username, e);
             throw new ServiceException("Can't find user " + username);
         }
     }
 
-    public void addContact(User user, User contact) {
-        LOG.debug("add contact to " + user);
-        // TODO
+    public void addContact(User user, String contactName) {
+        LOG.debug("add contact" + contactName + " to " + user);
+
+        //todo user doesConatctExist
+        User userToAdd = userDAO.findByUsername(user.getUsername());
+        if (!userContactDAO.doesConatctExist(userToAdd.getId())) {
+            UserContact userContact = new UserContact(1, user, userToAdd.getId());
+            userContactDAO.insert(userContact);
+        } else {
+            //todo exc
+        }
     }
 
     public void removeContact(User user, User contact) {
@@ -90,7 +102,7 @@ public class UserService {
         LOG.debug("update " + user);
 
         try {
-            dao.update(user);
+            userDAO.update(user);
         } catch (Exception e){
             LOG.error("Can't update user " + user, e);
             throw new ServiceException("Can't update user " + user);
@@ -101,7 +113,7 @@ public class UserService {
         LOG.debug("find all users");
 
         try {
-            List<User> list = dao.findAll();
+            List<User> list = userDAO.findAll();
             return list;
         } catch (Exception e) {
             LOG.error("Can't find all users!", e);
@@ -118,7 +130,7 @@ public class UserService {
 
         try {
             User user = findById(id);
-            dao.delete(user);
+            userDAO.delete(user);
         } catch (Exception e) {
             LOG.error("Can't delete user with ID " + id, e);
             throw new ServiceException("Can't delete user with ID " + id);
@@ -130,7 +142,7 @@ public class UserService {
         LOG.debug("find User with id=" + id);
 
         try {
-            return dao.findById(id);
+            return userDAO.findById(id);
         } catch (Exception e) {
             LOG.error("Can't find user with id " + id, e);
             throw new ServiceException("Can't find user with id " + id);

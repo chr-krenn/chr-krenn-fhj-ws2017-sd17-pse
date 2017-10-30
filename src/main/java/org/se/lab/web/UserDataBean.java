@@ -1,23 +1,18 @@
 package org.se.lab.web;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.log4j.Logger;
+import org.primefaces.model.StreamedContent;
+import org.se.lab.data.Community;
+import org.se.lab.data.User;
+import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.apache.log4j.Logger;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.se.lab.data.User;
-import org.se.lab.data.Community;
-import org.se.lab.service.UserService;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Named
@@ -146,8 +141,7 @@ public void setUser(User user) {
 
 public void addContact()
 {
-
-	service.addContact(dummyUser,user );
+	service.addContact(dummyUser,"" );
 	
 }
 

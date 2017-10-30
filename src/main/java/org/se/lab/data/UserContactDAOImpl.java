@@ -28,4 +28,9 @@ public class UserContactDAOImpl implements UserContactDAO {
     public UserContact findById(int id) {
         throw new UnsupportedOperationException("to implement");
     }
+
+    @Override
+    public boolean doesConatctExist(int id) {
+        return findById(id) != null;
+    }
 }
