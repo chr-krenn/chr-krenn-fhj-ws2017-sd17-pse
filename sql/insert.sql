@@ -45,3 +45,10 @@ VALUES (3,3, 'Alice', 'Carroll', 'a.carroll@example.com', '555-1236', 'Accountin
 
 INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, description) 
 VALUES (4,4, 'Frank', 'Morlar', 'fm@example.com', '555-1237', 'HR');
+
+
+INSERT INTO enumeration (id, name) VALUES (1, 'Aktiv');
+INSERT INTO enumeration (id, name) VALUES (2, 'Inaktiv');
+
+-- set enumeration value 'Aktiv' to community SWD15
+INSERT INTO enumeration_item (id, enumeration_id, post_id, user_id, community_id) VALUES (1, 1, 0, 0, 1);
