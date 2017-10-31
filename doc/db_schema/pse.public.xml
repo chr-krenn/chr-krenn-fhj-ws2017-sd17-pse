@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="pse" schema="public" type="MySQL - 5.5.5-10.1.26-MariaDB">
+   <tables>
+      <table name="community" numRows="2" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT">
+            <child column="community_id" foreignKey="post_community" implied="false" onDeleteCascade="false" table="post"/>
+            <child column="community_id" foreignKey="user_community_community" implied="false" onDeleteCascade="false" table="user_community"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="256" type="VARCHAR"/>
+         <column autoUpdated="false" digits="0" id="2" name="status" nullable="false" remarks="" size="64" type="VARCHAR"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="contact" numRows="7" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT"/>
+         <column autoUpdated="false" digits="0" id="1" name="user_id" nullable="false" remarks="" size="10" type="INT">
+            <parent column="id" foreignKey="contact_users" implied="false" onDeleteCascade="false" table="users"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="2" name="contact_id" nullable="false" remarks="" size="10" type="INT"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="contact_users" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="post" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT">
+            <child column="parent_post_id" foreignKey="post_post" implied="false" onDeleteCascade="false" table="post"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="user_id" nullable="false" remarks="" size="10" type="INT">
+            <parent column="id" foreignKey="posting_user" implied="false" onDeleteCascade="false" table="users"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="2" name="community_id" nullable="false" remarks="" size="10" type="INT">
+            <parent column="id" foreignKey="post_community" implied="false" onDeleteCascade="false" table="community"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="3" name="parent_post_id" nullable="true" remarks="" size="10" type="INT">
+            <parent column="id" foreignKey="post_post" implied="false" onDeleteCascade="false" table="post"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="text" nullable="false" remarks="" size="1024" type="VARCHAR"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="5" name="created" nullable="false" remarks="" size="19" type="TIMESTAMP"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="post_community" unique="false">
+            <column ascending="true" name="community_id"/>
+         </index>
+         <index name="post_post" unique="false">
+            <column ascending="true" name="parent_post_id"/>
+         </index>
+         <index name="posting_user" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="private_message" numRows="1" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT"/>
+         <column autoUpdated="false" digits="0" id="1" name="from_id" nullable="false" remarks="" size="10" type="INT">
+            <parent column="id" foreignKey="private_message_users" implied="false" onDeleteCascade="false" table="users"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="2" name="to_id" nullable="false" remarks="" size="10" type="INT"/>
+         <column autoUpdated="false" digits="0" id="3" name="text" nullable="false" remarks="" size="1024" type="VARCHAR"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="4" name="created" nullable="false" remarks="" size="19" type="TIMESTAMP"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="private_message_users" unique="false">
+            <column ascending="true" name="from_id"/>
+         </index>
+      </table>
+      <table name="user_community" numRows="0" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT"/>
+         <column autoUpdated="false" digits="0" id="1" name="user_id" nullable="false" remarks="" size="10" type="INT">
+            <parent column="id" foreignKey="user_community_users" implied="false" onDeleteCascade="false" table="users"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="2" name="community_id" nullable="false" remarks="" size="10" type="INT">
+            <parent column="id" foreignKey="user_community_community" implied="false" onDeleteCascade="false" table="community"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="user_community_community" unique="false">
+            <column ascending="true" name="community_id"/>
+         </index>
+         <index name="user_community_users" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="userprofile" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT"/>
+         <column autoUpdated="false" digits="0" id="1" name="user_id" nullable="false" remarks="" size="10" type="INT">
+            <parent column="id" foreignKey="userprofile_users" implied="false" onDeleteCascade="false" table="users"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="2" name="firstname" nullable="false" remarks="" size="64" type="VARCHAR"/>
+         <column autoUpdated="false" digits="0" id="3" name="lastname" nullable="false" remarks="" size="64" type="VARCHAR"/>
+         <column autoUpdated="false" digits="0" id="4" name="email" nullable="false" remarks="" size="256" type="VARCHAR"/>
+         <column autoUpdated="false" digits="0" id="5" name="phone" nullable="false" remarks="" size="256" type="VARCHAR"/>
+         <column autoUpdated="false" digits="0" id="6" name="mobile" nullable="false" remarks="" size="256" type="VARCHAR"/>
+         <column autoUpdated="false" digits="0" id="7" name="description" nullable="false" remarks="" size="1024" type="VARCHAR"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="8" name="created" nullable="false" remarks="" size="19" type="TIMESTAMP"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="userprofile_users" unique="false">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="users" numRows="4" remarks="" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT">
+            <child column="user_id" foreignKey="contact_users" implied="false" onDeleteCascade="false" table="contact"/>
+            <child column="user_id" foreignKey="posting_user" implied="false" onDeleteCascade="false" table="post"/>
+            <child column="from_id" foreignKey="private_message_users" implied="false" onDeleteCascade="false" table="private_message"/>
+            <child column="user_id" foreignKey="user_community_users" implied="false" onDeleteCascade="false" table="user_community"/>
+            <child column="user_id" foreignKey="userprofile_users" implied="false" onDeleteCascade="false" table="userprofile"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="username" nullable="false" remarks="" size="64" type="VARCHAR"/>
+         <column autoUpdated="false" digits="0" id="2" name="password" nullable="false" remarks="" size="64" type="VARCHAR"/>
+         <column autoUpdated="false" digits="0" id="3" name="role" nullable="false" remarks="" size="64" type="VARCHAR"/>
+         <column autoUpdated="false" defaultValue="CURRENT_TIMESTAMP" digits="0" id="4" name="created" nullable="false" remarks="" size="19" type="TIMESTAMP"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="PRIMARY" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+   </tables>
+</database>
