@@ -8,4 +8,27 @@
    <f:view>
       <h:outputLabel value="Hello, world"/>
    </f:view>
+   <div class="communitylist">
+<h2>Pending Communities</h2>
+     <p:repeat value="#{AdminDataBean.requestedCommunityList}" var="requestedCommunityList">
+        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+            <p:outputPanel>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText value="Id:" />
+                    <h:outputText value="#{requestedCommunityList.id}"/>
+                    <h:outputText value="Username" />
+                    <h:outputText value="#{requestedCommunityList.name}" style="font-weight: bold"/>
+                    <h:outputText value="Description" />
+                    <h:outputText value="#{requestedCommunityList.description}" style="font-weight: bold"/>
+                </h:panelGrid>
+            </p:outputPanel>
+        </h:panelGrid>
+        <hr />
+    </p:repeat>
+    </div>
+   </div>
+   <div>
+      <p:commandButton value="Decline Community"  action="#{AdminDataBean.declineRequestedCommunity()}" />
+      <p:commandButton value="Approve Community"  action="#{AdminDataBean.approveRequestedCommunity()}" />
+   </div>
 </html>
