@@ -33,21 +33,26 @@ public class UserDataBean implements Serializable {
 
 	private List<UserContact> contacts;
 	private List<Community> communities;
+	
 
 	private String id = "";
-
+	private int userId =0;
+	
+	
+	Flash flash;
+	FacesContext context ;
 	@PostConstruct
 	public void init() {
 		contacts = new ArrayList<UserContact>();
 		communities = new ArrayList<Community>();
 
-		FacesContext context = FacesContext.getCurrentInstance();
+		 context = FacesContext.getCurrentInstance();
 
 		/*
 		 * FG Info Flash: We need flash to make the param survive one redirect request
 		 * otherwise param will be null
 		 */
-		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		 flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 
 		/*
 		 * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
@@ -55,13 +60,15 @@ public class UserDataBean implements Serializable {
 		 */
 
 		Map<String, Object> session = context.getExternalContext().getSessionMap();
-		int userId = 0;
+		
 
 		id = context.getExternalContext().getRequestParameterMap().get("userid");
 		
 		flash.put("uid", id);
 		
+		
 		String userProfId = (String) context.getExternalContext().getFlash().get("uid");
+
 
 		System.out.println("userProfId: " + userProfId);
 
@@ -183,7 +190,19 @@ public class UserDataBean implements Serializable {
 	}
 
 	public void addContact() {
-		service.addContact(dummyUser, "");
+		
+		//User u = service.findById(userId);
+		User u  = new User(4, "frank", "pass");
+		
+		String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
+		
+	
+		System.out.println("contactName " + contactName);
+		System.out.println("u " + u.getId());
+		System.out.println("userid " + userId);
+		
+		//service.addContact(u, contactName);
+		
 
 	}
 
@@ -214,5 +233,6 @@ public class UserDataBean implements Serializable {
 	public String redirect() {
 		return "/profile.xhtml?faces-redirect=true";
 	}
+
 
 }

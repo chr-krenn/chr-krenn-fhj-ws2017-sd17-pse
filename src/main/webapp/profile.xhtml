@@ -21,7 +21,9 @@
             <p:layoutUnit position="center">
             <div class="buttons">
                 <p:commandButton value="Admin Area" action="adminArea.xhtml?faces-redirect=true"/>
-                <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}"/>
+                <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}">
+                <f:param name="contactName" value="#{userDataBean.user.username}" />
+                </p:commandButton>
             </div>
             <h2>User-Profile</h2>
             <p:repeat value="#{userDataBean.user}" var="u">
@@ -69,7 +71,7 @@
                                 <h:outputText value="Id:"/>
                                 <h:outputText value="#{contact.id}" style="font-weight: bold"/>
                                 <h:outputText value="Username"/>
-                                <h:outputText value="#{contact.username}" style="font-weight: bold"/>
+                                <h:outputText value="#{contact.user.username}" style="font-weight: bold"/>
 
                             </h:panelGrid>
                         </p:outputPanel>
