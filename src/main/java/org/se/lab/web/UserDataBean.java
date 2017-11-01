@@ -2,9 +2,7 @@ package org.se.lab.web;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.StreamedContent;
-import org.se.lab.data.Community;
-import org.se.lab.data.User;
-import org.se.lab.data.UserContact;
+import org.se.lab.data.*;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -23,18 +21,16 @@ import java.util.Map;
 public class UserDataBean implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-
-	private StreamedContent photo;
-	
 	private final Logger LOG = Logger.getLogger(DataBean.class);
-	
+	private StreamedContent photo;
 	@Inject
 	private UserService service;
 	
 	private User user;
+	private UserProfile userProfile;
 	private User dummyUser = new User(2, "bob", "pass");
 	
-	private List<User> contacts;
+	private List<UserContact> contacts;
 	private List<Community> communities;
 	
 	
@@ -42,9 +38,11 @@ public class UserDataBean implements Serializable
 	@PostConstruct
 	public void init() 
 	{
-		contacts = new ArrayList<User>();
+		contacts = new ArrayList<UserContact>();
 		communities = new ArrayList<Community>();
-		
+
+		//TODO: remove, when DAO method ist implemented
+		userProfile = new UserProfile(2, dummyUser, "Björn", "Sattler", "test@test.at", "06641234", "", "Test");
 		
 		FacesContext context = FacesContext.getCurrentInstance();
        
@@ -54,43 +52,43 @@ public class UserDataBean implements Serializable
          */
 		
         Map<String, Object> session = context.getExternalContext().getSessionMap();
-        int userId = (int) session.get("user");
-	System.out.println("UserId: " + userId);
+        int userId;
+
+        if (session.size() != 0)
+		{
+			userId = (int) session.get("user");
+		}
+		else
+		{
+			userId = 1;
+		}
+		//System.out.println("UserId: " + userId);
        
 		
 		/*
 		 * Suchen aller Kontakte zur ID dieses Users - must be done!
 		 */
-		//contacts = this.findAllContacts(0);
+		//contacts = this.findAllContacts();
 		
 		/*
 		 * Suchen aller Communities zur ID dieses Users - must be done!
 		 */
-				//communities = this.findAllCommunities();
-		
-		
+		//communities = this.findAllCommunities();
+
+
+		//Sollte gehen - wurde etwas in der DB geändert??
+		//Userdaten von dem User werden im Profil angezeigt
+		user = this.getUser(userId);
+
 		//Dummy Data
-		contacts.add(new User(40,"User40","**"));
-		contacts.add(new User(41,"User41","**"));
-		contacts.add(new User(42,"User42","**"));
-		
+		//contacts.add(new UserContact(40, userBob, 1));
+		//contacts.add(new UserContact(41, userBob, 4));
+		//contacts.add(new UserContact(42, userBob,3));
+
 		communities.add(new Community(1,"C1","NewC1"));
 		communities.add(new Community(2,"C2","NewC2"));
 		communities.add(new Community(3,"C3","NewC3"));
-		
-		//Sollte gehen - wurde etwas in der DB geändert??
-		//Userdaten von dem User werden im Profil angezeigt
-		//user = this.getUser(userId);
-		
-		
-		//Testuser weil die DAO-Methode zwei Zeilen weiter oben noch nicht funktioniert - wenn die funktioniert
-		//Kann man den Test-User eliminieren
-		user = new User(99,"User99","**");
-		//Activate when function in service works
-		//contacts = this.findAllContacts();
-		
-		
-		
+
 		/*
 		File chartFile = new File("dynamichart");
 		try {
@@ -155,23 +153,21 @@ public void setUser(User user) {
 	 * Kann zb über die Id die im Profil angezeigt wird bestimmt werden.
 	 */
 
-public void addContact()
-{
-	service.addContact(dummyUser,"" );
-	
-}
-
-
-
 	public void setPhoto(StreamedContent photo) {
 		this.photo = photo;
 	}
 
-	public List<User> getContacts() {
+public void addContact()
+{
+	service.addContact(dummyUser,"" );
+
+}
+
+	public List<UserContact> getContacts() {
 		return contacts;
 	}
 
-	public void setContacts(List<User> contacts) {
+	public void setContacts(List<UserContact> contacts) {
 		this.contacts = contacts;
 	}
 
@@ -181,6 +177,16 @@ public void addContact()
 
 	public void setCommunities(List<Community> communities) {
 		this.communities = communities;
+	}
+
+	public void setUserProfile(UserProfile info)
+	{
+		this.userProfile = info;
+	}
+
+	public UserProfile getUserProfile()
+	{
+		return userProfile;
 	}
 
 

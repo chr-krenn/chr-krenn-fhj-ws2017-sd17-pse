@@ -1,3 +1,7 @@
+.userinformation {
+	font-size: 0.8em;
+}
+
 .panel {
 	background-color: lightgrey;
 }
@@ -57,3 +61,4 @@ h2 {
 #header {
 	background-color: grey;
 }
+
