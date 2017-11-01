@@ -92,7 +92,6 @@ public class UserService {
 
         User userToRemove = userDAO.loadByUsername(user.getUsername());
         if (userContactDAO.doesConatctExist(userToRemove.getId())) {
-            //todo remove id if possible
             UserContact userContact = userContactDAO.findById(userToRemove.getId());
             userContactDAO.delete(userContact);
         } else {
