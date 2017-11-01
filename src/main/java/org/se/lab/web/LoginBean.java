@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 @Named
@@ -33,7 +34,6 @@ public class LoginBean implements Serializable {
 	private UserService service;
 
 	private User user;
-	private boolean loggedIn = false;
 
 	public String getUsername() {
 		return username;
@@ -54,14 +54,17 @@ public class LoginBean implements Serializable {
 	public String doLogin() {
 
 		// Wenn die Methode funktioniert einkommentieren und Dummy-User eliminieren!
-
+		//
 		// user = service.login(getUsername(),getPassword());
+		//
 
-		// DummyUser weil DAO loadByUsername nicht implementiert ist!
-		user = new User(1, "name", "pw");
+		//DUMMY User bis die DAO Methode funktioniert
+		user = new User(4, "frank", "pass");
 
-		System.out.println("Name: " + this.getUsername());
-		System.out.println("Passwort: " + this.getPassword());
+		/*
+		 * List<User> all = service.findAll(); System.out.println("size: " +
+		 * all.size());
+		 */
 
 		if (user != null) {
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -81,12 +84,12 @@ public class LoginBean implements Serializable {
 			 */
 			return "";
 		}
+
 	}
-	
-	public String logout()
-	{
+
+	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/login.xhtml?faces-redirect=true";
+		return "/login.xhtml?faces-redirect=true";
 	}
 
 }

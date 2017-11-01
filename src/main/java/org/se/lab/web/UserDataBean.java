@@ -8,160 +8,184 @@ import org.se.lab.service.UserService;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 @Named
 @RequestScoped
-public class UserDataBean implements Serializable
-{
+public class UserDataBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private final Logger LOG = Logger.getLogger(DataBean.class);
+	private final Logger LOG = Logger.getLogger(UserDataBean.class);
 	private StreamedContent photo;
 	@Inject
 	private UserService service;
-	
+
 	private User user;
 	private UserProfile userProfile;
 	private User dummyUser = new User(2, "bob", "pass");
-	
+
 	private List<UserContact> contacts;
 	private List<Community> communities;
-	
-	
-	
+
+	private String id = "";
+
 	@PostConstruct
-	public void init() 
-	{
+	public void init() {
 		contacts = new ArrayList<UserContact>();
 		communities = new ArrayList<Community>();
 
-		//TODO: remove, when DAO method ist implemented
-		userProfile = new UserProfile(2, dummyUser, "Björn", "Sattler", "test@test.at", "06641234", "", "Test");
-		
 		FacesContext context = FacesContext.getCurrentInstance();
-       
-        /*
-         * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
-         * 
-         */
-		
-        Map<String, Object> session = context.getExternalContext().getSessionMap();
-        int userId;
 
-        if (session.size() != 0)
-		{
-			userId = (int) session.get("user");
-		}
-		else
-		{
-			userId = 1;
-		}
-		//System.out.println("UserId: " + userId);
-       
+		/*
+		 * FG Info Flash: We need flash to make the param survive one redirect request
+		 * otherwise param will be null
+		 */
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+
+		/*
+		 * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
+		 * 
+		 */
+
+		Map<String, Object> session = context.getExternalContext().getSessionMap();
+		int userId = 0;
+
+		id = context.getExternalContext().getRequestParameterMap().get("userid");
 		
+		flash.put("uid", id);
+		
+		String userProfId = (String) context.getExternalContext().getFlash().get("uid");
+
+		System.out.println("userProfId: " + userProfId);
+
+		if (session.size() != 0 && session.get("user") != null) {
+
+			userId = (int) session.get("user");
+			System.out.println("SESSIOn UID: " + userId);
+		} else {
+			/*
+			 * If session is null - redirect to login page!
+			 * 
+			 */
+			try {
+				context.getExternalContext().redirect("/pse/login.xhtml");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+
 		/*
 		 * Suchen aller Kontakte zur ID dieses Users - must be done!
 		 */
-		//contacts = this.findAllContacts();
-		
+		// contacts = this.findAllContacts();
+
 		/*
 		 * Suchen aller Communities zur ID dieses Users - must be done!
 		 */
-		//communities = this.findAllCommunities();
+		// communities = this.findAllCommunities();
 
+		// Dummy Data
+		// contacts.add(new UserContact(40, userBob, 1));
+		// contacts.add(new UserContact(41, userBob, 4));
+		// contacts.add(new UserContact(42, userBob,3));
 
-		//Sollte gehen - wurde etwas in der DB geändert??
-		//Userdaten von dem User werden im Profil angezeigt
-		user = this.getUser(userId);
+		communities.add(new Community(1, "C1", "NewC1"));
+		communities.add(new Community(2, "C2", "NewC2"));
+		communities.add(new Community(3, "C3", "NewC3"));
 
-		//Dummy Data
-		//contacts.add(new UserContact(40, userBob, 1));
-		//contacts.add(new UserContact(41, userBob, 4));
-		//contacts.add(new UserContact(42, userBob,3));
+		if (userProfId != null) {
+			
+			//Dummy User to show
+			user = new User(10, "Max", "****");
+			
+			//Get selected UserProfile from Overview Page - DAO Method does not work
+			// user = this.getUser(Integer.parseInt(userProfId));
 
-		communities.add(new Community(1,"C1","NewC1"));
-		communities.add(new Community(2,"C2","NewC2"));
-		communities.add(new Community(3,"C3","NewC3"));
+		} else {
+
+			// DAO does not work - use Dummy Data instead
+			// user = this.getUser(userId);
+
+			//Dummy User (User which is loggedIn)
+			user = new User(4, "frank", "pass");
+		}
+
+		//DAO Method does not work 
+		// userProfile = service.getUserProfilById(user.getId());
+
+		//Dummy UserProfileData
+		 userProfile = new UserProfile(2, dummyUser, "Björn", "Sattler",
+		 "test@test.at", "06641234", "", "Test");
 
 		/*
-		File chartFile = new File("dynamichart");
-		try {
-			photo = new DefaultStreamedContent(new FileInputStream(chartFile), "image/png");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
+		 * File chartFile = new File("dynamichart"); try { photo = new
+		 * DefaultStreamedContent(new FileInputStream(chartFile), "image/png"); } catch
+		 * (FileNotFoundException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 */
 	}
-	
-public User getUser(int id)
-{
-	return service.findById(id);
-}
-	
-/*
- * Diese Methode sollte auf den Service zugreifen welcher eine Methode bereitstellt die alle Kontakte zu einem 
- * bestimmten User(einer ID) zurück liefert
- */
 
-public List<UserContact> findAllContacts()
-{
-	
-	return service.getAllContactsBy(user);
-}	
+	public User getUser(int id) {
+		return service.findById(id);
+	}
 
+	/*
+	 * Diese Methode sollte auf den Service zugreifen welcher eine Methode
+	 * bereitstellt die alle Kontakte zu einem bestimmten User(einer ID) zurück
+	 * liefert
+	 */
 
+	public List<UserContact> findAllContacts() {
 
+		return service.getAllContactsBy(user);
+	}
 
+	/*
+	 * Diese Methode sollte auf den Service zugreifen welcher eine Methode
+	 * bereitstellt die alle Communities zu einem bestimmten User(einer ID) zurück
+	 * liefert
+	 */
 
-/*
- * Diese Methode sollte auf den Service zugreifen welcher eine Methode bereitstellt die alle Communities zu einem 
- * bestimmten User(einer ID) zurück liefert
- */
-
-public List<Community> findAllCommunities()
-{
-	return null;
-	//To be activated if method exists in userService - to be done from backend team!!
-	//return service.getAllCommunitiesBy(user);
-}
+	public List<Community> findAllCommunities() {
+		return null;
+		// To be activated if method exists in userService - to be done from backend
+		// team!!
+		// return service.getAllCommunitiesBy(user);
+	}
 
 	/*
 	 * Actions
 	 */
-	
-	public User getUser() {
-	return user;
-}
 
-public void setUser(User user) {
-	this.user = user;
-}
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public StreamedContent getPhoto() {
 		return photo;
 	}
-	
-	/*
-	 * To Be Done: Welcher User bin ich? (Login merken) und auf welchem Profil bin ich gerade?
-	 * Kann zb über die Id die im Profil angezeigt wird bestimmt werden.
-	 */
 
 	public void setPhoto(StreamedContent photo) {
 		this.photo = photo;
 	}
 
-public void addContact()
-{
-	service.addContact(dummyUser,"" );
+	public void addContact() {
+		service.addContact(dummyUser, "");
 
-}
+	}
 
 	public List<UserContact> getContacts() {
 		return contacts;
@@ -179,17 +203,16 @@ public void addContact()
 		this.communities = communities;
 	}
 
-	public void setUserProfile(UserProfile info)
-	{
+	public void setUserProfile(UserProfile info) {
 		this.userProfile = info;
 	}
 
-	public UserProfile getUserProfile()
-	{
+	public UserProfile getUserProfile() {
 		return userProfile;
 	}
 
-
-
+	public String redirect() {
+		return "/profile.xhtml?faces-redirect=true";
+	}
 
 }
