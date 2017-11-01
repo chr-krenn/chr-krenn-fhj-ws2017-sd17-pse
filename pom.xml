@@ -37,7 +37,7 @@
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>${version.wildfly.maven.plugin}</version>
 				<configuration>
-					<jbossHome>C:\Users\bernhard\Dropbox\FH\vorherige Semester\4. Semester\Design Patterns\wildfly-10.1.0.CR1</jbossHome>
+					<jbossHome>/home/student/install/wildfly-10.1.0.Final</jbossHome>
 					<port>9990</port>
 					<server-config>standalone.xml</server-config>
 				</configuration>
