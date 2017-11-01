@@ -67,13 +67,20 @@ public class CommunityService {
 
     public void request(Community community) {
         LOG.debug("request " + community);
+        community.setState("pending");
 
-        // TODO insert and status=pending
+        try {
+            dao.insert(community);
+        } catch (Exception e) {
+            LOG.error("Can't insert community " + community);
+            throw new ServiceException("Can't insert community " + community, e);
+        }
     }
 
     public void approve(Community community) {
         LOG.debug("approve " + community);
+        community.setState("approve");
 
-        // TODO update status=approved
+        update(community);
     }
 }
