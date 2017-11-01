@@ -17,7 +17,7 @@ public class ActivityStreamServiceTest{
 	}
 
 	@Test
-	public void test(){
+	public void insert_withoutCommunity(){
 		// TODO when service is implemented
 		fail("Not yet implemented");
 	}

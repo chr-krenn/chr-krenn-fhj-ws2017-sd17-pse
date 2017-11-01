@@ -2,14 +2,12 @@ package org.se.lab.service;
 
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.User;
-import org.se.lab.data.UserContact;
-import org.se.lab.data.UserContactDAO;
-import org.se.lab.data.UserDAO;
+import org.se.lab.data.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
 public class UserService {
@@ -19,8 +17,9 @@ public class UserService {
     private UserDAO userDAO;
     @Inject
     private UserContactDAO userContactDAO;
-
-	/*
+    @Inject
+    private UserProfileDAO userProfileDAO;
+    /*
      * API Operations
 	 */
 
@@ -103,7 +102,7 @@ public class UserService {
     public List<UserContact> getAllContactsBy(User user) {
         LOG.debug("get all contacts from " + user);
 
-        return userContactDAO.findAll();
+        return userContactDAO.findAll().stream().filter(userContact -> userContact.getUser().equals(user)).collect(Collectors.toList());
     }
 
     public void update(User user) {
@@ -128,6 +127,18 @@ public class UserService {
             throw new ServiceException("Can't find all users!", e);
         }
     }
+
+    public UserProfile getUserProfilById(int id) {
+        LOG.debug("getUserProfil by Id");
+
+        try {
+            return userProfileDAO.findById(id);
+        } catch (Exception e) {
+            LOG.error("Can't find user profile!");
+            throw new ServiceException("Can't find user profile!", e);
+        }
+    }
+
 
 	/*
      * TODO check if methods delete(id), findById(id) required
