@@ -23,9 +23,6 @@ public class UserService {
      * API Operations
 	 */
 
-    public List<User> findByName(String name) {
-        return null;
-    }
 
     public void insert(User user) {
         LOG.debug("insert " + user);
