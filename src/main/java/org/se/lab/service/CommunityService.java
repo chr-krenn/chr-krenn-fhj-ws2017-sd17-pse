@@ -19,16 +19,20 @@ public class CommunityService {
     @Inject
     private CommunityDAO dao;
 
-    public List<Community> getApproved() {
-        return dao.findAll();
-    }
-
-    public List<Community> getPending() {
+    public List<Community> findAll() {
         try {
-            return dao.findAll().stream().filter(line -> PENDING.equals(line.getState())).collect(Collectors.toList());
+            return dao.findAll();
         } catch (Exception e) {
             throw new ServiceException("Error during findAll Communities", e);
         }
+    }
+
+    public List<Community> getApproved() {
+        return findAll().stream().filter(line -> APPROVE.equals(line.getState())).collect(Collectors.toList());
+    }
+
+    public List<Community> getPending() {
+        return findAll().stream().filter(line -> PENDING.equals(line.getState())).collect(Collectors.toList());
     }
 
     public void delete(Community community) {

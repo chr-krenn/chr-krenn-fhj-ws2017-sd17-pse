@@ -200,8 +200,9 @@ public class UserDataBean implements Serializable {
 		System.out.println("contactName " + contactName);
 		System.out.println("u " + u.getId());
 		System.out.println("userid " + userId);
-		
-		//service.addContact(u, contactName);
+
+
+//		service.addContact(u, contactName);
 		
 
 	}

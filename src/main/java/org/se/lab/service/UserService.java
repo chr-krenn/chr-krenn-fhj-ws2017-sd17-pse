@@ -136,6 +136,17 @@ public class UserService {
         }
     }
 
+    public List<UserProfile> getAllUserProfils() {
+        LOG.debug("getAllUserProfils");
+
+        try {
+            return userProfileDAO.findAll();
+        } catch (Exception e) {
+            LOG.error("Can't find all user profile!");
+            throw new ServiceException("Can't find all user profile!", e);
+        }
+    }
+
 
 	/*
      * TODO check if methods delete(id), findById(id) required
