@@ -125,9 +125,9 @@ public class UserDataBean implements Serializable {
 		//contacts = service.getAllContactsByUser(user);
 
 		/*
-		 * Suchen aller Communities zur ID dieses Users - must be done!
+		 * Suchen aller Communities zur ID dieses Users 
 		 */
-		// communities = this.findAllCommunities();
+		 //communities = user.getCommunities();
 		
 		//Activate when DAO works
 		// userProfile = service.getUserProfilById(user.getId());
