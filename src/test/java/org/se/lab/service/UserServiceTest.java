@@ -6,10 +6,7 @@ import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.junit.*;
 import org.junit.runner.RunWith;
-import org.se.lab.data.User;
-import org.se.lab.data.UserContact;
-import org.se.lab.data.UserContactDAO;
-import org.se.lab.data.UserDAO;
+import org.se.lab.data.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +31,8 @@ public class UserServiceTest {
     private UserDAO userDAO;
     @Mock
     private UserContactDAO userContactDAO;
+    @Mock
+    private UserProfileDAO userProfileDAO;
 
     private User user;
 
@@ -122,4 +121,14 @@ public class UserServiceTest {
         Assert.assertThat(allUsers.size(),is(2));
     }
 
+    @Test
+    public void getUserProfilById() {
+        UserProfile userProfile = new UserProfile(1,user,"Max", "Mustermann","max.mustermann@edu.fh-joanneum.at","03161234","06641234567", "test");
+
+        expect(userProfileDAO.findById(user.getId())).andReturn(userProfile);
+        replay(userProfileDAO);
+
+        UserProfile userProfile1Result = userService.getUserProfilById(1);
+        Assert.assertThat(userProfile1Result.getUser(),is(user));
+    }
 }
