@@ -7,9 +7,15 @@ import org.easymock.TestSubject;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.se.lab.data.User;
+import org.se.lab.data.UserContact;
+import org.se.lab.data.UserContactDAO;
 import org.se.lab.data.UserDAO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.easymock.EasyMock.*;
+import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(EasyMockRunner.class)
 public class UserServiceTest {
@@ -26,6 +32,8 @@ public class UserServiceTest {
 
     @Mock
     private UserDAO userDAO;
+    @Mock
+    private UserContactDAO userContactDAO;
 
     private User user;
 
@@ -76,4 +84,21 @@ public class UserServiceTest {
 
         userService.login(USERNAME, "wrongPassword");
     }
+
+    @Test
+    public void getAllContactsByUser() {
+        List<UserContact> userContactList = new ArrayList<>();
+        UserContact contact1 = new UserContact(1,user, 3);
+        UserContact contact2 = new UserContact(2,new User(2,"username2","pwd"),2);
+        userContactList.add(contact1);
+        userContactList.add(contact2);
+
+        expect(userContactDAO.findAll()).andReturn(userContactList);
+        replay(userContactDAO);
+        List<UserContact> allContacts = userService.getAllContactsByUser(user);
+
+        Assert.assertThat(allContacts.size(),is(1));
+        Assert.assertThat(allContacts.get(0),is(contact1));
+    }
+
 }

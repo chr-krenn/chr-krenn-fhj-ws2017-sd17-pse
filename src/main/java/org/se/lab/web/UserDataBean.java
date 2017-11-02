@@ -153,7 +153,7 @@ public class UserDataBean implements Serializable {
 
 	public List<UserContact> findAllContacts() {
 
-		return service.getAllContactsBy(user);
+		return service.getAllContactsByUser(user);
 	}
 
 	/*

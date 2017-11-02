@@ -96,7 +96,7 @@ public class UserService {
         }
     }
 
-    public List<UserContact> getAllContactsBy(User user) {
+    public List<UserContact> getAllContactsByUser(User user) {
         LOG.debug("get all contacts from " + user);
 
         return userContactDAO.findAll().stream().filter(userContact -> userContact.getUser().equals(user)).collect(Collectors.toList());
