@@ -21,6 +21,7 @@ public class CommunityOverviewBean {
 	
 	private final Logger LOG = Logger.getLogger(CommunityOverviewBean.class);
 	
+	//Activate when DAO works
 	//@Inject
 	//private CommunityService service;
 	
@@ -38,17 +39,11 @@ private Community selectedCommunity;
 		communities.add(new Community(3,"C3","NewC3"));
 		
 		//When service works 
-		// communities = this.getAllCommunities()
+		// communities = service.findAll();
+		
 }
 	
-	/*
-	 * Method when service works - now dummy data
-	 
-	public List<Community> getAllCommunities()
-	{
-		communities = service.findAllCommunities();
-	}
-	*/
+	
 
 	public List<Community> getCommunities() {
 		return communities;

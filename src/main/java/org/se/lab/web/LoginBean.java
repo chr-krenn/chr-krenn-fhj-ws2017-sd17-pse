@@ -61,10 +61,7 @@ public class LoginBean implements Serializable {
 		//DUMMY User bis die DAO Methode funktioniert
 		user = new User(4, "frank", "pass");
 
-		/*
-		 * List<User> all = service.findAll(); System.out.println("size: " +
-		 * all.size());
-		 */
+		
 
 		if (user != null) {
 			FacesContext context = FacesContext.getCurrentInstance();

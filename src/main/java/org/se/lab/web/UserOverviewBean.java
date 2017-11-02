@@ -36,8 +36,10 @@ public class UserOverviewBean {
 		profiles.add(new UserProfile(2, new User(2, "User2", "***"), "Heinz", "Fischer", "heinz@fischer.at", "0316-555",
 				"0664/1234567", "NewUser"));
 
-		// Methode does still not exist in Service and DAO - Use Dummy Data instead
-		// profiles = service.findAllProfiles()
+		// Activate if DAO works
+		// profiles = service.getAllUserProfiles();
+		
+		
 	}
 
 	public List<UserProfile> getProfiles() {

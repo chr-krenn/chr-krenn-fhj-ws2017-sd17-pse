@@ -90,15 +90,8 @@ public class UserDataBean implements Serializable {
 		}
 
 
-		/*
-		 * Suchen aller Kontakte zur ID dieses Users - must be done!
-		 */
-		// contacts = this.findAllContacts();
-
-		/*
-		 * Suchen aller Communities zur ID dieses Users - must be done!
-		 */
-		// communities = this.findAllCommunities();
+		
+	
 
 		// Dummy Data
 		// contacts.add(new UserContact(40, userBob, 1));
@@ -115,7 +108,7 @@ public class UserDataBean implements Serializable {
 			user = new User(10, "Max", "****");
 			
 			//Get selected UserProfile from Overview Page - DAO Method does not work
-			// user = this.getUser(Integer.parseInt(userProfId));
+			// user = service.findById(Integer.parseInt(userProfId));
 
 		} else {
 
@@ -126,7 +119,17 @@ public class UserDataBean implements Serializable {
 			user = new User(4, "frank", "pass");
 		}
 
-		//DAO Method does not work 
+		/*
+		 * Activate when DAO works
+		 */
+		//contacts = service.getAllContactsByUser(user);
+
+		/*
+		 * Suchen aller Communities zur ID dieses Users - must be done!
+		 */
+		// communities = this.findAllCommunities();
+		
+		//Activate when DAO works
 		// userProfile = service.getUserProfilById(user.getId());
 
 		//Dummy UserProfileData
@@ -151,10 +154,7 @@ public class UserDataBean implements Serializable {
 	 * liefert
 	 */
 
-	public List<UserContact> findAllContacts() {
 
-		return service.getAllContactsByUser(user);
-	}
 
 	/*
 	 * Diese Methode sollte auf den Service zugreifen welcher eine Methode
@@ -191,6 +191,7 @@ public class UserDataBean implements Serializable {
 
 	public void addContact() {
 		
+		//Activate when DAO works
 		//User u = service.findById(userId);
 		User u  = new User(4, "frank", "pass");
 		
@@ -201,7 +202,7 @@ public class UserDataBean implements Serializable {
 		System.out.println("u " + u.getId());
 		System.out.println("userid " + userId);
 
-
+//		Activate when DAO works
 //		service.addContact(u, contactName);
 		
 
