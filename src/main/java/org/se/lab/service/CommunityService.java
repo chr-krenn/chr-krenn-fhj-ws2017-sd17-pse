@@ -1,23 +1,23 @@
 package org.se.lab.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.apache.log4j.Logger;
+import org.se.lab.data.Community;
+import org.se.lab.data.CommunityDAO;
+import org.se.lab.data.User;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-
-import org.apache.log4j.Logger;
-import org.se.lab.data.Community;
-import org.se.lab.data.CommunityDAOImpl;
-import org.se.lab.data.User;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
 public class CommunityService {
     public static final String PENDING = "pending";
+    public static final String APPROVE = "approve";
     private final Logger LOG = Logger.getLogger(CommunityService.class);
 
     @Inject
-    private CommunityDAOImpl dao;
+    private CommunityDAO dao;
 
     public List<Community> getApproved() {
         return dao.findAll();
@@ -67,7 +67,7 @@ public class CommunityService {
 
     public void request(Community community) {
         LOG.debug("request " + community);
-        community.setState("pending");
+        community.setState(PENDING);
 
         try {
             dao.insert(community);
@@ -79,7 +79,7 @@ public class CommunityService {
 
     public void approve(Community community) {
         LOG.debug("approve " + community);
-        community.setState("approve");
+        community.setState(APPROVE);
 
         update(community);
     }

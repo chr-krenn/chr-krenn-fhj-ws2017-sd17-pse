@@ -1,10 +1,5 @@
 package org.se.lab.service;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.junit.Assert.fail;
-
 import org.easymock.EasyMockRule;
 import org.easymock.EasyMockRunner;
 import org.easymock.Mock;
@@ -14,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.se.lab.data.User;
 import org.se.lab.data.UserDAO;
 
-import java.sql.SQLDataException;
+import static org.easymock.EasyMock.*;
 
 @RunWith(EasyMockRunner.class)
 public class UserServiceTest {
@@ -60,8 +55,6 @@ public class UserServiceTest {
 
     @Test
     public void delete_Successful() {
-        User user = new User(ID, USERNAME, PASSWORD);
-
         userDAO.delete(user);
         expectLastCall();
 
@@ -81,6 +74,6 @@ public class UserServiceTest {
         expect(userDAO.loadByUsername(USERNAME)).andReturn(user);
         replay(userDAO);
 
-        userService.login(user.getUsername(), "wrongPassword");
+        userService.login(USERNAME, "wrongPassword");
     }
 }
