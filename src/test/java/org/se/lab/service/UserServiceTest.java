@@ -34,11 +34,19 @@ public class UserServiceTest {
     @Mock
     private UserProfileDAO userProfileDAO;
 
-    private User user;
+    private User user1;
+    private User user2;
+    private UserProfile userProfile1;
+    private UserProfile userProfile2;
 
     @Before
     public void setUp() throws Exception {
-        user = new User(ID, USERNAME, PASSWORD);
+        user1 = new User(ID, USERNAME, PASSWORD);
+        user2 = new User(2,"username2","pwd");
+
+        userProfile1 = new UserProfile(1, user1,"Max", "Mustermann","max.mustermann@edu.fh-joanneum.at","03161234","06641234567", "test1");
+        userProfile2 = new UserProfile(2, user2,"Erika", "Musterfrau","erika.musterfrau@edu.fh-joanneum.at","03165678","066489101112", "test2");
+
     }
 
     @After
@@ -47,38 +55,38 @@ public class UserServiceTest {
 
     @Test
     public void insert_Successful() {
-        expect(userDAO.insert(user)).andReturn(user);
+        expect(userDAO.insert(user1)).andReturn(user1);
 
-        userService.insert(user);
+        userService.insert(user1);
     }
 
     @Ignore //cant handle because of mock doesn`t have an exception in method signature
     @Test(expected = ServiceException.class)
     public void insert_ThrowException() {
-        expect(userDAO.insert(user)).andThrow(new Exception());
+        expect(userDAO.insert(user1)).andThrow(new Exception());
         replay();
-        userService.insert(user);
+        userService.insert(user1);
     }
 
     @Test
     public void delete_Successful() {
-        userDAO.delete(user);
+        userDAO.delete(user1);
         expectLastCall();
 
-        userService.delete(user);
+        userService.delete(user1);
     }
 
     @Test
     public void login_Successful() {
-        expect(userDAO.loadByUsername(USERNAME)).andReturn(user);
+        expect(userDAO.loadByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
-        userService.login(user.getUsername(), user.getPassword());
+        userService.login(user1.getUsername(), user1.getPassword());
     }
 
     @Test(expected = ServiceException.class)
     public void login_Fail() {
-        expect(userDAO.loadByUsername(USERNAME)).andReturn(user);
+        expect(userDAO.loadByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
         userService.login(USERNAME, "wrongPassword");
@@ -87,14 +95,14 @@ public class UserServiceTest {
     @Test
     public void getAllContactsByUser() {
         List<UserContact> userContactList = new ArrayList<>();
-        UserContact contact1 = new UserContact(1,user, 3);
-        UserContact contact2 = new UserContact(2,new User(2,"username2","pwd"),2);
+        UserContact contact1 = new UserContact(1,user1, 3);
+        UserContact contact2 = new UserContact(2,user2,2);
         userContactList.add(contact1);
         userContactList.add(contact2);
 
         expect(userContactDAO.findAll()).andReturn(userContactList);
         replay(userContactDAO);
-        List<UserContact> allContacts = userService.getAllContactsByUser(user);
+        List<UserContact> allContacts = userService.getAllContactsByUser(user1);
 
         Assert.assertThat(allContacts.size(),is(1));
         Assert.assertThat(allContacts.get(0),is(contact1));
@@ -102,17 +110,17 @@ public class UserServiceTest {
 
     @Test
     public void update_Successful() {
-        expect(userDAO.update(user)).andReturn(user);
+        expect(userDAO.update(user1)).andReturn(user1);
         replay(userDAO);
 
-        userService.update(user);
+        userService.update(user1);
     }
 
     @Test
     public void findAll() {
         List<User> users = new ArrayList<>();
-        users.add(user);
-        users.add(new User(2,"username2","pwd"));
+        users.add(user1);
+        users.add(user2);
 
         expect(userDAO.findAll()).andReturn(users);
         replay(userDAO);
@@ -123,12 +131,24 @@ public class UserServiceTest {
 
     @Test
     public void getUserProfilById() {
-        UserProfile userProfile = new UserProfile(1,user,"Max", "Mustermann","max.mustermann@edu.fh-joanneum.at","03161234","06641234567", "test");
 
-        expect(userProfileDAO.findById(user.getId())).andReturn(userProfile);
+        expect(userProfileDAO.findById(user1.getId())).andReturn(userProfile1);
         replay(userProfileDAO);
 
         UserProfile userProfile1Result = userService.getUserProfilById(1);
-        Assert.assertThat(userProfile1Result.getUser(),is(user));
+        Assert.assertThat(userProfile1Result.getUser(),is(user1));
+    }
+
+    @Test
+    public void getAllUserProfiles() {
+        List<UserProfile> userProfiles = new ArrayList<>();
+        userProfiles.add(userProfile1);
+        userProfiles.add(userProfile2);
+
+        expect(userProfileDAO.findAll()).andReturn(userProfiles);
+        replay(userProfileDAO);
+
+        List<UserProfile> userProfilesResult = userService.getAllUserProfiles();
+        Assert.assertThat(userProfiles.size(),is(2));
     }
 }

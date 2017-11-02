@@ -136,8 +136,8 @@ public class UserService {
         }
     }
 
-    public List<UserProfile> getAllUserProfils() {
-        LOG.debug("getAllUserProfils");
+    public List<UserProfile> getAllUserProfiles() {
+        LOG.debug("getAllUserProfiles");
 
         try {
             return userProfileDAO.findAll();
