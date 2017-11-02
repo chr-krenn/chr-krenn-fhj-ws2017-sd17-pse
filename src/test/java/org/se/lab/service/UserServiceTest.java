@@ -101,4 +101,25 @@ public class UserServiceTest {
         Assert.assertThat(allContacts.get(0),is(contact1));
     }
 
+    @Test
+    public void update_Successful() {
+        expect(userDAO.update(user)).andReturn(user);
+        replay(userDAO);
+
+        userService.update(user);
+    }
+
+    @Test
+    public void findAll() {
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        users.add(new User(2,"username2","pwd"));
+
+        expect(userDAO.findAll()).andReturn(users);
+        replay(userDAO);
+
+        List<User> allUsers = userService.findAll();
+        Assert.assertThat(allUsers.size(),is(2));
+    }
+
 }
