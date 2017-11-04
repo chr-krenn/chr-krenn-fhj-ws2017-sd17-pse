@@ -4,22 +4,21 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.SQLException;
 import java.util.List;
 
 class UserDAOImpl
 	implements UserDAO
 {
 	private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
-		
+
 	@PersistenceContext
 	private EntityManager em;
 
-	
+
 	/*
 	 * CRUD Operations
-	 */	
-	
+	 */
+
 	@Override
 	public User insert(User article)
 	{
@@ -46,19 +45,6 @@ class UserDAOImpl
 	public User findById(int id)
 	{
 		LOG.info("findById(" + id + ")");
-
-		//TODO remove when DB Connection ok
-		try {
-			org.hibernate.engine.spi.SessionImplementor sessionImp =
-					(org.hibernate.engine.spi.SessionImplementor) em.getDelegate();
-			String metadata = sessionImp.connection().getMetaData().getURL();
-			LOG.info("URL: " + metadata);
-		}
-		catch (SQLException e)
-		{
-			throw new RuntimeException();
-		}
-
 		return em.find(User.class, id);
 	}
 
