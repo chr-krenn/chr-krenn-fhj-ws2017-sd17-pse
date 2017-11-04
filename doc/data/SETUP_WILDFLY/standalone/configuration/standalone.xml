@@ -90,7 +90,7 @@
     <profile>
         <subsystem xmlns="urn:jboss:domain:logging:3.0">
             <console-handler name="CONSOLE">
-                <level name="INFO"/>
+                <level name="DEBUG"/>
                 <formatter>
                     <named-formatter name="COLOR-PATTERN"/>
                 </formatter>
@@ -419,9 +419,4 @@
         </outbound-socket-binding>
     </socket-binding-group>
 
-    <deployments>
-        <deployment name="pse.war" runtime-name="pse.war">
-            <content sha1="38271406381559040f7ccf34f409eadfaa720cae"/>
-        </deployment>
-    </deployments>
 </server>
