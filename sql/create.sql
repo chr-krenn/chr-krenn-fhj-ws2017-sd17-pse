@@ -4,6 +4,7 @@ CREATE TABLE community (
     id int NOT NULL,
     name varchar(256) NOT NULL,
     status varchar(64) NOT NULL,
+    description varchar(256),
     CONSTRAINT community_pk PRIMARY KEY (id)
 );
 

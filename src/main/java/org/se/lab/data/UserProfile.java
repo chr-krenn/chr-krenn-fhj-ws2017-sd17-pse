@@ -124,8 +124,7 @@ public class UserProfile implements Serializable {
     }
 
 
-    @OneToOne
-    @JoinColumn(name="fk_user_id")
+    @OneToOne (mappedBy="userprofile")
     private User user;
 
     public User getUser() {return user;}

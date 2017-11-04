@@ -65,7 +65,8 @@ public class User implements Serializable
 		this.password = passwd;
 	}
 
-	@OneToOne (mappedBy="user")
+	@OneToOne
+    @JoinColumn(name="fk_userprofile")
 	private UserProfile userprofile;
 
 	public void setUserProfile(UserProfile userprofile) {
