@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.sql.SQLException;
 import java.util.List;
 
 class UserDAOImpl
@@ -45,6 +46,19 @@ class UserDAOImpl
 	public User findById(int id)
 	{
 		LOG.info("findById(" + id + ")");
+
+		//TODO remove when DB Connection ok
+		try {
+			org.hibernate.engine.spi.SessionImplementor sessionImp =
+					(org.hibernate.engine.spi.SessionImplementor) em.getDelegate();
+			String metadata = sessionImp.connection().getMetaData().getURL();
+			LOG.info("URL: " + metadata);
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException();
+		}
+
 		return em.find(User.class, id);
 	}
 

@@ -119,6 +119,9 @@ public class UserDataBean implements Serializable {
 			user = new User(4, "frank", "pass");
 		}
 
+		//TODO remove when DB Connection ok
+		User testuser = service.findById(1);
+
 		/*
 		 * Activate when DAO works
 		 */
