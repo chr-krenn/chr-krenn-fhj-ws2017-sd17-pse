@@ -20,8 +20,8 @@ ALTER TABLE user_community
 ALTER TABLE user_community
     DROP FOREIGN KEY user_community_users;
 
-ALTER TABLE userprofile
-    DROP FOREIGN KEY userprofile_users;
+ALTER TABLE users
+    DROP FOREIGN KEY user_userprofile;
     
 ALTER TABLE enumeration_item
     DROP FOREIGN KEY enumeration_item_enumeration;

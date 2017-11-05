@@ -73,6 +73,7 @@ public class User implements Serializable
 		if(userprofile == null)
 			throw new IllegalArgumentException();
 		this.userprofile = userprofile;
+		this.userprofile.setUser(this);
 	}
 
 	public UserProfile getUserProfile() {

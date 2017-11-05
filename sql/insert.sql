@@ -1,8 +1,21 @@
+-- create user profiles for admin, bob, alice and frank
+INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
+VALUES ('Homer', 'Simpson', 'ho.j.simpson@example.com', '555-1234', '31337', 'Technician');
+
+INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
+VALUES ('Bob', 'Carter', 'bob.carter@example.com', '555-1235', '065762', 'CIO');
+
+INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
+VALUES ('Alice', 'Carroll', 'a.carroll@example.com', '555-1236', '065762', 'Accounting');
+
+INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
+VALUES ('Frank', 'Morlar', 'fm@example.com', '555-1237', '065762', 'HR');
+
 -- create users
-INSERT INTO users(username, password, role) VALUES ('admin', 'pass', 'admin');
-INSERT INTO users(username, password, role) VALUES ('bob', 'pass', 'user');
-INSERT INTO users(username, password, role) VALUES ('alice', 'pass', 'user');
-INSERT INTO users(username, password, role) VALUES ('frank', 'pass', 'portaladmin');
+INSERT INTO users(username, password, role, fk_userprofile) VALUES ('admin', 'pass', 'admin', 1);
+INSERT INTO users(username, password, role, fk_userprofile) VALUES ('bob', 'pass', 'user', 2);
+INSERT INTO users(username, password, role, fk_userprofile) VALUES ('alice', 'pass', 'user', 3);
+INSERT INTO users(username, password, role, fk_userprofile) VALUES ('frank', 'pass', 'portaladmin', 4);
 
 -- admin has contacts bob, alice
 INSERT INTO contact(user_id, contact_id) VALUES (1,2);
@@ -32,19 +45,6 @@ INSERT INTO post(user_id, community_id,parent_post_id, text) VALUES (1,1,1,'This
 -- bob posts on community SWD15, alice posts a reply
 INSERT INTO post(user_id, community_id,text) VALUES (2,1,'This is a post from bob on SWD15!');
 INSERT INTO post(user_id, community_id,parent_post_id,text) VALUES (3,1,3,'This is a reply from alice to bob.');
-
--- create user profiles for admin, bob, alice and frank
-INSERT INTO userprofile (user_id, firstname, lastname, email, phone, mobile, description)
-VALUES (1, 'Homer', 'Simpson', 'ho.j.simpson@example.com', '555-1234', '31337', 'Technician');
-
-INSERT INTO userprofile (user_id, firstname, lastname, email, phone, mobile, description)
-VALUES (2, 'Bob', 'Carter', 'bob.carter@example.com', '555-1235', '065762', 'CIO');
-
-INSERT INTO userprofile (user_id, firstname, lastname, email, phone, mobile, description)
-VALUES (3, 'Alice', 'Carroll', 'a.carroll@example.com', '555-1236', '065762', 'Accounting');
-
-INSERT INTO userprofile (user_id, firstname, lastname, email, phone, mobile, description)
-VALUES (4, 'Frank', 'Morlar', 'fm@example.com', '555-1237', '065762', 'HR');
 
 -- add status to enumeration
 INSERT INTO enumeration (name) VALUES ('OPEN');

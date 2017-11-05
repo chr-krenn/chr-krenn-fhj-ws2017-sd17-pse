@@ -48,7 +48,6 @@ CREATE TABLE user_community (
 -- Table: userprofile
 CREATE TABLE userprofile (
     id int AUTO_INCREMENT,
-    user_id int NOT NULL,
     firstname varchar(64) NOT NULL,
     lastname varchar(64) NOT NULL,
     email varchar(256) NOT NULL,
@@ -65,6 +64,7 @@ CREATE TABLE users (
     username varchar(64) NOT NULL,
     password varchar(64) NOT NULL,
     role varchar(64) NOT NULL,
+    fk_userprofile int,
     created timestamp NOT NULL,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
@@ -115,9 +115,9 @@ ALTER TABLE user_community ADD CONSTRAINT user_community_community FOREIGN KEY u
 ALTER TABLE user_community ADD CONSTRAINT user_community_users FOREIGN KEY user_community_users (user_id)
     REFERENCES users (id);
 
--- Reference: userprofile_users (table: userprofile)
-ALTER TABLE userprofile ADD CONSTRAINT userprofile_users FOREIGN KEY userprofile_users (user_id)
-    REFERENCES users (id);
+-- Reference: userprofile_users (table: users)
+ALTER TABLE users ADD CONSTRAINT user_userprofile FOREIGN KEY users (fk_userprofile) 
+	REFERENCES userprofile (id);
 
 -- Reference: enumeration_item
 ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_enumeration 

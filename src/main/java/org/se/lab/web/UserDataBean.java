@@ -133,7 +133,7 @@ public class UserDataBean implements Serializable {
 		// userProfile = service.getUserProfilById(user.getId());
 
 		//Dummy UserProfileData
-		 userProfile = new UserProfile(dummyUser, "Björn", "Sattler",
+		 userProfile = new UserProfile("Björn", "Sattler",
 		 "test@test.at", "06641234", "", "Test");
 
 		/*

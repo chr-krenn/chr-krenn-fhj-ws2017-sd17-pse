@@ -15,7 +15,8 @@ public class UserProfileTest {
     public void setUp() throws Exception{
         //TODO: How to know your database id?
         u = new User(1, "testuser", "*****");
-        up = new UserProfile(u, "test", "test", "test", "test" , "test", "test userprofile");
+        up = new UserProfile("test", "test", "test", "test" , "test", "test userprofile");
+        u.setUserProfile(up);
 
     }
 
@@ -39,13 +40,15 @@ public class UserProfileTest {
 
     @Test
     public void testHash() {
-        UserProfile up2 = new UserProfile(u, "test", "test", "test", "test" , "test", "test userprofile");
+        UserProfile up2 = new UserProfile("test", "test", "test", "test" , "test", "test userprofile");
+        u.setUserProfile(up2);
         Assert.assertTrue(up.hashCode() == up2.hashCode());
     }
 
     @Test
     public void testEquals() {
-        UserProfile up2 = new UserProfile(u, "test", "test", "test", "test" , "test", "test userprofile");
+        UserProfile up2 = new UserProfile("test", "test", "test", "test" , "test", "test userprofile");
+        u.setUserProfile(up2);
         Assert.assertTrue(up.equals(up2));
     }
 

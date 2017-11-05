@@ -9,8 +9,7 @@ public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public UserProfile(User user, String firstname, String lastname, String email, String phone, String mobile, String description) {
-        setUser(user);
+    public UserProfile(String firstname, String lastname, String email, String phone, String mobile, String description) {
         setFirstname(firstname);
         setLastname(lastname);
         setEmail(email);
@@ -125,7 +124,6 @@ public class UserProfile implements Serializable {
         if(user == null)
             throw new IllegalArgumentException();
         this.user = user;
-        user.setUserProfile(this);
     }
 
     /**

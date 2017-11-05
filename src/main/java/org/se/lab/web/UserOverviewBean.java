@@ -30,10 +30,14 @@ public class UserOverviewBean {
 
 		// DummyData
 		profiles = new ArrayList<UserProfile>();
-		profiles.add(new UserProfile(new User(1, "User1", "***"), "Max", "Muster", "max@muster.at", "0316-555",
-				"0664/1234567", "ExistingUser"));
-		profiles.add(new UserProfile(new User(2, "User2", "***"), "Heinz", "Fischer", "heinz@fischer.at", "0316-555",
-				"0664/1234567", "NewUser"));
+		User user1 = new User(1, "User1", "***");
+		User user2 = new User(2, "User2", "***");
+		UserProfile p1 = new UserProfile( "Max", "Muster", "max@muster.at", "0316-555", "0664/1234567", "ExistingUser");
+		UserProfile p2 = new UserProfile( "Heinz", "Fischer", "heinz@fischer.at", "0316-555", "0664/1234567", "NewUser");		
+		user1.setUserProfile(profiles.get(0));
+		user2.setUserProfile(profiles.get(1));
+		profiles.add(p1);
+		profiles.add(p2);
 
 		// Activate if DAO works
 		// profiles = service.getAllUserProfiles();
