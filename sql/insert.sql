@@ -20,8 +20,10 @@ INSERT INTO contact(id, user_id, contact_id) VALUES (7,4,3);
 INSERT INTO private_message(id, from_id, to_id, text) VALUES (1,1,3, 'This is a private message.');
 
 -- create communities SWD15 and FH Joanneum
-INSERT INTO community(id,name) VALUES (1, 'SWD15');
-INSERT INTO community(id,name) VALUES (2, 'FH Joanneum');
+INSERT INTO community(id,name, status, description) VALUES (1, 'FH Joanneum', 'APPROVED', 'Universit of Applied Scienes');
+INSERT INTO community(id,name, status, description) VALUES (2, 'SWD15', 'APPROVED', 'Software Design Year 2015');
+INSERT INTO community(id,name, status, description) VALUES (3, 'SWD16', 'APPROVED', 'Software Design Year 2016');
+INSERT INTO community(id,name, status, description) VALUES (4, 'SWD17', 'PENDING', 'Software Design Year 2017');
 
 -- admin posts on community SWD15
 INSERT INTO post(id, user_id, community_id,text) VALUES (1,1,1,'First post from admin!');
