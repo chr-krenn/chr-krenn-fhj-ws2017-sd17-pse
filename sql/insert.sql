@@ -37,14 +37,14 @@ INSERT INTO post(id, user_id, community_id,parent_post_id,text) VALUES (4,3,1,3,
 INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, mobile, description) 
 VALUES (1,1, 'Homer', 'Simpson', 'ho.j.simpson@example.com', '555-1234', '31337', 'Technician');
 
-INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, description) 
-VALUES (2,2, 'Bob', 'Carter', 'bob.carter@example.com', '555-1235', 'CIO');
+INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, mobile, description)
+VALUES (2,2, 'Bob', 'Carter', 'bob.carter@example.com', '555-1235', '31338', 'CIO');
 
-INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, description) 
-VALUES (3,3, 'Alice', 'Carroll', 'a.carroll@example.com', '555-1236', 'Accounting');
+INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, mobile, description)
+VALUES (3,3, 'Alice', 'Carroll', 'a.carroll@example.com', '555-1236','31338',  'Accounting');
 
-INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, description) 
-VALUES (4,4, 'Frank', 'Morlar', 'fm@example.com', '555-1237', 'HR');
+INSERT INTO userprofile (id, user_id, firstname, lastname, email, phone, mobile, description)
+VALUES (4,4, 'Frank', 'Morlar', 'fm@example.com', '555-1237', '31338', 'HR');
 
 -- add status to enumeration
 INSERT INTO enumeration (id,name) VALUES (1,'OPEN');
