@@ -74,8 +74,9 @@ public class LoginBean implements Serializable {
 			for (String key : session.keySet()) {
 				System.out.println(key + ": " + session.get(key));
 			}
-
-			return "/profile.xhtml?faces-redirect=true";
+			
+			return "/activityStream.xhtml?faces-redirect=true";
+			//return "/profile.xhtml?faces-redirect=true";
 
 		} else {
 			/*
