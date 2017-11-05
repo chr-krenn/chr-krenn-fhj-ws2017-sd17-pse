@@ -8,8 +8,10 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	CommunityTest.class,
 	PostTest.class,
-        UserContactTest.class,
-	UserProfileTest.class
+    UserContactTest.class,
+	UserProfileTest.class,
+	EnumerationItemTest.class,
+	EnumerationTest.class,
 
 })
 public class DataTestSuite {
