@@ -44,8 +44,8 @@ public class UserServiceTest {
         user1 = new User(ID, USERNAME, PASSWORD);
         user2 = new User(2,"username2","pwd");
 
-        userProfile1 = new UserProfile(1, user1,"Max", "Mustermann","max.mustermann@edu.fh-joanneum.at","03161234","06641234567", "test1");
-        userProfile2 = new UserProfile(2, user2,"Erika", "Musterfrau","erika.musterfrau@edu.fh-joanneum.at","03165678","066489101112", "test2");
+        userProfile1 = new UserProfile(user1,"Max", "Mustermann","max.mustermann@edu.fh-joanneum.at","03161234","06641234567", "test1");
+        userProfile2 = new UserProfile(user2,"Erika", "Musterfrau","erika.musterfrau@edu.fh-joanneum.at","03165678","066489101112", "test2");
 
     }
 
@@ -95,8 +95,8 @@ public class UserServiceTest {
     @Test
     public void getAllContactsByUser() {
         List<UserContact> userContactList = new ArrayList<>();
-        UserContact contact1 = new UserContact(1,user1, 3);
-        UserContact contact2 = new UserContact(2,user2,2);
+        UserContact contact1 = new UserContact(user1, 3);
+        UserContact contact2 = new UserContact(user2,2);
         userContactList.add(contact1);
         userContactList.add(contact2);
 

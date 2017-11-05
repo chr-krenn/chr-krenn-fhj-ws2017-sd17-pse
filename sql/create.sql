@@ -1,7 +1,7 @@
 -- tables
 -- Table: community
 CREATE TABLE community (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     name varchar(256) NOT NULL,
     status varchar(64) NOT NULL,
     description varchar(256),
@@ -10,7 +10,7 @@ CREATE TABLE community (
 
 -- Table: contact
 CREATE TABLE contact (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     user_id int NOT NULL,
     contact_id int NOT NULL,
     CONSTRAINT contact_pk PRIMARY KEY (id)
@@ -18,7 +18,7 @@ CREATE TABLE contact (
 
 -- Table: post
 CREATE TABLE post (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     user_id int NOT NULL,
     community_id int NOT NULL,
     parent_post_id int NULL,
@@ -29,7 +29,7 @@ CREATE TABLE post (
 
 -- Table: private_message
 CREATE TABLE private_message (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     from_id int NOT NULL,
     to_id int NOT NULL,
     text varchar(1024) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE private_message (
 
 -- Table: user_community
 CREATE TABLE user_community (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     user_id int NOT NULL,
     community_id int NOT NULL,
     CONSTRAINT user_community_pk PRIMARY KEY (id)
@@ -47,7 +47,7 @@ CREATE TABLE user_community (
 
 -- Table: userprofile
 CREATE TABLE userprofile (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     user_id int NOT NULL,
     firstname varchar(64) NOT NULL,
     lastname varchar(64) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE userprofile (
 
 -- Table: users
 CREATE TABLE users (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     username varchar(64) NOT NULL,
     password varchar(64) NOT NULL,
     role varchar(64) NOT NULL,
@@ -71,14 +71,14 @@ CREATE TABLE users (
 
 -- Table: enumeration
 CREATE TABLE enumeration (
-	id int NOT NULL,
+	id int AUTO_INCREMENT,
 	name varchar(64) NOT NULL,
 	CONSTRAINT enumeration_pk PRIMARY KEY (id)
 );
 
 -- Table: enumeration_item
 CREATE TABLE enumeration_item (
-	id int NOT NULL,
+	id int AUTO_INCREMENT,
 	enumeration_id int NOT NULL,
 	post_id int,
 	user_id int,

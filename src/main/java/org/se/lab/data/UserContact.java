@@ -9,9 +9,8 @@ public class UserContact implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public UserContact(int id, User user, int contact)
+    public UserContact(User user, int contact)
     {
-        setId(id);
         setUser(user);
         setContactId(contact);
     }
@@ -25,18 +24,12 @@ public class UserContact implements Serializable {
     @GeneratedValue
     private int id;
 
-    public void setId(int id) {
-        if (id <= 0)
-            throw new IllegalArgumentException();
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }
 
     @ManyToOne
-    @JoinColumn(name="fk_user_id")
+    @JoinColumn(name="user_id")
     private User user;
 
     public void setUser(User user) {
@@ -63,8 +56,6 @@ public class UserContact implements Serializable {
             throw new IllegalArgumentException();
         this.contact = contact;
     }
-
-
 
 
     /**
@@ -95,6 +86,6 @@ public class UserContact implements Serializable {
 
     @Override
     public String toString() {
-        return "UserContacts [id=" + id + ", userId=" + user.getId() + ", contactId=" + getContactId() + "]";
+        return "UserContacts [userId=" + user.getId() + ", contactId=" + getContactId() + "]";
     }
 }

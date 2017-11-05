@@ -2,7 +2,6 @@ package org.se.lab.data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name = "userprofile")
@@ -10,8 +9,7 @@ public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public UserProfile(int id, User user, String firstname, String lastname, String email, String phone, String mobile, String description) {
-        setId(id);
+    public UserProfile(User user, String firstname, String lastname, String email, String phone, String mobile, String description) {
         setUser(user);
         setFirstname(firstname);
         setLastname(lastname);
@@ -31,12 +29,6 @@ public class UserProfile implements Serializable {
 
     public int getId() {
         return id;
-    }
-
-    private void setId(int id) {
-        if (id <= 0)
-            throw new IllegalArgumentException();
-        this.id = id;
     }
 
 
@@ -164,7 +156,7 @@ public class UserProfile implements Serializable {
 
     @Override
     public String toString() {
-        return "UserProfile [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", description=" + description + "]";
+        return "UserProfile [firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", description=" + description + "]";
     }
 
 }

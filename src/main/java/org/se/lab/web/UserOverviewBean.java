@@ -1,18 +1,17 @@
 
 package org.se.lab.web;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.log4j.Logger;
+import org.se.lab.data.User;
+import org.se.lab.data.UserProfile;
+import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.apache.log4j.Logger;
-import org.se.lab.data.User;
-import org.se.lab.data.UserProfile;
-import org.se.lab.service.UserService;
+import java.util.ArrayList;
+import java.util.List;
 
 @Named
 @RequestScoped
@@ -31,9 +30,9 @@ public class UserOverviewBean {
 
 		// DummyData
 		profiles = new ArrayList<UserProfile>();
-		profiles.add(new UserProfile(1, new User(1, "User1", "***"), "Max", "Muster", "max@muster.at", "0316-555",
+		profiles.add(new UserProfile(new User(1, "User1", "***"), "Max", "Muster", "max@muster.at", "0316-555",
 				"0664/1234567", "ExistingUser"));
-		profiles.add(new UserProfile(2, new User(2, "User2", "***"), "Heinz", "Fischer", "heinz@fischer.at", "0316-555",
+		profiles.add(new UserProfile(new User(2, "User2", "***"), "Heinz", "Fischer", "heinz@fischer.at", "0316-555",
 				"0664/1234567", "NewUser"));
 
 		// Activate if DAO works

@@ -12,26 +12,14 @@ public class UserContactTest {
 
     @Before
     public void setUp() throws Exception{
+        //TODO: how do i know the id?
         u = new User(1, "testuser", "*****");
-        uc = new UserContact(1,u,2);
+        uc = new UserContact(u,2);
     }
 
     @After
     public void tearDown() throws Exception{
 
-    }
-
-    @Test
-    public void testConstructor(){
-        Assert.assertEquals(1, uc.getId());
-        Assert.assertEquals(1, uc.getUser().getId());
-        Assert.assertEquals(2, uc.getContactId());
-    }
-
-    @Test
-    public void testConstructorProtected(){
-        UserContact actual = new UserContact();
-        Assert.assertTrue(actual instanceof UserContact );
     }
 
     @Test
@@ -41,20 +29,20 @@ public class UserContactTest {
 
     @Test
     public void testHash() {
-        UserContact uc = new UserContact(1, u, 2);
+        UserContact uc = new UserContact(u, 2);
         Assert.assertTrue(uc.hashCode() == uc.hashCode());
     }
 
     @Test
     public void testEquals() {
-        UserContact uc = new UserContact(1, u, 2);
+        UserContact uc = new UserContact(u, 2);
         Assert.assertTrue(uc.equals(uc));
         UserContactDAO dao = new UserContactDAOImpl();
     }
 
     @Test
     public void testToString() {
-        String s = "UserContacts [id=1, userId=1, contactId=2]";
+        String s = "UserContacts [userId=1, contactId=2]";
         Assert.assertTrue(uc.toString().equals(s));
     }
 
