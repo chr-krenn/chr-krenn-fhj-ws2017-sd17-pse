@@ -29,9 +29,9 @@ public class CommunityServiceTest {
 
     @Test
     public void approve() {
-        Community community = new Community(ID, NAME, DESCRIPTION);
+        Community community = new Community(NAME, DESCRIPTION);
 
-        Community communityResult = new Community(ID, NAME, DESCRIPTION);
+        Community communityResult = new Community(NAME, DESCRIPTION);
         community.setState(APPROVE_STATE);
 
         Capture<Community> communityCapture = new Capture<Community>();
@@ -44,9 +44,9 @@ public class CommunityServiceTest {
 
     @Test
     public void request() {
-        Community community = new Community(ID, NAME, DESCRIPTION);
+        Community community = new Community(NAME, DESCRIPTION);
 
-        Community communityResult = new Community(ID, NAME, DESCRIPTION);
+        Community communityResult = new Community(NAME, DESCRIPTION);
         community.setState(PENDING_STATE);
 
         Capture<Community> communityCapture = new Capture<Community>();
