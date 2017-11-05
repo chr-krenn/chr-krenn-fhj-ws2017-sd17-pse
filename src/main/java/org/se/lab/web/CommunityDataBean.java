@@ -60,6 +60,7 @@ public class CommunityDataBean implements Serializable {
 				"A dummy community, needed for prototype");
 		return dummyCommunity;
 	}
+	
 
 	public void init(){
 		
