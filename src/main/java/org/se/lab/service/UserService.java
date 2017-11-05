@@ -62,7 +62,7 @@ public class UserService {
 
     private User loadUserByUsername(String username) {
         try {
-            return userDAO.loadByUsername(username);
+            return userDAO.findByUsername(username);
         } catch (Exception e) {
             LOG.error("Can't find user " + username);
             throw new ServiceException("Can't find user " + username, e);
@@ -72,7 +72,7 @@ public class UserService {
     public void addContact(User user, String contactName) {
         LOG.debug("add contact" + contactName + " to " + user);
 
-        User userToAdd = userDAO.loadByUsername(contactName);
+        User userToAdd = userDAO.findByUsername(contactName);
         if (!userContactDAO.doesContactExist(userToAdd.getId())) {
             //todo remove id if possible
             UserContact userContact = new UserContact(user, userToAdd.getId());
@@ -86,7 +86,7 @@ public class UserService {
     public void removeContact(User user, String contactName) {
         LOG.debug("remove contact from " + user);
 
-        User userToRemove = userDAO.loadByUsername(user.getUsername());
+        User userToRemove = userDAO.findByUsername(user.getUsername());
         if (userContactDAO.doesContactExist(userToRemove.getId())) {
             UserContact userContact = userContactDAO.findById(userToRemove.getId());
             userContactDAO.delete(userContact);

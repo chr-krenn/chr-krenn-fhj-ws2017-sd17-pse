@@ -78,7 +78,7 @@ public class UserServiceTest {
 
     @Test
     public void login_Successful() {
-        expect(userDAO.loadByUsername(USERNAME)).andReturn(user1);
+        expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
         userService.login(user1.getUsername(), user1.getPassword());
@@ -86,7 +86,7 @@ public class UserServiceTest {
 
     @Test(expected = ServiceException.class)
     public void login_Fail() {
-        expect(userDAO.loadByUsername(USERNAME)).andReturn(user1);
+        expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
         userService.login(USERNAME, "wrongPassword");
