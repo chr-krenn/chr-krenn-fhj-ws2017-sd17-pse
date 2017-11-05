@@ -38,7 +38,7 @@ private List<Post> postChildren;
 	@PostConstruct
 	public void init() 
 	{
-		Community com = new Community(1,"C1", "NewC1");
+		Community com = new Community("C1", "NewC1");
 		User user = new User(1, "Harry Hirsch", "pass");
 		
 		

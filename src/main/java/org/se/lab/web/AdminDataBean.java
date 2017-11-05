@@ -24,8 +24,8 @@ public class AdminDataBean {
         requestedCommunityList = new ArrayList<>();
 
         //DummyData instead of findPendingCommunities()
-        Community com1 = new Community(1, "Billing", "Billing Community");
-        Community com2 = new Community(2, "ProMana", "Projectmanagement Community");
+        Community com1 = new Community("Billing", "Billing Community");
+        Community com2 = new Community("ProMana", "Projectmanagement Community");
         requestedCommunityList.add(com1);
         requestedCommunityList.add(com2);
     }
