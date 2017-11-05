@@ -54,12 +54,14 @@ public class LoginBean implements Serializable {
 	public String doLogin() {
 
 		// Wenn die Methode funktioniert einkommentieren und Dummy-User eliminieren!
-		//
-		// user = service.login(getUsername(),getPassword());
-		//
+		/*
+		 * Update Björn 5.11. -> DAO Methode fehlt
+		 */
+		//user = service.login(getUsername(),getPassword());
+
 
 		//DUMMY User bis die DAO Methode funktioniert
-		user = new User(4, "frank", "pass");
+		user = new User(2, "bob", "pass");
 
 		
 
