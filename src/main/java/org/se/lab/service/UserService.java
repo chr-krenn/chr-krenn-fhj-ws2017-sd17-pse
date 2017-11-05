@@ -73,9 +73,9 @@ public class UserService {
         LOG.debug("add contact" + contactName + " to " + user);
 
         User userToAdd = userDAO.loadByUsername(contactName);
-        if (!userContactDAO.doesConatctExist(userToAdd.getId())) {
+        if (!userContactDAO.doesContactExist(userToAdd.getId())) {
             //todo remove id if possible
-            UserContact userContact = new UserContact( user, userToAdd.getId());
+            UserContact userContact = new UserContact(user, userToAdd.getId());
             userContactDAO.insert(userContact);
         } else {
             LOG.error("Contact " + userToAdd.getUsername() + " already exist ");
@@ -87,7 +87,7 @@ public class UserService {
         LOG.debug("remove contact from " + user);
 
         User userToRemove = userDAO.loadByUsername(user.getUsername());
-        if (userContactDAO.doesConatctExist(userToRemove.getId())) {
+        if (userContactDAO.doesContactExist(userToRemove.getId())) {
             UserContact userContact = userContactDAO.findById(userToRemove.getId());
             userContactDAO.delete(userContact);
         } else {
