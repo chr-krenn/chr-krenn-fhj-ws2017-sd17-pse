@@ -1,22 +1,13 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.primefaces.model.StreamedContent;
 import org.se.lab.data.*;
-import org.se.lab.service.CommunityService;
 
-import javax.annotation.PostConstruct;
+
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.context.Flash;
-import javax.inject.Inject;
 import javax.inject.Named;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Named
 @RequestScoped
@@ -29,8 +20,9 @@ public class CommunityDataBean implements Serializable {
 	private String description;
 	private Community dummyCommunity;
 	
-	@Inject
-	private CommunityService communityService;
+	//TODO: inject community service
+	//@Inject
+	//private CommunityService communityService;
 	
 	
 	public String getName() {
@@ -53,6 +45,7 @@ public class CommunityDataBean implements Serializable {
 	}
 	
 	public Community getCommunity(int id){
+		LOG.info("Creating dummy community");
 		//TODO: missing method in communityService
 		//communityService.getCommunityById(id);
 		dummyCommunity = new Community(id,
