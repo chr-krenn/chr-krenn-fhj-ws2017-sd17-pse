@@ -15,7 +15,17 @@
 			</ui:insert>
 			<h:outputStylesheet library="css" name="style.css" />
 		</div>
-		<div id="activityStream">
+		<div class="activityStream">
+			<h1>Activity Stream</h1>
+
+			<p:panel style="text-align:center">
+				<h3>Create a new post</h3>
+				<h:panelGrid columns="1" style="width:100%">
+				<p:inputTextarea rows="3" cols="20" placeholder="Enter your message" />
+				<p:commandButton value="Send" actionListener="#{activityStreamBean.newPost(posts)}" /> 
+				</h:panelGrid>	
+			</p:panel>
+
 
 			<p:repeat value="#{activityStreamBean.posts}" var="posts">
 				<p:panel style="text-align:center">
@@ -27,30 +37,35 @@
 					</f:facet>
 
 					<h:panelGrid columns="1" style="width:100%">
-						<h:outputText value="#{posts.community.name}"
-							style="font-weight: bold" />
-						<h:outputText value="#{posts.text}" />
+						<h:outputText value="Posted in Community: #{posts.community.name}"
+							style="font-weight: bold" /><br />
+						<h:outputText value="#{posts.text}" /><br />
 
 						<p:inputTextarea rows="3" cols="20"
 							placeholder="Enter your comment!" />
 						<p:commandButton value="Post"
-							actionListener="#{activityStreamBean.newPost(posts)}" />
+							actionListener="#{activityStreamBean.newPost(posts)}" /><br />
 
 
 					</h:panelGrid>
-					<p:panel header="Comments" style="text-align:center">
-						<p:repeat value="#{activityStreamBean.getChildPosts(posts)}"
-							var="children">
+					<div class="postComments">
+						<p:panel header="Comments" style="text-align:center">
 
-							<h:panelGrid columns="1" style="width:100%">
+							<p:repeat value="#{activityStreamBean.getChildPosts(posts)}"
+								var="children">
 
-								<h:outputText value="#{children.user.username} says:" />
-								<h:outputText value="#{children.text}" />
+								<h:panelGrid columns="1" style="width:100%">
 
-							</h:panelGrid>
+									<h:outputText value="#{children.user.username} says:" />
+									<h:outputText value="#{children.text}" />
 
-						</p:repeat>
-					</p:panel>
+								</h:panelGrid>
+
+							</p:repeat>
+
+						</p:panel>
+					</div>
+
 				</p:panel>
 			</p:repeat>
 		</div>
