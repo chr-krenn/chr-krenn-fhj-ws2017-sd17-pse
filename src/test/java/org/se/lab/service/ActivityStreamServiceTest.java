@@ -35,7 +35,7 @@ public class ActivityStreamServiceTest {
 
     @Before
     public void setup() {
-        community = new Community(ID, NAME, DESCRIPTION);
+        community = new Community(NAME, DESCRIPTION);
         post = new Post(1, null, community, new User(2, "username", "password"),
                 "msg", new Date());
     }

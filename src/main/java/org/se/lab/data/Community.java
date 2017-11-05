@@ -19,8 +19,7 @@ public class Community implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public Community(int id, String name, String description) {
-		setId(id);
+	public Community(String name, String description) {
 		setName(name);
 		setDescription(description);
 		setState("pending");

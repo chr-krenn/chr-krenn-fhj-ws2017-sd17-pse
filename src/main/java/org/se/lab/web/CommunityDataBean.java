@@ -64,7 +64,7 @@ public class CommunityDataBean implements Serializable {
 		
 		if(actualCommunity == null){
 			LOG.info("Creating dummy community");
-			dummyCommunity = new Community(1,
+			dummyCommunity = new Community(
 					"Dummy Community",
 					"A dummy community, needed for prototype");
 			return dummyCommunity;
@@ -75,12 +75,11 @@ public class CommunityDataBean implements Serializable {
 	}
 	
 	public String createNewCommunity(){
-		int id = 1;
 		 
 		if(newCommunityName != null & newCommunityDescription != null ){
 			//TODO: create community service method needed
 			
-			actualCommunity = new Community(id, newCommunityName, newCommunityDescription);
+			actualCommunity = new Community(newCommunityName, newCommunityDescription);
 			LOG.info(actualCommunity.getName()+" community created");
 		}
 		

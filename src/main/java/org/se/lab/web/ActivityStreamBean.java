@@ -10,16 +10,13 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
-import org.se.lab.data.UserContact;
-import org.se.lab.data.UserProfile;
-import org.se.lab.service.UserService;
+
 
 @Named
 @RequestScoped
@@ -51,8 +48,9 @@ FacesContext context ;
 	@PostConstruct
 	public void init() 
 	{
-		Community com = new Community(1,"C1", "NewC1");
+		Community com = new Community("C1", "NewC1");
 		user = new User(1, "Harry Hirsch", "pass");
+
 		
 		//DummyData
 		post = new Post(1, null, com, user, "Hello World!", new Date());

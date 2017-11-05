@@ -20,16 +20,15 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 
     @Override
-    public UserProfile insert(UserProfile up) {
+    public void insert(UserProfile up) {
         LOG.info("insert(" + up + ")");
         em.persist(up);
-        return up;
     }
 
     @Override
-    public UserProfile update(UserProfile up) {
+    public void update(UserProfile up) {
         LOG.info("update(" + up + ")");
-        return em.merge(up);
+        em.merge(up);
     }
 
     @Override
@@ -51,30 +50,4 @@ public class UserProfileDAOImpl implements UserProfileDAO {
         return em.createQuery(hql).getResultList();
     }
 
-    @Override
-    public UserProfile findByFirstname(UserProfile firstname) {
-        LOG.info("findByFirstname(" + firstname + ")");
-        return em.find(UserProfile.class, firstname);
-    }
-
-    @Override
-    public UserProfile findByLastname(UserProfile lastname) {
-        LOG.info("findByFirstname(" + lastname + ")");
-        return em.find(UserProfile.class, lastname);
-    }
-
-    @Override
-    public UserProfile createUserProfile(int id, User user, String firstname, String lastname, String email, String phone, String mobile, String description) {
-
-        UserProfile up = new UserProfile();
-        up.setUser(user);
-        up.setFirstname(firstname);
-        up.setLastname(lastname);
-        up.setEmail(email);
-        up.setPhone(phone);
-        up.setMobile(mobile);
-        up.setDescription(description);
-        insert(up);
-        return up;
-    }
 }

@@ -13,7 +13,8 @@ public class CommunityTest {
 	
 	@Before
 	public void setUp() throws Exception{
-		com = new Community(1, "test", "test community");
+		com = new Community("test", "test community");
+		com.setId(1);
 	}
 
 	@After
@@ -57,13 +58,15 @@ public class CommunityTest {
 	
 	@Test
 	public void testHash() {
-		Community com2 = new Community(1, "test", "test community");
+		Community com2 = new Community("test", "test community");
+		com2.setId(1);
 		Assert.assertTrue(com.hashCode() == com2.hashCode());
 	}
 	
 	@Test
 	public void testEquals() {
-		Community com2 = new Community(1, "test", "test community");
+		Community com2 = new Community("test", "test community");
+		com2.setId(1);
 		Assert.assertTrue(com.equals(com2));
 	}
 	
@@ -84,27 +87,28 @@ public class CommunityTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testIdFail() {
-		com = new Community (0, "test", "test community");
+		com = new Community ("test", "test community");
+		com.setId(0);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testNameFail1() {
-		com = new Community (1, "  ", "test community");
+		com = new Community ("  ", "test community");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testNameFail2() {
-		com = new Community (1, null, "test community");
+		com = new Community (null, "test community");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testDescriptionFail1(){
-		com = new Community (1, "test", "  ");
+		com = new Community ("test", "  ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testDescriptionFail2(){
-		com = new Community (1, "test", null);
+		com = new Community ("test", null);
 	}
 	
 	

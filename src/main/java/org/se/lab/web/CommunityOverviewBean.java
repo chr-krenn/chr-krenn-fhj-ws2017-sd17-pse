@@ -34,9 +34,9 @@ private Community selectedCommunity;
 		
 		//DummyData
 		communities = new ArrayList<Community>();
-		communities.add(new Community(1,"C1","NewC1"));
-		communities.add(new Community(2,"C2","NewC2"));
-		communities.add(new Community(3,"C3","NewC3"));
+		communities.add(new Community("C1","NewC1"));
+		communities.add(new Community("C2","NewC2"));
+		communities.add(new Community("C3","NewC3"));
 		
 		//When service works 
 		// communities = service.findAll();

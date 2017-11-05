@@ -4,16 +4,14 @@ import java.util.List;
 
 public interface UserProfileDAO {
 
-    UserProfile insert(UserProfile up);
-    UserProfile update(UserProfile up);
+    void insert(UserProfile up);
+    void update(UserProfile up);
     void delete(UserProfile up);
 
-    UserProfile findById(int id);
     List<UserProfile> findAll();
 
-    UserProfile findByFirstname(UserProfile firstname);
-    UserProfile findByLastname(UserProfile lastname);
+    UserProfile findById(int id);
 
-    UserProfile createUserProfile(int id, User user, String firstname, String lastname, String email, String phone, String mobile, String description);
+
 
 }
