@@ -22,7 +22,7 @@
 						<p:commandButton value="(MODIFY)" />
 						<p:commandButton value="Join/Leave" />
 					</div>
-					<p:repeat value="#{communityDataBean.getCommunity(1)}" var="c">
+					<p:repeat value="#{communityDataBean.getActualCommunity()}" var="c">
 						<h:panelGrid>
 							<h2>
 								#{c.name}
@@ -46,8 +46,6 @@
 									placeholder="Enter your comment!" />
 								<p:commandButton value="Post"
 									actionListener="#{activityStreamBean.newPost(posts)}" />
-
-
 							</h:panelGrid>
 							<p:panel header="Comments" style="text-align:center">
 								<p:repeat value="#{activityStreamBean.getChildPosts(posts)}"

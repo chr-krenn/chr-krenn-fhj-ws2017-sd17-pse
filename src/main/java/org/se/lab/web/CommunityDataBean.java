@@ -19,11 +19,12 @@ public class CommunityDataBean implements Serializable {
 	private boolean publicState;
 	private String description;
 	private Community dummyCommunity;
-	
-	//TODO: inject community service
+	private String newCommunityName;
+	private String newCommunityDescription;
+	private Community actualCommunity;
+
 	//@Inject
 	//private CommunityService communityService;
-	
 	
 	public String getName() {
 		return name;
@@ -43,15 +44,47 @@ public class CommunityDataBean implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public String getNewCommunityName() {
+		return newCommunityName;
+	}
+	public void setNewCommunityName(String newCommunityName) {
+		this.newCommunityName = newCommunityName;
+	}
+	public String getNewCommunityDescription() {
+		return newCommunityDescription;
+	}
+	public void setNewCommunityDescription(String newCommunityDescription) {
+		this.newCommunityDescription = newCommunityDescription;
+	}
 	
-	public Community getCommunity(int id){
-		LOG.info("Creating dummy community");
+	public Community getActualCommunity(){
+		
 		//TODO: missing method in communityService
 		//communityService.getCommunityById(id);
-		dummyCommunity = new Community(id,
-				"Dummy Community",
-				"A dummy community, needed for prototype");
-		return dummyCommunity;
+		
+		if(actualCommunity == null){
+			LOG.info("Creating dummy community");
+			dummyCommunity = new Community(1,
+					"Dummy Community",
+					"A dummy community, needed for prototype");
+			return dummyCommunity;
+		}
+		
+		return actualCommunity;
+
+	}
+	
+	public String createNewCommunity(){
+		int id = 1;
+		 
+		if(newCommunityName != null & newCommunityDescription != null ){
+			//TODO: create community service method needed
+			
+			actualCommunity = new Community(id, newCommunityName, newCommunityDescription);
+			LOG.info(actualCommunity.getName()+" community created");
+		}
+		
+		return "/communityprofile.xhtml?faces-redirect=true";
 	}
 	
 
