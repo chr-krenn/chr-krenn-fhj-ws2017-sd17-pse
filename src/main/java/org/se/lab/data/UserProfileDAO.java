@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface UserProfileDAO {
 
-    void insert(UserProfile up);
-    void update(UserProfile up);
+    UserProfile insert(UserProfile up);
+    UserProfile update(UserProfile up);
     void delete(UserProfile up);
 
     List<UserProfile> findAll();

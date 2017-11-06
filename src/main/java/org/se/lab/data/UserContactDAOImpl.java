@@ -14,15 +14,17 @@ public class UserContactDAOImpl implements UserContactDAO {
     private EntityManager em;
 
     @Override
-    public void insert(UserContact contact) {
+    public UserContact insert(UserContact contact) {
         LOG.info("insert(" + contact + ")");
         em.persist(contact);
+        return contact;
     }
 
     @Override
-    public void update(UserContact contact) {
+    public UserContact update(UserContact contact) {
         LOG.info("update(" + contact + ")");
         em.merge(contact);
+        return contact;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class UserContactDAOImpl implements UserContactDAO {
     @Override
     public List<UserContact> findAll() {
         LOG.info("findAll()");
-        final String hql = "SELECT uc FROM " + UserProfile.class.getName() + " AS uc";
+        final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc";
         return em.createQuery(hql).getResultList();
     }
 
