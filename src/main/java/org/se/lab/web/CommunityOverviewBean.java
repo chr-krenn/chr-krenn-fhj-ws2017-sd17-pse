@@ -18,32 +18,28 @@ import org.se.lab.service.UserService;
 @RequestScoped
 public class CommunityOverviewBean {
 
-	
 	private final Logger LOG = Logger.getLogger(CommunityOverviewBean.class);
-	
-	//Activate when DAO works
-	//@Inject
-	//private CommunityService service;
-	
-private List<Community> communities;
-private Community selectedCommunity;
-	
+
+	// Activate when DAO works
+	// @Inject
+	// private CommunityService service;
+
+	private List<Community> communities;
+	private Community selectedCommunity;
+
 	@PostConstruct
-	public void init() 
-	{
-		
-		//DummyData
+	public void init() {
+
+		// DummyData
 		communities = new ArrayList<Community>();
-		communities.add(new Community("C1","NewC1"));
-		communities.add(new Community("C2","NewC2"));
-		communities.add(new Community("C3","NewC3"));
-		
-		//When service works 
+		communities.add(new Community("C1", "NewC1"));
+		communities.add(new Community("C2", "NewC2"));
+		communities.add(new Community("C3", "NewC3"));
+
+		// When service works
 		// communities = service.findAll();
-		
-}
-	
-	
+
+	}
 
 	public List<Community> getCommunities() {
 		return communities;
@@ -60,19 +56,16 @@ private Community selectedCommunity;
 	public void setSelectedCommunity(Community selectedCommunity) {
 		this.selectedCommunity = selectedCommunity;
 	}
-	
-	public void gotoCom()
-	{
-		System.out.println("In Method gotoCom");
-		if(selectedCommunity != null)
-		{
-	System.out.println("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());	
-		
-		//To be done
-		//go to community page if exist -> use data of selectedCommunity to distinct
-	
+
+	public void gotoCom() {
+		LOG.info("In Method gotoCom");
+		if (selectedCommunity != null) {
+			LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
+
+			// To be done
+			// go to community page if exist -> use data of selectedCommunity to distinct
+
 		}
 	}
-	
-	
+
 }

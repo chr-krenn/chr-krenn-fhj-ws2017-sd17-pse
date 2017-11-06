@@ -20,7 +20,7 @@ import java.util.Map;
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Logger LOG = Logger.getLogger(DataBean.class);
+    private final Logger LOG = Logger.getLogger(LoginBean.class);
 
     private String username;
     private String password;
@@ -66,7 +66,7 @@ public class LoginBean implements Serializable {
             Map<String, Object> session = context.getExternalContext().getSessionMap();
 
             for (String key : session.keySet()) {
-                System.out.println(key + ": " + session.get(key));
+                LOG.info(key + ": " + session.get(key));
             }
 
             return "/activityStream.xhtml?faces-redirect=true";

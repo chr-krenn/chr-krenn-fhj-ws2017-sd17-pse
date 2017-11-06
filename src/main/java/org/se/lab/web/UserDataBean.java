@@ -22,7 +22,9 @@ import java.util.Map;
 @RequestScoped
 public class UserDataBean implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     private final Logger LOG = Logger.getLogger(UserDataBean.class);
+    
     Flash flash;
     FacesContext context;
     private StreamedContent photo;
@@ -65,12 +67,12 @@ public class UserDataBean implements Serializable {
         String userProfId = (String) context.getExternalContext().getFlash().get("uid");
 
 
-        System.out.println("userProfId: " + userProfId);
+        LOG.info("userProfId: " + userProfId);
 
         if (session.size() != 0 && session.get("user") != null) {
 
             userId = (int) session.get("user");
-            System.out.println("SESSIOn UID: " + userId);
+            LOG.info("SESSIOn UID: " + userId);
         } else {
 			/*
 			 * If session is null - redirect to login page!
@@ -79,8 +81,8 @@ public class UserDataBean implements Serializable {
             try {
                 context.getExternalContext().redirect("/pse/login.xhtml");
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+				LOG.error("Can't redirect to /pse/login.xhtml");
+                //e.printStackTrace();
             }
         }
 
@@ -181,9 +183,9 @@ public class UserDataBean implements Serializable {
         String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
 
 
-        System.out.println("contactName " + contactName);
-        System.out.println("u " + u.getId());
-        System.out.println("userid " + userId);
+        LOG.info("contactName " + contactName);
+        LOG.info("u " + u.getId());
+        LOG.info("userid " + userId);
 
 //		Activate when DAO works
 //		service.addContact(u, contactName);

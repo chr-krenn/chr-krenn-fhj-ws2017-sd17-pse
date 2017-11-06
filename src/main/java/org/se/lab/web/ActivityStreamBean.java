@@ -73,18 +73,18 @@ public class ActivityStreamBean {
 
 		String userProfId = (String) context.getExternalContext().getFlash().get("uid");
 
-		System.out.println("userProfId: " + userProfId);
+		LOG.info("userProfId: " + userProfId);
 
 		if (session.size() != 0 && session.get("user") != null) {
 
 			userId = (int) session.get("user");
-			System.out.println("SESSIOn UID: " + userId);
+			LOG.info("SESSIOn UID: " + userId);
 		} else {
 			try {
 				context.getExternalContext().redirect("/pse/login.xhtml");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error("Can't redirect to /pse/login.xhtml");
+				//e.printStackTrace();
 			}
 
 		}
@@ -126,7 +126,7 @@ public class ActivityStreamBean {
 
 	public void addLike(Post post) {
 		likecount++;
-		System.out.println("Likes: " + String.valueOf(likecount) + " - " + post.toString());
+		LOG.info("Likes: "+likecount+" - "+post.toString());
 	}
 
 	public int getLikes(Post p) {
@@ -134,8 +134,7 @@ public class ActivityStreamBean {
 	}
 
 	public void newPost(Post post) {
-		System.console().printf(post.toString(), post);
-		System.out.println("NEW POST:" + post.toString());
+		LOG.info("NEW POST:" + post.toString());
 		// service.insert(post);
 	}
 

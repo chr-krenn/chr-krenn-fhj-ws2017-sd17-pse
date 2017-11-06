@@ -68,24 +68,20 @@ public class UserOverviewBean {
         String userProfId = (String) context.getExternalContext().getFlash().get("uid");
 
 
-        System.out.println("userProfId: " + userProfId);
+		LOG.info("userProfId: " + userProfId);
 
-        if (session.size() != 0 && session.get("user") != null) {
+		if (session.size() != 0 && session.get("user") != null) {
 
-            userId = (int) session.get("user");
-            System.out.println("SESSIOn UID: " + userId);
-        } else {
-			/*
-			 * If session is null - redirect to login page!
-			 *
-			 */
-            try {
-                context.getExternalContext().redirect("/pse/login.xhtml");
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+			userId = (int) session.get("user");
+			LOG.info("SESSIOn UID: " + userId);
+		} else {
+			try {
+				context.getExternalContext().redirect("/pse/login.xhtml");
+			} catch (IOException e) {
+				LOG.error("Can't redirect to /pse/login.xhtml");
+				//e.printStackTrace();
+			}
+		}
 
         // Activate if DAO works
         profiles = service.getAllUserProfiles();

@@ -1,8 +1,8 @@
 package org.se.lab.web;
 
+import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
 import org.se.lab.service.CommunityService;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -22,6 +22,8 @@ import java.util.Map;
 @RequestScoped
 public class AdminDataBean {
 
+	private final Logger LOG = Logger.getLogger(AdminDataBean.class);
+	
     List<Community> requestedCommunityList;
 
     /*
@@ -62,12 +64,12 @@ public class AdminDataBean {
         String userProfId = (String) context.getExternalContext().getFlash().get("uid");
 
 
-        System.out.println("userProfId: " + userProfId);
+        LOG.info("userProfId: " + userProfId);
 
         if (session.size() != 0 && session.get("user") != null) {
 
             userId = (int) session.get("user");
-            System.out.println("SESSIOn UID: " + userId);
+            LOG.info("SESSIOn UID: " + userId);
         } else {
 			/*
 			 * If session is null - redirect to login page!
@@ -76,8 +78,8 @@ public class AdminDataBean {
             try {
                 context.getExternalContext().redirect("/pse/login.xhtml");
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+				LOG.error("Can't redirect to /pse/login.xhtml");
+                //e.printStackTrace();
             }
         }
 
@@ -95,13 +97,13 @@ public class AdminDataBean {
 
     private void declineRequestedCommunity()
     {
-        System.out.println("Community declined");
+        LOG.info("Community declined");
         //throw new NotImplementedException();
     }
 
     private void approveRequestedCommunity()
     {
-        System.out.println("Community approved");
+        LOG.info("Community approved");
         //throw new NotImplementedException();
     }
 
