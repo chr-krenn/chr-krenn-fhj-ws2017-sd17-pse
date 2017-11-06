@@ -20,15 +20,17 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 
     @Override
-    public void insert(UserProfile up) {
+    public UserProfile insert(UserProfile up) {
         LOG.info("insert(" + up + ")");
         em.persist(up);
+        return up;
     }
 
     @Override
-    public void update(UserProfile up) {
+    public UserProfile update(UserProfile up) {
         LOG.info("update(" + up + ")");
         em.merge(up);
+        return up;
     }
 
     @Override
