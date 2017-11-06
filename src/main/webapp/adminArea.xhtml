@@ -8,9 +8,13 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:body>
-	<f:view>
-		<h:outputLabel value="Hello, world" />
-	</f:view>
+    <h:form>
+        <div id="header">
+			<ui:insert name="header">
+				<ui:include src="templates/header.xhtml" />
+			</ui:insert>
+			<h:outputStylesheet library="css" name="style.css" />
+		</div>
 	<div class="communitylist">
 		<h2>Pending Communities</h2>
 		<p:repeat value="#{AdminDataBean.requestedCommunityList}"
@@ -32,12 +36,18 @@
 			</h:panelGrid>
 			<hr />
 		</p:repeat>
-	</div>
-	<div>
+        </div>
+        <div>
 		<p:commandButton value="Decline Community"
 			action="#{AdminDataBean.declineRequestedCommunity()}" />
 		<p:commandButton value="Approve Community"
 			action="#{AdminDataBean.approveRequestedCommunity()}" />
-	</div>
+	   </div>
+        <div id="footer">
+			<ui:insert name="footer">
+				<ui:include src="templates/footer.xhtml" />
+			</ui:insert>
+		</div>
+    </h:form>
 </h:body>
 </html>
