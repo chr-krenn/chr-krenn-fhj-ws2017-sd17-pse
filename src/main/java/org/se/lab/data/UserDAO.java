@@ -14,5 +14,5 @@ public interface UserDAO
 	
 	User createUser(String username, String password);
 
-    User findByUsername(String username);
+	User findByUsername(String username);
 }

@@ -9,9 +9,7 @@ public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public UserProfile(int id, int user_id, String firstname, String lastname, String email, String phone, String mobile, String description) {
-        setId(id);
-        setUser_Id(user_id);
+    public UserProfile(String firstname, String lastname, String email, String phone, String mobile, String description) {
         setFirstname(firstname);
         setLastname(lastname);
         setEmail(email);
@@ -32,26 +30,6 @@ public class UserProfile implements Serializable {
         return id;
     }
 
-    private void setId(int id) {
-        if (id <= 0)
-            throw new IllegalArgumentException();
-        this.id = id;
-    }
-
-
-    @Column(name = "user_id")
-    private int user_id;
-
-    public int getUser_Id() {
-        return user_id;
-    }
-
-    private void setUser_Id(int user_id) {
-        if (user_id <= 0)
-            throw new IllegalArgumentException();
-        this.user_id = user_id;
-    }
-
 
     @Column(name = "firstname")
     private String firstname;
@@ -60,7 +38,7 @@ public class UserProfile implements Serializable {
         return firstname;
     }
 
-    void setFirstname(String firstname) {
+    public void setFirstname(String firstname) {
         if(firstname == null)
             throw new IllegalArgumentException();
         this.firstname = firstname;
@@ -74,7 +52,7 @@ public class UserProfile implements Serializable {
         return lastname;
     }
 
-    void setLastname(String lastname) {
+    public void setLastname(String lastname) {
         if(lastname == null)
             throw new IllegalArgumentException();
         this.lastname = lastname;
@@ -88,7 +66,7 @@ public class UserProfile implements Serializable {
         return email;
     }
 
-    void setEmail(String email) {
+    public void setEmail(String email) {
         if(email == null)
             throw new IllegalArgumentException();
         this.email = email;
@@ -102,7 +80,7 @@ public class UserProfile implements Serializable {
         return phone;
     }
 
-    void setPhone(String phone) {
+    public void setPhone(String phone) {
         if(phone == null)
             throw new IllegalArgumentException();
         this.phone = phone;
@@ -116,7 +94,7 @@ public class UserProfile implements Serializable {
         return mobile;
     }
 
-    void setMobile(String mobile) {
+    public void setMobile(String mobile) {
         if(mobile == null)
             throw new IllegalArgumentException();
         this.mobile = mobile;
@@ -130,23 +108,22 @@ public class UserProfile implements Serializable {
         return description;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         if(description == null)
             throw new IllegalArgumentException();
         this.description = description;
     }
 
-    @OneToOne
-    @JoinColumn(name="user_id")
+
+    @OneToOne (mappedBy="userprofile")
     private User user;
 
     public User getUser() {return user;}
 
-    void setUser(User user) {
+    public void setUser(User user) {
         if(user == null)
             throw new IllegalArgumentException();
         this.user = user;
-        user.setUserProfile(this);
     }
 
     /**
@@ -177,7 +154,7 @@ public class UserProfile implements Serializable {
 
     @Override
     public String toString() {
-        return "UserProfile [id=" + id + ", user_id=" + user_id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", description=" + description + "]";
+        return "UserProfile [firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", description=" + description + "]";
     }
 
 }

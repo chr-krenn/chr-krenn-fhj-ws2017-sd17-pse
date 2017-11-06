@@ -1,9 +1,13 @@
+.userinformation {
+	font-size: 0.8em;
+}
+
 .panel {
 	background-color: lightgrey;
 }
 
 body {
-	background-color: lightblue;
+	background-color: #74B72A;
 }
 
 h1 {
@@ -57,3 +61,20 @@ h2 {
 #header {
 	background-color: grey;
 }
+
+.createForm{
+	background-color: #FFFFF0;
+}
+
+.activityStream {
+	
+	padding-right: 100px;
+	padding-left: 100px;
+}
+.postComments {
+	
+	padding-right: 100px;
+	padding-left: 100px;
+}
+
+

@@ -65,13 +65,15 @@ public class User implements Serializable
 		this.password = passwd;
 	}
 
-	@OneToOne (mappedBy="user")
+	@OneToOne
+    @JoinColumn(name="fk_userprofile")
 	private UserProfile userprofile;
 
 	public void setUserProfile(UserProfile userprofile) {
 		if(userprofile == null)
 			throw new IllegalArgumentException();
 		this.userprofile = userprofile;
+		this.userprofile.setUser(this);
 	}
 
 	public UserProfile getUserProfile() {
@@ -92,9 +94,23 @@ public class User implements Serializable
 	}
 
 
+	@OneToMany(mappedBy="user")
+	private List<UserContact> usercontacts = new ArrayList<>();
+
+	public void addUserContacts(UserContact usercontact) {
+		if(usercontact == null)
+			throw new IllegalArgumentException();
+		usercontacts.add(usercontact);
+	}
+
+	public List<UserContact> getUserContacts(){
+		return usercontacts;
+	}
+
 	/*
 	 * Object methods
 	 */
+
 	@Override
 	public String toString()
 	{

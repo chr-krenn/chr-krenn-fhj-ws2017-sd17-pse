@@ -1,25 +1,59 @@
 package org.se.lab.service;
 
-import static org.junit.Assert.fail;
+import org.easymock.*;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.se.lab.data.Community;
+import org.se.lab.data.CommunityDAO;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.easymock.EasyMock.*;
+import static org.hamcrest.CoreMatchers.is;
 
-public class CommunityServiceTest{
+@RunWith(EasyMockRunner.class)
+public class CommunityServiceTest {
 
-	@Before
-	public void setUp() throws Exception{
-	}
+    public static final int ID = 1;
+    public static final String NAME = "name";
+    public static final String DESCRIPTION = "description";
+    public static final String APPROVE_STATE = "approve";
+    public static final String PENDING_STATE = "pending";
 
-	@After
-	public void tearDown() throws Exception{
-	}
+    @TestSubject
+    private CommunityService communityService = new CommunityService();
 
-	@Test
-	public void test(){
-		// TODO when service is implemented
-		fail("Not yet implemented");
-	}
+    @Rule
+    public EasyMockRule mocks = new EasyMockRule(this);
 
+    @Mock
+    private CommunityDAO communityDAO;
+
+    @Test
+    public void approve() {
+        Community community = new Community(NAME, DESCRIPTION);
+
+        Community communityResult = new Community(NAME, DESCRIPTION);
+        community.setState(APPROVE_STATE);
+
+        Capture<Community> communityCapture = new Capture<Community>();
+        expect(communityDAO.update(capture(communityCapture))).andReturn(communityResult);
+        replay(communityDAO);
+
+        communityService.approve(community);
+        Assert.assertThat(communityCapture.getValue().getState(), is(APPROVE_STATE));
+    }
+
+    @Test
+    public void request() {
+        Community community = new Community(NAME, DESCRIPTION);
+
+        Community communityResult = new Community(NAME, DESCRIPTION);
+        community.setState(PENDING_STATE);
+
+        Capture<Community> communityCapture = new Capture<Community>();
+        expect(communityDAO.insert(capture(communityCapture))).andReturn(communityResult);
+        replay(communityDAO);
+
+        communityService.request(community);
+        Assert.assertThat(communityCapture.getValue().getState(), is(PENDING_STATE));
+    }
 }

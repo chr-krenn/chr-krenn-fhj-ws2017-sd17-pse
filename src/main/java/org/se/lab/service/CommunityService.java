@@ -1,59 +1,90 @@
 package org.se.lab.service;
 
-import java.util.List;
+import org.apache.log4j.Logger;
+import org.se.lab.data.Community;
+import org.se.lab.data.CommunityDAO;
+import org.se.lab.data.User;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-
-import org.apache.log4j.Logger;
-import org.se.lab.data.Community;
-import org.se.lab.data.CommunityDAOImpl;
-import org.se.lab.data.User;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
-public class CommunityService{
-	private final Logger LOG=Logger.getLogger(CommunityService.class);
+public class CommunityService {
+    public static final String PENDING = "pending";
+    public static final String APPROVE = "approve";
+    private final Logger LOG = Logger.getLogger(CommunityService.class);
 
-	@Inject
-	private CommunityDAOImpl dao;
+    @Inject
+    private CommunityDAO dao;
 
-	public List<Community> getApproved(){
-		// TODO get all communities with status=approved
-		return null;
-	}
+    public List<Community> findAll() {
+        try {
+            return dao.findAll();
+        } catch (Exception e) {
+            throw new ServiceException("Error during findAll Communities", e);
+        }
+    }
 
-	public List<Community> getPending(){
-		// TODO get all communities with status=pending
-		return null;
-	}
+    public List<Community> getApproved() {
+        return findAll().stream().filter(line -> APPROVE.equals(line.getState())).collect(Collectors.toList());
+    }
 
-	public void delete(Community article){
-		LOG.debug("delete "+article);
+    public List<Community> getPending() {
+        return findAll().stream().filter(line -> PENDING.equals(line.getState())).collect(Collectors.toList());
+    }
 
-		// TODO
-	}
+    public void delete(Community community) {
+        LOG.debug("delete " + community);
 
-	public void update(Community article){
-		LOG.debug("update "+article);
+        try {
+            dao.delete(community);
+        } catch (Exception e) {
+            LOG.error("Can't delete community " + community);
+            throw new ServiceException("Can't delete community " + community, e);
+        }
+    }
 
-		// TODO
-	}
+    public void update(Community community) {
+        LOG.debug("update " + community);
 
-	public void join(Community article,User user){
-		LOG.debug("adding "+user+" to "+article);
+        try {
+            dao.update(community);
+        } catch (Exception e) {
+            LOG.error("Can't update community " + community);
+            throw new ServiceException("Can't update community " + community, e);
+        }
+    }
 
-		// TODO add user to community
-	}
+    public void join(Community community, User user) {
+        LOG.debug("adding " + user + " to " + community);
 
-	public void request(Community article){
-		LOG.debug("request "+article);
+        if (community != null && user != null) {
+            community.addUsers(user);
+            update(community);
+        } else {
+            LOG.error("Can't join user " + user + " to community " + community);
+            throw new ServiceException("Can't join user " + user + " to community " + community);
+        }
+    }
 
-		// TODO insert and status=pending
-	}
+    public void request(Community community) {
+        LOG.debug("request " + community);
+        community.setState(PENDING);
 
-	public void approve(Community article){
-		LOG.debug("approve "+article);
+        try {
+            dao.insert(community);
+        } catch (Exception e) {
+            LOG.error("Can't insert community " + community);
+            throw new ServiceException("Can't insert community " + community, e);
+        }
+    }
 
-		// TODO update status=approved
-	}
+    public void approve(Community community) {
+        LOG.debug("approve " + community);
+        community.setState(APPROVE);
+
+        update(community);
+    }
 }

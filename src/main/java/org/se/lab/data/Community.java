@@ -19,8 +19,7 @@ public class Community implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public Community(int id, String name, String description) {
-		setId(id);
+	public Community(String name, String description) {
 		setName(name);
 		setDescription(description);
 		setState("pending");
@@ -71,9 +70,9 @@ public class Community implements Serializable {
 	}
 
 	@ManyToMany
-	@JoinTable(name = "User_Community", 
-	joinColumns = @JoinColumn(name = "FK_UserID", referencedColumnName = "UserID"), 
-	inverseJoinColumns = @JoinColumn(name = "FK_CommunityID"))
+	@JoinTable(name = "user_community", 
+	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "community_id"))
 	private List<User> users = new ArrayList<User>();
 
 	public List<User> getUsers() {

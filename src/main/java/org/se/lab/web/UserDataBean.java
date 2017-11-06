@@ -1,179 +1,226 @@
 package org.se.lab.web;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.log4j.Logger;
+import org.primefaces.model.StreamedContent;
+import org.se.lab.data.*;
+import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.log4j.Logger;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.se.lab.data.User;
-import org.se.lab.data.Community;
-import org.se.lab.service.UserService;
-
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Named
 @RequestScoped
-public class UserDataBean implements Serializable
-{
-	private static final long serialVersionUID = 1L;
+public class UserDataBean implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private final Logger LOG = Logger.getLogger(UserDataBean.class);
+    Flash flash;
+    FacesContext context;
+    private StreamedContent photo;
+    @Inject
+    private UserService service;
+    private User user;
+    private UserProfile userProfile;
+    private User dummyUser = new User(2, "bob", "pass");
+    private List<UserContact> contacts;
+    private List<Community> communities;
+    private String id = "";
+    private int userId = 0;
 
-	private StreamedContent photo;
-	
-	private final Logger LOG = Logger.getLogger(DataBean.class);
-	
-	@Inject
-	private UserService service;
-	
-	private User user;
-	private User dummyUser = new User(2, "bob", "pass");
-	
-	private List<User> contacts;
-	private List<Community> communities;
-	
-	@PostConstruct
-	public void init() 
-	{
-		contacts = new ArrayList<User>();
-		communities = new ArrayList<Community>();
+    @PostConstruct
+    public void init() {
+        contacts = new ArrayList<UserContact>();
+        communities = new ArrayList<Community>();
+
+        context = FacesContext.getCurrentInstance();
+
 		/*
-		 * Suchen aller Kontakte zur ID dieses Users - must be done!
+         * FG Info Flash: We need flash to make the param survive one redirect request
+		 * otherwise param will be null
 		 */
-		//contacts = this.findAllContacts(0);
-		
+        flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+
 		/*
-		 * Suchen aller Communities zur ID dieses Users - must be done!
+		 * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
+		 * 
 		 */
-				//communities = this.findAllCommunities();
-		
-		
-		//Dummy Data
-		contacts.add(new User(40,"User40","**"));
-		contacts.add(new User(41,"User41","**"));
-		contacts.add(new User(42,"User42","**"));
-		
-		communities.add(new Community(1,"C1","NewC1"));
-		communities.add(new Community(2,"C2","NewC2"));
-		communities.add(new Community(3,"C3","NewC3"));
-		
-		//Sollte gehen - wurde etwas in der DB geändert??
-		//Userdaten von dem User werden im Profil angezeigt
-		//user = this.getUser(1);
-		
-		
-		//Activate when function in service works
-		//contacts = this.findAllContacts();
-		
-		
-		
+
+        Map<String, Object> session = context.getExternalContext().getSessionMap();
+
+
+        id = context.getExternalContext().getRequestParameterMap().get("userid");
+
+        flash.put("uid", id);
+
+
+        String userProfId = (String) context.getExternalContext().getFlash().get("uid");
+
+
+        System.out.println("userProfId: " + userProfId);
+
+        if (session.size() != 0 && session.get("user") != null) {
+
+            userId = (int) session.get("user");
+            System.out.println("SESSIOn UID: " + userId);
+        } else {
+			/*
+			 * If session is null - redirect to login page!
+			 * 
+			 */
+            try {
+                context.getExternalContext().redirect("/pse/login.xhtml");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+
+        // Dummy Data
+        // contacts.add(new UserContact(40, userBob, 1));
+        // contacts.add(new UserContact(41, userBob, 4));
+        // contacts.add(new UserContact(42, userBob,3));
+
+        communities.add(new Community("C1", "NewC1"));
+        communities.add(new Community("C2", "NewC2"));
+        communities.add(new Community("C3", "NewC3"));
+
+        if (userProfId != null) {
+
+            //Dummy User to show
+            user = new User(10, "Max", "****");
+
+            //Get selected UserProfile from Overview Page - DAO Method does not work
+            // user = service.findById(Integer.parseInt(userProfId));
+
+        } else {
+
+            // DAO does not work - use Dummy Data instead
+            user = this.getUser(userId);
+        }
+
 		/*
-		File chartFile = new File("dynamichart");
-		try {
-			photo = new DefaultStreamedContent(new FileInputStream(chartFile), "image/png");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-	}
-	
-public User getUser(int id)
-{
-	return service.findById(id);
-}
-	
-/*
- * Diese Methode sollte auf den Service zugreifen welcher eine Methode bereitstellt die alle Kontakte zu einem 
- * bestimmten User(einer ID) zurück liefert
- */
+		 * Activate when DAO works
+		 */
+        //contacts = service.getAllContactsByUser(user);
 
-public List<User> findAllContacts()
-{
-	//
-	//return null;
-	return service.getAllContactsBy(user);
-}	
+		/*
+		 * Suchen aller Communities zur ID dieses Users 
+		 */
+        //communities = user.getCommunities();
+
+        userProfile = service.getUserProfilById(user.getId());
 
 
-/*
- * Diese Methode sollte auf den Service zugreifen welcher eine Methode bereitstellt die alle Communities zu einem 
- * bestimmten User(einer ID) zurück liefert
- */
 
-public List<Community> findAllCommunities()
-{
-	return null;
-	//To be activated if method exists in userService - to be done from backend team!!
-	//return service.getAllCommunitiesBy(user);
-}
+		/*
+		 * File chartFile = new File("dynamichart"); try { photo = new
+		 * DefaultStreamedContent(new FileInputStream(chartFile), "image/png"); } catch
+		 * (FileNotFoundException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 */
+    }
+
+    public User getUser(int id) {
+        return service.findById(id);
+    }
+
+	/*
+	 * Diese Methode sollte auf den Service zugreifen welcher eine Methode
+	 * bereitstellt die alle Kontakte zu einem bestimmten User(einer ID) zurück
+	 * liefert
+	 */
 
 
-public String refresh()
-{
-	LOG.info("update");		
-	user = this.getUser(1);
-	return "";
-}
+
+	/*
+	 * Diese Methode sollte auf den Service zugreifen welcher eine Methode
+	 * bereitstellt die alle Communities zu einem bestimmten User(einer ID) zurück
+	 * liefert
+	 */
+
+    public List<Community> findAllCommunities() {
+        return null;
+        // To be activated if method exists in userService - to be done from backend
+        // team!!
+        // return service.getAllCommunitiesBy(user);
+    }
 
 	/*
 	 * Actions
 	 */
-	
-	public User getUser() {
-	return user;
-}
 
-public void setUser(User user) {
-	this.user = user;
-}
+    public User getUser() {
+        return user;
+    }
 
-	public StreamedContent getPhoto() {
-		return photo;
-	}
-	
-	/*
-	 * To Be Done: Welcher User bin ich? (Login merken) und auf welchem Profil bin ich gerade?
-	 * Kann zb über die Id die im Profil angezeigt wird bestimmt werden.
-	 */
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-public void addContact()
-{
+    public StreamedContent getPhoto() {
+        return photo;
+    }
 
-	service.addContact(dummyUser,user );
-	
-}
+    public void setPhoto(StreamedContent photo) {
+        this.photo = photo;
+    }
 
+    public void addContact() {
 
+        //Activate when DAO works
+        //User u = service.findById(userId);
+        User u = new User(4, "frank", "pass");
 
-	public void setPhoto(StreamedContent photo) {
-		this.photo = photo;
-	}
-
-	public List<User> getContacts() {
-		return contacts;
-	}
-
-	public void setContacts(List<User> contacts) {
-		this.contacts = contacts;
-	}
-
-	public List<Community> getCommunities() {
-		return communities;
-	}
-
-	public void setCommunities(List<Community> communities) {
-		this.communities = communities;
-	}
+        String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
 
 
+        System.out.println("contactName " + contactName);
+        System.out.println("u " + u.getId());
+        System.out.println("userid " + userId);
+
+//		Activate when DAO works
+//		service.addContact(u, contactName);
+
+
+    }
+
+    public List<UserContact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<UserContact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public List<Community> getCommunities() {
+        return communities;
+    }
+
+    public void setCommunities(List<Community> communities) {
+        this.communities = communities;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile info) {
+        this.userProfile = info;
+    }
+
+    public String redirect() {
+        return "/profile.xhtml?faces-redirect=true";
+    }
 
 
 }

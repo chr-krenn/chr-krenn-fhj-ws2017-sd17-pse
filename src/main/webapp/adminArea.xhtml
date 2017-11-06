@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+    <h:form>
+        <div id="header">
+			<ui:insert name="header">
+				<ui:include src="templates/header.xhtml" />
+			</ui:insert>
+			<h:outputStylesheet library="css" name="style.css" />
+		</div>
+	<div class="communitylist">
+		<h2>Pending Communities</h2>
+		<p:repeat value="#{AdminDataBean.requestedCommunityList}"
+			var="requestedCommunityList">
+			<h:panelGrid columns="2" style="width:100%"
+				columnClasses="logo,detail">
+				<p:outputPanel>
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="Id:" />
+						<h:outputText value="#{requestedCommunityList.id}" />
+						<h:outputText value="Username" />
+						<h:outputText value="#{requestedCommunityList.name}"
+							style="font-weight: bold" />
+						<h:outputText value="Description" />
+						<h:outputText value="#{requestedCommunityList.description}"
+							style="font-weight: bold" />
+					</h:panelGrid>
+				</p:outputPanel>
+			</h:panelGrid>
+			<hr />
+		</p:repeat>
+        </div>
+        <div>
+		<p:commandButton value="Decline Community"
+			action="#{AdminDataBean.declineRequestedCommunity()}" />
+		<p:commandButton value="Approve Community"
+			action="#{AdminDataBean.approveRequestedCommunity()}" />
+	   </div>
+        <div id="footer">
+			<ui:insert name="footer">
+				<ui:include src="templates/footer.xhtml" />
+			</ui:insert>
+		</div>
+    </h:form>
+</h:body>
+</html>

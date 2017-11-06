@@ -15,6 +15,18 @@
         </ui:insert>
         <h:outputStylesheet library = "css" name = "style.css"  />
     </div>
+    <div id="createcommunity" class="createForm">
+    	<h3>Create a community</h3>
+    	<p:messages id="messages" />
+		<p:panelGrid columns="2">
+    		<p:outputLabel for="communityName" value="Community Name" />
+			<p:inputText id="communityName" value="#{communityDataBean.newCommunityName}" />
+			<p:outputLabel for="communityDescription" value="Community Description" />
+			<p:inputTextarea id="communityDescription" value="#{communityDataBean.newCommunityDescription}" />			
+			<p:commandButton value="Create" icon="ui-icon-star"
+				action="#{communityDataBean.createNewCommunity()}" disabled="false" ajax="false" />
+		</p:panelGrid>
+    </div>
     <div id="overview">
     <p:dataGrid var="community" value="#{communityOverviewBean.communities}" columns="3" layout="grid"
         rows="12" paginator="true" id="communities"

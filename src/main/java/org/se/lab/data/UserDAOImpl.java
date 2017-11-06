@@ -4,21 +4,22 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 class UserDAOImpl
 	implements UserDAO
 {
 	private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
-		
+
 	@PersistenceContext
 	private EntityManager em;
 
-	
+
 	/*
 	 * CRUD Operations
-	 */	
-	
+	 */
+
 	@Override
 	public User insert(User article)
 	{
@@ -76,7 +77,9 @@ class UserDAOImpl
 
 	@Override
 	public User findByUsername(String username) {
-		//TODO implement
-		return null;
+		Query query = this.em.createQuery("SELECT u FROM User u WHERE u.username =:username");
+		query.setParameter("username", username);
+		return (User) query.getSingleResult();
+		//return em.find(User.class, username);
 	}
 }

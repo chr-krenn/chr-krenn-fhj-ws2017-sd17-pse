@@ -1,15 +1,16 @@
 -- tables
 -- Table: community
 CREATE TABLE community (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     name varchar(256) NOT NULL,
     status varchar(64) NOT NULL,
+    description varchar(256),
     CONSTRAINT community_pk PRIMARY KEY (id)
 );
 
 -- Table: contact
 CREATE TABLE contact (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     user_id int NOT NULL,
     contact_id int NOT NULL,
     CONSTRAINT contact_pk PRIMARY KEY (id)
@@ -17,7 +18,7 @@ CREATE TABLE contact (
 
 -- Table: post
 CREATE TABLE post (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     user_id int NOT NULL,
     community_id int NOT NULL,
     parent_post_id int NULL,
@@ -28,7 +29,7 @@ CREATE TABLE post (
 
 -- Table: private_message
 CREATE TABLE private_message (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     from_id int NOT NULL,
     to_id int NOT NULL,
     text varchar(1024) NOT NULL,
@@ -38,7 +39,7 @@ CREATE TABLE private_message (
 
 -- Table: user_community
 CREATE TABLE user_community (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     user_id int NOT NULL,
     community_id int NOT NULL,
     CONSTRAINT user_community_pk PRIMARY KEY (id)
@@ -46,8 +47,7 @@ CREATE TABLE user_community (
 
 -- Table: userprofile
 CREATE TABLE userprofile (
-    id int NOT NULL,
-    user_id int NOT NULL,
+    id int AUTO_INCREMENT,
     firstname varchar(64) NOT NULL,
     lastname varchar(64) NOT NULL,
     email varchar(256) NOT NULL,
@@ -60,12 +60,30 @@ CREATE TABLE userprofile (
 
 -- Table: users
 CREATE TABLE users (
-    id int NOT NULL,
+    id int AUTO_INCREMENT,
     username varchar(64) NOT NULL,
     password varchar(64) NOT NULL,
     role varchar(64) NOT NULL,
+    fk_userprofile int,
     created timestamp NOT NULL,
     CONSTRAINT users_pk PRIMARY KEY (id)
+);
+
+-- Table: enumeration
+CREATE TABLE enumeration (
+	id int AUTO_INCREMENT,
+	name varchar(64) NOT NULL,
+	CONSTRAINT enumeration_pk PRIMARY KEY (id)
+);
+
+-- Table: enumeration_item
+CREATE TABLE enumeration_item (
+	id int AUTO_INCREMENT,
+	enumeration_id int NOT NULL,
+	post_id int,
+	user_id int,
+	community_id int,
+	CONSTRAINT enumeration_item_pk PRIMARY KEY (id)
 );
 
 -- foreign keys
@@ -97,9 +115,22 @@ ALTER TABLE user_community ADD CONSTRAINT user_community_community FOREIGN KEY u
 ALTER TABLE user_community ADD CONSTRAINT user_community_users FOREIGN KEY user_community_users (user_id)
     REFERENCES users (id);
 
--- Reference: userprofile_users (table: userprofile)
-ALTER TABLE userprofile ADD CONSTRAINT userprofile_users FOREIGN KEY userprofile_users (user_id)
-    REFERENCES users (id);
+-- Reference: userprofile_users (table: users)
+ALTER TABLE users ADD CONSTRAINT user_userprofile FOREIGN KEY users (fk_userprofile) 
+	REFERENCES userprofile (id);
 
+-- Reference: enumeration_item
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_enumeration 
+	FOREIGN KEY enumeration_item_enumeration (enumeration_id) REFERENCES enumeration (id);
+	
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_user 
+	FOREIGN KEY enumeration_item_user (user_id) REFERENCES users (id);
+	
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_post 
+	FOREIGN KEY enumeration_item_post (post_id) REFERENCES post (id);
+
+ALTER TABLE enumeration_item ADD CONSTRAINT enumeration_item_community 
+	FOREIGN KEY enumeration_item_community (community_id) REFERENCES community (id);
+    
 -- End of file.
 
