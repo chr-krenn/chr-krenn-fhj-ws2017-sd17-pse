@@ -18,78 +18,72 @@ import java.util.Map;
 @Named
 @RequestScoped
 public class LoginBean implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final Logger LOG = Logger.getLogger(DataBean.class);
+    private final Logger LOG = Logger.getLogger(DataBean.class);
 
-	private String username;
-	private String password;
+    private String username;
+    private String password;
+    @Inject
+    private UserService service;
+    private User user;
 
-	@PostConstruct
-	public void init() {
+    @PostConstruct
+    public void init() {
 
-	}
+    }
 
-	@Inject
-	private UserService service;
+    public String getUsername() {
+        return username;
+    }
 
-	private User user;
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String doLogin() {
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+        try {
+            user = service.login(getUsername(), getPassword());
+        } catch (Exception e) {
+            //TODO correct?
+            LOG.error("Wrong credentials");
+            return "login.xhtml?faces-redirect=true";
+        }
 
-	public String doLogin() {
+        if (user != null) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().getSessionMap().put("user", user.getId());
 
-		// Wenn die Methode funktioniert einkommentieren und Dummy-User eliminieren!
-		/*
-		 * Update Björn 5.11. -> DAO Methode fehlt
-		 */
-		//user = service.login(getUsername(),getPassword());
+            Map<String, Object> session = context.getExternalContext().getSessionMap();
 
+            for (String key : session.keySet()) {
+                System.out.println(key + ": " + session.get(key));
+            }
 
-		//DUMMY User bis die DAO Methode funktioniert
-		user = new User(2, "bob", "pass");
+            return "/activityStream.xhtml?faces-redirect=true";
+            //return "/profile.xhtml?faces-redirect=true";
 
-		
-
-		if (user != null) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.getExternalContext().getSessionMap().put("user", user.getId());
-
-			Map<String, Object> session = context.getExternalContext().getSessionMap();
-
-			for (String key : session.keySet()) {
-				System.out.println(key + ": " + session.get(key));
-			}
-			
-			return "/activityStream.xhtml?faces-redirect=true";
-			//return "/profile.xhtml?faces-redirect=true";
-
-		} else {
+        } else {
 			/*
 			 * Vielleicht hier noch auf eine Error-Page umleiten?
 			 */
-			return "";
-		}
+            return "";
+        }
 
-	}
+    }
 
-	public String logout() {
-		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return "/login.xhtml?faces-redirect=true";
-	}
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
+    }
 
 }

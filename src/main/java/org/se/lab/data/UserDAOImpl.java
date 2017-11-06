@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 class UserDAOImpl
@@ -76,6 +77,9 @@ class UserDAOImpl
 
 	@Override
 	public User findByUsername(String username) {
-		return em.find(User.class, username);
+		Query query = this.em.createQuery("SELECT u FROM User u WHERE u.username =:username");
+		query.setParameter("username", username);
+		return (User) query.getSingleResult();
+		//return em.find(User.class, username);
 	}
 }
