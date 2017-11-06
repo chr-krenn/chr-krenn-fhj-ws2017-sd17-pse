@@ -94,13 +94,10 @@ public class UserDataBean implements Serializable {
         communities.add(new Community("C2", "NewC2"));
         communities.add(new Community("C3", "NewC3"));
 
-        if (userProfId != null) {
-
-            //Dummy User to show
-            user = new User(10, "Max", "****");
-
+        if (userProfId != null)
+        {
             //Get selected UserProfile from Overview Page - DAO Method does not work
-            // user = service.findById(Integer.parseInt(userProfId));
+            user = service.findById(Integer.parseInt(userProfId));
 
         } else {
 

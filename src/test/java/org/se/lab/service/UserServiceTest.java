@@ -61,13 +61,13 @@ public class UserServiceTest {
         userService.insert(user1);
     }
 
-    @Ignore //cant handle because of mock doesn`t have an exception in method signature
-    @Test(expected = ServiceException.class)
-    public void insert_ThrowException() {
-        expect(userDAO.insert(user1)).andThrow(new Exception());
-        replay();
-        userService.insert(user1);
-    }
+//    @Ignore //cant handle because of mock doesn`t have an exception in method signature
+//    @Test(expected = ServiceException.class)
+//    public void insert_ThrowException() {
+//        expect(userDAO.insert(user1)).andThrow(new Exception());
+//        replay();
+//        userService.insert(user1);
+//    }
 
     @Test
     public void delete_Successful() {
