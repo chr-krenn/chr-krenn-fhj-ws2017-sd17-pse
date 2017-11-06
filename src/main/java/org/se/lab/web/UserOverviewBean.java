@@ -26,13 +26,16 @@ public class UserOverviewBean {
 
     @Inject
     UserService service;
+
+
+    private List<UserProfile> profiles;
+    private UserProfile selectedProfile;
+
     /*
      * Properties for Session
      */
     Flash flash;
     FacesContext context;
-    private List<UserProfile> profiles;
-    private UserProfile selectedProfile;
     private String id = "";
     private int userId = 0;
 
