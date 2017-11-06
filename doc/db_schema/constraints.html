@@ -31,7 +31,7 @@
 <div class='indent'>
 <table width='100%'>
 <tr><td class='container' valign='bottom'><b>
-8 Foreign Key Constraints:</b>
+12 Foreign Key Constraints:</b>
 </td><td class='container' align='right'>
 <table>
   <tr><td class='container' align='right' valign='top'><a href='http://sourceforge.net' target='_blank'><img src='http://sourceforge.net/sflogo.php?group_id=137197&amp;type=1' alt='SourceForge.net' border='0' height='31' width='88'></a></td></tr>
@@ -56,6 +56,34 @@
   <tr class='even'>
   <td class='detail'>contact_users</td>
   <td class='detail'><a href='tables/contact.html'>contact</a>.user_id</td>
+  <td class='detail'><a href='tables/users.html'>users</a>.id</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
+  <td class='detail'>enumeration_item_community</td>
+  <td class='detail'><a href='tables/enumeration_item.html'>enumeration_item</a>.community_id</td>
+  <td class='detail'><a href='tables/community.html'>community</a>.id</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
+  <td class='detail'>enumeration_item_enumeration</td>
+  <td class='detail'><a href='tables/enumeration_item.html'>enumeration_item</a>.enumeration_id</td>
+  <td class='detail'><a href='tables/enumeration.html'>enumeration</a>.id</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
+  <td class='detail'>enumeration_item_post</td>
+  <td class='detail'><a href='tables/enumeration_item.html'>enumeration_item</a>.post_id</td>
+  <td class='detail'><a href='tables/post.html'>post</a>.id</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
+  <td class='detail'>enumeration_item_user</td>
+  <td class='detail'><a href='tables/enumeration_item.html'>enumeration_item</a>.user_id</td>
   <td class='detail'><a href='tables/users.html'>users</a>.id</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
@@ -103,9 +131,9 @@
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>userprofile_users</td>
-  <td class='detail'><a href='tables/userprofile.html'>userprofile</a>.user_id</td>
-  <td class='detail'><a href='tables/users.html'>users</a>.id</td>
+  <td class='detail'>user_userprofile</td>
+  <td class='detail'><a href='tables/users.html'>users</a>.fk_userprofile</td>
+  <td class='detail'><a href='tables/userprofile.html'>userprofile</a>.id</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>

@@ -88,10 +88,16 @@
  <td class='detail'>int</td>
  <td class='detail' align='right'>10</td>
  <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
+ <td class='detail' align='center' title='Automatically updated by the database'>&nbsp;&radic;&nbsp;</td>
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
+   <tr class='relative even' valign='top'>
+    <td class='relatedTable detail' title="enumeration_item.community_id refs community.id via enumeration_item_community"><a href='enumeration_item.html'>enumeration_item</a><span class='relatedKey'>.community_id</span>
+    </td>
+    <td class='constraint detail'>enumeration_item_community<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
    <tr class='relative even' valign='top'>
     <td class='relatedTable detail' title="post.community_id refs community.id via post_community"><a href='post.html'>post</a><span class='relatedKey'>.community_id</span>
     </td>
@@ -131,8 +137,19 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
+<tr class='odd'>
+ <td class='detail'>description</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>256</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
 </table>
-<p title='3 columns'>Table contained 2 rows at Tue Oct 31 08:56 CET 2017<p/>
+<p title='4 columns'>Table contained 2 rows at Mon Nov 06 09:26 CET 2017<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -158,16 +175,19 @@
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from community'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="post.html" title="post" alt="" coords="248,5,380,208">
-<area shape="rect" id="node2" href="community.html" title="community" alt="" coords="5,161,203,297">
-<area shape="rect" id="node3" href="user_community.html" title="user_community" alt="" coords="247,225,381,356">
+<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="425,28,571,207">
+<area shape="rect" id="node2" href="community.html" title="community" alt="" coords="5,191,203,351">
+<area shape="rect" id="node3" href="post.html" title="post" alt="" coords="248,5,380,208">
+<area shape="rect" id="node4" href="user_community.html" title="user_community" alt="" coords="247,261,381,392">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/community.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="post.html" title="post" alt="" coords="248,5,380,208">
-<area shape="rect" id="node2" href="community.html" title="community" alt="" coords="5,236,203,372">
-<area shape="rect" id="node3" href="users.html" title="users" alt="" coords="44,65,164,148">
-<area shape="rect" id="node4" href="user_community.html" title="user_community" alt="" coords="247,225,381,356">
+<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="425,121,571,300">
+<area shape="rect" id="node2" href="community.html" title="community" alt="" coords="5,335,203,495">
+<area shape="rect" id="node3" href="enumeration.html" title="enumeration" alt="" coords="254,5,374,88">
+<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="248,289,380,492">
+<area shape="rect" id="node5" href="users.html" title="users" alt="" coords="38,165,170,248">
+<area shape="rect" id="node6" href="user_community.html" title="user_community" alt="" coords="247,141,381,272">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/community.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>

@@ -20,10 +20,12 @@ digraph "oneDegreeRelationshipsDiagram" {
     arrowsize="0.8"
   ];
   "contact":"user_id":w -> "users":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "enumeration_item":"post_id":w -> "post":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "enumeration_item":"user_id":w -> "users":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
   "post":"user_id":w -> "users":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
   "private_message":"from_id":w -> "users":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
   "user_community":"user_id":w -> "users":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
-  "userprofile":"user_id":w -> "users":"id.type":e [arrowhead=none dir=back arrowtail=crowodot];
+  "users":"fk_userprofile":w -> "userprofile":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "contact" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
@@ -36,6 +38,20 @@ digraph "oneDegreeRelationshipsDiagram" {
     URL="contact.html"
     tooltip="contact"
   ];
+  "enumeration_item" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">enumeration_item</TD></TR>
+      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
+      <TR><TD PORT="enumeration_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">enumeration_id</TD></TR>
+      <TR><TD PORT="post_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">post_id</TD></TR>
+      <TR><TD PORT="user_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">user_id</TD></TR>
+      <TR><TD PORT="community_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">community_id</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="enumeration_item.html"
+    tooltip="enumeration_item"
+  ];
   "post" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
@@ -46,7 +62,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="parent_post_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">parent_post_id</TD></TR>
       <TR><TD PORT="text" COLSPAN="3" ALIGN="LEFT">text</TD></TR>
       <TR><TD PORT="created" COLSPAN="3" ALIGN="LEFT">created</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
     </TABLE>>
     URL="post.html"
     tooltip="post"
@@ -82,7 +98,6 @@ digraph "oneDegreeRelationshipsDiagram" {
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">userprofile</TD></TR>
       <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
-      <TR><TD PORT="user_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">user_id</TD></TR>
       <TR><TD PORT="firstname" COLSPAN="3" ALIGN="LEFT">firstname</TD></TR>
       <TR><TD PORT="lastname" COLSPAN="3" ALIGN="LEFT">lastname</TD></TR>
       <TR><TD PORT="email" COLSPAN="3" ALIGN="LEFT">email</TD></TR>
@@ -90,7 +105,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="mobile" COLSPAN="3" ALIGN="LEFT">mobile</TD></TR>
       <TR><TD PORT="description" COLSPAN="3" ALIGN="LEFT">description</TD></TR>
       <TR><TD PORT="created" COLSPAN="3" ALIGN="LEFT">created</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
     URL="userprofile.html"
     tooltip="userprofile"
@@ -103,8 +118,9 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="username" COLSPAN="2" ALIGN="LEFT">username</TD><TD PORT="username.type" ALIGN="LEFT">varchar[64]</TD></TR>
       <TR><TD PORT="password" COLSPAN="2" ALIGN="LEFT">password</TD><TD PORT="password.type" ALIGN="LEFT">varchar[64]</TD></TR>
       <TR><TD PORT="role" COLSPAN="2" ALIGN="LEFT">role</TD><TD PORT="role.type" ALIGN="LEFT">varchar[64]</TD></TR>
+      <TR><TD PORT="fk_userprofile" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_userprofile</TD><TD PORT="fk_userprofile.type" ALIGN="LEFT">int[10]</TD></TR>
       <TR><TD PORT="created" COLSPAN="2" ALIGN="LEFT">created</TD><TD PORT="created.type" ALIGN="LEFT">timestamp[19]</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 0</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">5 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">5 &gt;</TD></TR>
     </TABLE>>
     URL="users.html"
     tooltip="users"
