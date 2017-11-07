@@ -13,7 +13,7 @@ public class UserContactTest {
     @Before
     public void setUp() throws Exception{
         //TODO: how do i know the id?
-        u = new User(1, "testuser", "*****");
+        u = new User("testuser", "*****");
         uc = new UserContact(u,2);
     }
 
@@ -42,7 +42,8 @@ public class UserContactTest {
 
     @Test
     public void testToString() {
-        String s = "UserContacts [userId=1, contactId=2]";
+        String s = "UserContacts [userId=0, contactId=2]";
+        System.out.println(uc.toString());
         Assert.assertTrue(uc.toString().equals(s));
     }
 
