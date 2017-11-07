@@ -10,12 +10,10 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	@Override
 	@Test
 	public void testCreate() {
-		tx.begin();
 		com = new Community("TestDAOCommunity", "Community to test CommunityDAO");
 		user = new User("TestUser", "*****");
 		user.setId(1);
 		com.addUsers(user);
-		tx.commit();
 	}
 
 	@Override

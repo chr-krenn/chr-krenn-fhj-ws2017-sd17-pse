@@ -18,12 +18,11 @@ public class PostDAOTest extends AbstractDAOTest {
 		dao.setEntityManager(em);
 	}
 
+	@Test
 	public void testPersistPost() {
-		em.getTransaction().begin();
 		em.persist(user);
 		em.persist(community);
 		em.persist(post);
-		em.getTransaction().commit();
 	}
 
 	@Test
