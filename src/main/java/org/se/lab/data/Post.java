@@ -37,7 +37,6 @@ public class Post implements Serializable {
 	private static final String CREATED_NULL_ERROR = "The given created timestamp must not be null";
 	private static final String SELF_REFERENTIAL_ERROR = "The given parent post must not be the same as this post";
 	private static final String LIKE_NULL_ERROR = "The given Like (EnumerationItem) must not be null";
-
 	private static final String LIKE_FALSE_POST_ERROR = "The given Like (EnumerationItem) does not belong to this Post";
 	
 	

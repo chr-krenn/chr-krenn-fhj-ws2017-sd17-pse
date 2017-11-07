@@ -38,12 +38,16 @@ public abstract class AbstractDAOTest {
 
 	@Before
 	public void setup() {
-		
+		tx.begin();
 	}
 	
 	@After
 	public void teardown() {
+		tx.commit();
 		
+		if (tx.isActive() ) {
+			tx.rollback();
+		}
 	}
 	
 	abstract public void testCreate();
