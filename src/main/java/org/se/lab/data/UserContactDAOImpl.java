@@ -13,6 +13,10 @@ public class UserContactDAOImpl implements UserContactDAO {
     @PersistenceContext
     private EntityManager em;
 
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
+
     @Override
     public UserContact insert(UserContact contact) {
         LOG.info("insert(" + contact + ")");
@@ -33,7 +37,8 @@ public class UserContactDAOImpl implements UserContactDAO {
         em.remove(contact);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<UserContact> findAll() {
         LOG.info("findAll()");
         final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc";
@@ -50,4 +55,6 @@ public class UserContactDAOImpl implements UserContactDAO {
     public boolean doesContactExist(int id) {
         return findById(id) != null;
     }
+
+
 }

@@ -3,7 +3,12 @@ package org.se.lab.data;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public class CommunityDAOImpl implements CommunityDAO{
 
@@ -31,22 +36,52 @@ public class CommunityDAOImpl implements CommunityDAO{
 	}
 
 	@Override
-	public Community findByName(String name) {
-		return em.find(Community.class, name);
+	public Community findById(int id) {
+		return em.find(Community.class, id);
 	}
+	
+	@Override
+	public Community findByName(String name) {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
+		Root<Community> community = criteria.from(Community.class);
+		criteria.where(builder.equal(community.get("name"), name));
+		TypedQuery<Community> query = em.createQuery(criteria);
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}	
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Community> findPendingCommunities() {
-		final String hql = "SELECT c FROM community WHERE c.state like pending";
-		return em.createQuery(hql).getResultList();
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
+		Root<Community> community = criteria.from(Community.class);
+		criteria.where(builder.equal(community.get("state"), "pending"));
+		TypedQuery<Community> query = em.createQuery(criteria);
+		try {
+			return query.getResultList();
+		} catch (NoResultException e) {
+			return null;
+		}
+		//final String hql = "SELECT c FROM community c WHERE c.state like pending";
+		//return em.createQuery(hql).getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Community> findApprovedCommunities() {
-		final String hql = "SELECT c FROM community WHERE c.state like approved";
-		return em.createQuery(hql).getResultList();
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
+		Root<Community> community = criteria.from(Community.class);
+		criteria.where(builder.equal(community.get("state"), "approved"));
+		TypedQuery<Community> query = em.createQuery(criteria);
+		try {
+			return query.getResultList();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -65,5 +100,11 @@ public class CommunityDAOImpl implements CommunityDAO{
 		insert(c);
 		return c;
 	}
+	
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
+
+
 
 }

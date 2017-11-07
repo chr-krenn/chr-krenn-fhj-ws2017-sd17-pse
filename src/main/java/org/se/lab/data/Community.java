@@ -26,7 +26,7 @@ public class Community implements Serializable {
 		setState("pending");
 	}
 
-	protected Community() {
+	Community() {
 	}
 
 	@Id
@@ -44,8 +44,8 @@ public class Community implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name")
-	private String name;
+	@Column(name = "name", nullable = false, unique = false)
+	private  String name;
 
 	public String getName() {
 		return name;

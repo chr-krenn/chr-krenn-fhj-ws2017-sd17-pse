@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.se.lab.data.UserContactDAO;
+import org.se.lab.data.UserContactDAOImpl;
 
 public class UserContactTest {
 
@@ -12,7 +14,6 @@ public class UserContactTest {
 
     @Before
     public void setUp() throws Exception{
-        //TODO: how do i know the id?
         u = new User("testuser", "*****");
         uc = new UserContact(u,2);
     }

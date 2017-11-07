@@ -14,6 +14,11 @@ public class UserProfileDAOImpl implements UserProfileDAO {
     private EntityManager em;
 
 
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
+
+
 	/*
 	 * CRUD Operations
 	 */

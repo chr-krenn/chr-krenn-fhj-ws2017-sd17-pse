@@ -17,7 +17,7 @@ public class User implements Serializable
 		setPassword(password);
 	}
 
-	protected User()
+	public User()
 	{
 	}
 

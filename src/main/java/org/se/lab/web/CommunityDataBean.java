@@ -3,7 +3,6 @@ package org.se.lab.web;
 import org.apache.log4j.Logger;
 import org.se.lab.data.*;
 
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
