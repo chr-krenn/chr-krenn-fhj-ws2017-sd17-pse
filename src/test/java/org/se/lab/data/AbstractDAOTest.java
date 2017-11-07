@@ -46,8 +46,8 @@ public abstract class AbstractDAOTest {
 		
 	}
 	
-	abstract void testCreate();
-	abstract void testModify();
-	abstract void testRemove();
+	abstract public void testCreate();
+	abstract public void testModify();
+	abstract public void testRemove();
 	
 }
