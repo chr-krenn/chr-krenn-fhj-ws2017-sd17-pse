@@ -13,11 +13,9 @@ public class UserProfileTest {
 
     @Before
     public void setUp() throws Exception{
-        //TODO: How to know your database id?
         u = new User("testuser", "*****");
         up = new UserProfile("test", "test", "test", "test" , "test", "test userprofile");
         u.setUserProfile(up);
-
     }
 
     @After

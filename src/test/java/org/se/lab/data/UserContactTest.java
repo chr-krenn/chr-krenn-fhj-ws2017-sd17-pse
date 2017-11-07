@@ -12,7 +12,6 @@ public class UserContactTest {
 
     @Before
     public void setUp() throws Exception{
-        //TODO: how do i know the id?
         u = new User("testuser", "*****");
         uc = new UserContact(u,2);
     }

@@ -14,6 +14,11 @@ public class UserProfileDAOImpl implements UserProfileDAO {
     private EntityManager em;
 
 
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
+
+
 	/*
 	 * CRUD Operations
 	 */
@@ -44,6 +49,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
         LOG.info("findById(" + id + ")");
         return em.find(UserProfile.class, id);
     }
+
 
     @Override
     public List<UserProfile> findAll() {
