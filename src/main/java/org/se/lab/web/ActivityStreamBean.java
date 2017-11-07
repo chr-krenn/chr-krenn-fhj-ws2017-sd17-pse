@@ -30,7 +30,7 @@ public class ActivityStreamBean {
 	private List<Post> parentposts = new ArrayList<Post>();
 
 	private User user;
-	private User dummyUser = new User(2, "bob", "pass");
+	private User dummyUser = new User("bob", "pass");
 
 	private String id = "";
 	private int userId = 0;
@@ -41,16 +41,16 @@ public class ActivityStreamBean {
 	@PostConstruct
 	public void init() {
 		Community com = new Community("C1", "NewC1");
-		user = new User(1, "Harry Hirsch", "pass");
+		user = new User("Harry Hirsch", "pass");
 
 		// DummyData
-		post = new Post(1, null, com, user, "Hello World!", new Date());
+		post = new Post(null, com, user, "Hello World!", new Date());
 		// setParentPost(post);
 		posts = new ArrayList<Post>();
 		posts.add(post);
-		posts.add(new Post(2, post, com, dummyUser, "Whats up Harry?", new Date()));
-		posts.add(new Post(3, post, com, dummyUser, "Let's have a drink tonight!", new Date()));
-		posts.add(new Post(4, null, com, dummyUser, "My first Post on this platform :)", new Date()));
+		posts.add(new Post(post, com, dummyUser, "Whats up Harry?", new Date()));
+		posts.add(new Post(post, com, dummyUser, "Let's have a drink tonight!", new Date()));
+		posts.add(new Post(null, com, dummyUser, "My first Post on this platform :)", new Date()));
 
 		context = FacesContext.getCurrentInstance();
 

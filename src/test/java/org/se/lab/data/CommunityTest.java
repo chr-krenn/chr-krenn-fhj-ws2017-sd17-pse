@@ -38,8 +38,8 @@ public class CommunityTest {
 	@Test
 	public void testUsers() {
 		//setup
-		com.addUsers(new User(1, "testuser", "*****"));
-		com.addUsers(new User(2, "testuser2", "12345"));
+		com.addUsers(new User("testuser", "*****"));
+		com.addUsers(new User("testuser2", "12345"));
 		
 		ArrayList<User> users = (ArrayList<User>) com.getUsers();
 		Assert.assertTrue(users.size() == 2);
@@ -47,7 +47,6 @@ public class CommunityTest {
 		User user1 = users.get(0);
 		User user2 = users.get(1);
 		
-		Assert.assertTrue(user1.getId() == 1);
 		Assert.assertTrue(user1.getUsername() == "testuser");
 		Assert.assertTrue(user1.getPassword() == "*****");
 		

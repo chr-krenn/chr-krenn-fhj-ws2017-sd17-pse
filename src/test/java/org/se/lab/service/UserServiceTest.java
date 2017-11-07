@@ -41,8 +41,8 @@ public class UserServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        user1 = new User(ID, USERNAME, PASSWORD);
-        user2 = new User(2,"username2","pwd");
+        user1 = new User(USERNAME, PASSWORD);
+        user2 = new User("username2","pwd");
 
         userProfile1 = new UserProfile("Max", "Mustermann","max.mustermann@edu.fh-joanneum.at","03161234","06641234567", "test1");
         userProfile2 = new UserProfile("Erika", "Musterfrau","erika.musterfrau@edu.fh-joanneum.at","03165678","066489101112", "test2");
@@ -98,6 +98,8 @@ public class UserServiceTest {
         List<UserContact> userContactList = new ArrayList<>();
         UserContact contact1 = new UserContact(user1, 3);
         UserContact contact2 = new UserContact(user2,2);
+        user1.setId(1);
+        user2.setId(2);
         userContactList.add(contact1);
         userContactList.add(contact2);
 
@@ -132,7 +134,7 @@ public class UserServiceTest {
 
     @Test
     public void getUserProfilById() {
-
+    	user1.setId(1);
         expect(userProfileDAO.findById(user1.getId())).andReturn(userProfile1);
         replay(userProfileDAO);
 

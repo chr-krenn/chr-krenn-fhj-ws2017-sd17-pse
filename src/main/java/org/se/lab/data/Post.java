@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -35,6 +36,8 @@ public class Post implements Serializable {
 	private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds " + MAX_TEXT_LENGTH + " characters";
 	private static final String CREATED_NULL_ERROR = "The given created timestamp must not be null";
 	private static final String SELF_REFERENTIAL_ERROR = "The given parent post must not be the same as this post";
+	private static final String LIKE_NULL_ERROR = "The given Like (EnumerationItem) must not be null";
+	private static final String LIKE_FALSE_POST_ERROR = "The given Like (EnumerationItem) does not belong to this Post";
 	
 	
 	/*
@@ -43,8 +46,7 @@ public class Post implements Serializable {
 	
 	protected Post() {};
 	
-	public Post(int id, Post parentpost, Community community, User user, String text, Date created) {
-		setId(id);
+	public Post(Post parentpost, Community community, User user, String text, Date created) {
 		setParentpost(parentpost);
 		setCommunity(community);
 		setUser(user);
@@ -61,7 +63,7 @@ public class Post implements Serializable {
 	
 	// id
 		@Id
-		@GeneratedValue
+		@GeneratedValue(strategy=GenerationType.IDENTITY)
 		@Column(name = "id")
 		private int id;
 		
@@ -105,7 +107,7 @@ public class Post implements Serializable {
 		 */
 		public void setParentpost(Post parentpost) {
 			// Parent post can be null
-			if (parentpost != null && parentpost.getId() == this.id)
+			if (parentpost != null && this.id != 0 && parentpost.getId() == this.id)
 				throw new IllegalArgumentException(SELF_REFERENTIAL_ERROR);
 			this.parentpost = parentpost;
 			if (parentpost != null && !parentpost.getChildPosts().contains(this))
@@ -190,7 +192,39 @@ public class Post implements Serializable {
 			this.user = user;
 		}
 		
-	// text
+	// Likes
+			@OneToMany(
+					targetEntity = EnumerationItem.class,
+					mappedBy = "post")
+			private List<EnumerationItem> likes = new ArrayList<EnumerationItem>();
+			
+			/*
+			 * Gets Likes as EnumeratioItem for post
+			 * @return (EnumerationItem) likes
+			 */
+			public List<EnumerationItem> getLikes() {
+				return likes;
+			}
+
+			/*
+			 * Add a Like to a Post
+			 * This EnumertionItem must not be null
+			 * Takes EnumeratioItem that allows for e.g. Dislikes etc.
+			 * @param item
+			 */
+			public void addLikeToPost(EnumerationItem item) {
+				if (item == null)
+					throw new IllegalArgumentException(LIKE_NULL_ERROR);
+				if (item.getPost() == null)
+					item.setPost(this);
+				if (!item.getPost().equals(this))
+					throw new IllegalArgumentException(LIKE_FALSE_POST_ERROR);
+				likes.add(item);
+			}
+
+
+
+		// text
 		@Column(name = "text")
 		private String text;
 		
@@ -215,7 +249,7 @@ public class Post implements Serializable {
 			this.text = text;
 		}
 		
-	// text
+	// created (Timestamp)
 		@Column(name = "created")
 		@Temporal(TemporalType.TIMESTAMP)
 		private Date created;

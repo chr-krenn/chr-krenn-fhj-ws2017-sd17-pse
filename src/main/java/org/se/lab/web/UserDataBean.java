@@ -32,7 +32,7 @@ public class UserDataBean implements Serializable {
     private UserService service;
     private User user;
     private UserProfile userProfile;
-    private User dummyUser = new User(2, "bob", "pass");
+    private User dummyUser = new User("bob", "pass");
     private List<UserContact> contacts;
     private List<Community> communities;
     private String id = "";
@@ -178,7 +178,7 @@ public class UserDataBean implements Serializable {
 
         //Activate when DAO works
         //User u = service.findById(userId);
-        User u = new User(4, "frank", "pass");
+        User u = new User("frank", "pass");
 
         String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
 
