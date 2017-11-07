@@ -87,6 +87,32 @@ public class PostTest {
 		Post current2 = new Post(3, current1, community, user, "Test text", new Date(180L));
 		assertEquals(post, current1.getParentpost());
 		post.addChildPost(current1);
+		post.addChildPost(current2);
+	}
+	
+	@Test
+	public void testLikePost() {
+		Enumeration alike = new Enumeration(1, "Like");
+		User user = new User();
+		EnumerationItem item = new EnumerationItem(1);
+		item.setEnumeration(alike);
+		item.setUser(user);
+		item.setPost(post);
+		
+		post.addLikeToPost(item);
+		assertEquals(item, post.getLikes().get(0));
+	}
+	
+	@Test
+	public void testLikePostWithPostNotSetInItem() {
+		Enumeration alike = new Enumeration(1, "Like");
+		User user = new User();
+		EnumerationItem item = new EnumerationItem(1);
+		item.setEnumeration(alike);
+		item.setUser(user);
+		
+		post.addLikeToPost(item);
+		assertEquals(item, post.getLikes().get(0));
 	}
 	
 	@Test
@@ -117,6 +143,11 @@ public class PostTest {
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidLikeIsNull() {
+		post.addLikeToPost(null);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidTextMessageLength() {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i <= Post.MAX_TEXT_LENGTH; i++) {
@@ -140,6 +171,20 @@ public class PostTest {
 		post.setParentpost(post);
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidEnumItemPostDiffer() {
+		Enumeration alike = new Enumeration(1, "Like");
+		User user = new User();
+		EnumerationItem item = new EnumerationItem(1);
+		Post post2 = new Post(2, null, community, user, "Test text", new Date(180L));
+		item.setEnumeration(alike);
+		item.setUser(user);
+		item.setPost(post2);
+		
+		post.addLikeToPost(item);
+		assertEquals(item, post.getLikes().get(0));
+	}
+	
 	@Test(expected=AssertionError.class)
 	public void testCustomAssertEquals() {
 		assertEquals(null, post);
@@ -161,6 +206,11 @@ public class PostTest {
 	private void assertEquals(Post expected, Post actual) {
 		if (!actual.equals(expected))
 			fail(actual + " post is not equal to expected " + expected);
+	}
+	
+	private void assertEquals(EnumerationItem expected, EnumerationItem actual) {
+		if (!actual.equals(expected))
+			fail(actual + " enumerationItem is not equal to expected " + expected);
 	}
 
 	/*
