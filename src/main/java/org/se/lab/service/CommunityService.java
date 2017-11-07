@@ -87,4 +87,17 @@ public class CommunityService {
 
         update(community);
     }
+
+    public Community findById(int id) {
+        LOG.debug("findById " + id);
+
+        try {
+            return dao.findById(id);
+        } catch (Exception e) {
+            LOG.error("Can`t find Id " + id);
+            throw new ServiceException("Can`t find Id " + id, e);
+        }
+
+
+    }
 }
