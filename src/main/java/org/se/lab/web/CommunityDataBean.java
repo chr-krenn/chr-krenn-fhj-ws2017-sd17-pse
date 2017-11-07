@@ -76,7 +76,7 @@ public class CommunityDataBean implements Serializable {
 	
 	public String createNewCommunity(){
 		 
-		if(newCommunityName != null & newCommunityDescription != null ){
+		if(!newCommunityName.isEmpty() & !newCommunityDescription.isEmpty()){
 
 			actualCommunity = new Community(newCommunityName, newCommunityDescription);
 			communityService.request(actualCommunity);
