@@ -3,8 +3,6 @@ package org.se.lab.data;
 
 import java.util.Date;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class PostDAOTest extends AbstractDAOTest {
@@ -15,12 +13,12 @@ public class PostDAOTest extends AbstractDAOTest {
 	public void testPersistPost() {
 		em.getTransaction().begin();
 		Community community = new Community("test", "test community");
-		Post post = new Post(null, community, user, "Happy Path Test", new Date(180L));
 		User user = new User("testuser", "*****");
+		Post post = new Post(null, community, user, "Happy Path Test", new Date(180L));
 		
-		//em.persist(user);
+		em.persist(user);
 		em.persist(community);
-		//em.persist(post);
+		em.persist(post);
 		em.getTransaction().commit();
 		
 	}

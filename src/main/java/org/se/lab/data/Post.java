@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -63,7 +64,7 @@ public class Post implements Serializable {
 	
 	// id
 		@Id
-		@GeneratedValue
+		@GeneratedValue(strategy=GenerationType.IDENTITY)
 		@Column(name = "id")
 		private int id;
 		
@@ -107,7 +108,7 @@ public class Post implements Serializable {
 		 */
 		public void setParentpost(Post parentpost) {
 			// Parent post can be null
-			if (parentpost != null && parentpost.getId() == this.id)
+			if (parentpost != null && this.id != 0 && parentpost.getId() == this.id)
 				throw new IllegalArgumentException(SELF_REFERENTIAL_ERROR);
 			this.parentpost = parentpost;
 			if (parentpost != null && !parentpost.getChildPosts().contains(this))

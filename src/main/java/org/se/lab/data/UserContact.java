@@ -21,7 +21,7 @@ public class UserContact implements Serializable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     public int getId() {

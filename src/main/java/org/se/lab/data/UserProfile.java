@@ -23,7 +23,7 @@ public class UserProfile implements Serializable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     public int getId() {

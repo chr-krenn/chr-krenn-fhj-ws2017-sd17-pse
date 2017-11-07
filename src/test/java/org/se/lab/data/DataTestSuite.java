@@ -12,7 +12,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	UserProfileTest.class,
 	EnumerationItemTest.class,
 	EnumerationTest.class,
-
+	CommunityDAOTest.class,
+	PostDAOTest.class
 })
 public class DataTestSuite {
 	
