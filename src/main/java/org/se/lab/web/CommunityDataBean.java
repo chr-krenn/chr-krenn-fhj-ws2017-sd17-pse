@@ -1,11 +1,12 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.*;
+import org.se.lab.data.Community;
+import org.se.lab.service.CommunityService;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-
 import java.io.Serializable;
 
 @Named
@@ -22,8 +23,8 @@ public class CommunityDataBean implements Serializable {
 	private String newCommunityDescription;
 	private Community actualCommunity;
 
-	//@Inject
-	//private CommunityService communityService;
+	@Inject
+	private CommunityService communityService;
 	
 	public String getName() {
 		return name;
@@ -57,8 +58,8 @@ public class CommunityDataBean implements Serializable {
 	}
 	
 	public Community getActualCommunity(){
-		
-		//TODO: missing method in communityService
+
+		//todo: method exists -> load id and do method call
 		//communityService.getCommunityById(id);
 		
 		if(actualCommunity == null){
@@ -76,9 +77,9 @@ public class CommunityDataBean implements Serializable {
 	public String createNewCommunity(){
 		 
 		if(newCommunityName != null & newCommunityDescription != null ){
-			//TODO: create community service method needed
-			
+
 			actualCommunity = new Community(newCommunityName, newCommunityDescription);
+			communityService.request(actualCommunity);
 			LOG.info(actualCommunity.getName()+" community created");
 		}
 		
