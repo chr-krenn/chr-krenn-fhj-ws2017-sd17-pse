@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.se.lab.data.UserContactDAO;
+import org.se.lab.data.UserContactDAOImpl;
 
 public class UserContactTest {
 

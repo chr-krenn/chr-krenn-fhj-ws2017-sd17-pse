@@ -21,25 +21,25 @@ class UserDAOImpl
 	 */
 
 	@Override
-	public User insert(User article)
+	public User insert(User user)
 	{
-		LOG.info("insert(" + article + ")");
-		em.persist(article);
-		return article;
+		LOG.info("insert(" + user + ")");
+		em.persist(user);
+		return user;
 	}
 
 	@Override
-	public User update(User article)
+	public User update(User user)
 	{
-		LOG.info("update(" + article + ")");
-		return em.merge(article);
+		LOG.info("update(" + user + ")");
+		return em.merge(user);
 	}
 
 	@Override
-	public void delete(User article)
+	public void delete(User user)
 	{
-		LOG.info("delete(" + article + ")");
-		em.remove(article);
+		LOG.info("delete(" + user + ")");
+		em.remove(user);
 	}
 
 	@Override
@@ -81,5 +81,9 @@ class UserDAOImpl
 		query.setParameter("username", username);
 		return (User) query.getSingleResult();
 		//return em.find(User.class, username);
+	}
+
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
 	}
 }

@@ -50,7 +50,6 @@ public class UserProfileDAOImpl implements UserProfileDAO {
         return em.find(UserProfile.class, id);
     }
 
-
     @Override
     public List<UserProfile> findAll() {
         LOG.info("findAll()");
