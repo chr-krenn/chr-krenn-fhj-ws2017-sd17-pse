@@ -25,7 +25,7 @@ public class PostDAOTest extends AbstractDAOTest {
 		em.getTransaction().begin();
 		Community community = new Community("test", "test community");
 		User user = new User(1, "testuser", "*****");
-		Post post = new Post(1, null, community, user, "Happy Path Test", new Date(180L));
+		Post post = new Post(null, community, user, "Happy Path Test", new Date(180L));
 		
 		//em.persist(user);
 		em.persist(community);

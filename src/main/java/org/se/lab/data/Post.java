@@ -46,8 +46,7 @@ public class Post implements Serializable {
 	
 	protected Post() {};
 	
-	public Post(int id, Post parentpost, Community community, User user, String text, Date created) {
-		setId(id);
+	public Post(Post parentpost, Community community, User user, String text, Date created) {
 		setParentpost(parentpost);
 		setCommunity(community);
 		setUser(user);

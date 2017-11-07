@@ -19,7 +19,8 @@ public class PostTest {
 	public void setup() {
 		community = new Community();
 		user = new User();
-		post = new Post(1, null, community, user, "Test text", new Date(180L));
+		post = new Post(null, community, user, "Test text", new Date(180L));
+		post.setId(1);
 	}
 	
 	@After
@@ -36,14 +37,15 @@ public class PostTest {
 	
 	@Test
 	public void testEqualsPost() {
-		Post current = new Post(1, null, community, user, "Test text", new Date(180L));
+		Post current = new Post(null, community, user, "Test text", new Date(180L));
+		current.setId(1);
 		assertEquals(post, current);
 		assertEquals(current, current);
 	}
 	
 	@Test
 	public void testNotEqualsPost() {
-		Post current = new Post(1, null, community, user, "Test text", new Date(180L));
+		Post current = new Post(null, community, user, "Test text", new Date(180L));
 		
 		post.setId(2);
 		assertNotEquals(current, post);
@@ -77,14 +79,15 @@ public class PostTest {
 	
 	@Test
 	public void testParentPost() {
-		Post current = new Post(2, post, community, user, "Test text", new Date(180L));
+		Post current = new Post(post, community, user, "Test text", new Date(180L));
 		assertEquals(post, current.getParentpost());
 	}
 	
 	@Test
 	public void testChildPost() {
-		Post current1 = new Post(2, post, community, user, "Test text", new Date(180L));
-		Post current2 = new Post(3, current1, community, user, "Test text", new Date(180L));
+		Post current1 = new Post(post, community, user, "Test text", new Date(180L));
+		current1.setId(2);
+		Post current2 = new Post(current1, community, user, "Test text", new Date(180L));
 		assertEquals(post, current1.getParentpost());
 		post.addChildPost(current1);
 		post.addChildPost(current2);
@@ -176,7 +179,7 @@ public class PostTest {
 		Enumeration alike = new Enumeration(1, "Like");
 		User user = new User();
 		EnumerationItem item = new EnumerationItem(1);
-		Post post2 = new Post(2, null, community, user, "Test text", new Date(180L));
+		Post post2 = new Post(null, community, user, "Test text", new Date(180L));
 		item.setEnumeration(alike);
 		item.setUser(user);
 		item.setPost(post2);

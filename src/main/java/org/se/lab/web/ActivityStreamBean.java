@@ -44,13 +44,13 @@ public class ActivityStreamBean {
 		user = new User(1, "Harry Hirsch", "pass");
 
 		// DummyData
-		post = new Post(1, null, com, user, "Hello World!", new Date());
+		post = new Post(null, com, user, "Hello World!", new Date());
 		// setParentPost(post);
 		posts = new ArrayList<Post>();
 		posts.add(post);
-		posts.add(new Post(2, post, com, dummyUser, "Whats up Harry?", new Date()));
-		posts.add(new Post(3, post, com, dummyUser, "Let's have a drink tonight!", new Date()));
-		posts.add(new Post(4, null, com, dummyUser, "My first Post on this platform :)", new Date()));
+		posts.add(new Post(post, com, dummyUser, "Whats up Harry?", new Date()));
+		posts.add(new Post(post, com, dummyUser, "Let's have a drink tonight!", new Date()));
+		posts.add(new Post(null, com, dummyUser, "My first Post on this platform :)", new Date()));
 
 		context = FacesContext.getCurrentInstance();
 
