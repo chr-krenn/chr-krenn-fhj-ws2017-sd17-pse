@@ -30,7 +30,7 @@ public class ActivityStreamBean {
 	private List<Post> parentposts = new ArrayList<Post>();
 
 	private User user;
-	private User dummyUser = new User(2, "bob", "pass");
+	private User dummyUser = new User("bob", "pass");
 
 	private String id = "";
 	private int userId = 0;
@@ -41,7 +41,7 @@ public class ActivityStreamBean {
 	@PostConstruct
 	public void init() {
 		Community com = new Community("C1", "NewC1");
-		user = new User(1, "Harry Hirsch", "pass");
+		user = new User("Harry Hirsch", "pass");
 
 		// DummyData
 		post = new Post(null, com, user, "Hello World!", new Date());

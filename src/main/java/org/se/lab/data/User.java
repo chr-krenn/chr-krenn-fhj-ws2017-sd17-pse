@@ -11,9 +11,8 @@ public class User implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	public User(int id, String username, String password)
+	public User(String username, String password)
 	{
-		setId(id);
 		setUsername(username);
 		setPassword(password);
 	}
