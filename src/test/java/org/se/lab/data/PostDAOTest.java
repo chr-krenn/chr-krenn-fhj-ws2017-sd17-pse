@@ -26,19 +26,19 @@ public class PostDAOTest extends AbstractDAOTest {
 	}
 
 	@Override
-	void testCreate() {
+	public void testCreate() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void testModify() {
+	public void testModify() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void testRemove() {
+	public void testRemove() {
 		// TODO Auto-generated method stub
 		
 	}
