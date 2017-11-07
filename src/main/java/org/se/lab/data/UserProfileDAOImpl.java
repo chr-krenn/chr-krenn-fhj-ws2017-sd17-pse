@@ -45,7 +45,8 @@ public class UserProfileDAOImpl implements UserProfileDAO {
         return em.find(UserProfile.class, id);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<UserProfile> findAll() {
         LOG.info("findAll()");
         final String hql = "SELECT up FROM " + UserProfile.class.getName() + " AS up";

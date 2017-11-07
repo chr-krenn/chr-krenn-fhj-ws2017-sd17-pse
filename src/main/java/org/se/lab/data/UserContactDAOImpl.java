@@ -33,7 +33,8 @@ public class UserContactDAOImpl implements UserContactDAO {
         em.remove(contact);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<UserContact> findAll() {
         LOG.info("findAll()");
         final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc";
