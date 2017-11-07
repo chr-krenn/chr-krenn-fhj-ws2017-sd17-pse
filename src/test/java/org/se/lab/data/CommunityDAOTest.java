@@ -19,13 +19,13 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	}
 
 	@Override
-	void testModify() {
+	public void testModify() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void testRemove() {
+	public void testRemove() {
 		// TODO Auto-generated method stub
 		
 	}
