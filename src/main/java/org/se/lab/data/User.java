@@ -48,6 +48,7 @@ public class User implements Serializable
 	{
 		if (username == null || username.trim().length() == 0)
 			throw new IllegalArgumentException();
+		this.username = username;
 	}
 
 
@@ -61,6 +62,7 @@ public class User implements Serializable
 	{
 		if (passwd == null || passwd.trim().length() == 0)
 			throw new IllegalArgumentException();
+		this.password = passwd;
 	}
 
 	@OneToOne

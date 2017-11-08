@@ -12,8 +12,9 @@ public class UserTest
 	private User user3;
 	private User user4;
 
-	@Before
+		@Before
 		public void setUp() throws Exception{
+			try {
 			user = new User("Test User", "test");
 			user.setId(1);
 			
@@ -22,6 +23,9 @@ public class UserTest
 			
 			user3 = new User("Test User", "test");
 			user3.setId(1);
+			} catch (Exception ex) {
+				System.out.println(ex.getLocalizedMessage());
+			}
 		}
 
 		@After

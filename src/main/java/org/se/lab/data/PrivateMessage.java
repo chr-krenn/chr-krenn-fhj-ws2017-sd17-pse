@@ -18,11 +18,13 @@ public class PrivateMessage implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	public PrivateMessage(String text, int fk_user_sender, int fk_user_receiver)
+	public PrivateMessage(String text, User sender, User receiver )
 	{
 		setText(text);
-		setFK_User_Sender(fk_user_sender);
-		setFK_User_Receiver(fk_user_receiver);
+		setUserSender(sender);
+		setUserReceiver(receiver);
+		//setFK_User_Sender(fk_user_sender);
+		//setFK_User_Receiver(fk_user_receiver);
 	}
 	
 	protected PrivateMessage()
@@ -55,7 +57,8 @@ public class PrivateMessage implements Serializable
 			throw new IllegalArgumentException();
 		this.text = text;
 	}
-
+	
+	/* Why? Just causes hirbernate MappingException (dublicate mapping) User holds id anyways
 	@Column(name="FK_UserID_sender")
 	private int FK_User_Sender;
 	public int getFK_User_Sender() {
@@ -74,7 +77,7 @@ public class PrivateMessage implements Serializable
 
 	public void setFK_User_Receiver(int fK_User_Receiver) {
 		FK_User_Receiver = fK_User_Receiver;
-	}
+	} */
 	
 	@ManyToOne
     @JoinColumn(name="FK_UserID_sender")
@@ -112,8 +115,8 @@ public class PrivateMessage implements Serializable
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + FK_User_Receiver;
-		result = prime * result + FK_User_Sender;
+		result = prime * result + ((userReceiver != null) ? userReceiver.getId() : 0);
+		result = prime * result + ((userSender != null) ? userSender.getId() : 0);
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		return result;
 	}
@@ -127,9 +130,9 @@ public class PrivateMessage implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		PrivateMessage other = (PrivateMessage) obj;
-		if (FK_User_Receiver != other.FK_User_Receiver)
+		if (userReceiver.getId() != other.getUserReceiver().getId())
 			return false;
-		if (FK_User_Sender != other.FK_User_Sender)
+		if (userSender.getId() != other.getUserSender().getId())
 			return false;
 		if (text == null) {
 			if (other.text != null)
@@ -141,8 +144,8 @@ public class PrivateMessage implements Serializable
 
 	@Override
 	public String toString() {
-		return "PrivateMessage [ID=" + ID + ", text=" + text + ", FK_User_Sender=" + FK_User_Sender
-				+ ", FK_User_Receiver=" + FK_User_Receiver + "]";
+		return "PrivateMessage [ID=" + ID + ", text=" + text + ", FK_User_Sender=" + userSender
+				+ ", FK_User_Receiver=" + userReceiver + "]";
 	}
 
 }

@@ -11,12 +11,14 @@ public class PrivateMessageTest
 private PrivateMessage pm;
 private PrivateMessage pm2;
 private PrivateMessage pm4;
+private User user1 = new User("Test User1", "test");
+private User user2 = new User("Test User2", "test");
 @Before
 	public void setUp() throws Exception{
-		pm = new PrivateMessage("test private message", 1, 1);
+		pm = new PrivateMessage("test private message", user1, user1);
 		pm.setID(1);
 		
-		pm2 = new PrivateMessage("test 2", 2, 2);
+		pm2 = new PrivateMessage("test 2", user2, user2);
 		pm2.setID(1);
 	}
 
@@ -29,8 +31,8 @@ private PrivateMessage pm4;
 	public void testConstructor(){
 		Assert.assertEquals(1, pm.getID());
 		Assert.assertEquals("test private message", pm.getText());
-		Assert.assertEquals(1, pm.getFK_User_Sender());
-		Assert.assertEquals(1, pm.getFK_User_Receiver());
+		Assert.assertEquals(0, pm.getUserSender().getId());
+		Assert.assertEquals(0, pm.getUserReceiver().getId());
 	}
 	
 	@Test
@@ -61,7 +63,7 @@ private PrivateMessage pm4;
 	
 	@Test
 	public void testHash() {
-		PrivateMessage pm3 = new PrivateMessage("test private message", 1, 1);
+		PrivateMessage pm3 = new PrivateMessage("test private message", user1, user1);
 		pm3.setID(1);
 		Assert.assertTrue(pm.hashCode() == pm3.hashCode());
 	}
@@ -69,7 +71,7 @@ private PrivateMessage pm4;
 	
 	@Test
 	public void testEquals() {
-		PrivateMessage pm3 = new PrivateMessage("test private message", 1, 1);
+		PrivateMessage pm3 = new PrivateMessage("test private message", user1, user1);
 		pm3.setID(1);
 		Assert.assertTrue(pm.equals(pm3));
 	}
@@ -77,7 +79,7 @@ private PrivateMessage pm4;
 	
 	@Test
 	public void testToString() {
-		String s = "PrivateMessage [ID=1, text=test private message, FK_User_Sender=1, FK_User_Receiver=1]";
+		String s = "PrivateMessage [ID=1, text=test private message, FK_User_Sender=User [id=0, username=Test User1, password=test], FK_User_Receiver=User [id=0, username=Test User1, password=test]]";
 		Assert.assertTrue(pm.toString().equals(s));
 	}
 	
@@ -88,17 +90,17 @@ private PrivateMessage pm4;
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testIdFail() {
-		pm4 = new PrivateMessage ("test", 1, 1);
+		pm4 = new PrivateMessage ("test", user1, user1);
 		pm4.setID(0);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testTextFail1() {
-		new PrivateMessage ("  ", 1, 1);
+		new PrivateMessage ("  ", user1, user1);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testTextFail2() {
-		new PrivateMessage (null, 1, 1);
+		new PrivateMessage (null, user1, user1);
 	}
 }

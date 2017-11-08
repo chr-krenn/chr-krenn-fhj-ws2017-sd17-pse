@@ -51,7 +51,7 @@ public class UserContactDAOTest extends AbstractDAOTest {
         ucdao.insert(uc);
         ucdao.insert(uc2);
         List<UserContact> ups = ucdao.findAll();
-        Assert.assertEquals(2, ups.size());
+        Assert.assertEquals(5, ups.size());
     }
 
     @Test
