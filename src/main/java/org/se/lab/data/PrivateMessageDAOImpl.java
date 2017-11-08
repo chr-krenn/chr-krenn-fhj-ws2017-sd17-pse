@@ -14,6 +14,10 @@ public class PrivateMessageDAOImpl implements PrivateMessageDAO
 
     @PersistenceContext
     private EntityManager em;
+    
+    public void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
 
 	@Override
 	public PrivateMessage insert(PrivateMessage privateMessage) {
@@ -24,7 +28,7 @@ public class PrivateMessageDAOImpl implements PrivateMessageDAO
 
 
 	@Override
-	public void deleteMessage(PrivateMessage privateMessage) {
+	public void delete(PrivateMessage privateMessage) {
 		LOG.info("delete(" + privateMessage + ")");
         em.remove(privateMessage);
 	}

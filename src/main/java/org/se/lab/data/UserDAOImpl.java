@@ -14,6 +14,10 @@ class UserDAOImpl
 
 	@PersistenceContext
 	private EntityManager em;
+	
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
 
 
 	/*
@@ -81,9 +85,5 @@ class UserDAOImpl
 		query.setParameter("username", username);
 		return (User) query.getSingleResult();
 		//return em.find(User.class, username);
-	}
-
-	public void setEntityManager(EntityManager em) {
-		this.em = em;
 	}
 }
