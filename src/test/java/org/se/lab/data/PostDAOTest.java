@@ -4,17 +4,20 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.se.lab.data.PostDAOImpl;
 
 public class PostDAOTest extends AbstractDAOTest {
 
-	private Community community = new Community("test", "test community");
-	private User user = new User("testuser", "*****");
+	private Community community = new Community("testPost", "test community");
+	private User user = new User("testuserpost", "*****");
 	private Post post = new Post(null, community, user, "Happy Path Test", new Date(180L));
 
-	private static PostDAOImpl dao = new PostDAOImpl();
-	static {
+	private PostDAOImpl dao = new PostDAOImpl();
+	
+	@Before
+	public void setupPost() {
 		dao.setEntityManager(em);
 	}
 
