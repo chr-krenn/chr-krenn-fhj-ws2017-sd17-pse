@@ -62,7 +62,6 @@ class UserDAOImpl
 	    return em.createQuery(hql).getResultList();
 	}	
 	
-	
 	/*
 	 * Factory methods
 	 */

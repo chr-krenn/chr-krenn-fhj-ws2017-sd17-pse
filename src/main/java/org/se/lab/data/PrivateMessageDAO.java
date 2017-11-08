@@ -10,5 +10,4 @@ public interface PrivateMessageDAO
     List<PrivateMessage> findAll();
 
     PrivateMessage findById(int id);
-
 }

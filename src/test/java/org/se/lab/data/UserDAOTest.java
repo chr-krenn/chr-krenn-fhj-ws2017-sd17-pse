@@ -22,6 +22,7 @@ public class UserDAOTest extends AbstractDAOTest
     public void testCreate() {
     	udao.insert(user);
     }
+    
 
     @Test
     @Override

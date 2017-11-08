@@ -26,7 +26,6 @@ public class PrivateMessageDAOImpl implements PrivateMessageDAO
         return privateMessage;
 	}
 
-
 	@Override
 	public void delete(PrivateMessage privateMessage) {
 		LOG.info("delete(" + privateMessage + ")");

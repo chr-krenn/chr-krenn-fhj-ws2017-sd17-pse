@@ -52,6 +52,5 @@ public class PrivateMessageDAOTest extends AbstractDAOTest
 	@Override
 	public void testModify() {
 		// TODO Auto-generated method stub
-		
 	}
 }
