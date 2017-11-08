@@ -14,21 +14,39 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
+/**
+ * 
+ * @author Christian Hofer
+ * 
+ * The community is a group of users which have the same interests. Also workgroups or hobby-groups are able
+ *
+ */
+
 @Entity
 @Table(name = "community")
 public class Community implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Community Class Constructor
+	 * @param name name of the community
+	 * @param description small description of the community
+	 */
 	public Community(String name, String description) {
 		setName(name);
 		setDescription(description);
 		setState(new EnumerationItem(1));
 	}
-
+	/**
+	 * Constructor for Hibernate
+	 */
 	Community() {
 	}
-
+	
+	/**
+	 * id unique identifier for the community. Auto genereted by DB
+	 */
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -43,7 +61,7 @@ public class Community implements Serializable {
 			throw new IllegalArgumentException();
 		this.id = id;
 	}
-
+	
 	@Column(name = "name", nullable = false, unique = false)
 	private  String name;
 
@@ -70,6 +88,9 @@ public class Community implements Serializable {
 		this.description = description;
 	}
 
+	/**
+	 * users is a list of users which are in the same community
+	 */
 	@ManyToMany
 	@JoinTable(name = "user_community", 
 	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
@@ -80,6 +101,10 @@ public class Community implements Serializable {
 		return users;
 	}
 
+	/**
+	 * Method to add users to the community. This method sets the community of the user too.
+	 * @param user the user which is added
+	 */
 	public void addUsers(User user) {
 		if (user == null)
 			throw new IllegalArgumentException();
@@ -89,6 +114,11 @@ public class Community implements Serializable {
 	
 	@Column(name = "state")
 	private EnumerationItem state;
+	
+	/**
+	 * Method to set state. The state is an EnumerationItem which proofs that no other state as specified in Enumerataion is used.
+	 * @param state
+	 */
 	public void setState(EnumerationItem state) {
 		if (state == null)
 			throw new IllegalArgumentException();

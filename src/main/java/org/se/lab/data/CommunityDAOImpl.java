@@ -34,12 +34,19 @@ public class CommunityDAOImpl implements CommunityDAO{
 	public void delete(Community com) {
 		em.remove(com);
 	}
-
+	
+	/**
+	 * findById Method to find an specific community by the id
+	 */
 	@Override
 	public Community findById(int id) {
 		return em.find(Community.class, id);
 	}
 	
+	/**
+	 * findByName Method to find an specific community by the name. 
+	 * Hibernate CriteriaBuilder is used to get a single result.
+	 */
 	@Override
 	public Community findByName(String name) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -54,6 +61,9 @@ public class CommunityDAOImpl implements CommunityDAO{
 		}
 	}	
 
+	/**
+	 * findPendigCommunities Method to find all communities which art approved. This Method could only be invoked by (Portal-)admin
+	 */
 	@Override
 	public List<Community> findPendingCommunities() {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -66,10 +76,11 @@ public class CommunityDAOImpl implements CommunityDAO{
 		} catch (NoResultException e) {
 			return null;
 		}
-		//final String hql = "SELECT c FROM community c WHERE c.state like pending";
-		//return em.createQuery(hql).getResultList();
 	}
 
+	/**
+	 * findApprovedCommunities find all approved and published communities.
+	 */
 	@Override
 	public List<Community> findApprovedCommunities() {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -84,6 +95,9 @@ public class CommunityDAOImpl implements CommunityDAO{
 		}
 	}
 
+	/**
+	 *findAll communities whithout any specific criteria 
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Community> findAll() {
