@@ -32,8 +32,8 @@ public class User implements Serializable
 	}
 	public void setId(int id)
 	{
-		if(id < 0)
-			throw new IllegalArgumentException("Invalid parameter id: " + id);
+		if (id <= 0)
+			throw new IllegalArgumentException();
 		this.id = id;
 	}
 
@@ -46,9 +46,8 @@ public class User implements Serializable
 	}
 	public void setUsername(String username)
 	{
-		if(username == null)
-			throw new IllegalArgumentException("Invalid parameter description!");
-		this.username = username;
+		if (username == null || username.trim().length() == 0)
+			throw new IllegalArgumentException();
 	}
 
 
@@ -60,8 +59,8 @@ public class User implements Serializable
 	}
 	public void setPassword(String passwd)
 	{
-
-		this.password = passwd;
+		if (passwd == null || passwd.trim().length() == 0)
+			throw new IllegalArgumentException();
 	}
 
 	@OneToOne
@@ -138,9 +137,8 @@ public class User implements Serializable
 	 */
 
 	@Override
-	public String toString()
-	{
-		return getId() + "," + getUsername() + "," + "***";
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
 	}
 
 
