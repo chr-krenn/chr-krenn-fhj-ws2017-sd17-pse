@@ -105,6 +105,33 @@ public class User implements Serializable
 	public List<UserContact> getUserContacts(){
 		return usercontacts;
 	}
+	
+	@OneToMany(mappedBy="userSender")
+	private List<PrivateMessage> privateMessagesSender = new ArrayList<>();
+
+	public void addPrivateMessageSender(PrivateMessage privateMessage) {
+		if(privateMessage == null)
+			throw new IllegalArgumentException();
+		privateMessagesSender.add(privateMessage);
+	}
+
+	public List<PrivateMessage> getPrivateMessagesSender(){
+		return privateMessagesSender;
+	}
+	
+	
+	@OneToMany(mappedBy="userReceiver")
+	private List<PrivateMessage> privateMessagesReceiver = new ArrayList<>();
+
+	public void addPrivateMessageReceiver(PrivateMessage privateMessage) {
+		if(privateMessage == null)
+			throw new IllegalArgumentException();
+		privateMessagesReceiver.add(privateMessage);
+	}
+
+	public List<PrivateMessage> getPrivateMessagesReceiver(){
+		return privateMessagesReceiver;
+	}
 
 	/*
 	 * Object methods
