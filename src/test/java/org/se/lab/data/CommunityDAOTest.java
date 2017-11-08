@@ -75,18 +75,19 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		//exercise
 		tx.begin();
 		coms = cdao.findPendingCommunities();
-		coms.get(1).setState("approved");
+		coms.get(1).setState(new EnumerationItem(2));
 		cdao.update(coms.get(1));
 		tx.commit();
 		
 		//verify
 		coms = cdao.findAll();
-		Assert.assertTrue(coms.get(0).getState() == "pending");
-		Assert.assertTrue(coms.get(1).getState() == "approved");
-		Assert.assertTrue(coms.get(2).getState() == "pending");
+		Assert.assertEquals(new EnumerationItem(1), new EnumerationItem(1));
+		Assert.assertEquals(coms.get(0).getState(), new EnumerationItem(1));
+		Assert.assertEquals(coms.get(1).getState(), new EnumerationItem(2));
+		Assert.assertEquals(coms.get(2).getState(), new EnumerationItem(1));
 		
 		coms = cdao.findApprovedCommunities();
-		Assert.assertTrue(coms.get(0).getState() == "approved");
+		Assert.assertEquals(coms.get(0).getState(), new EnumerationItem(2));
 		Assert.assertTrue(coms.size() == 1);
 		Assert.assertTrue(coms.get(0).getName() == "TestDAOCommunity2");
 		users = coms.get(0).getUsers();

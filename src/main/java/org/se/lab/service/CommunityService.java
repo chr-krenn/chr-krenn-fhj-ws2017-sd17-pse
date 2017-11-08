@@ -3,6 +3,7 @@ package org.se.lab.service;
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
 import org.se.lab.data.CommunityDAO;
+import org.se.lab.data.EnumerationItem;
 import org.se.lab.data.User;
 
 import javax.ejb.Stateless;
@@ -12,8 +13,8 @@ import java.util.stream.Collectors;
 
 @Stateless
 public class CommunityService {
-    public static final String PENDING = "pending";
-    public static final String APPROVE = "approve";
+    public static final EnumerationItem PENDING = new EnumerationItem(1);
+    public static final EnumerationItem APPROVE = new EnumerationItem(2);
     private final Logger LOG = Logger.getLogger(CommunityService.class);
 
     @Inject

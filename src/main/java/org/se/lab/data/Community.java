@@ -23,7 +23,7 @@ public class Community implements Serializable {
 	public Community(String name, String description) {
 		setName(name);
 		setDescription(description);
-		setState("pending");
+		setState(new EnumerationItem(1));
 	}
 
 	Community() {
@@ -88,14 +88,14 @@ public class Community implements Serializable {
 	}
 	
 	@Column(name = "state")
-	private String state;
-	public void setState(String state) {
-		if (state == null || state.trim().length() == 0)
+	private EnumerationItem state;
+	public void setState(EnumerationItem state) {
+		if (state == null)
 			throw new IllegalArgumentException();
 		this.state = state;
 	}
 	
-	public String getState() {
+	public EnumerationItem getState() {
 		return state;
 	}
 	
