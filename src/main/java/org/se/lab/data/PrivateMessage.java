@@ -2,6 +2,7 @@ package org.se.lab.data;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,6 +60,7 @@ public class PrivateMessage implements Serializable
 	}
 	
 	/* Why? Just causes hirbernate MappingException (dublicate mapping) User holds id anyways
+	 * Nice Komment Bro, but your commentation also causes Exceptions ;) Now i turned into the right way
 	@Column(name="FK_UserID_sender")
 	private int FK_User_Sender;
 	public int getFK_User_Sender() {
@@ -77,9 +79,11 @@ public class PrivateMessage implements Serializable
 
 	public void setFK_User_Receiver(int fK_User_Receiver) {
 		FK_User_Receiver = fK_User_Receiver;
-	} */
+	} 
+	*/
 	
-	@ManyToOne
+	
+	@ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="FK_UserID_sender")
     private User userSender;
 
@@ -94,7 +98,7 @@ public class PrivateMessage implements Serializable
         return userSender;
     }
     
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="FK_UserID_receiver")
     private User userReceiver;
 
