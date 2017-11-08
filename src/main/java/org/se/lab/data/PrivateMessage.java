@@ -24,8 +24,6 @@ public class PrivateMessage implements Serializable
 		setText(text);
 		setUserSender(sender);
 		setUserReceiver(receiver);
-		//setFK_User_Sender(fk_user_sender);
-		//setFK_User_Receiver(fk_user_receiver);
 	}
 	
 	protected PrivateMessage()
@@ -60,7 +58,7 @@ public class PrivateMessage implements Serializable
 	}
 	
 	/* Why? Just causes hirbernate MappingException (dublicate mapping) User holds id anyways
-	 * Nice Komment Bro, but your commentation also causes Exceptions ;) Now i turned into the right way
+	 * Nice comment bro, but your commentation also causes Exceptions ;) Now i turned into the right way
 	@Column(name="FK_UserID_sender")
 	private int FK_User_Sender;
 	public int getFK_User_Sender() {
