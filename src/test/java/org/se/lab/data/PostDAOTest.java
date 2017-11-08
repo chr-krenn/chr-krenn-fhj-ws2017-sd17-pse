@@ -34,6 +34,7 @@ public class PostDAOTest extends AbstractDAOTest {
 		em.persist(user);
 		em.persist(community);
 		Assert.assertNotNull(dao.insert(post));
+		Assert.assertNotNull(dao.insert(post, community));
 	}
 
 	@Test
@@ -43,9 +44,11 @@ public class PostDAOTest extends AbstractDAOTest {
 		em.persist(user);
 		em.persist(community);
 
-		Post persisted = dao.insert(post);
+		Post persisted = dao.insert(post, community);
 		List<Post> posts = dao.getPostsForUser(user);
+		List<Post> postscom = dao.getPostsForCommunity(community);
 		Assert.assertTrue(posts.contains(persisted));
+		Assert.assertTrue(postscom.contains(persisted));
 		Assert.assertTrue(persisted.getText().equals(post.getText()));
 
 		persisted.setText("Modified");
