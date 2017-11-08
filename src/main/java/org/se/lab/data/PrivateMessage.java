@@ -18,7 +18,7 @@ public class PrivateMessage implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	public PrivateMessage(int id, String text, int fk_user_sender, int fk_user_receiver)
+	public PrivateMessage(String text, int fk_user_sender, int fk_user_receiver)
 	{
 		setText(text);
 		setFK_User_Sender(fk_user_sender);
@@ -38,8 +38,10 @@ public class PrivateMessage implements Serializable
 		return ID;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
+	public void setID(int id) {
+		if (id <= 0)
+			throw new IllegalArgumentException();
+		ID = id;
 	}
 	
 	@Column(name="Text")
@@ -49,6 +51,8 @@ public class PrivateMessage implements Serializable
 	}
 
 	public void setText(String text) {
+		if (text == null || text.trim().length() == 0)
+			throw new IllegalArgumentException();
 		this.text = text;
 	}
 
@@ -133,6 +137,12 @@ public class PrivateMessage implements Serializable
 		} else if (!text.equals(other.text))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "PrivateMessage [ID=" + ID + ", text=" + text + ", FK_User_Sender=" + FK_User_Sender
+				+ ", FK_User_Receiver=" + FK_User_Receiver + "]";
 	}
 
 }
