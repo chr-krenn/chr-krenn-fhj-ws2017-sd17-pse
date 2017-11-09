@@ -4,28 +4,9 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>JSF Data Table</title>
+	<title>Indexpage only used to redirect</title>
 </h:head>
 
-<h:body>
-	<h:form>
-		<h2>Example: Data Table with Database Access</h2>
-		
-		<p:dataTable var="user" value="#{dataBean.users}">
-		    <p:column headerText="Id">
-		        <h:outputText value="#{user.id}" />
-		    </p:column>		 
-		    <p:column headerText="Username">
-		        <h:outputText value="#{user.username}" />
-		    </p:column>
-		    <p:column headerText="Password">
-		        <h:outputText value="#{user.password}" />
-		    </p:column>
-		</p:dataTable>	
-		
-		<br/>
-			
-		<h:commandButton value="Refresh" action="#{dataBean.refresh()}" />
-	</h:form>
+<h:body onload="#{indexBean.init()}">
 </h:body>
 </html>

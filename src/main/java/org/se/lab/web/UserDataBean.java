@@ -73,18 +73,7 @@ public class UserDataBean implements Serializable {
 
             userId = (int) session.get("user");
             LOG.info("SESSIOn UID: " + userId);
-        } else {
-			/*
-			 * If session is null - redirect to login page!
-			 * 
-			 */
-            try {
-                context.getExternalContext().redirect("/pse/login.xhtml");
-            } catch (IOException e) {
-				LOG.error("Can't redirect to /pse/login.xhtml");
-                //e.printStackTrace();
-            }
-        }
+
 
 
         // Dummy Data
@@ -127,6 +116,18 @@ public class UserDataBean implements Serializable {
 		 * (FileNotFoundException e) { // TODO Auto-generated catch block
 		 * e.printStackTrace(); }
 		 */
+        } else {
+			/*
+			 * If session is null - redirect to login page!
+			 *
+			 */
+            try {
+                context.getExternalContext().redirect("/pse/login.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/login.xhtml");
+                //e.printStackTrace();
+            }
+        }
     }
 
     public User getUser(int id) {
