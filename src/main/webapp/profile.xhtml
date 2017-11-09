@@ -25,6 +25,8 @@
                 <f:param name="contactName" value="#{userDataBean.user.username}" />
                 </p:commandButton>
             </div>
+                <h3>Insert Contact Name to add</h3>
+                <h:inputText value = "enter Name" id="contactToAdd"/>
             <h2>User-Profile</h2>
             <p:repeat value="#{userDataBean.user}" var="u">
                 <h:panelGrid columns="2" style="width:100%" class="panel" columnClasses="logo,detail">
