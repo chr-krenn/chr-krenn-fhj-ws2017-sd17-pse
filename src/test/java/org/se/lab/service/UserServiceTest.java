@@ -38,16 +38,24 @@ public class UserServiceTest {
     private User user2;
     private UserProfile userProfile1;
     private UserProfile userProfile2;
+    private UserContact userContact1;
+    private UserContact userContact2;
+
 
     @Before
     public void setUp() throws Exception {
         user1 = new User(USERNAME, PASSWORD);
         user2 = new User("username2","pwd");
+        user1.setId(1);
+        user2.setId(2);
 
         userProfile1 = new UserProfile("Max", "Mustermann","max.mustermann@edu.fh-joanneum.at","03161234","06641234567", "test1");
         userProfile2 = new UserProfile("Erika", "Musterfrau","erika.musterfrau@edu.fh-joanneum.at","03165678","066489101112", "test2");
         user1.setUserProfile(userProfile1);
         user2.setUserProfile(userProfile2);
+
+        userContact1 = new UserContact(user1,2);
+        userContact2 = new UserContact(user2,1);
     }
 
     @After
@@ -98,8 +106,7 @@ public class UserServiceTest {
         List<UserContact> userContactList = new ArrayList<>();
         UserContact contact1 = new UserContact(user1, 3);
         UserContact contact2 = new UserContact(user2,2);
-        user1.setId(1);
-        user2.setId(2);
+
         userContactList.add(contact1);
         userContactList.add(contact2);
 
@@ -134,7 +141,6 @@ public class UserServiceTest {
 
     @Test
     public void getUserProfilById() {
-    	user1.setId(1);
         expect(userProfileDAO.findById(user1.getId())).andReturn(userProfile1);
         replay(userProfileDAO);
 
@@ -154,4 +160,54 @@ public class UserServiceTest {
         List<UserProfile> userProfilesResult = userService.getAllUserProfiles();
         Assert.assertThat(userProfiles.size(),is(2));
     }
+
+    @Test
+    public void addContact_Succesful(){
+
+        expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
+        replay(userDAO);
+
+        expect(userContactDAO.doesContactExist(user1.getId())).andReturn(false);
+        expect(userContactDAO.insert(userContact2)).andReturn(userContact2);
+        replay(userContactDAO);
+
+        userService.addContact(user2, user1.getUsername());
+    }
+
+    @Test(expected = ServiceException.class)
+    public void addContact_Fail(){
+        expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
+        replay(userDAO);
+
+        expect(userContactDAO.doesContactExist(user1.getId())).andReturn(true);
+        replay(userContactDAO);
+
+        userService.addContact(user2, user1.getUsername());
+    }
+
+    @Test(expected = ServiceException.class)
+    public void removeContact_Fail(){
+        expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
+        replay(userDAO);
+
+        expect(userContactDAO.doesContactExist(user1.getId())).andReturn(false);
+        replay(userContactDAO);
+
+        userService.removeContact(user1,user1.getUsername());
+    }
+
+    @Test
+    public void removeContact_Succesfull(){
+        expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
+        replay(userDAO);
+
+        expect(userContactDAO.doesContactExist(user1.getId())).andReturn(true);
+        expect(userContactDAO.findById(user1.getId())).andReturn(userContact2);
+        userContactDAO.delete(userContact2);
+        replay(userContactDAO);
+
+        userService.removeContact(user1,user1.getUsername());
+    }
+
+
 }
