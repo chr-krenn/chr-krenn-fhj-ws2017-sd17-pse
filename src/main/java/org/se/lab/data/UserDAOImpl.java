@@ -3,8 +3,14 @@ package org.se.lab.data;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import java.util.List;
 
 class UserDAOImpl
@@ -80,9 +86,19 @@ class UserDAOImpl
 
 	@Override
 	public User findByUsername(String username) {
-		Query query = this.em.createQuery("SELECT u FROM User u WHERE u.username =:username");
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<User> criteria = builder.createQuery(User.class);
+		Root<User> user = criteria.from(User.class);
+		criteria.where(builder.equal(user.get("username"), username));
+		TypedQuery<User> query = em.createQuery(criteria);
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+		/*Query query = this.em.createQuery("SELECT u FROM User u WHERE u.username =:username");
 		query.setParameter("username", username);
 		return (User) query.getSingleResult();
-		//return em.find(User.class, username);
+		//return em.find(User.class, username);*/
 	}
 }

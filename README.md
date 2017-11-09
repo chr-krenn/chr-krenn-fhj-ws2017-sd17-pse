@@ -5,10 +5,7 @@ Students SW-Project
 * Virtual Machine: ftp://mesen.fh-joanneum.at/common/Teiniker-Fedora-VMs/Fedora-26-XFCE-2017-09-30.ova
 * SCRUM and Task-Management: https://tree.taiga.io/project/p0intr-swd15-pswengi/
 # Configure WildFly server:
-* Configure WildFly according to instructions in doc/data/SETUP_WILDFLY/
-* __FIX WRONG JPA ANNOTATIONS in the Java source!__
-* Make sure index.xhtml displays all sample users __after following the setup instructions below:__
-![screenshot index.xhtml](doc/data/SETUP_WILDFLY/screenshot_index_xhtml.png)
+* Copy the content of in doc/data/SETUP_WILDFLY/ to the install/wildfly/ directory
 ## Setup
 Clone Repository
 <pre>
@@ -29,10 +26,8 @@ Copy/paste the following commands to __create the database__ and __insert sample
 <pre>
 CREATE DATABASE pse;
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `pse`.* TO 'student'@'localhost';
-CREATE DATABASE pse_test;
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `pse_test`.* TO 'student'@'localhost';
 use pse;
-source sql/create.sql;
+source sql/init.sql;
 source sql/insert.sql;
 exit
 </pre>
