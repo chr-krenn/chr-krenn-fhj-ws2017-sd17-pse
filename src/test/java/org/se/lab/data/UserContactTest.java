@@ -4,8 +4,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.se.lab.data.UserContactDAO;
-import org.se.lab.data.UserContactDAOImpl;
 
 public class UserContactTest {
 
@@ -23,9 +21,26 @@ public class UserContactTest {
 
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalContactId() {
+        uc.setContactId(0);
+    }
+
+
+    @Test
+    public void testContactId() {
+        Assert.assertEquals( uc.getContactId(), uc.getUser().getUserContacts().get(0).getContactId());
+    }
+
+    @Test
+    public void testUserId() {
+        Assert.assertNotNull(uc.getId());
+    }
+
     @Test
     public void testUser() {
-        Assert.assertEquals( uc.getContactId(), uc.getUser().getUserContacts().get(0).getContactId());
+        UserContact uc2 = new UserContact();
+        Assert.assertNotNull(uc2);
     }
 
     @Test
@@ -35,10 +50,20 @@ public class UserContactTest {
     }
 
     @Test
-    public void testEquals() {
+    public void testEqualsObjtrue() {
         UserContact uc = new UserContact(u, 2);
         Assert.assertTrue(uc.equals(uc));
-        UserContactDAO dao = new UserContactDAOImpl();
+    }
+
+    @Test
+    public void testEqualsObjnull() {
+        Assert.assertFalse(uc.equals(null));
+    }
+
+    @Test
+    public void testEqualsgetClassfalse() {
+        Assert.assertFalse(uc.equals(u));
+
     }
 
     @Test

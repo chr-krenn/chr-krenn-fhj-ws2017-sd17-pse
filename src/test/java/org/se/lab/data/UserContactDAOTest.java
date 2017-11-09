@@ -1,20 +1,24 @@
 package org.se.lab.data;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
 public class UserContactDAOTest extends AbstractDAOTest {
 
-    User u = new User("Fantom", "***");
-
+    private User u = new User("Fantom", "***");
     private UserContact uc = new UserContact(u,2);
     private UserContact uc2 = new UserContact(u, 3);
 
-    private static UserContactDAOImpl ucdao = new UserContactDAOImpl();
+    private UserContactDAOImpl ucdao = new UserContactDAOImpl();
 
-    static {
+
+    @Before
+    @Override
+    public void setup() {
+        tx.begin();
         ucdao.setEntityManager(em);
     }
 
