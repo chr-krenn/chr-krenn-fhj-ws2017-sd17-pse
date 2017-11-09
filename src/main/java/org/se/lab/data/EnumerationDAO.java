@@ -7,6 +7,6 @@ public interface EnumerationDAO {
 	Enumeration update(Enumeration enumeration);
 	void delete(Enumeration enumeration);
 	
-	List<Enumeration> read();
-	Enumeration read(int id);
+	List<Enumeration> findAll();
+	Enumeration findById(int id);
 }
