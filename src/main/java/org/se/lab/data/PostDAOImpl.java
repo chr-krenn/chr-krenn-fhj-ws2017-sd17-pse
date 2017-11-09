@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 public class PostDAOImpl implements PostDAO {
 	
 	@PersistenceContext
-	public EntityManager manager;
+	private EntityManager manager;
 
 	@Override
 	public Post insert(Post post) {
@@ -33,16 +33,14 @@ public class PostDAOImpl implements PostDAO {
 		manager.remove(post);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Post> getPostsForUser(User user) {
-		return manager.createQuery(POST_FOR_USER_QUERY).setParameter("id", user.getId()) .getResultList();
+		return manager.createQuery(POST_FOR_USER_QUERY, Post.class).setParameter("id", user.getId()) .getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Post> getPostsForCommunity(Community community) {
-		return manager.createQuery(POST_FOR_COMMUNITY_QUERY).setParameter("id", community.getId()) .getResultList();
+		return manager.createQuery(POST_FOR_COMMUNITY_QUERY, Post.class).setParameter("id", community.getId()) .getResultList();
 	}
 	
 	public void setEntityManager(EntityManager em) {

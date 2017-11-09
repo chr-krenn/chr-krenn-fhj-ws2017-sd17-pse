@@ -12,47 +12,56 @@ INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
 VALUES ('Frank', 'Morlar', 'fm@example.com', '555-1237', '065762', 'HR');
 
 -- create users
-INSERT INTO users(username, password, role, fk_userprofile) VALUES ('admin', 'pass', 'admin', 1);
-INSERT INTO users(username, password, role, fk_userprofile) VALUES ('bob', 'pass', 'user', 2);
-INSERT INTO users(username, password, role, fk_userprofile) VALUES ('alice', 'pass', 'user', 3);
-INSERT INTO users(username, password, role, fk_userprofile) VALUES ('frank', 'pass', 'portaladmin', 4);
+INSERT INTO users(username, password, fk_userprofile) VALUES ('admin', 'pass', 1);
+INSERT INTO users(username, password, fk_userprofile) VALUES ('bob', 'pass', 2);
+INSERT INTO users(username, password, fk_userprofile) VALUES ('alice', 'pass', 3);
+INSERT INTO users(username, password, fk_userprofile) VALUES ('frank', 'pass', 4);
 
 -- admin has contacts bob, alice
-INSERT INTO contact(user_id, contact_id) VALUES (1,2);
-INSERT INTO contact(user_id, contact_id) VALUES (1,3);
+INSERT INTO contact(user_id, fk_contact_id) VALUES (1,2);
+INSERT INTO contact(user_id, fk_contact_id) VALUES (1,3);
 -- bob has contacts admin, alice, frank
-INSERT INTO contact(user_id, contact_id) VALUES (2,1);
-INSERT INTO contact(user_id, contact_id) VALUES (2,3);
-INSERT INTO contact(user_id, contact_id) VALUES (2,4);
+INSERT INTO contact(user_id, fk_contact_id) VALUES (2,1);
+INSERT INTO contact(user_id, fk_contact_id) VALUES (2,3);
+INSERT INTO contact(user_id, fk_contact_id) VALUES (2,4);
 -- alice has contact frank
-INSERT INTO contact(user_id, contact_id) VALUES (3,4);
+INSERT INTO contact(user_id, fk_contact_id) VALUES (3,4);
 -- frank has contact alice
-INSERT INTO contact(user_id, contact_id) VALUES (4,3);
+INSERT INTO contact(user_id, fk_contact_id) VALUES (4,3);
 
 -- write a pm from admin to alice
-INSERT INTO private_message(from_id, to_id, text) VALUES (1,3, 'This is a private message.');
+INSERT INTO privateMessage(FK_UserID_sender, FK_UserID_receiver, text) VALUES (1,3, 'This is a private message.'); -- reconsider naming (e.g. private_message, fk_user_receiver_id...)
 
 -- create communities SWD15 and FH Joanneum
-INSERT INTO community(name,status,description) VALUES ('SWD15', 'test', 'test');
-INSERT INTO community(name,status,description) VALUES ('FH Joanneum', 'test', 'test');
+INSERT INTO community(name,description) VALUES ('SWD15', 'test');
+INSERT INTO community(name,description) VALUES ('FH Joanneum', 'test');
 
 -- admin posts on community SWD15
-INSERT INTO post(user_id, community_id,text) VALUES (1,1,'First post from admin!');
+INSERT INTO post(fk_user_id, fk_community_id,text) VALUES (1,1,'First post from admin!');
 
 -- admin talks to himself..
-INSERT INTO post(user_id, community_id,parent_post_id, text) VALUES (1,1,1,'This is a reply from admin.');
+INSERT INTO post(fk_user_id, fk_community_id,parent_post_id, text) VALUES (1,1,1,'This is a reply from admin.');
 
 -- bob posts on community SWD15, alice posts a reply
-INSERT INTO post(user_id, community_id,text) VALUES (2,1,'This is a post from bob on SWD15!');
-INSERT INTO post(user_id, community_id,parent_post_id,text) VALUES (3,1,3,'This is a reply from alice to bob.');
+INSERT INTO post(fk_user_id, fk_community_id,text) VALUES (2,1,'This is a post from bob on SWD15!');
+INSERT INTO post(fk_user_id, fk_community_id,parent_post_id,text) VALUES (3,1,3,'This is a reply from alice to bob.');
 
 -- add status to enumeration
-INSERT INTO enumeration (name) VALUES ('OPEN');
-INSERT INTO enumeration (name) VALUES ('CLOSED');
-INSERT INTO enumeration (name) VALUES ('BLOCKED');
-INSERT INTO enumeration (name) VALUES ('INSPECTION');
-INSERT INTO enumeration (name) VALUES ('VERIFICATION');
+INSERT INTO enumeration (name) VALUES ('OPEN'); -- 1
+INSERT INTO enumeration (name) VALUES ('CLOSED'); -- 2
+INSERT INTO enumeration (name) VALUES ('BLOCKED'); -- 3
+INSERT INTO enumeration (name) VALUES ('INSPECTION'); -- 4
+INSERT INTO enumeration (name) VALUES ('VERIFICATION'); -- 5
+INSERT INTO enumeration (name) VALUES ('ADMIN'); -- 6
+INSERT INTO enumeration (name) VALUES ('PORTALADMIN'); -- 7
+INSERT INTO enumeration (name) VALUES ('USER'); -- 8
 
 -- add status open to communitys
 INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (2,NULL,NULL,1);
 INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (1,NULL,NULL,2);
+
+-- add status to users
+INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (6,NULL,1,NULL);
+INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (8,NULL,2,NULL);
+INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (8,NULL,3,NULL);
+INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (7,NULL,4,NULL);

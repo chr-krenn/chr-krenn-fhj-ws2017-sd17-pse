@@ -18,5 +18,7 @@
 		<mapping class="org.se.lab.data.UserContact" />
 		<mapping class="org.se.lab.data.Enumeration" />
 		<mapping class="org.se.lab.data.UserContact" />
+		<mapping class="org.se.lab.data.EnumerationItem" />
+		<mapping class="org.se.lab.data.PrivateMessage" />
 	</session-factory>
 </hibernate-configuration>
