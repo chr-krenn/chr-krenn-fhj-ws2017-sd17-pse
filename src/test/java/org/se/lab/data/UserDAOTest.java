@@ -47,7 +47,7 @@ public class UserDAOTest extends AbstractDAOTest
     	udao.insert(user);
     	udao.insert(user2);
         List<User> users = udao.findAll();
-        Assert.assertEquals(4, users.size());
+        Assert.assertEquals(2, users.size());
     }
 
     @Test

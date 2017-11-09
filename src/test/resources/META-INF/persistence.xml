@@ -22,7 +22,7 @@
         	<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
         	<property name="hibernate.show_sql" value="true"/>
         	<property name="jboss.as.jpa.providerModule" value="org.hibernate:5.0"/>
-        	<property name="hibernate.hbm2ddl.auto" value="create" />
+        	<property name="hibernate.hbm2ddl.auto" value="update" />
     	</properties>
 
 	</persistence-unit>

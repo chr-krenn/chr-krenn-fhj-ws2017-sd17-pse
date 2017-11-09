@@ -39,7 +39,7 @@ public class PrivateMessageDAOTest extends AbstractDAOTest
     	pmdao.insert(pm);
     	pmdao.insert(pm2);
         List<PrivateMessage> pms = pmdao.findAll();
-        Assert.assertEquals(4, pms.size());
+        Assert.assertEquals(2, pms.size());
     }
 
     @Test

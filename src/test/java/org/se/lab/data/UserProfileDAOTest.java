@@ -50,7 +50,7 @@ public class UserProfileDAOTest extends AbstractDAOTest {
         updao.insert(up);
         updao.insert(up2);
         List<UserProfile> ups = updao.findAll();
-        Assert.assertEquals(4, ups.size());
+        Assert.assertEquals(2, ups.size());
     }
 
     @Test

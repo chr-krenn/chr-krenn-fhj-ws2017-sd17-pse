@@ -21,7 +21,7 @@ public abstract class AbstractDAOTest {
 	
 	@BeforeClass
 	public static void connect() {
-		factory = Persistence.createEntityManagerFactory("pse_test");
+		factory = Persistence.createEntityManagerFactory(persistencUnitName);
 		assertNotNull(factory);
 		em = factory.createEntityManager();
 		assertNotNull(em);
@@ -43,8 +43,6 @@ public abstract class AbstractDAOTest {
 	
 	@After
 	public void teardown() {
-		tx.commit();
-		
 		if (tx.isActive() ) {
 			tx.rollback();
 		}
