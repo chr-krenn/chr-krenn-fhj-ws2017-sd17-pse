@@ -5,7 +5,7 @@ Students SW-Project
 * Virtual Machine: ftp://mesen.fh-joanneum.at/common/Teiniker-Fedora-VMs/Fedora-26-XFCE-2017-09-30.ova
 * SCRUM and Task-Management: https://tree.taiga.io/project/p0intr-swd15-pswengi/
 # Configure WildFly server:
-* Copy the content of in doc/data/SETUP_WILDFLY/ to the install/wildfly/ directory
+* Copy the content from doc/data/SETUP_WILDFLY/ to the install/wildfly/ directory
 ## Setup
 Clone Repository
 <pre>

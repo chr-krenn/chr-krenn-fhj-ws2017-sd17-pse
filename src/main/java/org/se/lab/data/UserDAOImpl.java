@@ -96,9 +96,5 @@ class UserDAOImpl
 		} catch (NoResultException e) {
 			return null;
 		}
-		/*Query query = this.em.createQuery("SELECT u FROM User u WHERE u.username =:username");
-		query.setParameter("username", username);
-		return (User) query.getSingleResult();
-		//return em.find(User.class, username);*/
 	}
 }
