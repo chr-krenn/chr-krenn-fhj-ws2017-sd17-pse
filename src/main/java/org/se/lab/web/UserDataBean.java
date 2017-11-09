@@ -2,7 +2,10 @@ package org.se.lab.web;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.StreamedContent;
-import org.se.lab.data.*;
+import org.se.lab.data.Community;
+import org.se.lab.data.User;
+import org.se.lab.data.UserContact;
+import org.se.lab.data.UserProfile;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +14,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -97,7 +99,7 @@ public class UserDataBean implements Serializable {
 		/*
          * Activate when DAO works
 		 */
-            //contacts = service.getAllContactsByUser(user);
+            contacts = service.getAllContactsByUser(user);
 
 		/*
          * Suchen aller Communities zur ID dieses Users
