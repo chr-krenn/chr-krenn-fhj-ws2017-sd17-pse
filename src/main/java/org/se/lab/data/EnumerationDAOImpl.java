@@ -3,12 +3,22 @@ package org.se.lab.data;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+
+import org.apache.log4j.Logger;
 
 public class EnumerationDAOImpl implements EnumerationDAO {
 
+	private final Logger LOG = Logger.getLogger(EnumerationDAOImpl.class);
+
 	@PersistenceContext
 	private EntityManager em;
+	
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
 
 	@Override
 	public Enumeration insert(Enumeration enumeration) {
@@ -27,12 +37,15 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 	}
 
 	@Override
-	public List<Enumeration> read() {
-		return em.createQuery("Select e from Enumeration", Enumeration.class).getResultList();
+	public List<Enumeration> findAll() {
+		LOG.info("findAll()");
+        final String hql = "SELECT e FROM " + Enumeration.class.getName() + " AS e";
+        return em.createQuery(hql, Enumeration.class).getResultList();		
 	}
 
 	@Override
-	public Enumeration read(int id) {
-		return em.createQuery("Select e from Enumeration where Id = " + id, Enumeration.class).getSingleResult();
+	public Enumeration findById(int id) {
+		LOG.info("findById(" + id + ")");       
+        return em.find(Enumeration.class, id);
 	}
 }
