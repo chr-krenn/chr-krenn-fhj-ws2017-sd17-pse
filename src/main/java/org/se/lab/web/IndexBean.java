@@ -18,7 +18,7 @@ public class IndexBean {
         FacesContext context = FacesContext.getCurrentInstance();
 
         try {
-            context.getExternalContext().redirect("/pse/login.xhtml");
+            context.getExternalContext().redirect("/pse/activityStream.xhtml");
         } catch (IOException e) {
             LOG.error("Can't redirect to /pse/activityStream.xhtml");
             //e.printStackTrace();
