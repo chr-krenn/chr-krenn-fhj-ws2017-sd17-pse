@@ -49,7 +49,7 @@ public class ActivityStreamService {
     public void update(Post post) {
         LOG.debug("update " + post);
         try {
-            dao.delete(post);
+            dao.update(post);
         } catch (Exception e) {
             LOG.error("Can't update post " + post, e);
             throw new ServiceException("Can't update post " + post);
