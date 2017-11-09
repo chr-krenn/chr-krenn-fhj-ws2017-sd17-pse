@@ -24,7 +24,8 @@ public class CommunityService {
         try {
             return dao.findAll();
         } catch (Exception e) {
-            throw new ServiceException("Error during findAll Communities", e);
+            LOG.error("Error during findAll Communities", e);
+            throw new ServiceException("Error during findAll Communities");
         }
     }
 
@@ -42,8 +43,8 @@ public class CommunityService {
         try {
             dao.delete(community);
         } catch (Exception e) {
-            LOG.error("Can't delete community " + community);
-            throw new ServiceException("Can't delete community " + community, e);
+            LOG.error("Can't delete community " + community, e);
+            throw new ServiceException("Can't delete community " + community);
         }
     }
 
@@ -53,8 +54,8 @@ public class CommunityService {
         try {
             dao.update(community);
         } catch (Exception e) {
-            LOG.error("Can't update community " + community);
-            throw new ServiceException("Can't update community " + community, e);
+            LOG.error("Can't update community " + community, e);
+            throw new ServiceException("Can't update community " + community);
         }
     }
 
@@ -77,8 +78,8 @@ public class CommunityService {
         try {
             dao.insert(community);
         } catch (Exception e) {
-            LOG.error("Can't insert community " + community);
-            throw new ServiceException("Can't insert community " + community, e);
+            LOG.error("Can't insert community " + community, e);
+            throw new ServiceException("Can't insert community " + community);
         }
     }
 
@@ -95,8 +96,8 @@ public class CommunityService {
         try {
             return dao.findById(id);
         } catch (Exception e) {
-            LOG.error("Can`t find Id " + id);
-            throw new ServiceException("Can`t find Id " + id, e);
+            LOG.error("Can`t find Id " + id, e);
+            throw new ServiceException("Can`t find Id " + id);
         }
 
 
