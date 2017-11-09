@@ -2,7 +2,10 @@ package org.se.lab.web;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.StreamedContent;
-import org.se.lab.data.*;
+import org.se.lab.data.Community;
+import org.se.lab.data.User;
+import org.se.lab.data.UserContact;
+import org.se.lab.data.UserProfile;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +14,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -86,21 +88,21 @@ public class UserDataBean implements Serializable {
 
             if (userProfId != null) {
                 //Get selected UserProfile from Overview Page - DAO Method does not work
-                user = service.findById(Integer.parseInt(userProfId));
+                user = getUser(Integer.parseInt(userProfId));
 
             } else {
 
                 // DAO does not work - use Dummy Data instead
-                user = this.getUser(userId);
+                user = getUser(userId);
             }
 
 		/*
          * Activate when DAO works
 		 */
-            //contacts = service.getAllContactsByUser(user);
+            contacts = service.getAllContactsByUser(user);
 
 		/*
-		 * Suchen aller Communities zur ID dieses Users
+         * Suchen aller Communities zur ID dieses Users
 		 */
             //communities = user.getCommunities();
 
@@ -175,20 +177,17 @@ public class UserDataBean implements Serializable {
 
     public void addContact() {
 
-        //Activate when DAO works
-        //User u = service.findById(userId);
 
-        if (user != null) {
-            //todo for 2nd it change matching string
-            String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("j_idt4:contactToAdd");
-            LOG.info("contactName " + contactName);
-            LOG.info("u " + user.getId());
-            LOG.info("userid " + userId);
+        User u = service.findById(userId);
 
-            service.addContact(user, contactName);
+        String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
 
-            init();
-        }
+
+        LOG.info("contactName " + contactName);
+        LOG.info("u " + u.getId());
+        LOG.info("userid " + userId);
+        //todo if works from dao
+//        service.addContact(u, contactName);
 
 
     }
