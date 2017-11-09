@@ -35,6 +35,25 @@ public class UserProfileTest {
         Assert.assertTrue(up.equals(up2));
     }
 
+    @Test
+    public void testFirstname() {
+        Assert.assertEquals("test", up.getFirstname());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testFirstnameNull() {
+        up.setFirstname(null);
+    }
+
+    @Test
+    public void testLastname() {
+        Assert.assertEquals("test", up.getLastname());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testLastnameNull() {
+        up.setLastname(null);
+    }
 
     @Test
     public void testHash() {

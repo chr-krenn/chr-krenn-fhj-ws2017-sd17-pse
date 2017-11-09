@@ -1,6 +1,7 @@
 package org.se.lab.data;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,9 +12,12 @@ public class UserProfileDAOTest extends AbstractDAOTest {
     public UserProfile up2 = new UserProfile("Test", "Phantom", "fritz.phantom@gmail.com", "555-432", "555-321", "Phantom");
 
 
-    public static UserProfileDAOImpl updao = new UserProfileDAOImpl();
+    public UserProfileDAOImpl updao = new UserProfileDAOImpl();
 
-    static {
+    @Before
+    @Override
+    public void setup() {
+        tx.begin();
         updao.setEntityManager(em);
     }
 
