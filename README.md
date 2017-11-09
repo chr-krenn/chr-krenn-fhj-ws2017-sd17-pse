@@ -28,8 +28,11 @@ CREATE DATABASE pse;
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `pse`.* TO 'student'@'localhost';
 use pse;
 source sql/init.sql;
-source sql/insert.sql;
 exit
+</pre>
+If you want to insert some sample data to the database also run
+<pre>
+source sql/insert.sql;
 </pre>
 Set up management user to access WildFly management console at http://localhost:9990 (optional):
 <pre>
