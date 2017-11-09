@@ -11,11 +11,15 @@ VALUES ('Alice', 'Carroll', 'a.carroll@example.com', '555-1236', '065762', 'Acco
 INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
 VALUES ('Frank', 'Morlar', 'fm@example.com', '555-1237', '065762', 'HR');
 
+INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
+VALUES ('Maria', 'Datenbank', 'gmail@hotmail.gmx', '555-666666', '066000', 'Datenbank');
+
 -- create users
 INSERT INTO users(username, password, fk_userprofile) VALUES ('admin', 'pass', 1);
 INSERT INTO users(username, password, fk_userprofile) VALUES ('bob', 'pass', 2);
 INSERT INTO users(username, password, fk_userprofile) VALUES ('alice', 'pass', 3);
 INSERT INTO users(username, password, fk_userprofile) VALUES ('frank', 'pass', 4);
+INSERT INTO users(username, password, fk_userprofile) VALUES ('superadmin', 'pass', 5);
 
 -- admin has contacts bob, alice
 INSERT INTO contact(user_id, fk_contact_id) VALUES (1,2);

@@ -42,4 +42,18 @@ public class EnumerationTest {
 		enumeration.setId(2);
 		Assert.assertEquals(2, enumeration.getId());
 	}
+	
+	@Test
+	public void testEquals(){
+		Assert.assertTrue(enumeration.equals(enumeration));
+		Assert.assertTrue(!enumeration.equals(null));
+		Assert.assertTrue(!enumeration.equals(new Object()));
+		Assert.assertTrue(enumeration.equals(new Enumeration(1, "Activer")));
+		Assert.assertTrue(!enumeration.equals(new Enumeration(2, "Active")));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidId(){
+		enumeration.setId(-1);
+	}
 }

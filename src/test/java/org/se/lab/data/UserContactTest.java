@@ -69,7 +69,6 @@ public class UserContactTest {
     @Test
     public void testToString() {
         String s = "UserContacts [userId=0, contactId=2]";
-        System.out.println(uc.toString());
         Assert.assertTrue(uc.toString().equals(s));
     }
 
