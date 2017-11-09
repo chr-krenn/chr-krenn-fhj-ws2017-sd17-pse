@@ -1,15 +1,14 @@
 package org.se.lab.service;
 
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
 import org.se.lab.data.Post;
 import org.se.lab.data.PostDAO;
 import org.se.lab.data.User;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.util.List;
 
 @Stateless
 public class ActivityStreamService {
@@ -32,8 +31,8 @@ public class ActivityStreamService {
                 dao.insert(post, community);
             }
         } catch (Exception e) {
-            LOG.error("Can't insert post " + post);
-            throw new ServiceException("Can't insert post " + post, e);
+            LOG.error("Can't insert post " + post, e);
+            throw new ServiceException("Can't insert post " + post);
         }
     }
 
@@ -42,18 +41,18 @@ public class ActivityStreamService {
         try {
             dao.delete(post);
         } catch (Exception e) {
-            LOG.error("Can't delete post " + post);
-            throw new ServiceException("Can't delete post " + post, e);
+            LOG.error("Can't delete post " + post, e);
+            throw new ServiceException("Can't delete post " + post);
         }
     }
 
     public void update(Post post) {
         LOG.debug("update " + post);
         try {
-            dao.delete(post);
+            dao.update(post);
         } catch (Exception e) {
-            LOG.error("Can't update post " + post);
-            throw new ServiceException("Can't update post " + post, e);
+            LOG.error("Can't update post " + post, e);
+            throw new ServiceException("Can't update post " + post);
         }
     }
 

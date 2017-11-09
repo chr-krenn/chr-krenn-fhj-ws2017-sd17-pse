@@ -22,9 +22,9 @@ import java.util.Map;
 @RequestScoped
 public class UserDataBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     private final Logger LOG = Logger.getLogger(UserDataBean.class);
-    
+
     Flash flash;
     FacesContext context;
     private StreamedContent photo;
@@ -40,84 +40,71 @@ public class UserDataBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        contacts = new ArrayList<UserContact>();
-        communities = new ArrayList<Community>();
-
         context = FacesContext.getCurrentInstance();
+        Map<String, Object> session = context.getExternalContext().getSessionMap();
+        if (session.size() != 0 && session.get("user") != null) {
+
+            contacts = new ArrayList<UserContact>();
+            communities = new ArrayList<Community>();
+
 
 		/*
          * FG Info Flash: We need flash to make the param survive one redirect request
 		 * otherwise param will be null
 		 */
-        flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+            flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 
 		/*
-		 * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
+         * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
 		 * 
 		 */
 
-        Map<String, Object> session = context.getExternalContext().getSessionMap();
+
+            id = context.getExternalContext().getRequestParameterMap().get("userid");
+
+            flash.put("uid", id);
 
 
-        id = context.getExternalContext().getRequestParameterMap().get("userid");
-
-        flash.put("uid", id);
+            String userProfId = (String) context.getExternalContext().getFlash().get("uid");
 
 
-        String userProfId = (String) context.getExternalContext().getFlash().get("uid");
+            LOG.info("userProfId: " + userProfId);
 
-
-        LOG.info("userProfId: " + userProfId);
-
-        if (session.size() != 0 && session.get("user") != null) {
 
             userId = (int) session.get("user");
             LOG.info("SESSIOn UID: " + userId);
-        } else {
-			/*
-			 * If session is null - redirect to login page!
-			 * 
-			 */
-            try {
-                context.getExternalContext().redirect("/pse/login.xhtml");
-            } catch (IOException e) {
-				LOG.error("Can't redirect to /pse/login.xhtml");
-                //e.printStackTrace();
+
+
+            // Dummy Data
+            // contacts.add(new UserContact(40, userBob, 1));
+            // contacts.add(new UserContact(41, userBob, 4));
+            // contacts.add(new UserContact(42, userBob,3));
+
+            communities.add(new Community("C1", "NewC1"));
+            communities.add(new Community("C2", "NewC2"));
+            communities.add(new Community("C3", "NewC3"));
+
+            if (userProfId != null) {
+                //Get selected UserProfile from Overview Page - DAO Method does not work
+                user = service.findById(Integer.parseInt(userProfId));
+
+            } else {
+
+                // DAO does not work - use Dummy Data instead
+                user = this.getUser(userId);
             }
-        }
-
-
-        // Dummy Data
-        // contacts.add(new UserContact(40, userBob, 1));
-        // contacts.add(new UserContact(41, userBob, 4));
-        // contacts.add(new UserContact(42, userBob,3));
-
-        communities.add(new Community("C1", "NewC1"));
-        communities.add(new Community("C2", "NewC2"));
-        communities.add(new Community("C3", "NewC3"));
-
-        if (userProfId != null)
-        {
-            //Get selected UserProfile from Overview Page - DAO Method does not work
-            user = service.findById(Integer.parseInt(userProfId));
-
-        } else {
-
-            // DAO does not work - use Dummy Data instead
-            user = this.getUser(userId);
-        }
 
 		/*
-		 * Activate when DAO works
+         * Activate when DAO works
 		 */
-        //contacts = service.getAllContactsByUser(user);
+            //contacts = service.getAllContactsByUser(user);
 
 		/*
-		 * Suchen aller Communities zur ID dieses Users 
+		 * Suchen aller Communities zur ID dieses Users
 		 */
-        //communities = user.getCommunities();
+            //communities = user.getCommunities();
 
-        userProfile = service.getUserProfilById(user.getId());
+            userProfile = service.getUserProfilById(user.getId());
 
 
 
@@ -127,6 +114,18 @@ public class UserDataBean implements Serializable {
 		 * (FileNotFoundException e) { // TODO Auto-generated catch block
 		 * e.printStackTrace(); }
 		 */
+        } else {
+			/*
+			 * If session is null - redirect to login page!
+			 *
+			 */
+            try {
+                context.getExternalContext().redirect("/pse/login.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/login.xhtml");
+                //e.printStackTrace();
+            }
+        }
     }
 
     public User getUser(int id) {
@@ -178,17 +177,18 @@ public class UserDataBean implements Serializable {
 
         //Activate when DAO works
         //User u = service.findById(userId);
-        User u = new User("frank", "pass");
 
-        String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
+        if (user != null) {
+            //todo for 2nd it change matching string
+            String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("j_idt4:contactToAdd");
+            LOG.info("contactName " + contactName);
+            LOG.info("u " + user.getId());
+            LOG.info("userid " + userId);
 
+            service.addContact(user, contactName);
 
-        LOG.info("contactName " + contactName);
-        LOG.info("u " + u.getId());
-        LOG.info("userid " + userId);
-
-//		Activate when DAO works
-//		service.addContact(u, contactName);
+            init();
+        }
 
 
     }

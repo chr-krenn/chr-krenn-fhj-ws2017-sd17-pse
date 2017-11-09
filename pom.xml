@@ -37,6 +37,7 @@
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>${version.wildfly.maven.plugin}</version>
 				<configuration>
+					<!--<jvm-args>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9797</jvm-args>-->
 					<jbossHome>/home/student/install/wildfly-10.1.0.Final</jbossHome>
 					<port>9990</port>
 					<server-config>standalone.xml</server-config>

@@ -30,8 +30,8 @@ public class UserService {
         try {
             userDAO.insert(user);
         } catch (Exception e) {
-            LOG.error("Can't insert user " + user);
-            throw new ServiceException("Can't insert user " + user, e);
+            LOG.error("Can't insert user " + user, e);
+            throw new ServiceException("Can't insert user " + user);
         }
     }
 
@@ -41,8 +41,8 @@ public class UserService {
         try {
             userDAO.delete(user);
         } catch (Exception e) {
-            LOG.error("Can't delete user " + user);
-            throw new ServiceException("Can't delete user " + user, e);
+            LOG.error("Can't delete user " + user, e);
+            throw new ServiceException("Can't delete user " + user);
         }
     }
 
@@ -64,8 +64,8 @@ public class UserService {
         try {
             return userDAO.findByUsername(username);
         } catch (Exception e) {
-            LOG.error("Can't find user " + username);
-            throw new ServiceException("Can't find user " + username, e);
+            LOG.error("Can't find user " + username, e);
+            throw new ServiceException("Can't find user " + username);
         }
     }
 
@@ -108,8 +108,8 @@ public class UserService {
         try {
             userDAO.update(user);
         } catch (Exception e) {
-            LOG.error("Can't update user " + user);
-            throw new ServiceException("Can't update user " + user, e);
+            LOG.error("Can't update user " + user, e);
+            throw new ServiceException("Can't update user " + user);
         }
     }
 
@@ -120,8 +120,8 @@ public class UserService {
             List<User> list = userDAO.findAll();
             return list;
         } catch (Exception e) {
-            LOG.error("Can't find all users!");
-            throw new ServiceException("Can't find all users!", e);
+            LOG.error("Can't find all users!", e);
+            throw new ServiceException("Can't find all users!");
         }
     }
 
@@ -131,8 +131,8 @@ public class UserService {
         try {
             return userProfileDAO.findById(id);
         } catch (Exception e) {
-            LOG.error("Can't find user profile!");
-            throw new ServiceException("Can't find user profile!", e);
+            LOG.error("Can't find user profile!", e);
+            throw new ServiceException("Can't find user profile!");
         }
     }
 
@@ -142,8 +142,8 @@ public class UserService {
         try {
             return userProfileDAO.findAll();
         } catch (Exception e) {
-            LOG.error("Can't find all user profile!");
-            throw new ServiceException("Can't find all user profile!", e);
+            LOG.error("Can't find all user profile!", e);
+            throw new ServiceException("Can't find all user profile!");
         }
     }
 
@@ -159,8 +159,8 @@ public class UserService {
             User user = findById(id);
             userDAO.delete(user);
         } catch (Exception e) {
-            LOG.error("Can't delete user with ID " + id);
-            throw new ServiceException("Can't delete user with ID " + id, e);
+            LOG.error("Can't delete user with ID " + id, e);
+            throw new ServiceException("Can't delete user with ID " + id);
         }
 
     }
@@ -171,8 +171,8 @@ public class UserService {
         try {
             return userDAO.findById(id);
         } catch (Exception e) {
-            LOG.error("Can't find user with id " + id);
-            throw new ServiceException("Can't find user with id " + id, e);
+            LOG.error("Can't find user with id " + id, e);
+            throw new ServiceException("Can't find user with id " + id);
         }
     }
 }
