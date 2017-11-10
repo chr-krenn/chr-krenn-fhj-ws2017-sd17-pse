@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -89,7 +90,7 @@ public class Post implements Serializable {
 
 		
 	// parent_post_id
-		@ManyToOne
+		@ManyToOne(fetch=FetchType.EAGER)
 		@JoinColumn(name = "parent_post_id")
 		private Post parentpost;
 	
@@ -115,7 +116,7 @@ public class Post implements Serializable {
 		}
 		
 	// unmapped child_post
-		@OneToMany(mappedBy = "parentpost")
+		@OneToMany(mappedBy = "parentpost", fetch=FetchType.EAGER)
 		private List<Post> children = new ArrayList<Post>();
 		
 		/*
@@ -142,7 +143,7 @@ public class Post implements Serializable {
 	
 
 	// fk_community_id TODO List<Post> on Community?
-		@ManyToOne
+		@ManyToOne(fetch=FetchType.EAGER)
 		@JoinColumn(name="fk_community_id")
 		private Community community;
 		
@@ -168,7 +169,7 @@ public class Post implements Serializable {
 		
 		
 	// fk_user_id TODO List<Post> on User?
-		@ManyToOne
+		@ManyToOne(fetch=FetchType.EAGER)
 		@JoinColumn(name="fk_user_id")
 		private User user;
 		
@@ -195,7 +196,8 @@ public class Post implements Serializable {
 	// Likes
 			@OneToMany(
 					targetEntity = EnumerationItem.class,
-					mappedBy = "post")
+					mappedBy = "post",
+					fetch=FetchType.EAGER)
 			private List<EnumerationItem> likes = new ArrayList<EnumerationItem>();
 			
 			/*
