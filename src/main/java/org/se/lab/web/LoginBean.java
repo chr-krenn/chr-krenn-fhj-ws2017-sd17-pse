@@ -60,12 +60,10 @@ public class LoginBean implements Serializable {
             String erroMsg = "Ooops something went wrong - pls contact the admin or try later";
             LOG.error(erroMsg);
             setErrorMsg(erroMsg);
-//            return REDIRECT_TO_LOGIN_AGAIN;
         }
 
         if (user == null) {
             setErrorMsg("wrong Credentials - please try again");
-//            return REDIRECT_TO_LOGIN_AGAIN;
         }
 
 

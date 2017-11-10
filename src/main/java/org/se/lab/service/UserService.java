@@ -26,6 +26,7 @@ public class UserService {
 
     public void insert(User user) {
         LOG.debug("insert " + user);
+        userValidator(user);
 
         try {
             userDAO.insert(user);
@@ -37,6 +38,7 @@ public class UserService {
 
     public void delete(User user) {
         LOG.debug("delete " + user);
+        userValidator(user);
 
         try {
             userDAO.delete(user);
@@ -49,6 +51,8 @@ public class UserService {
     public User login(String username, String password) {
         LOG.debug("login for " + username);
         // TODO +hashing
+
+        validateString(username,password);
 
         User user = loadUserByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
@@ -70,6 +74,9 @@ public class UserService {
     public void addContact(User user, String contactName) {
         LOG.debug("add contact" + contactName + " to " + user);
 
+        userValidator(user);
+        validateString(contactName);
+
         User userToAdd = userDAO.findByUsername(contactName);
         if (!userContactDAO.doesContactExist(userToAdd.getId())) {
             //todo remove id if possible
@@ -84,6 +91,9 @@ public class UserService {
     public void removeContact(User user, String contactName) {
         LOG.debug("remove contact from " + user);
 
+        userValidator(user);
+        validateString(contactName);
+
         User userToRemove = userDAO.findByUsername(user.getUsername());
         if (userContactDAO.doesContactExist(userToRemove.getId())) {
             UserContact userContact = userContactDAO.findById(userToRemove.getId());
@@ -91,6 +101,21 @@ public class UserService {
         } else {
             LOG.error("Contact " + userToRemove.getUsername() + " is missing ");
             throw new ServiceException("Contact " + userToRemove.getUsername() + "  is missing ");
+        }
+    }
+
+    public void removeContact(User user, User contactUser) {
+        LOG.debug("remove contact from " + user);
+
+        userValidator(user);
+        userValidator(contactUser);
+
+        if (userContactDAO.doesContactExist(contactUser.getId())) {
+            UserContact userContact = userContactDAO.findById(contactUser.getId());
+            userContactDAO.delete(userContact);
+        } else {
+            LOG.error("Contact " + contactUser.getUsername() + " is missing ");
+            throw new ServiceException("Contact " + contactUser.getUsername() + "  is missing ");
         }
     }
 
@@ -146,10 +171,10 @@ public class UserService {
     }
 
 
+
 	/*
      * TODO check if methods delete(id), findById(id) required
 	 */
-
     public void delete(int id) {
         LOG.info("delete: " + id);
 
@@ -171,6 +196,23 @@ public class UserService {
         } catch (Exception e) {
             LOG.error("Can't find user with id " + id, e);
             throw new ServiceException("Can't find user with id " + id);
+        }
+    }
+
+    public void userValidator(User user) {
+        boolean isValidUser = user != null && user.getUsername() != null && user.getPassword() != null;
+        if (!isValidUser) {
+            LOG.error("User not valid " + user);
+            throw new ServiceException("User not valid " + user);
+        }
+    }
+
+    private void validateString(String... strings) {
+        for (String field : strings) {
+            if (field == null && field.isEmpty()) {
+                LOG.error("Missing Argument ");
+                throw new ServiceException("Missing Argument ");
+            }
         }
     }
 }

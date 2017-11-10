@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 
 @RunWith(EasyMockRunner.class)
 public class UserServiceTest {
@@ -45,17 +47,17 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         user1 = new User(USERNAME, PASSWORD);
-        user2 = new User("username2","pwd");
+        user2 = new User("username2", "pwd");
         user1.setId(1);
         user2.setId(2);
 
-        userProfile1 = new UserProfile("Max", "Mustermann","max.mustermann@edu.fh-joanneum.at","03161234","06641234567", "test1");
-        userProfile2 = new UserProfile("Erika", "Musterfrau","erika.musterfrau@edu.fh-joanneum.at","03165678","066489101112", "test2");
+        userProfile1 = new UserProfile("Max", "Mustermann", "max.mustermann@edu.fh-joanneum.at", "03161234", "06641234567", "test1");
+        userProfile2 = new UserProfile("Erika", "Musterfrau", "erika.musterfrau@edu.fh-joanneum.at", "03165678", "066489101112", "test2");
         user1.setUserProfile(userProfile1);
         user2.setUserProfile(userProfile2);
 
-        userContact1 = new UserContact(user1,2);
-        userContact2 = new UserContact(user2,1);
+        userContact1 = new UserContact(user1, 2);
+        userContact2 = new UserContact(user2, 1);
     }
 
     @After
@@ -90,22 +92,24 @@ public class UserServiceTest {
         expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
-        userService.login(user1.getUsername(), user1.getPassword());
+        User user = userService.login(user1.getUsername(), user1.getPassword());
+        Assert.assertThat(user, equalTo(user1));
     }
 
-    @Test(expected = ServiceException.class)
+    @Test
     public void login_Fail() {
         expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
-        userService.login(USERNAME, "wrongPassword");
+        User user = userService.login(USERNAME, "wrongPassword");
+        Assert.assertThat(user, nullValue());
     }
 
     @Test
     public void getAllContactsByUser() {
         List<UserContact> userContactList = new ArrayList<>();
         UserContact contact1 = new UserContact(user1, 3);
-        UserContact contact2 = new UserContact(user2,2);
+        UserContact contact2 = new UserContact(user2, 2);
 
         userContactList.add(contact1);
         userContactList.add(contact2);
@@ -114,8 +118,8 @@ public class UserServiceTest {
         replay(userContactDAO);
         List<UserContact> allContacts = userService.getAllContactsByUser(user1);
 
-        Assert.assertThat(allContacts.size(),is(1));
-        Assert.assertThat(allContacts.get(0),is(contact1));
+        Assert.assertThat(allContacts.size(), is(1));
+        Assert.assertThat(allContacts.get(0), is(contact1));
     }
 
     @Test
@@ -136,7 +140,7 @@ public class UserServiceTest {
         replay(userDAO);
 
         List<User> allUsers = userService.findAll();
-        Assert.assertThat(allUsers.size(),is(2));
+        Assert.assertThat(allUsers.size(), is(2));
     }
 
     @Test
@@ -145,7 +149,7 @@ public class UserServiceTest {
         replay(userProfileDAO);
 
         UserProfile userProfile1Result = userService.getUserProfilById(1);
-        Assert.assertThat(userProfile1Result.getUser(),is(user1));
+        Assert.assertThat(userProfile1Result.getUser(), is(user1));
     }
 
     @Test
@@ -158,11 +162,11 @@ public class UserServiceTest {
         replay(userProfileDAO);
 
         List<UserProfile> userProfilesResult = userService.getAllUserProfiles();
-        Assert.assertThat(userProfiles.size(),is(2));
+        Assert.assertThat(userProfiles.size(), is(2));
     }
 
     @Test
-    public void addContact_Succesful(){
+    public void addContact_Succesful() {
 
         expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
@@ -175,7 +179,7 @@ public class UserServiceTest {
     }
 
     @Test(expected = ServiceException.class)
-    public void addContact_Fail(){
+    public void addContact_Fail() {
         expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
@@ -186,18 +190,18 @@ public class UserServiceTest {
     }
 
     @Test(expected = ServiceException.class)
-    public void removeContact_Fail(){
+    public void removeContact_Fail() {
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
         replay(userDAO);
 
         expect(userContactDAO.doesContactExist(user1.getId())).andReturn(false);
         replay(userContactDAO);
 
-        userService.removeContact(user1,user1.getUsername());
+        userService.removeContact(user1, user1.getUsername());
     }
 
     @Test
-    public void removeContact_Succesfull(){
+    public void removeContact_Succesfull() {
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
         replay(userDAO);
 
@@ -206,7 +210,7 @@ public class UserServiceTest {
         userContactDAO.delete(userContact2);
         replay(userContactDAO);
 
-        userService.removeContact(user1,user1.getUsername());
+        userService.removeContact(user1, user1.getUsername());
     }
 
 
