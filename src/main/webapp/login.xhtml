@@ -7,13 +7,14 @@
 <h:body>
 	<h:form>
 		<p:messages id="messages" />
+		<h:outputText id="error" value="#{loginBean.errorMsg}" rendered="#{not empty loginBean.errorMsg}" />
 		<p:panelGrid columns="2">
 			<p:outputLabel for="nameUser" value="Name User:" />
 			<p:inputText id="nameUser" value="#{loginBean.username}" />
 			<p:outputLabel for="password" value="Password:" />
 			<p:password id="password" value="#{loginBean.password}" />
 			<p:commandButton value="Login" icon="ui-icon-star"
-				action="#{loginBean.doLogin}" ajax="false">
+				action="#{loginBean.doLogin}" update=":error" ajax="false">
 			</p:commandButton>
 		</p:panelGrid>
 	</h:form>

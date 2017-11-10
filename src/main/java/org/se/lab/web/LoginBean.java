@@ -3,7 +3,6 @@ package org.se.lab.web;
 
 import org.apache.log4j.Logger;
 import org.se.lab.data.User;
-import org.se.lab.data.UserDAO;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -12,21 +11,24 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 @Named
 @RequestScoped
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String REDIRECT_TO_LOGIN_AGAIN = "login.xhtml?faces-redirect=true";
 
     private final Logger LOG = Logger.getLogger(LoginBean.class);
 
     private String username;
     private String password;
+    private User user;
+    private String errorMsg = "";
+
+
     @Inject
     private UserService service;
-    private User user;
 
     @PostConstruct
     public void init() {
@@ -55,9 +57,17 @@ public class LoginBean implements Serializable {
             user = service.login(getUsername(), getPassword());
         } catch (Exception e) {
             //TODO correct?
-            LOG.error("Wrong credentials");
-            return "login.xhtml?faces-redirect=true";
+            String erroMsg = "Ooops something went wrong - pls contact the admin or try later";
+            LOG.error(erroMsg);
+            setErrorMsg(erroMsg);
+//            return REDIRECT_TO_LOGIN_AGAIN;
         }
+
+        if (user == null) {
+            setErrorMsg("wrong Credentials");
+//            return REDIRECT_TO_LOGIN_AGAIN;
+        }
+
 
         if (user != null) {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -73,8 +83,8 @@ public class LoginBean implements Serializable {
             //return "/profile.xhtml?faces-redirect=true";
 
         } else {
-			/*
-			 * Vielleicht hier noch auf eine Error-Page umleiten?
+            /*
+             * Vielleicht hier noch auf eine Error-Page umleiten?
 			 */
             return "";
         }
@@ -86,4 +96,11 @@ public class LoginBean implements Serializable {
         return "/login.xhtml?faces-redirect=true";
     }
 
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
 }

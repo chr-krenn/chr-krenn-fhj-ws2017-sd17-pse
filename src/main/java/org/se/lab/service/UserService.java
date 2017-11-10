@@ -51,13 +51,11 @@ public class UserService {
         // TODO +hashing
 
         User user = loadUserByUsername(username);
-
-        if (!user.getPassword().equals(password)) {
-            LOG.error("Password incorrect for user " + user);
-            throw new ServiceException("Password incorrect for user " + user);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
         }
-
-        return user;
+        LOG.error("Password incorrect for user " + user);
+        return null;
     }
 
     private User loadUserByUsername(String username) {
