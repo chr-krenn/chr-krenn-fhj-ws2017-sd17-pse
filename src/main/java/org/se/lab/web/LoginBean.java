@@ -10,6 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -51,12 +52,11 @@ public class LoginBean implements Serializable {
         this.password = password;
     }
 
-    public String doLogin() {
+    public void doLogin() {
 
         try {
             user = service.login(getUsername(), getPassword());
         } catch (Exception e) {
-            //TODO correct?
             String erroMsg = "Ooops something went wrong - pls contact the admin or try later";
             LOG.error(erroMsg);
             setErrorMsg(erroMsg);
@@ -65,7 +65,6 @@ public class LoginBean implements Serializable {
         if (user == null) {
             setErrorMsg("wrong Credentials - please try again");
         }
-
 
         if (user != null) {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -77,21 +76,22 @@ public class LoginBean implements Serializable {
                 LOG.info(key + ": " + session.get(key));
             }
 
-            return "/activityStream.xhtml?faces-redirect=true";
-            //return "/profile.xhtml?faces-redirect=true";
-
-        } else {
-            /*
-             * Vielleicht hier noch auf eine Error-Page umleiten?
-			 */
-            return "";
+            try {
+                context.getExternalContext().redirect("/pse/activityStream.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/activityStream.xhtml");
+            }
         }
-
     }
 
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+
+        //TODO return isn`t needed in case each class has the handling of no session exists
         return "/login.xhtml?faces-redirect=true";
+
+//        TODO smarter would be the next line without return a string - at the moment the instance of LoginBean is new create so the errorMsg isn`t shown
+//        setErrorMsg("You are logged out of the system - Login with another user");
     }
 
     public void setErrorMsg(String errorMsg) {
@@ -101,4 +101,5 @@ public class LoginBean implements Serializable {
     public String getErrorMsg() {
         return errorMsg;
     }
+
 }
