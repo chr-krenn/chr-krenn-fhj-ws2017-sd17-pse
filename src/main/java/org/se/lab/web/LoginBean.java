@@ -64,7 +64,7 @@ public class LoginBean implements Serializable {
         }
 
         if (user == null) {
-            setErrorMsg("wrong Credentials");
+            setErrorMsg("wrong Credentials - please try again");
 //            return REDIRECT_TO_LOGIN_AGAIN;
         }
 
