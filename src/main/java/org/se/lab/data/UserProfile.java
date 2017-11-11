@@ -9,9 +9,11 @@ public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public UserProfile(String firstname, String lastname, String email, String phone, String mobile, String description) {
+    public UserProfile(String firstname, String lastname, String location, String team, String email, String phone, String mobile, String description) {
         setFirstname(firstname);
         setLastname(lastname);
+        setLocation(location);
+        setTeam(team);
         setEmail(email);
         setPhone(phone);
         setMobile(mobile);
@@ -59,6 +61,34 @@ public class UserProfile implements Serializable {
     }
 
 
+    @Column(name = "location")
+    private String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        if(location == null)
+            throw new IllegalArgumentException();
+        this.location = location;
+    }
+
+
+    @Column(name = "team")
+    private String team;
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        if(team == null)
+            throw new IllegalArgumentException();
+        this.team = team;
+    }
+
+
     @Column(name = "email")
     private String email;
 
@@ -85,7 +115,6 @@ public class UserProfile implements Serializable {
             throw new IllegalArgumentException();
         this.phone = phone;
     }
-
 
     @Column(name = "mobile")
     private String mobile;
@@ -154,7 +183,8 @@ public class UserProfile implements Serializable {
 
     @Override
     public String toString() {
-        return "UserProfile [firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", description=" + description + "]";
+        return "UserProfile [firstname=" + firstname + ", lastname=" + lastname + ", location=" + location + ", team=" + team + ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", description=" + description + "]";
     }
+
 
 }

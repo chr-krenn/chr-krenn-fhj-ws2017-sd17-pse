@@ -13,8 +13,8 @@ public class UserProfileTest {
 
     @Before
     public void setUp() throws Exception{
-        u = new User("testuser", "*****");
-        up = new UserProfile("test", "test", "test", "test" , "test", "test userprofile");
+        u = new User("007", "***");
+        up = new UserProfile("James", "Bond", "London" , "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
         u.setUserProfile(up);
     }
 
@@ -37,7 +37,7 @@ public class UserProfileTest {
 
     @Test
     public void testFirstname() {
-        Assert.assertEquals("test", up.getFirstname());
+        Assert.assertEquals("James", up.getFirstname());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -47,7 +47,7 @@ public class UserProfileTest {
 
     @Test
     public void testLastname() {
-        Assert.assertEquals("test", up.getLastname());
+        Assert.assertEquals("Bond", up.getLastname());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -57,21 +57,21 @@ public class UserProfileTest {
 
     @Test
     public void testHash() {
-        UserProfile up2 = new UserProfile("test", "test", "test", "test" , "test", "test userprofile");
+        UserProfile up2 = new UserProfile("Heinz", "Bond", "London" , "MI6", "james.bond@gmail.com" , "test" , "test", "test userprofile");
         u.setUserProfile(up2);
         Assert.assertTrue(up.hashCode() == up2.hashCode());
     }
 
     @Test
     public void testEquals() {
-        UserProfile up2 = new UserProfile("test", "test", "test", "test" , "test", "test userprofile");
+        UserProfile up2 = new UserProfile("Heinz", "Bond", "London" , "MI6", "james.bond@gmail.com" , "test" , "test", "test userprofile");
         u.setUserProfile(up2);
         Assert.assertTrue(up.equals(up2));
     }
 
     @Test
     public void testToString() {
-        String s = "UserProfile [firstname=test, lastname=test, email=test, phone=test, mobile=test, description=test userprofile]";
+        String s = "UserProfile [firstname=James, lastname=Bond, location=London, team=MI6, email=james.bond@gmail.com, phone=test, mobile=test, description=test userprofile]";
         Assert.assertTrue(up.toString().equals(s));
     }
 

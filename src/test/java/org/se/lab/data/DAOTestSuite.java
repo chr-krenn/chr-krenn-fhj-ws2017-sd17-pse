@@ -6,8 +6,13 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	PostDAOTest.class,
-	CommunityDAOTest.class
+        CommunityDAOTest.class,
+        EnumerationDAOTest.class,
+        PostDAOTest.class,
+        PrivateMessageDAOTest.class,
+        UserContactDAOTest.class,
+        UserDAOTest.class,
+        UserProfileDAOTest.class,
 })
 public class DAOTestSuite {
 	

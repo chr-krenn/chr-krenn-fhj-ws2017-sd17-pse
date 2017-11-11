@@ -1,18 +1,18 @@
 -- create user profiles for admin, bob, alice and frank
-INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
-VALUES ('Homer', 'Simpson', 'ho.j.simpson@example.com', '555-1234', '31337', 'Technician');
+INSERT INTO userprofile (firstname, lastname, location, team, email, phone, mobile, description)
+VALUES ('Homer', 'Simpson', 'Springfield', '7-G', 'ho.j.simpson@example.com', '555-1234', '31337', 'Technician');
 
-INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
-VALUES ('Bob', 'Carter', 'bob.carter@example.com', '555-1235', '065762', 'CIO');
+INSERT INTO userprofile (firstname, lastname, location, team, email, phone, mobile, description)
+VALUES ('Bob', 'Carter', 'England','Alpha','bob.carter@example.com', '555-1235', '065762', 'CIO');
 
-INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
-VALUES ('Alice', 'Carroll', 'a.carroll@example.com', '555-1236', '065762', 'Accounting');
+INSERT INTO userprofile (firstname, lastname, location, team, email, phone, mobile, description)
+VALUES ('Alice', 'Carroll', 'Austria', 'Dev', 'a.carroll@example.com', '555-1236', '065762', 'Accounting');
 
-INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
-VALUES ('Frank', 'Morlar', 'fm@example.com', '555-1237', '065762', 'HR');
+INSERT INTO userprofile (firstname, lastname, location, team, email, phone, mobile, description)
+VALUES ('Frank', 'Morlar', 'Norway', 'Tester','fm@example.com', '555-1237', '065762', 'HR');
 
-INSERT INTO userprofile (firstname, lastname, email, phone, mobile, description)
-VALUES ('Maria', 'Datenbank', 'gmail@hotmail.gmx', '555-666666', '066000', 'Datenbank');
+INSERT INTO userprofile (firstname, lastname, location, team, email, phone, mobile, description)
+VALUES ('Maria', 'Datenbank', 'Decentralization', 'DB', 'gmail@hotmail.gmx', '555-666666', '066000', 'Datenbank');
 
 -- create users
 INSERT INTO users(username, password, fk_userprofile) VALUES ('admin', 'pass', 1);

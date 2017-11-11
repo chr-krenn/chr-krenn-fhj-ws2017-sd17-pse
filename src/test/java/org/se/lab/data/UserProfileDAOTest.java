@@ -8,8 +8,8 @@ import java.util.List;
 
 public class UserProfileDAOTest extends AbstractDAOTest {
 
-    public UserProfile up = new UserProfile("Fitz", "Phantom", "fritz.phantom@gmail.com", "555-432", "555-321", "Person");
-    public UserProfile up2 = new UserProfile("Test", "Phantom", "fritz.phantom@gmail.com", "555-432", "555-321", "Phantom");
+    public UserProfile  up = new UserProfile("James", "Bond", "London" , "james.bond@gmail.com", "MI6", "test" , "test", "test userprofile");
+    public UserProfile  up2 = new UserProfile("Heinz", "Bond", "London" , "james.bond@gmail.com", "MI6", "test" , "test", "test userprofile");
 
 
     public UserProfileDAOImpl updao = new UserProfileDAOImpl();
