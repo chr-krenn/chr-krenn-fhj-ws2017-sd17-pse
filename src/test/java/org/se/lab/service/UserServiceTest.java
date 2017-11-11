@@ -51,8 +51,8 @@ public class UserServiceTest {
         user1.setId(1);
         user2.setId(2);
 
-        userProfile1 = new UserProfile("Max", "Mustermann", "max.mustermann@edu.fh-joanneum.at", "03161234", "06641234567", "test1");
-        userProfile2 = new UserProfile("Erika", "Musterfrau", "erika.musterfrau@edu.fh-joanneum.at", "03165678", "066489101112", "test2");
+        userProfile1 = new UserProfile("Max", "Mustermann", "Austria", "Echo","max.mustermann@edu.fh-joanneum.at", "03161234", "06641234567", "test1");
+        userProfile2 = new UserProfile("Erika", "Musterfrau", "UK", "Sierra","erika.musterfrau@edu.fh-joanneum.at", "03165678", "066489101112", "test2");
         user1.setUserProfile(userProfile1);
         user2.setUserProfile(userProfile2);
 

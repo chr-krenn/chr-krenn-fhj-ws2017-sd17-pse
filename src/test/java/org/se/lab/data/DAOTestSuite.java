@@ -12,7 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
         PrivateMessageDAOTest.class,
         UserContactDAOTest.class,
         UserDAOTest.class,
-        UserProfileTest.class,
+        UserProfileDAOTest.class,
 })
 public class DAOTestSuite {
 	
