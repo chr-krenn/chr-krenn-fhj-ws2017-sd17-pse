@@ -56,5 +56,10 @@ public class UserContactDAOImpl implements UserContactDAO {
         return findById(id) != null;
     }
 
+    @Override
+    public boolean doesContactExistForUserId(int contactId,int userId){
+        //TODO have to check if userid and contact ID occures in the same row
 
+        return false;
+    }
 }

@@ -14,4 +14,6 @@ public interface UserContactDAO {
 
     boolean doesContactExist(int id);
 
+    boolean doesContactExistForUserId(int id, int userId);
+
 }

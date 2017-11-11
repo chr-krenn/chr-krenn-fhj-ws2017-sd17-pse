@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestScoped
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    public static final String REDIRECT_TO_LOGIN_AGAIN = "login.xhtml?faces-redirect=true";
 
     private final Logger LOG = Logger.getLogger(LoginBean.class);
 

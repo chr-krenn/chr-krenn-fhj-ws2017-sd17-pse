@@ -19,6 +19,8 @@ public class UserService {
     private UserContactDAO userContactDAO;
     @Inject
     private UserProfileDAO userProfileDAO;
+    @Inject
+    private CommunityDAO communityDAO;
     /*
      * API Operations
 	 */
@@ -52,7 +54,8 @@ public class UserService {
         LOG.debug("login for " + username);
         // TODO +hashing
 
-        validateString(username,password);
+        //todo return null in case of username or pw is null/empty
+        validateString(username, password);
 
         User user = loadUserByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
@@ -78,7 +81,7 @@ public class UserService {
         validateString(contactName);
 
         User userToAdd = userDAO.findByUsername(contactName);
-        if (!userContactDAO.doesContactExist(userToAdd.getId())) {
+        if (!userContactDAO.doesContactExistForUserId(userToAdd.getId(),user.getId())) {
             //todo remove id if possible
             UserContact userContact = new UserContact(user, userToAdd.getId());
             userContactDAO.insert(userContact);
@@ -95,7 +98,7 @@ public class UserService {
         validateString(contactName);
 
         User userToRemove = userDAO.findByUsername(user.getUsername());
-        if (userContactDAO.doesContactExist(userToRemove.getId())) {
+        if (userContactDAO.doesContactExistForUserId(userToRemove.getId(),user.getId())) {
             UserContact userContact = userContactDAO.findById(userToRemove.getId());
             userContactDAO.delete(userContact);
         } else {
@@ -110,7 +113,7 @@ public class UserService {
         userValidator(user);
         userValidator(contactUser);
 
-        if (userContactDAO.doesContactExist(contactUser.getId())) {
+        if (userContactDAO.doesContactExistForUserId(contactUser.getId(),user.getId())) {
             UserContact userContact = userContactDAO.findById(contactUser.getId());
             userContactDAO.delete(userContact);
         } else {
@@ -170,11 +173,21 @@ public class UserService {
         }
     }
 
+    public List<Community> getAllCommunitiesForUser(User user) {
+        LOG.debug("getAllUserProfiles");
+
+        try {
+            return communityDAO.findAll().stream().filter(community -> community.getUsers().contains(user)).collect(Collectors.toList());
+        } catch (Exception e) {
+            LOG.error("Can't find All Communities", e);
+            throw new ServiceException("Can't find All Communities");
+        }
+    }
 
 
-	/*
+    /*
      * TODO check if methods delete(id), findById(id) required
-	 */
+     */
     public void delete(int id) {
         LOG.info("delete: " + id);
 
