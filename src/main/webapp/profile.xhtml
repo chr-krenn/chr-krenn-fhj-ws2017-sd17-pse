@@ -20,10 +20,14 @@
             <p:layout style="min-width:400px;min-height:600px;">
             <p:layoutUnit position="center">
             <div class="buttons">
-                <p:commandButton value="Admin Area" action="adminArea.xhtml?faces-redirect=true"/>
-                <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}">
+                <p:commandButton value="Admin Area" action="adminArea.xhtml?faces-redirect=true"/> 
+                <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}" rendered="#{userDataBean.showAddContactBtn==true}">
                 <f:param name="contactName" value="#{userDataBean.user.username}" />
                 </p:commandButton>
+                <p:commandButton value="Remove Contact" action="#{userDataBean.removeContact()}" rendered="#{userDataBean.showRemoveContactBtn==true}">
+                <f:param name="contactName" value="#{userDataBean.user.username}" />
+                </p:commandButton>
+                
             </div>
             <h2>User-Profile</h2>
             <p:repeat value="#{userDataBean.user}" var="u">

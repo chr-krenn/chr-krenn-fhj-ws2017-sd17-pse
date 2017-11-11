@@ -33,12 +33,16 @@ public class UserDataBean implements Serializable {
     @Inject
     private UserService service;
     private User user;
+    private User  loggedInUser;
     private UserProfile userProfile;
-    private User dummyUser = new User("bob", "pass");
     private List<UserContact> contacts;
     private List<Community> communities;
     private String id = "";
+    private String hideAddRemove ="";
     private int userId = 0;
+    private boolean showAddContactBtn = true;
+    private boolean showRemoveContactBtn = true;
+ 
 
     @PostConstruct
     public void init() {
@@ -63,12 +67,12 @@ public class UserDataBean implements Serializable {
 
 
             id = context.getExternalContext().getRequestParameterMap().get("userid");
-
+            hideAddRemove = context.getExternalContext().getRequestParameterMap().get("hideAddRemove");
             flash.put("uid", id);
-
+            flash.put("hideAddRemove", hideAddRemove);
 
             String userProfId = (String) context.getExternalContext().getFlash().get("uid");
-
+            String hideAddRemoveCheck = (String) context.getExternalContext().getFlash().get("hideAddRemove");
 
             LOG.info("userProfId: " + userProfId);
 
@@ -85,30 +89,59 @@ public class UserDataBean implements Serializable {
             communities.add(new Community("C1", "NewC1"));
             communities.add(new Community("C2", "NewC2"));
             communities.add(new Community("C3", "NewC3"));
-
+            
+          //Wr befinden uns auf einem Profil eines anderen Users
             if (userProfId != null) {
-                //Get selected UserProfile from Overview Page - DAO Method does not work
+            	
                 user = getUser(Integer.parseInt(userProfId));
-
+                //setShowAddContactBtn(true);
+                
+                
+                //Holen des eingeloggten Users
+                 loggedInUser = service.findById(userId);
+                
+                //Kontaktliste des eingeloggten Users um zu prüfen ob wir den User des aktuellen
+                //Profils schon in der Kontaktliste haben
+                List<UserContact> loggedInContacts = service.getAllContactsByUser(loggedInUser);
+                setShowRemoveContactBtn(false);
+                for(UserContact c : loggedInContacts)
+                {
+                	//Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
+                	if(c.getContactId() == user.getId())
+                	{
+                		setShowRemoveContactBtn(true);
+                		setShowAddContactBtn(false);
+                	}
+                }
             } else {
-
-                // DAO does not work - use Dummy Data instead
                 user = getUser(userId);
+                loggedInUser = user;
+            }
+            
+            //Hide Buttons for own profile
+            if(hideAddRemoveCheck != null && !hideAddRemoveCheck.isEmpty() && hideAddRemoveCheck.equals("1"))
+            {
+            	setShowRemoveContactBtn(false);
+            	setShowAddContactBtn(false);
             }
 
 		/*
          * Activate when DAO works
 		 */
             contacts = service.getAllContactsByUser(user);
-
+    
 		/*
          * Suchen aller Communities zur ID dieses Users
 		 */
-            //communities = user.getCommunities();
-
+            
+           // communities = user.getCommunities();
+            
+            
             userProfile = service.getUserProfilById(user.getId());
 
 
+            //show ContactButton only if profil is not mine
+            
 
 		/*
 		 * File chartFile = new File("dynamichart"); try { photo = new
@@ -177,20 +210,35 @@ public class UserDataBean implements Serializable {
 
     public void addContact() {
 
-
-        User u = service.findById(userId);
-
         String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
 
-
+        System.out.println("LoggedInAdd " + loggedInUser.getId());
+        System.out.println("addContact: " + contactName);
         LOG.info("contactName " + contactName);
-        LOG.info("u " + u.getId());
+        LOG.info("u " + loggedInUser.getId());
         LOG.info("userid " + userId);
         //todo if works from dao
-//        service.addContact(u, contactName);
+        service.addContact(loggedInUser, contactName);
 
 
     }
+    
+    public void removeContact() {
+
+        String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
+
+        System.out.println("LoggedInRemove " + loggedInUser.getId());
+        System.out.println("RemoveContact: " + contactName);
+
+        LOG.info("contactName " + contactName);
+        LOG.info("u " + loggedInUser.getId());
+        LOG.info("userid " + userId);
+        //todo if works from dao
+        service.removeContact(loggedInUser, contactName);
+
+
+    }
+    
 
     public List<UserContact> getContacts() {
         return contacts;
@@ -220,5 +268,20 @@ public class UserDataBean implements Serializable {
         return "/profile.xhtml?faces-redirect=true";
     }
 
+	public boolean isShowAddContactBtn() {
+		return showAddContactBtn;
+	}
+
+	public void setShowAddContactBtn(boolean showAddContactBtn) {
+		this.showAddContactBtn = showAddContactBtn;
+	}
+
+	public boolean isShowRemoveContactBtn() {
+		return showRemoveContactBtn;
+	}
+
+	public void setShowRemoveContactBtn(boolean showRemoveContactBtn) {
+		this.showRemoveContactBtn = showRemoveContactBtn;
+	}
 
 }
