@@ -11,7 +11,8 @@ public class EnumerationTest {
 	
 	@Before
 	public void setUp() throws Exception{
-		enumeration = new Enumeration(1, "Aktiv");
+		enumeration = new Enumeration(1);
+		enumeration.setName("Aktiv");
 	}
 
 	@After
@@ -48,8 +49,12 @@ public class EnumerationTest {
 		Assert.assertTrue(enumeration.equals(enumeration));
 		Assert.assertTrue(!enumeration.equals(null));
 		Assert.assertTrue(!enumeration.equals(new Object()));
-		Assert.assertTrue(enumeration.equals(new Enumeration(1, "Activer")));
-		Assert.assertTrue(!enumeration.equals(new Enumeration(2, "Active")));
+		Enumeration actual = new Enumeration(1);
+		actual.setName("Activer");
+		Assert.assertTrue(enumeration.equals(actual));
+		actual = new Enumeration(2);
+		actual.setName("Active");
+		Assert.assertTrue(!enumeration.equals(actual));
 	}
 	
 	@Test(expected=IllegalArgumentException.class)

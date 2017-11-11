@@ -3,8 +3,6 @@ package org.se.lab.data;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
@@ -47,5 +45,48 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 	public Enumeration findById(int id) {
 		LOG.info("findById(" + id + ")");       
         return em.find(Enumeration.class, id);
+	}
+	
+	@Override
+	public Enumeration createEnumeration(int id) {
+		Enumeration e = new Enumeration();
+		switch (id) {
+		case 1:
+			e.setId(id);
+			e.setName("OPEN");
+			break;
+		case 2:
+			e.setId(id);
+			e.setName("CLOSED");
+			break;
+		case 3:
+			e.setId(id);
+			e.setName("BLOCKED");
+			break;
+		case 4:
+			e.setId(id);
+			e.setName("INSPECTION");
+			break;
+		case 5:
+			e.setId(id);
+			e.setName("VERIFICATION");
+			break;
+		case 6:
+			e.setId(id);
+			e.setName("ADMIN");
+			break;
+		case 7: 
+			e.setId(id);
+			e.setName("PORTALADMIN");
+			break;
+		case 8:
+			e.setId(id);
+			e.setName("USER");
+			break;
+		default:
+			throw new IllegalArgumentException();
+		}
+		insert(e);
+		return e;
 	}
 }

@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 
 public abstract class AbstractDAOTest {
 	
-	protected static final String persistencUnitName = "pse_test";
+	protected static final String persistencUnitName = "pse";
 	protected static EntityManagerFactory factory;
 	protected static EntityManager em;
 	protected static EntityTransaction tx;

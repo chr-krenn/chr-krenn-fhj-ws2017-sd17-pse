@@ -2,23 +2,22 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
                                          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-	<session-factory name="">
-		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/pse</property>
-		<property name="hibernate.connection.username">student</property>
-		<property name="hibernate.connection.password">student</property>
-		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-		<property name="show_sql">false</property>
-		<property name="format_sql">true</property>
-		<property name="hbm2ddl.auto">update</property>
-		<mapping class="org.se.lab.data.User" />
-		<mapping class="org.se.lab.data.Community" />
-		<mapping class="org.se.lab.data.Post" />
-		<mapping class="org.se.lab.data.UserProfile" />
-		<mapping class="org.se.lab.data.UserContact" />
-		<mapping class="org.se.lab.data.Enumeration" />
-		<mapping class="org.se.lab.data.UserContact" />
-		<mapping class="org.se.lab.data.EnumerationItem" />
-		<mapping class="org.se.lab.data.PrivateMessage" />
-	</session-factory>
+ <session-factory name="">
+  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/pse</property>
+  <property name="hibernate.connection.username">student</property>
+  <property name="hibernate.connection.password">student</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="show_sql">false</property>
+  <property name="format_sql">true</property>
+  <property name="hbm2ddl.auto">update</property>
+  <mapping class="org.se.lab.data.User"/>
+  <mapping class="org.se.lab.data.Community"/>
+  <mapping class="org.se.lab.data.Post"/>
+  <mapping class="org.se.lab.data.UserProfile"/>
+  <mapping class="org.se.lab.data.UserContact"/>
+  <mapping class="org.se.lab.data.Enumeration"/>
+  <mapping class="org.se.lab.data.UserContact"/>
+  <mapping class="org.se.lab.data.PrivateMessage"/>
+ </session-factory>
 </hibernate-configuration>

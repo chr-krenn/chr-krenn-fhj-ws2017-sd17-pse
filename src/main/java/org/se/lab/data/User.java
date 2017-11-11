@@ -23,7 +23,7 @@ public class User implements Serializable
 
 
 	@Id
-	@Column(name="ID")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	public int getId()
@@ -38,7 +38,7 @@ public class User implements Serializable
 	}
 
 
-	@Column(name="USERNAME")
+	@Column(name="username", nullable = false, unique = true)
 	private String username;
 	public String getUsername()
 	{
@@ -52,7 +52,7 @@ public class User implements Serializable
 	}
 
 
-	@Column(name="PASSWORD")
+	@Column(name="password")
 	private String password;
 	public String getPassword()
 	{
@@ -133,6 +133,20 @@ public class User implements Serializable
 	public List<PrivateMessage> getPrivateMessagesReceiver(){
 		return privateMessagesReceiver;
 	}
+	
+	@ManyToMany(mappedBy="userroles")
+	private List<Enumeration> roles;
+	public List<Enumeration> getRoles() {
+		return roles;
+	}
+	
+	public void addRole(Enumeration role) {
+		if (role == null)
+			throw new IllegalArgumentException();
+		role.setUser(this);
+		this.roles.add(role);
+		
+	}
 
 	/*
 	 * Object methods
@@ -140,7 +154,7 @@ public class User implements Serializable
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+		return "User [id=" + id + ", username=" + username + "]";
 	}
 
 

@@ -7,7 +7,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 		CommunityTest.class,
-		EnumerationItemTest.class,
 		EnumerationTest.class,
 		PostTest.class,
 		PrivateMessageTest.class,
