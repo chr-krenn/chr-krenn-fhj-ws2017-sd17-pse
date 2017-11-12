@@ -27,7 +27,7 @@
 	</div>
 	    <div id="headerBtnRight">
     
-	<p:commandButton value="User" action="#{userDataBean.redirect()}" >
+	<p:commandButton value="#{headerBean.username}" action="#{userDataBean.redirect()}" >
 	<f:param name="hideAddRemove" value="1" />
 	</p:commandButton>
 	<p:spacer width="30" height="10" />
