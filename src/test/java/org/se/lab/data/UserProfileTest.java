@@ -14,7 +14,7 @@ public class UserProfileTest {
     @Before
     public void setUp() throws Exception{
         u = new User("007", "***");
-        up = new UserProfile("James", "Bond", "London" , "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
+        up = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43",  "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
         u.setUserProfile(up);
     }
 
@@ -57,21 +57,23 @@ public class UserProfileTest {
 
     @Test
     public void testHash() {
-        UserProfile up2 = new UserProfile("Heinz", "Bond", "London" , "MI6", "james.bond@gmail.com" , "test" , "test", "test userprofile");
+        UserProfile  up2 = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43",  "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
         u.setUserProfile(up2);
         Assert.assertTrue(up.hashCode() == up2.hashCode());
     }
 
     @Test
     public void testEquals() {
-        UserProfile up2 = new UserProfile("Heinz", "Bond", "London" , "MI6", "james.bond@gmail.com" , "test" , "test", "test userprofile");
+        UserProfile  up2 = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43",  "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
         u.setUserProfile(up2);
         Assert.assertTrue(up.equals(up2));
     }
 
     @Test
     public void testToString() {
-        String s = "UserProfile [firstname=James, lastname=Bond, location=London, team=MI6, email=james.bond@gmail.com, phone=test, mobile=test, description=test userprofile]";
+        String s = "UserProfile [firstname=James, lastname=Bond, address=Abbey 12, plz=72FE4, city=London, country=England, room=43, team=MI6, email=james.bond@gmail.com, phone=test, mobile=test, description=test userprofile]";
+        System.out.println(s);
+        System.out.println(up);
         Assert.assertTrue(up.toString().equals(s));
     }
 
@@ -81,6 +83,12 @@ public class UserProfileTest {
     }
 
 
+    @Test
+    public void testProfilepicture() {
+        byte[] bytearray = "Random Picture".getBytes();
+        up.setPicture(bytearray);
+        Assert.assertEquals(bytearray, up.getPicture());
+    }
 
 
 }

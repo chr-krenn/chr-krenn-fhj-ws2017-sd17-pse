@@ -2,6 +2,7 @@ package org.se.lab.data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Blob;
 
 @Entity
 @Table(name = "userprofile")
@@ -9,10 +10,14 @@ public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public UserProfile(String firstname, String lastname, String location, String team, String email, String phone, String mobile, String description) {
+    public UserProfile(String firstname, String lastname, String address, String plz, String city, String country, String room, String team, String email, String phone, String mobile, String description) {
         setFirstname(firstname);
         setLastname(lastname);
-        setLocation(location);
+        setAddress(address);
+        setPlz(plz);
+        setCity(city);
+        setCountry(country);
+        setRoom(room);
         setTeam(team);
         setEmail(email);
         setPhone(phone);
@@ -22,6 +27,7 @@ public class UserProfile implements Serializable {
 
     protected UserProfile() {
     }
+
 
     @Id
     @Column(name = "id")
@@ -61,17 +67,77 @@ public class UserProfile implements Serializable {
     }
 
 
-    @Column(name = "location")
-    private String location;
+    @Column(name = "picture")
+    private byte[] picture;
 
-    public String getLocation() {
-        return location;
+    public byte[] getPicture() {
+        return picture;
     }
 
-    public void setLocation(String location) {
-        if(location == null)
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
+    }
+
+
+    @Column(name = "address")
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        if(address == null)
             throw new IllegalArgumentException();
-        this.location = location;
+        this.address = address;
+    }
+
+
+    @Column(name = "plz")
+    private String plz;
+
+    public String getPlz() {
+        return plz;
+    }
+
+    public void setPlz(String plz) {
+        this.plz = plz;
+    }
+
+
+    @Column(name = "city")
+    private String city;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+
+    @Column(name = "country")
+    private String country;
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+
+    @Column(name = "room")
+    private String room;
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
 
@@ -83,8 +149,6 @@ public class UserProfile implements Serializable {
     }
 
     public void setTeam(String team) {
-        if(team == null)
-            throw new IllegalArgumentException();
         this.team = team;
     }
 
@@ -97,8 +161,6 @@ public class UserProfile implements Serializable {
     }
 
     public void setEmail(String email) {
-        if(email == null)
-            throw new IllegalArgumentException();
         this.email = email;
     }
 
@@ -111,10 +173,9 @@ public class UserProfile implements Serializable {
     }
 
     public void setPhone(String phone) {
-        if(phone == null)
-            throw new IllegalArgumentException();
         this.phone = phone;
     }
+
 
     @Column(name = "mobile")
     private String mobile;
@@ -124,8 +185,6 @@ public class UserProfile implements Serializable {
     }
 
     public void setMobile(String mobile) {
-        if(mobile == null)
-            throw new IllegalArgumentException();
         this.mobile = mobile;
     }
 
@@ -138,8 +197,6 @@ public class UserProfile implements Serializable {
     }
 
     public void setDescription(String description) {
-        if(description == null)
-            throw new IllegalArgumentException();
         this.description = description;
     }
 
@@ -183,8 +240,6 @@ public class UserProfile implements Serializable {
 
     @Override
     public String toString() {
-        return "UserProfile [firstname=" + firstname + ", lastname=" + lastname + ", location=" + location + ", team=" + team + ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", description=" + description + "]";
+        return "UserProfile [firstname=" + firstname + ", lastname=" + lastname + ", address=" + address + ", plz=" + plz + ", city=" + city + ", country=" + country + ", room=" + room + ", team=" + team + ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", description=" + description + "]";
     }
-
-
 }
