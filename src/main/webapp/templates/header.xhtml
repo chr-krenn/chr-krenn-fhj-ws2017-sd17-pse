@@ -12,27 +12,30 @@
       </head>
 <body>
 <ui:composition>
-<p:layout style="min-width:400px;min-height:50px;">
+<p:layout style="min-width:400px;min-height:70px;">
     
     <p:layoutUnit position="center" resizable="true" size="100" minSize="40" maxSize="200">
         <div id="header">
         <div id="headerBtnLeft">
-    
+    <p:spacer width="30" height="10" />
 	<p:commandButton value="Home" action="activityStream.xhtml?faces-redirect=true" />
 	<p:spacer width="30" height="10" />
 	<p:commandButton value="Communities" action="communityoverview.xhtml?faces-redirect=true" />
 <p:spacer width="30" height="10" />
 	<p:commandButton value="All Users" action="useroverview.xhtml?faces-redirect=true" />
-	<p:spacer width="1250" height="10" />
+	<p:spacer width="1070" height="10" />
+	<h:graphicImage library="images" name="index.png" height="30"/>
 	</div>
-	    <div id="headerBtnRight">
+    <div id="headerBtnRight">
     
 	<p:commandButton value="#{headerBean.username}" action="#{userDataBean.redirect()}" >
 	<f:param name="hideAddRemove" value="1" />
 	</p:commandButton>
 	<p:spacer width="30" height="10" />
-	<p:commandButton value="Logout" action="#{loginBean.logout()}" />	
+	<p:commandButton value="Logout" action="#{loginBean.logout()}" />
+	<p:spacer width="20" height="10" />	
 </div>
+
 </div>
 </p:layoutUnit>
 

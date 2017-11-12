@@ -48,10 +48,14 @@ h2 {
 
 #headerBtnLeft {
 	float: left;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
 
 #headerBtnRight {
 	float: right;
+	margin-top: 10px;
+	margin-bottom: 3px;
 }
 
 #footer {
@@ -77,4 +81,6 @@ h2 {
 	padding-left: 100px;
 }
 
-
+#content{
+	padding-right: 13px;
+}
