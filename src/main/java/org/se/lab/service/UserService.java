@@ -91,6 +91,21 @@ public class UserService {
         }
     }
 
+    public void addContact(User user, User contactUser) {
+        LOG.debug("add contact" + contactUser.getUsername() + " to " + user);
+
+        userValidator(user);
+        userValidator(contactUser);
+
+        if (!userContactDAO.doesContactExistForUserId(contactUser.getId(),user.getId())) {
+            UserContact userContact = new UserContact(user, contactUser.getId());
+            userContactDAO.insert(userContact);
+        } else {
+            LOG.error("Contact " + contactUser.getUsername() + " already exist ");
+            throw new ServiceException("Contact " + contactUser.getUsername() + " already exist ");
+        }
+    }
+
     public void removeContact(User user, String contactName) {
         LOG.debug("remove contact from " + user);
 
