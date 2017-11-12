@@ -18,6 +18,7 @@ public abstract class AbstractDAOTest {
 	protected static EntityManagerFactory factory;
 	protected static EntityManager em;
 	protected static EntityTransaction tx;
+	protected static EnumerationDAOImpl edao = new EnumerationDAOImpl();
 	
 	
 	@BeforeClass
@@ -28,6 +29,15 @@ public abstract class AbstractDAOTest {
 		assertNotNull(em);
 		tx = em.getTransaction();
 		assertNotNull(tx);
+		
+		// Everyone needs Enumeration anyways
+		edao.setEntityManager(em);
+		tx.begin();
+		for (int i = 1; i <= 9; i++) { 
+			if (edao.findById(i) == null)
+				em.persist(edao.createEnumeration(i));
+			}
+		tx.commit();
 	}
 	
 	@AfterClass

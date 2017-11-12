@@ -36,17 +36,7 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	
 	@Before
 	public void setup() {
-			tx.begin();
-			em.persist(edao.createEnumeration(1));
-			em.persist(edao.createEnumeration(2));
-			em.persist(edao.createEnumeration(3));
-			em.persist(edao.createEnumeration(4));
-			em.persist(edao.createEnumeration(5));
-			em.persist(edao.createEnumeration(6));
-			em.persist(edao.createEnumeration(7));
-			em.persist(edao.createEnumeration(8));
-			tx.commit();
-
+			
 	}
 	
 	
