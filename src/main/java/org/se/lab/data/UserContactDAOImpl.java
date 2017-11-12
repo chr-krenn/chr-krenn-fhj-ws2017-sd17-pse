@@ -51,6 +51,7 @@ public class UserContactDAOImpl implements UserContactDAO {
         return em.find(UserContact.class, id);
     }
 
+    //todo remove
     @Override
     public boolean doesContactExist(int id) {
         return findById(id) != null;
@@ -59,7 +60,7 @@ public class UserContactDAOImpl implements UserContactDAO {
     @Override
     public boolean doesContactExistForUserId(int contactId,int userId){
         //TODO have to check if userid and contact ID occures in the same row
-
+        //select count(*) from contacts where userid=:userId and contactId= :contactId;
         return false;
     }
 }

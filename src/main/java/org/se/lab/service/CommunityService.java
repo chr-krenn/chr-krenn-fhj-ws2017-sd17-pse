@@ -9,7 +9,6 @@ import org.se.lab.data.User;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Stateless
 public class CommunityService {
@@ -30,11 +29,25 @@ public class CommunityService {
     }
 
     public List<Community> getApproved() {
-        return findAll().stream().filter(line -> APPROVE.equals(line.getState())).collect(Collectors.toList());
+        LOG.debug("getApproved Communities ");
+
+        try {
+            return dao.findApprovedCommunities();
+        } catch (Exception e) {
+            LOG.error("Can't findApprovedCommunities", e);
+            throw new ServiceException("Can't findApprovedCommunities");
+        }
     }
 
     public List<Community> getPending() {
-        return findAll().stream().filter(line -> PENDING.equals(line.getState())).collect(Collectors.toList());
+        LOG.debug("getPending Communities");
+
+        try {
+            return dao.findPendingCommunities();
+        } catch (Exception e) {
+            LOG.error("Can't findPendingCommunities", e);
+            throw new ServiceException("Can't findPendingCommunities");
+        }
     }
 
     public void delete(Community community) {
