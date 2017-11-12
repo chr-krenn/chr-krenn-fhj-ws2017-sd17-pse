@@ -1,10 +1,11 @@
 ## Tasks and Todos
+#### (Check only, delete only in meetings)
   * [ ] PrivateMessageTest
   * [ ] CommunityDAOTest
   * [ ] UserTest
   * [ ] PrivateMessageDAOTest
   * [ ] EnumerationDAOTest
-  * [ ] Suites removal
+  * [x] Suites removal
   * [ ] HowTo
     * Namenskonvention
   * [ ] Dokumentation
