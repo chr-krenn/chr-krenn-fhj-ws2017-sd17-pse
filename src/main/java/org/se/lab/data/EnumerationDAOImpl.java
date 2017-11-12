@@ -83,6 +83,10 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 			e.setId(id);
 			e.setName("USER");
 			break;
+		case 9:
+			e.setId(id);
+			e.setName("LIKE");
+			break;
 		default:
 			throw new IllegalArgumentException();
 		}

@@ -81,11 +81,11 @@ public class Enumeration implements Serializable {
 	inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
 	private List<Post> posts = new ArrayList<Post>(); // m:n
 
-	public List<Post> getPost() {
+	public List<Post> getPosts() {
 		return posts;
 	}
 
-	public void setPost(Post post) {
+	public void addPost(Post post) {
 		this.posts.add(post);
 	}
 	

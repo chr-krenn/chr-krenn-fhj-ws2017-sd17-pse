@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 
 public class PostDAOImpl implements PostDAO {
 	
+	
 	@PersistenceContext
 	private EntityManager manager;
 
@@ -43,14 +44,24 @@ public class PostDAOImpl implements PostDAO {
 		return manager.createQuery(POST_FOR_COMMUNITY_QUERY, Post.class).setParameter("id", community.getId()) .getResultList();
 	}
 	
+	@Override
+	public List<Post> findAll() {
+		// TODO Auto-generated method stub
+		return manager.createQuery(ALL_POST_QUERY, Post.class).getResultList();
+	}
+	
 	public void setEntityManager(EntityManager em) {
 		this.manager = em;
 	}
+	
+	
 	
 	/*
 	 * Queries
 	 */
 	private static final String POST_FOR_USER_QUERY = "SELECT p FROM Post p WHERE p.user.id = :id";
 	private static final String POST_FOR_COMMUNITY_QUERY = "SELECT p FROM Post p WHERE p.community.id = :id";
+	private static final String ALL_POST_QUERY = "SELECT p FROM Post p";
+
 
 }

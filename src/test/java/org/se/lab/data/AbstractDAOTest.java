@@ -12,6 +12,8 @@ import javax.persistence.Persistence;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 public abstract class AbstractDAOTest {
 	
 	protected static final String persistencUnitName = "pse";
@@ -36,12 +38,20 @@ public abstract class AbstractDAOTest {
 		for (int i = 1; i <= 9; i++) { 
 			if (edao.findById(i) == null)
 				em.persist(edao.createEnumeration(i));
-			}
+		}
 		tx.commit();
 	}
 	
 	@AfterClass
 	public static void disconnect() {
+		//Destroy Enums
+		tx.begin();
+		List<Enumeration> enums = edao.findAll();
+		for (int i = enums.size() - 1; i >= 0; i--) { 
+			edao.delete(enums.get(i));
+		}
+		tx.commit();
+		
 		if(em == null) return;
 		em.close();
 		factory.close();

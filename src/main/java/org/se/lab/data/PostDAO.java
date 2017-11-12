@@ -10,5 +10,6 @@ public interface PostDAO{
 	void delete(Post post);
 	List<Post> getPostsForUser(User user);
 	List<Post> getPostsForCommunity(Community community);
+	List<Post> findAll();
 	
 }

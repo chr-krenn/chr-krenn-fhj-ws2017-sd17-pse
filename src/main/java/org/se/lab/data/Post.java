@@ -205,7 +205,7 @@ public class Post implements Serializable {
 
 	// Likes
 	@ManyToMany(mappedBy = "posts")
-	private List<Enumeration> likes;
+	private List<Enumeration> likes = new ArrayList<Enumeration>();
 
 	/*
 	 * Gets Likes as EnumeratioItem for post
@@ -225,11 +225,19 @@ public class Post implements Serializable {
 	public void addLikeToPost(Enumeration item) {
 		if (item == null)
 			throw new IllegalArgumentException(LIKE_NULL_ERROR);
-		if (item.getPost() == null)
-			item.setPost(this);
-		if (!item.getPost().equals(this))
-			throw new IllegalArgumentException(LIKE_FALSE_POST_ERROR);
-		this.likes.add(item);
+		if (!item.getPosts().contains(this))
+			item.addPost(this);
+		if (!this.likes.contains(item))
+			this.likes.add(item);
+	}
+	
+	public void removeLikeFromPost(Enumeration item) {
+		if (item == null)
+			throw new IllegalArgumentException(LIKE_NULL_ERROR);
+		if (!item.getPosts().contains(this))
+			item.getPosts().remove(this);
+		if (!this.likes.contains(item))
+			this.likes.remove(item);
 	}
 
 	// text
