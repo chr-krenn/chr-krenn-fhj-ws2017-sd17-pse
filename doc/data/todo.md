@@ -1,5 +1,5 @@
-  * [] PrivateMessage
-  * [] CommunityDAO
-  * [] UserTest
-  * [] PrivateMessageDAO
-  * [] EnumerationDAO
+  * [ ] PrivateMessage
+  * [ ] CommunityDAO
+  * [ ] UserTest
+  * [ ] PrivateMessageDAO
+  * [ ] EnumerationDAO
