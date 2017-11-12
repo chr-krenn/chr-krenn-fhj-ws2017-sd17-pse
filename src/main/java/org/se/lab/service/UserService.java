@@ -97,7 +97,7 @@ public class UserService {
         userValidator(user);
         validateString(contactName);
 
-        User userToRemove = userDAO.findByUsername(user.getUsername());
+        User userToRemove = userDAO.findByUsername(contactName);
         if (userContactDAO.doesContactExistForUserId(userToRemove.getId(),user.getId())) {
             UserContact userContact = userContactDAO.findById(userToRemove.getId());
             userContactDAO.delete(userContact);

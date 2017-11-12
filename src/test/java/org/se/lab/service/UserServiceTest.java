@@ -157,56 +157,52 @@ public class UserServiceTest {
         Assert.assertThat(userProfiles.size(), is(2));
     }
 
-    @Ignore
     @Test
     public void addContact_Succesful() {
 
         expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExist(user1.getId())).andReturn(false);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(false);
         expect(userContactDAO.insert(userContact2)).andReturn(userContact2);
         replay(userContactDAO);
 
         userService.addContact(user2, user1.getUsername());
     }
 
-    @Ignore
     @Test(expected = ServiceException.class)
     public void addContact_Fail() {
         expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExist(user1.getId())).andReturn(true);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
         replay(userContactDAO);
 
         userService.addContact(user2, user1.getUsername());
     }
 
-    @Ignore
     @Test(expected = ServiceException.class)
     public void removeContact_Fail() {
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExist(user1.getId())).andReturn(false);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(false);
         replay(userContactDAO);
 
-        userService.removeContact(user1, user1.getUsername());
+        userService.removeContact(user2, user1.getUsername());
     }
 
-    @Ignore
     @Test
     public void removeContact_Succesfull() {
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExist(user1.getId())).andReturn(true);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
         expect(userContactDAO.findById(user1.getId())).andReturn(userContact2);
         userContactDAO.delete(userContact2);
         replay(userContactDAO);
 
-        userService.removeContact(user1, user1.getUsername());
+        userService.removeContact(user2, user1.getUsername());
     }
 
 
