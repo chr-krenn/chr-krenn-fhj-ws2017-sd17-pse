@@ -1,6 +1,11 @@
-  * [ ] PrivateMessage
-  * [ ] CommunityDAO
+## Tasks and Todos
+  * [ ] PrivateMessageTest
+  * [ ] CommunityDAOTest
   * [ ] UserTest
-  * [ ] PrivateMessageDAO
-  * [ ] EnumerationDAO
-  * [ ] Namenskonvention
+  * [ ] PrivateMessageDAOTest
+  * [ ] EnumerationDAOTest
+  * [ ] HowTo
+    * Namenskonvention
+  * [ ] Dokumentation
+  * [x] Ana noch dem Ondren
+  

@@ -35,7 +35,8 @@ public class Post implements Serializable {
 	private static final String COMMUNITY_NULL_ERROR = "The given community must not be null";
 	private static final String USER_NULL_ERROR = "The given user must not be null";
 	private static final String TEXT_NULL_ERROR = "The given text must not be null";
-	private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds " + MAX_TEXT_LENGTH
+	private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds " 
+			+ MAX_TEXT_LENGTH
 			+ " characters";
 	private static final String CREATED_NULL_ERROR = "The given created timestamp must not be null";
 	private static final String SELF_REFERENTIAL_ERROR = "The given parent post must not be the same as this post";
@@ -67,7 +68,7 @@ public class Post implements Serializable {
 	@Column(name = "id")
 	private int id;
 
-	/*
+	/**
 	 * Getter for id field of post
 	 * 
 	 * @return: (int) id
@@ -76,7 +77,7 @@ public class Post implements Serializable {
 		return id;
 	}
 
-	/*
+	/**
 	 * Setter for id field of post Should not be negative or zero
 	 * 
 	 * @param id
@@ -94,7 +95,7 @@ public class Post implements Serializable {
 	@JoinColumn(name = "parent_post_id")
 	private Post parentpost;
 
-	/*
+	/**
 	 * Getter to get parent post of post
 	 * 
 	 * @return (Post) parentpsot
@@ -103,7 +104,7 @@ public class Post implements Serializable {
 		return parentpost;
 	}
 
-	/*
+	/**
 	 * Setter for parent post of post
 	 * 
 	 * @param parentpost
@@ -121,7 +122,7 @@ public class Post implements Serializable {
 	@OneToMany(mappedBy = "parentpost", fetch = FetchType.EAGER)
 	private List<Post> children = new ArrayList<Post>();
 
-	/*
+	/**
 	 * Getter for childposts to this post
 	 * 
 	 * @return (List<Post>) children
@@ -130,7 +131,7 @@ public class Post implements Serializable {
 		return children;
 	}
 
-	/*
+	/**
 	 * Add given post as child to this post and sets parent of given post to this
 	 * post
 	 * 
@@ -147,12 +148,12 @@ public class Post implements Serializable {
 		post.setParentpost(this);
 	}
 
-	// fk_community_id TODO List<Post> on Community?
+	// fk_community_id 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_community_id")
 	private Community community;
 
-	/*
+	/**
 	 * Getter for the community this post was posted in
 	 * 
 	 * @return (Community) community
@@ -161,7 +162,7 @@ public class Post implements Serializable {
 		return community;
 	}
 
-	/*
+	/**
 	 * Setter for the Community this post was posted in
 	 * 
 	 * @param community
@@ -169,18 +170,17 @@ public class Post implements Serializable {
 	 * @throws IllegalArgumentException.class if given community is null
 	 */
 	public void setCommunity(Community community) {
-		// TODO Getter for Posts in Community?
 		if (community == null)
 			throw new IllegalArgumentException(COMMUNITY_NULL_ERROR);
 		this.community = community;
 	}
 
-	// fk_user_id TODO List<Post> on User?
+	// fk_user_id 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_user_id")
 	private User user;
 
-	/*
+	/**
 	 * Getter for the user that posted this post
 	 * 
 	 * @return (User) user
@@ -189,7 +189,7 @@ public class Post implements Serializable {
 		return user;
 	}
 
-	/*
+	/**
 	 * Setter for the user that posted this post
 	 * 
 	 * @param user
@@ -206,7 +206,7 @@ public class Post implements Serializable {
 	@ManyToMany(mappedBy = "posts")
 	private List<Enumeration> likes = new ArrayList<Enumeration>();
 
-	/*
+	/**
 	 * Gets Likes as EnumeratioItem for post
 	 * 
 	 * @return (EnumerationItem) likes
@@ -215,7 +215,7 @@ public class Post implements Serializable {
 		return likes;
 	}
 
-	/*
+	/**
 	 * Add a Like to a Post This EnumertionItem must not be null Takes
 	 * EnumeratioItem that allows for e.g. Dislikes etc.
 	 * 
@@ -243,7 +243,7 @@ public class Post implements Serializable {
 	@Column(name = "text")
 	private String text;
 
-	/*
+	/**
 	 * Getter for the text message of this post
 	 * 
 	 * @return (String) text
@@ -252,7 +252,7 @@ public class Post implements Serializable {
 		return text;
 	}
 
-	/*
+	/**
 	 * Setter for the text message of this post
 	 * 
 	 * @param text
@@ -273,7 +273,7 @@ public class Post implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
 
-	/*
+	/**
 	 * Getter for "created" timestamp of this post
 	 * 
 	 * @return (Date) created
@@ -282,7 +282,7 @@ public class Post implements Serializable {
 		return created;
 	}
 
-	/*
+	/**
 	 * Setter for the "created" timestamp of this post
 	 * 
 	 * @param created

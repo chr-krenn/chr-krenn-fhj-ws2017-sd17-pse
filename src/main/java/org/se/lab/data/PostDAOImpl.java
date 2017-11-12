@@ -46,10 +46,13 @@ public class PostDAOImpl implements PostDAO {
 	
 	@Override
 	public List<Post> findAll() {
-		// TODO Auto-generated method stub
 		return manager.createQuery(ALL_POST_QUERY, Post.class).getResultList();
 	}
 	
+	/**
+	 * Set the EntityManager for DAO
+	 * @param em
+	 */
 	public void setEntityManager(EntityManager em) {
 		this.manager = em;
 	}
