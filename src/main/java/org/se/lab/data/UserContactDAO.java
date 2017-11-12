@@ -12,8 +12,6 @@ public interface UserContactDAO {
 
     UserContact findById(int id);
 
-    boolean doesContactExist(int id);
-
     boolean doesContactExistForUserId(int id, int userId);
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserContactDAOTest extends AbstractDAOTest {
 
-    private User u = new User("Fantom", "***");
+    private User u = new User("James", "***");
     private UserContact uc = new UserContact(u,2);
     private UserContact uc2 = new UserContact(u, 3);
 
@@ -67,10 +67,17 @@ public class UserContactDAOTest extends AbstractDAOTest {
     }
 
     @Test
-    public void testdoesContactExist() {
+    public void testdoesContactExistForUserIdtrue() {
         em.persist(u);
         ucdao.insert(uc);
-        Assert.assertTrue(ucdao.doesContactExist(uc.getId()));
+        Assert.assertTrue(ucdao.doesContactExistForUserId(2,u.getId()));
+    }
+
+    @Test
+    public void testdoesContactExistForUserIdfalse() {
+        em.persist(u);
+        ucdao.insert(uc);
+        Assert.assertFalse(ucdao.doesContactExistForUserId(-1,u.getId()));
     }
 
 }
