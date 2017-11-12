@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,9 +39,9 @@ public class Post implements Serializable {
 			+ " characters";
 	private static final String CREATED_NULL_ERROR = "The given created timestamp must not be null";
 	private static final String SELF_REFERENTIAL_ERROR = "The given parent post must not be the same as this post";
-	private static final String LIKE_NULL_ERROR = "The given Like (EnumerationItem) must not be null";
-	private static final String LIKE_FALSE_POST_ERROR = "The given Like (EnumerationItem) does not belong to this Post";
-
+	private static final String LIKE_NULL_ERROR = "The given Like (EnumerationItem) must not be null";	
+	
+	
 	/*
 	 * Constructor
 	 */
@@ -234,9 +233,9 @@ public class Post implements Serializable {
 	public void removeLikeFromPost(Enumeration item) {
 		if (item == null)
 			throw new IllegalArgumentException(LIKE_NULL_ERROR);
-		if (!item.getPosts().contains(this))
+		if (item.getPosts().contains(this))
 			item.getPosts().remove(this);
-		if (!this.likes.contains(item))
+		if (this.likes.contains(item))
 			this.likes.remove(item);
 	}
 

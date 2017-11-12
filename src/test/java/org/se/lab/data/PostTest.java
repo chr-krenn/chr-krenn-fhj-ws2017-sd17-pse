@@ -93,32 +93,53 @@ public class PostTest {
 		post.addChildPost(current2);
 	}
 	
-	/*@Test do not understand to correct it
+	@Test
 	public void testLikePost() {
 		Enumeration alike = new Enumeration(1);
 		alike.setName("Like");
 		User user = new User();
-		Enumeration item = new Enumeration(1);
-		item.setEnumeration(alike);
-		item.setUser(user);
-		item.setPost(post);
+		alike.setUser(user);
 		
-		post.addLikeToPost(item);
-		assertEquals(item, post.getLikes().get(0));
-	}*/
+		post.addLikeToPost(alike);
+		assertTrue(post.getLikes().size() == 1);
+		assertEquals(alike, post.getLikes().get(0));
+		
+		// Add dame like again
+		post.addLikeToPost(alike);
+		assertTrue(post.getLikes().size() == 1);
+		assertEquals(alike, post.getLikes().get(0));
+		
+		// Post set in Like
+		alike = new Enumeration(2);
+		alike.addPost(post);
+		post.addLikeToPost(alike);
+		assertTrue(post.getLikes().size() == 2);
+		assertEquals(alike, post.getLikes().get(1));
+	}
 	
-	/*@Test  do not understand to correct it
-	public void testLikePostWithPostNotSetInItem() {
+	@Test
+	public void testRemoveLikePost() {
+		// Setup
 		Enumeration alike = new Enumeration(1);
 		alike.setName("Like");
 		User user = new User();
-		Enumeration item = new Enumeration(1);
-		item.setEnumeration(alike);
-		item.setUser(user);
+		alike.setUser(user);
 		
-		post.addLikeToPost(item);
-		assertEquals(item, post.getLikes().get(0));
-	}*/
+		post.addLikeToPost(alike);
+		assertTrue(post.getLikes().size() == 1);
+		
+		// remove
+		post.removeLikeFromPost(alike);
+		assertTrue(post.getLikes().size() == 0);
+		
+		// Like never added to post
+		alike.addPost(post);
+		assertEquals(alike.getPosts().get(0), post);
+		post.removeLikeFromPost(alike);
+		assertTrue(post.getLikes().size() == 0);
+		assertTrue(alike.getPosts().size() == 0);
+		
+	}
 	
 	@Test
 	public void testHash() {
@@ -176,20 +197,10 @@ public class PostTest {
 		post.setParentpost(post);
 	}
 	
-	/*@Test(expected=IllegalArgumentException.class)
-	public void testInvalidEnumItemPostDiffer() {
-		Enumeration alike = new Enumeration(1);
-		alike.setName("Like");
-		User user = new User();
-		Enumeration item = new Enumeration(1);
-		Post post2 = new Post(null, community, user, "Test text", new Date(180L));
-		item.setEnumeration(alike);
-		item.setUser(user);
-		item.setPost(post2);
-		
-		post.addLikeToPost(item);
-		assertEquals(item, post.getLikes().get(0));
-	}*/
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidRemoveLikefromPostNull() {
+		post.removeLikeFromPost(null);
+	}
 	
 	@Test(expected=AssertionError.class)
 	public void testCustomAssertEquals() {
