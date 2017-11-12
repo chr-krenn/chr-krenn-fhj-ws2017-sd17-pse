@@ -7,7 +7,7 @@
   * [ ] EnumerationDAOTest
   * [x] Suites removal
   * [ ] HowTo
-    * Namenskonvention
+  * [x] Namenskonvention
   * [ ] Dokumentation
   * [x] Ana noch dem Ondren
   

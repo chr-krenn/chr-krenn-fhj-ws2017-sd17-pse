@@ -1,5 +1,6 @@
 package org.se.lab.data;
 
+import java.util.Date;
 import java.util.List;
 
 public interface PostDAO{
@@ -53,5 +54,36 @@ public interface PostDAO{
 	 * @return (List<Post>) posts
 	 */
 	List<Post> findAll();
+	
+	/**
+	 * Clones given Post and returns cloned Post
+	 * @param post
+	 * @return (Post) post
+	 */
+	Post clonePost(Post post);
+	
+	/**
+	 * Creates a simple Post for given User with Text and creation time
+	 * @param user
+	 * @param text
+	 * @param created (java.util.Data)
+	 * @return (Post) new post
+	 */
+	Post createPost(User user, String text, Date created);
+	
+	
+	/**
+	 * Creates a complex Post for given User,
+	 * as a reply to given parent post,
+	 * in given community,
+	 * with text and creation time
+	 * @param parentpost Post to with this Post is a reply
+	 * @param community
+	 * @param user
+	 * @param text
+	 * @param created (java.util.Data)
+	 * @return (Post) new post
+	 */
+	Post createPost(Post parentpost, Community community, User user, String text, Date created);
 	
 }

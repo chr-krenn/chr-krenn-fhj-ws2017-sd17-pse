@@ -79,7 +79,7 @@ private User user2 = new User("Test User2", "test");
 	
 	@Test
 	public void testToString() {
-		String s = "PrivateMessage [ID=1, text=test private message, FK_User_Sender=User [id=0, username=Test User1, password=test], FK_User_Receiver=User [id=0, username=Test User1, password=test]]";
+		String s = String.format("PrivateMessage [ID=1, text=test private message, FK_User_Sender=%s, FK_User_Receiver=%s]", user1, user1);
 		Assert.assertTrue(pm.toString().equals(s));
 	}
 	

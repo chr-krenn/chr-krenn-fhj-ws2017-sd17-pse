@@ -16,6 +16,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.apache.log4j.Logger;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
@@ -24,6 +28,9 @@ import javax.persistence.ManyToMany;
 public class Post implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Transient
+	private Logger LOG = Logger.getLogger(Post.class);
 
 	// Constants
 	public static final int MAX_TEXT_LENGTH = 1024;
@@ -32,7 +39,6 @@ public class Post implements Serializable {
 	// Exception messages
 	private static final String ID_INVALID_ERROR = "The given id is less than 1";
 	private static final String POST_NULL_ERROR = "The given post must not be null";
-	private static final String COMMUNITY_NULL_ERROR = "The given community must not be null";
 	private static final String USER_NULL_ERROR = "The given user must not be null";
 	private static final String TEXT_NULL_ERROR = "The given text must not be null";
 	private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds " 
@@ -51,6 +57,14 @@ public class Post implements Serializable {
 	};
 
 	public Post(Post parentpost, Community community, User user, String text, Date created) {
+		LOG.debug("New Post");
+		LOG.trace(
+				String.format("\t{\n\tparentpost: %s,\n\tcommunity: %s\n\tuser: %s\n\ttext: %s\n\tcreated: %s",
+				parentpost,
+				community,
+				user,
+				text,
+				created ));
 		setParentpost(parentpost);
 		setCommunity(community);
 		setUser(user);
@@ -74,6 +88,7 @@ public class Post implements Serializable {
 	 * @return: (int) id
 	 */
 	public int getId() {
+		LOG.debug("getID -> " + id);
 		return id;
 	}
 
@@ -85,6 +100,7 @@ public class Post implements Serializable {
 	 * @throws IllegalArgumentException.class if given id less than 1
 	 */
 	public void setId(int id) {
+		LOG.debug("setId(" + id + ")");
 		if (id < 1)
 			throw new IllegalArgumentException(ID_INVALID_ERROR);
 		this.id = id;
@@ -98,9 +114,10 @@ public class Post implements Serializable {
 	/**
 	 * Getter to get parent post of post
 	 * 
-	 * @return (Post) parentpsot
+	 * @return (Post) parentpost
 	 */
 	public Post getParentpost() {
+		LOG.debug("getParentPost -> " + parentpost);
 		return parentpost;
 	}
 
@@ -110,6 +127,7 @@ public class Post implements Serializable {
 	 * @param parentpost
 	 */
 	public void setParentpost(Post parentpost) {
+		LOG.debug("setParentpost(" + parentpost + ")");
 		// Parent post can be null
 		if (parentpost != null && this.id != 0 && parentpost.getId() == this.id)
 			throw new IllegalArgumentException(SELF_REFERENTIAL_ERROR);
@@ -128,6 +146,7 @@ public class Post implements Serializable {
 	 * @return (List<Post>) children
 	 */
 	public List<Post> getChildPosts() {
+		LOG.debug("getChildPosts -> " + children);
 		return children;
 	}
 
@@ -140,6 +159,7 @@ public class Post implements Serializable {
 	 * @throws IllegalArgumentException.class if given post is null
 	 */
 	public void addChildPost(Post post) {
+		LOG.debug("addChildPost(" + post + ")");
 		if (post == null)
 			throw new IllegalArgumentException(POST_NULL_ERROR);
 		if (children.contains(post))
@@ -159,6 +179,7 @@ public class Post implements Serializable {
 	 * @return (Community) community
 	 */
 	public Community getCommunity() {
+		LOG.debug("getCommunity -> " + community);
 		return community;
 	}
 
@@ -170,8 +191,7 @@ public class Post implements Serializable {
 	 * @throws IllegalArgumentException.class if given community is null
 	 */
 	public void setCommunity(Community community) {
-		if (community == null)
-			throw new IllegalArgumentException(COMMUNITY_NULL_ERROR);
+		LOG.debug("setCommunity(" + community + ")");
 		this.community = community;
 	}
 
@@ -186,6 +206,7 @@ public class Post implements Serializable {
 	 * @return (User) user
 	 */
 	public User getUser() {
+		LOG.debug("getUser -> " + user);
 		return user;
 	}
 
@@ -197,6 +218,7 @@ public class Post implements Serializable {
 	 * @throws IllegalArgumentException.class if given user is null
 	 */
 	public void setUser(User user) {
+		LOG.debug("setUser(" + user + ")");
 		if (user == null)
 			throw new IllegalArgumentException(USER_NULL_ERROR);
 		this.user = user;
@@ -212,6 +234,7 @@ public class Post implements Serializable {
 	 * @return (EnumerationItem) likes
 	 */
 	public List<Enumeration> getLikes() {
+		LOG.debug("getLikes -> " + likes);
 		return likes;
 	}
 
@@ -222,6 +245,7 @@ public class Post implements Serializable {
 	 * @param item
 	 */
 	public void addLikeToPost(Enumeration item) {
+		LOG.debug("addLikeToPost(" + item + ")");
 		if (item == null)
 			throw new IllegalArgumentException(LIKE_NULL_ERROR);
 		if (!item.getPosts().contains(this))
@@ -231,6 +255,7 @@ public class Post implements Serializable {
 	}
 	
 	public void removeLikeFromPost(Enumeration item) {
+		LOG.debug("removeLikeFromPost(" + item + ")");
 		if (item == null)
 			throw new IllegalArgumentException(LIKE_NULL_ERROR);
 		if (item.getPosts().contains(this))
@@ -249,6 +274,7 @@ public class Post implements Serializable {
 	 * @return (String) text
 	 */
 	public String getText() {
+		LOG.debug("getText -> " + text);
 		return text;
 	}
 
@@ -261,6 +287,7 @@ public class Post implements Serializable {
 	 * character limit of 1024 characters
 	 */
 	public void setText(String text) {
+		LOG.debug("setText(" + text + ")");
 		if (text == null)
 			throw new IllegalArgumentException(TEXT_NULL_ERROR);
 		if (text.length() > MAX_TEXT_LENGTH)
@@ -279,6 +306,7 @@ public class Post implements Serializable {
 	 * @return (Date) created
 	 */
 	public Date getCreated() {
+		LOG.debug("getCreated -> " + created);
 		return created;
 	}
 
@@ -290,6 +318,7 @@ public class Post implements Serializable {
 	 * @throws IllegalArgumentException.class if given created is null
 	 */
 	public void setCreated(Date created) {
+		LOG.debug("setCreated(" + created + ")");
 		if (created == null)
 			throw new IllegalArgumentException(CREATED_NULL_ERROR);
 		this.created = created;
@@ -301,11 +330,13 @@ public class Post implements Serializable {
 
 	@Override
 	public int hashCode() {
+		LOG.debug("hashCode -> " + id);
 		return id;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
+		LOG.debug(this + ".equals(" + obj + ")");
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -319,6 +350,7 @@ public class Post implements Serializable {
 
 	@Override
 	public String toString() {
+		LOG.trace("toString");
 		return String.format(TOSTRING_MSG, this.id, this.text, this.created, this.user, this.community,
 				this.parentpost);
 	}

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="privateMessage")
+@Table(name="private_message")
 public class PrivateMessage implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class PrivateMessage implements Serializable
 	}
 	
 	@Id
-	@Column(name="ID")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int ID;
 	public int getID() {
@@ -45,7 +45,7 @@ public class PrivateMessage implements Serializable
 		ID = id;
 	}
 	
-	@Column(name="Text")
+	@Column(name="text")
 	private String text;
 	public String getText() {
 		return text;
@@ -82,7 +82,7 @@ public class PrivateMessage implements Serializable
 	
 	
 	@ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name="FK_UserID_sender")
+    @JoinColumn(name="fk_user_id_sender")
     private User userSender;
 
     public void setUserSender(User userSender) {
@@ -97,7 +97,7 @@ public class PrivateMessage implements Serializable
     }
     
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name="FK_UserID_receiver")
+    @JoinColumn(name="fk_user_id_receiver")
     private User userReceiver;
 
     public void setUserReceiver(User userReceiver) {
