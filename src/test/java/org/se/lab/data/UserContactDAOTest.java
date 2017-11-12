@@ -12,6 +12,7 @@ public class UserContactDAOTest extends AbstractDAOTest {
     private UserContact uc = new UserContact(u,2);
     private UserContact uc2 = new UserContact(u, 3);
 
+    private UserDAOImpl udao = new UserDAOImpl();
     private UserContactDAOImpl ucdao = new UserContactDAOImpl();
 
 
@@ -19,20 +20,22 @@ public class UserContactDAOTest extends AbstractDAOTest {
     @Override
     public void setup() {
         tx.begin();
+        udao.setEntityManager(em);
         ucdao.setEntityManager(em);
+
     }
 
     @Test
     @Override
     public void testCreate() {
-        em.persist(u);
+        udao.insert(u);
         ucdao.insert(uc);
     }
 
     @Test
     @Override
     public void testModify() {
-        em.persist(u);
+        udao.insert(u);
         UserContact persisted = ucdao.insert(uc);
         persisted.setContactId(3);
         ucdao.update(persisted);
@@ -42,7 +45,7 @@ public class UserContactDAOTest extends AbstractDAOTest {
     @Test
     @Override
     public void testRemove() {
-        em.persist(u);
+        udao.insert(u);
         ucdao.insert(uc);
         ucdao.delete(uc);
         UserContact uc3 = ucdao.findById(uc.getId());
@@ -51,16 +54,16 @@ public class UserContactDAOTest extends AbstractDAOTest {
 
     @Test
     public void testfindAll() {
-        em.persist(u);
+        udao.insert(u);
         ucdao.insert(uc);
         ucdao.insert(uc2);
-        List<UserContact> ups = ucdao.findAll();
-        Assert.assertEquals(2, ups.size());
+        List<UserContact> ucs = ucdao.findAll();
+        Assert.assertEquals(2, ucs.size());
     }
 
     @Test
     public void testfindById() {
-        em.persist(u);
+        udao.insert(u);
         ucdao.insert(uc);
         UserContact uc3 = ucdao.findById(uc.getId());
         Assert.assertEquals(uc, uc3);
@@ -68,16 +71,32 @@ public class UserContactDAOTest extends AbstractDAOTest {
 
     @Test
     public void testdoesContactExistForUserIdtrue() {
-        em.persist(u);
+        udao.insert(u);
         ucdao.insert(uc);
         Assert.assertTrue(ucdao.doesContactExistForUserId(2,u.getId()));
     }
 
     @Test
     public void testdoesContactExistForUserIdfalse() {
-        em.persist(u);
+        udao.insert(u);
         ucdao.insert(uc);
         Assert.assertFalse(ucdao.doesContactExistForUserId(-1,u.getId()));
+    }
+
+    @Test
+    public void testUserbyContact() {
+        udao.insert(u);
+        ucdao.insert(uc);
+
+        List<UserContact> ucs = ucdao.findAll();
+        Assert.assertEquals(1, ucs.size());
+        Assert.assertEquals(uc.getId(), ucs.get(0).getId());
+
+        Assert.assertEquals(u.getId(), ucs.get(0).getUser().getId());
+        Assert.assertEquals("James", ucs.get(0).getUser().getUsername());
+        Assert.assertEquals("***", ucs.get(0).getUser().getPassword());
+
+        Assert.assertEquals(2, ucs.get(0).getContactId());
     }
 
 }

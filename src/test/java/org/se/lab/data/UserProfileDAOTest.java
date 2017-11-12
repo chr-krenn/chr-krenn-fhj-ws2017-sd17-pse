@@ -8,22 +8,25 @@ import java.util.List;
 
 public class UserProfileDAOTest extends AbstractDAOTest {
 
+    public User u = new User("James", "***");
     public UserProfile  up = new UserProfile("James", "Bond", "London" , "james.bond@gmail.com", "MI6", "test" , "test", "test userprofile");
     public UserProfile  up2 = new UserProfile("Heinz", "Bond", "London" , "james.bond@gmail.com", "MI6", "test" , "test", "test userprofile");
 
-
+    public UserDAOImpl udao = new UserDAOImpl();
     public UserProfileDAOImpl updao = new UserProfileDAOImpl();
 
     @Before
     @Override
     public void setup() {
         tx.begin();
+        udao.setEntityManager(em);
         updao.setEntityManager(em);
     }
 
     @Test
     @Override
     public void testCreate() {
+        udao.insert(u);
         updao.insert(up);
     }
 
@@ -59,5 +62,21 @@ public class UserProfileDAOTest extends AbstractDAOTest {
         UserProfile up3 = updao.findById(up.getId());
         Assert.assertEquals(up, up3);
     }
+
+    @Test
+    public void testUserbyUserProfile() {
+        udao.insert(u);
+        updao.insert(up);
+        u.setUserProfile(up);
+
+        List<UserProfile> ups = updao.findAll();
+        Assert.assertEquals(1, ups.size());
+        Assert.assertEquals(up.getId(), ups.get(0).getId());
+
+        Assert.assertEquals(u.getId(), ups.get(0).getUser().getId());
+        Assert.assertEquals("James", ups.get(0).getUser().getUsername());
+        Assert.assertEquals("***", ups.get(0).getUser().getPassword());
+    }
+
 }
 
