@@ -3,3 +3,4 @@
   * [ ] UserTest
   * [ ] PrivateMessageDAO
   * [ ] EnumerationDAO
+  * [ ] Namenskonvention

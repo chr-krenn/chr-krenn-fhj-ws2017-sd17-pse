@@ -50,6 +50,15 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 	@Override
 	public Enumeration createEnumeration(int id) {
 		Enumeration e = new Enumeration();
+		/*
+		 * pending
+		 * approved
+		 * refused
+		 * admin
+		 * portaladmin
+		 * user
+		 * like
+		 */
 		switch (id) {
 		case 1:
 			e.setId(id);
