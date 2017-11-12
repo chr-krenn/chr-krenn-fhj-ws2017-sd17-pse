@@ -84,7 +84,7 @@
 </thead>
 <tbody valign='top'>
 <tr class='odd'>
- <td class='primaryKey' title='Primary Key'>id</td>
+ <td class='primaryKey' title='Primary Key'>ID</td>
  <td class='detail'>int</td>
  <td class='detail' align='right'>10</td>
  <td class='detail' align='center'></td>
@@ -95,66 +95,6 @@
  <td class='comment detail'></td>
 </tr>
 <tr class='even'>
- <td class='indexedColumn' title='Indexed'>enumeration_id</td>
- <td class='detail'>int</td>
- <td class='detail' align='right'>10</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
- <td class='detail'></td>
- <td class='detail'>
-  <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
-    <td class='relatedTable detail' title="enumeration_item.enumeration_id refs enumeration.id via enumeration_item_enumeration"><a href='enumeration.html'>enumeration</a><span class='relatedKey'>.id</span>
-    </td>
-    <td class='constraint detail'>enumeration_item_enumeration<span title='Restrict delete:
- Parent cannot be deleted if children exist'>&nbsp;R</span></td>
-   </tr>
-  </table>
- </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='odd'>
- <td class='indexedColumn' title='Indexed'>post_id</td>
- <td class='detail'>int</td>
- <td class='detail' align='right'>10</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
- <td class='detail'></td>
- <td class='detail'>
-  <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
-    <td class='relatedTable detail' title="enumeration_item.post_id refs post.id via enumeration_item_post"><a href='post.html'>post</a><span class='relatedKey'>.id</span>
-    </td>
-    <td class='constraint detail'>enumeration_item_post<span title='Restrict delete:
- Parent cannot be deleted if children exist'>&nbsp;R</span></td>
-   </tr>
-  </table>
- </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='even'>
- <td class='indexedColumn' title='Indexed'>user_id</td>
- <td class='detail'>int</td>
- <td class='detail' align='right'>10</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
- <td class='detail'></td>
- <td class='detail'>
-  <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
-    <td class='relatedTable detail' title="enumeration_item.user_id refs users.id via enumeration_item_user"><a href='users.html'>users</a><span class='relatedKey'>.id</span>
-    </td>
-    <td class='constraint detail'>enumeration_item_user<span title='Restrict delete:
- Parent cannot be deleted if children exist'>&nbsp;R</span></td>
-   </tr>
-  </table>
- </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='odd'>
  <td class='indexedColumn' title='Indexed'>community_id</td>
  <td class='detail'>int</td>
  <td class='detail' align='right'>10</td>
@@ -164,10 +104,70 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative odd' valign='top'>
-    <td class='relatedTable detail' title="enumeration_item.community_id refs community.id via enumeration_item_community"><a href='community.html'>community</a><span class='relatedKey'>.id</span>
+   <tr class='relative even' valign='top'>
+    <td class='relatedTable detail' title="enumeration_item.community_id refs community.id via FK8u1nd9e1f9vwr2igvf4gtclub"><a href='community.html'>community</a><span class='relatedKey'>.id</span>
     </td>
-    <td class='constraint detail'>enumeration_item_community<span title='Restrict delete:
+    <td class='constraint detail'>FK8u1nd9e1f9vwr2igvf4gtclub<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
+  </table>
+ </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='odd'>
+ <td class='indexedColumn' title='Indexed'>enumeration_id</td>
+ <td class='detail'>int</td>
+ <td class='detail' align='right'>10</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'>
+  <table border='0' width='100%' cellspacing='0' cellpadding='0'>
+   <tr class='relative odd' valign='top'>
+    <td class='relatedTable detail' title="enumeration_item.enumeration_id refs enumeration.ID via FK2a64bbexb95mu9n8c769rrl0k"><a href='enumeration.html'>enumeration</a><span class='relatedKey'>.ID</span>
+    </td>
+    <td class='constraint detail'>FK2a64bbexb95mu9n8c769rrl0k<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
+  </table>
+ </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='even'>
+ <td class='indexedColumn' title='Indexed'>post_id</td>
+ <td class='detail'>int</td>
+ <td class='detail' align='right'>10</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'>
+  <table border='0' width='100%' cellspacing='0' cellpadding='0'>
+   <tr class='relative even' valign='top'>
+    <td class='relatedTable detail' title="enumeration_item.post_id refs post.id via FKaek23036rtlylxc5hpcva7015"><a href='post.html'>post</a><span class='relatedKey'>.id</span>
+    </td>
+    <td class='constraint detail'>FKaek23036rtlylxc5hpcva7015<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
+  </table>
+ </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='odd'>
+ <td class='indexedColumn' title='Indexed'>user_id</td>
+ <td class='detail'>int</td>
+ <td class='detail' align='right'>10</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'>
+  <table border='0' width='100%' cellspacing='0' cellpadding='0'>
+   <tr class='relative odd' valign='top'>
+    <td class='relatedTable detail' title="enumeration_item.user_id refs users.ID via FKj3dlcb0ldw5qlbx5fi3befes8"><a href='users.html'>users</a><span class='relatedKey'>.ID</span>
+    </td>
+    <td class='constraint detail'>FKj3dlcb0ldw5qlbx5fi3befes8<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
@@ -175,7 +175,7 @@
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='5 columns'>Table contained 2 rows at Mon Nov 06 09:26 CET 2017<p/>
+<p title='5 columns'>Table contained 0 rows at Sun Nov 12 10:33 CET 2017<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -190,34 +190,34 @@
 </thead>
 <tbody>
  <tr>
-  <td class='primaryKey'>id</td>
+  <td class='primaryKey'>ID</td>
   <td class='detail'>Primary key</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
   <td class='constraint' style='text-align:left;'>PRIMARY</td>
  </tr>
  <tr>
-  <td class='indexedColumn'>community_id</td>
-  <td class='detail'>Performance</td>
-  <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
-  <td class='constraint' style='text-align:left;'>enumeration_item_community</td>
- </tr>
- <tr>
   <td class='indexedColumn'>enumeration_id</td>
   <td class='detail'>Performance</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
-  <td class='constraint' style='text-align:left;'>enumeration_item_enumeration</td>
+  <td class='constraint' style='text-align:left;'>FK2a64bbexb95mu9n8c769rrl0k</td>
+ </tr>
+ <tr>
+  <td class='indexedColumn'>community_id</td>
+  <td class='detail'>Performance</td>
+  <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
+  <td class='constraint' style='text-align:left;'>FK8u1nd9e1f9vwr2igvf4gtclub</td>
  </tr>
  <tr>
   <td class='indexedColumn'>post_id</td>
   <td class='detail'>Performance</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
-  <td class='constraint' style='text-align:left;'>enumeration_item_post</td>
+  <td class='constraint' style='text-align:left;'>FKaek23036rtlylxc5hpcva7015</td>
  </tr>
  <tr>
   <td class='indexedColumn'>user_id</td>
   <td class='detail'>Performance</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
-  <td class='constraint' style='text-align:left;'>enumeration_item_user</td>
+  <td class='constraint' style='text-align:left;'>FKj3dlcb0ldw5qlbx5fi3befes8</td>
  </tr>
 </table>
 </div>
@@ -225,23 +225,23 @@
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from enumeration_item'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="357,161,540,345">
-<area shape="rect" id="node2" href="community.html" title="community" alt="" coords="11,368,131,523">
-<area shape="rect" id="node3" href="enumeration.html" title="enumeration" alt="" coords="187,5,307,112">
-<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="181,129,313,332">
-<area shape="rect" id="node5" href="users.html" title="users" alt="" coords="5,148,137,351">
+<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="363,36,545,220">
+<area shape="rect" id="node2" href="community.html" title="community" alt="" coords="11,72,131,226">
+<area shape="rect" id="node3" href="enumeration.html" title="enumeration" alt="" coords="190,36,310,142">
+<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="181,160,319,362">
+<area shape="rect" id="node5" href="users.html" title="users" alt="" coords="5,313,137,468">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/enumeration_item.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="355,129,475,212">
-<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="169,296,301,499">
-<area shape="rect" id="node9" href="userprofile.html" title="userprofile" alt="" coords="5,392,125,475">
-<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="528,319,711,503">
-<area shape="rect" id="node4" href="community.html" title="community" alt="" coords="175,516,295,671">
-<area shape="rect" id="node5" href="enumeration.html" title="enumeration" alt="" coords="355,5,475,112">
-<area shape="rect" id="node6" href="post.html" title="post" alt="" coords="349,465,481,668">
-<area shape="rect" id="node7" href="private_message.html" title="private_message" alt="" coords="345,229,484,312">
-<area shape="rect" id="node8" href="user_community.html" title="user_community" alt="" coords="347,365,482,448">
+<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="354,520,474,603">
+<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="169,487,301,642">
+<area shape="rect" id="node9" href="userprofile.html" title="userprofile" alt="" coords="5,559,125,642">
+<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="527,90,709,274">
+<area shape="rect" id="node4" href="community.html" title="community" alt="" coords="175,164,295,319">
+<area shape="rect" id="node5" href="enumeration.html" title="enumeration" alt="" coords="354,40,474,147">
+<area shape="rect" id="node6" href="post.html" title="post" alt="" coords="345,264,483,467">
+<area shape="rect" id="node7" href="privateMessage.html" title="privateMessage" alt="" coords="349,620,479,703">
+<area shape="rect" id="node8" href="user_community.html" title="user_community" alt="" coords="347,164,481,247">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/enumeration_item.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>

@@ -83,7 +83,7 @@
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='even'>
+<tr class='odd'>
  <td class='primaryKey' title='Primary Key'>id</td>
  <td class='detail'>int</td>
  <td class='detail' align='right'>10</td>
@@ -94,39 +94,39 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
+<tr class='even'>
+ <td class='detail'>fk_contact_id</td>
+ <td class='detail'>int</td>
+ <td class='detail' align='right'>10</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
 <tr class='odd'>
  <td class='indexedColumn' title='Indexed'>user_id</td>
  <td class='detail'>int</td>
  <td class='detail' align='right'>10</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
+ <td class='detail' align='right'>null</td>
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative odd' valign='top'>
-    <td class='relatedTable detail' title="contact.user_id refs users.id via contact_users"><a href='users.html'>users</a><span class='relatedKey'>.id</span>
+    <td class='relatedTable detail' title="contact.user_id refs users.ID via FKbxl6anxo14q097g8cd2e51v55"><a href='users.html'>users</a><span class='relatedKey'>.ID</span>
     </td>
-    <td class='constraint detail'>contact_users<span title='Restrict delete:
+    <td class='constraint detail'>FKbxl6anxo14q097g8cd2e51v55<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
  </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='even'>
- <td class='detail'>contact_id</td>
- <td class='detail'>int</td>
- <td class='detail' align='right'>10</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
 </table>
-<p title='3 columns'>Table contained 7 rows at Mon Nov 06 09:26 CET 2017<p/>
+<p title='3 columns'>Table contained 0 rows at Sun Nov 12 10:33 CET 2017<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -150,7 +150,7 @@
   <td class='indexedColumn'>user_id</td>
   <td class='detail'>Performance</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
-  <td class='constraint' style='text-align:left;'>contact_users</td>
+  <td class='constraint' style='text-align:left;'>FKbxl6anxo14q097g8cd2e51v55</td>
  </tr>
 </table>
 </div>
@@ -158,18 +158,18 @@
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from contact'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="181,5,337,141">
-<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="5,32,137,235">
+<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="181,5,349,141">
+<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="5,56,137,211">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/contact.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="345,5,501,141">
-<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="169,195,301,397">
-<area shape="rect" id="node7" href="userprofile.html" title="userprofile" alt="" coords="5,291,125,373">
-<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="545,161,691,244">
-<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="357,195,489,277">
-<area shape="rect" id="node5" href="private_message.html" title="private_message" alt="" coords="354,295,493,377">
-<area shape="rect" id="node6" href="user_community.html" title="user_community" alt="" coords="356,395,491,477">
+<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="345,5,513,141">
+<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="169,245,301,400">
+<area shape="rect" id="node7" href="userprofile.html" title="userprofile" alt="" coords="5,317,125,400">
+<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="557,161,703,244">
+<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="363,195,495,277">
+<area shape="rect" id="node5" href="privateMessage.html" title="privateMessage" alt="" coords="364,295,495,377">
+<area shape="rect" id="node6" href="user_community.html" title="user_community" alt="" coords="362,395,497,477">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/contact.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>

@@ -20,20 +20,20 @@ digraph "oneDegreeRelationshipsDiagram" {
     arrowsize="0.8"
   ];
   "enumeration_item":"community_id":w -> "community":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "enumeration_item":"enumeration_id":w -> "enumeration":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "enumeration_item":"enumeration_id":w -> "enumeration":"ID":e [arrowhead=none dir=back arrowtail=crowodot];
   "enumeration_item":"post_id":w -> "post":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "enumeration_item":"user_id":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "post":"community_id":w -> "community":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "post":"user_id":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "enumeration_item":"user_id":w -> "users":"ID":e [arrowhead=none dir=back arrowtail=crowodot];
+  "post":"fk_community_id":w -> "community":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "post":"fk_user_id":w -> "users":"ID":e [arrowhead=none dir=back arrowtail=crowodot];
   "community" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">community</TD></TR>
       <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
-      <TR><TD PORT="name" COLSPAN="3" ALIGN="LEFT">name</TD></TR>
-      <TR><TD PORT="status" COLSPAN="3" ALIGN="LEFT">status</TD></TR>
       <TR><TD PORT="description" COLSPAN="3" ALIGN="LEFT">description</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
+      <TR><TD PORT="name" COLSPAN="3" ALIGN="LEFT">name</TD></TR>
+      <TR><TD PORT="state" COLSPAN="3" ALIGN="LEFT">state</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
     </TABLE>>
     URL="community.html"
     tooltip="community"
@@ -42,9 +42,9 @@ digraph "oneDegreeRelationshipsDiagram" {
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">enumeration</TD></TR>
-      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
-      <TR><TD PORT="name" COLSPAN="3" ALIGN="LEFT">name</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">5 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+      <TR><TD PORT="ID" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">ID</TD></TR>
+      <TR><TD PORT="NAME" COLSPAN="3" ALIGN="LEFT">NAME</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
     URL="enumeration.html"
     tooltip="enumeration"
@@ -53,12 +53,12 @@ digraph "oneDegreeRelationshipsDiagram" {
     label=<
     <TABLE BORDER="2" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">enumeration_item</TD></TR>
-      <TR><TD PORT="id" COLSPAN="2" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD><TD PORT="id.type" ALIGN="LEFT">int[10]</TD></TR>
+      <TR><TD PORT="ID" COLSPAN="2" BGCOLOR="#bed1b8" ALIGN="LEFT">ID</TD><TD PORT="ID.type" ALIGN="LEFT">int[10]</TD></TR>
+      <TR><TD PORT="community_id" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">community_id</TD><TD PORT="community_id.type" ALIGN="LEFT">int[10]</TD></TR>
       <TR><TD PORT="enumeration_id" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">enumeration_id</TD><TD PORT="enumeration_id.type" ALIGN="LEFT">int[10]</TD></TR>
       <TR><TD PORT="post_id" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">post_id</TD><TD PORT="post_id.type" ALIGN="LEFT">int[10]</TD></TR>
       <TR><TD PORT="user_id" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">user_id</TD><TD PORT="user_id.type" ALIGN="LEFT">int[10]</TD></TR>
-      <TR><TD PORT="community_id" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">community_id</TD><TD PORT="community_id.type" ALIGN="LEFT">int[10]</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 &gt;</TD></TR>
     </TABLE>>
     URL="enumeration_item.html"
     tooltip="enumeration_item"
@@ -68,12 +68,12 @@ digraph "oneDegreeRelationshipsDiagram" {
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">post</TD></TR>
       <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
-      <TR><TD PORT="user_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">user_id</TD></TR>
-      <TR><TD PORT="community_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">community_id</TD></TR>
-      <TR><TD PORT="parent_post_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">parent_post_id</TD></TR>
-      <TR><TD PORT="text" COLSPAN="3" ALIGN="LEFT">text</TD></TR>
       <TR><TD PORT="created" COLSPAN="3" ALIGN="LEFT">created</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
+      <TR><TD PORT="text" COLSPAN="3" ALIGN="LEFT">text</TD></TR>
+      <TR><TD PORT="fk_community_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_community_id</TD></TR>
+      <TR><TD PORT="parent_post_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">parent_post_id</TD></TR>
+      <TR><TD PORT="fk_user_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_user_id</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
     </TABLE>>
     URL="post.html"
     tooltip="post"
@@ -82,13 +82,11 @@ digraph "oneDegreeRelationshipsDiagram" {
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">users</TD></TR>
-      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
-      <TR><TD PORT="username" COLSPAN="3" ALIGN="LEFT">username</TD></TR>
-      <TR><TD PORT="password" COLSPAN="3" ALIGN="LEFT">password</TD></TR>
-      <TR><TD PORT="role" COLSPAN="3" ALIGN="LEFT">role</TD></TR>
+      <TR><TD PORT="ID" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">ID</TD></TR>
+      <TR><TD PORT="PASSWORD" COLSPAN="3" ALIGN="LEFT">PASSWORD</TD></TR>
+      <TR><TD PORT="USERNAME" COLSPAN="3" ALIGN="LEFT">USERNAME</TD></TR>
       <TR><TD PORT="fk_userprofile" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_userprofile</TD></TR>
-      <TR><TD PORT="created" COLSPAN="3" ALIGN="LEFT">created</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">5 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">6 &gt;</TD></TR>
     </TABLE>>
     URL="users.html"
     tooltip="users"

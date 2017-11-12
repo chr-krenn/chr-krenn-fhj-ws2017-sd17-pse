@@ -93,9 +93,9 @@
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative even' valign='top'>
-    <td class='relatedTable detail' title="users.fk_userprofile refs userprofile.id via user_userprofile"><a href='users.html'>users</a><span class='relatedKey'>.fk_userprofile</span>
+    <td class='relatedTable detail' title="users.fk_userprofile refs userprofile.id via FKcmombhhasank864ums4swd519"><a href='users.html'>users</a><span class='relatedKey'>.fk_userprofile</span>
     </td>
-    <td class='constraint detail'>user_userprofile<span title='Restrict delete:
+    <td class='constraint detail'>FKcmombhhasank864ums4swd519<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
@@ -104,12 +104,34 @@
  <td class='comment detail'></td>
 </tr>
 <tr class='odd'>
+ <td class='detail'>description</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='even'>
+ <td class='detail'>email</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='odd'>
  <td class='detail'>firstname</td>
  <td class='detail'>varchar</td>
- <td class='detail' align='right'>64</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
+ <td class='detail' align='right'>null</td>
  <td class='detail'></td>
  <td class='detail'> </td>
  <td class='comment detail'></td>
@@ -117,71 +139,60 @@
 <tr class='even'>
  <td class='detail'>lastname</td>
  <td class='detail'>varchar</td>
- <td class='detail' align='right'>64</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
+ <td class='detail' align='right'>null</td>
  <td class='detail'></td>
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
 <tr class='odd'>
- <td class='detail'>email</td>
+ <td class='detail'>location</td>
  <td class='detail'>varchar</td>
- <td class='detail' align='right'>256</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
+ <td class='detail' align='right'>null</td>
  <td class='detail'></td>
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
 <tr class='even'>
- <td class='detail'>phone</td>
- <td class='detail'>varchar</td>
- <td class='detail' align='right'>256</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='odd'>
  <td class='detail'>mobile</td>
  <td class='detail'>varchar</td>
- <td class='detail' align='right'>256</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='even'>
- <td class='detail'>description</td>
- <td class='detail'>varchar</td>
- <td class='detail' align='right'>1024</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
+ <td class='detail' align='right'>null</td>
  <td class='detail'></td>
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
 <tr class='odd'>
- <td class='detail'>created</td>
- <td class='detail'>timestamp</td>
- <td class='detail' align='right'>19</td>
+ <td class='detail'>phone</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='even'>
+ <td class='detail'>team</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
- <td class='detail' align='right'>CURRENT_TIMESTAMP</td>
+ <td class='detail' align='right'>null</td>
  <td class='detail'></td>
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='8 columns'>Table contained 4 rows at Mon Nov 06 09:26 CET 2017<p/>
+<p title='9 columns'>Table contained 0 rows at Sun Nov 12 10:33 CET 2017<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -207,18 +218,18 @@
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from userprofile'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="users.html" title="users" alt="" coords="256,5,388,208">
-<area shape="rect" id="node2" href="userprofile.html" title="userprofile" alt="" coords="5,99,212,355">
+<area shape="rect" id="node1" href="users.html" title="users" alt="" coords="247,5,379,160">
+<area shape="rect" id="node2" href="userprofile.html" title="userprofile" alt="" coords="5,75,203,355">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/userprofile.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="441,5,561,88">
-<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="256,141,388,344">
-<area shape="rect" id="node7" href="userprofile.html" title="userprofile" alt="" coords="5,235,212,491">
-<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="615,108,760,191">
-<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="435,141,567,224">
-<area shape="rect" id="node5" href="private_message.html" title="private_message" alt="" coords="432,241,571,324">
-<area shape="rect" id="node6" href="user_community.html" title="user_community" alt="" coords="434,341,569,424">
+<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="430,5,550,88">
+<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="247,192,379,347">
+<area shape="rect" id="node7" href="userprofile.html" title="userprofile" alt="" coords="5,261,203,541">
+<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="601,108,747,191">
+<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="424,141,556,224">
+<area shape="rect" id="node5" href="privateMessage.html" title="privateMessage" alt="" coords="425,241,555,324">
+<area shape="rect" id="node6" href="user_community.html" title="user_community" alt="" coords="423,341,557,424">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/userprofile.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>

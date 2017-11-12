@@ -1,6 +1,6 @@
 enumeration_item
 user_community
-private_message
+privateMessage
 contact
 post
 users
