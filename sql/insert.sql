@@ -34,7 +34,7 @@ INSERT INTO contact(user_id, fk_contact_id) VALUES (3,4);
 INSERT INTO contact(user_id, fk_contact_id) VALUES (4,3);
 
 -- write a pm from admin to alice
-INSERT INTO privateMessage(FK_UserID_sender, FK_UserID_receiver, text) VALUES (1,3, 'This is a private message.'); -- reconsider naming (e.g. private_message, fk_user_receiver_id...)
+INSERT INTO private_message(fk_user_id_sender, fk_user_id_receiver, text) VALUES (1,3, 'This is a private message.'); -- reconsider naming (e.g. private_message, fk_user_receiver_id...)
 
 -- create communities SWD15 and FH Joanneum
 INSERT INTO community(name,description) VALUES ('SWD15', 'test');
