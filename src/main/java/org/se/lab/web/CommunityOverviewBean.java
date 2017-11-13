@@ -1,10 +1,13 @@
 package org.se.lab.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -59,8 +62,18 @@ public class CommunityOverviewBean {
 		if (selectedCommunity != null) {
 			LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
 
-			// To be done
-			// go to community page if exist -> use data of selectedCommunity to distinct
+			FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
+
+            Map<String, Object> session = context.getExternalContext().getSessionMap();
+
+
+            try {
+                context.getExternalContext().redirect("/pse/communityprofile.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+            }
+			
 
 		}
 	}

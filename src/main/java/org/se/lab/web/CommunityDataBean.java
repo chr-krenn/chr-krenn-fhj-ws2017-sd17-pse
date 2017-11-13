@@ -5,14 +5,21 @@ import org.se.lab.data.Community;
 import org.se.lab.service.CommunityService;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 
 @Named
 @RequestScoped
 public class CommunityDataBean implements Serializable {
 	
+    Flash flash;
+    FacesContext context;
 	private static final long serialVersionUID = 1L;
 	private final Logger LOG = Logger.getLogger(CommunityDataBean.class);
 	private String name;
@@ -58,12 +65,20 @@ public class CommunityDataBean implements Serializable {
 	}
 	
 	public Community getActualCommunity(){
-
-		//todo: method exists -> load id and do method call
-		//communityService.getCommunityById(id);
 		
+		context = FacesContext.getCurrentInstance();
+        Map<String, Object> session = context.getExternalContext().getSessionMap();
+
+        int communityId = 0;
+
+        if (session.size() != 0 && session.get("user") != null) {
+        	communityId = (int)session.get("communityId");
+        	actualCommunity = communityService.findById(communityId);
+        	LOG.info("Opening Communityprofile: "+actualCommunity.getName());
+        }
+
 		if(actualCommunity == null){
-			LOG.info("Creating dummy community");
+			LOG.error("no community with this id: "+communityId);
 			dummyCommunity = new Community(
 					"Dummy Community",
 					"A dummy community, needed for prototype");
