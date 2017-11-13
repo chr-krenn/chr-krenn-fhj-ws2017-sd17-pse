@@ -8,6 +8,7 @@ import org.se.lab.service.UserService;
 
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
@@ -37,6 +38,11 @@ public class CommunityDataBean implements Serializable {
 	private Community actualCommunity;
 	private Map<String, Object> session;
 	private User user;
+	
+	
+	private String joinLeaveState;
+
+
 
 	@Inject
 	private CommunityService communityService;
@@ -74,7 +80,12 @@ public class CommunityDataBean implements Serializable {
 	public void setNewCommunityDescription(String newCommunityDescription) {
 		this.newCommunityDescription = newCommunityDescription;
 	}
-	
+	public String getJoinLeaveState() {
+		return joinLeaveState;
+	}
+	public void setJoinLeaveState(String joinLeaveState) {
+		this.joinLeaveState = joinLeaveState;
+	}
 	
 	@PostConstruct
 	public void init(){
@@ -100,6 +111,13 @@ public class CommunityDataBean implements Serializable {
 			return dummyCommunity;
 		}
 		
+		if(isUserMember()) {
+			joinLeaveState = "Leave";
+		}
+		else {
+			joinLeaveState = "Join";
+		}
+		
 		
 		return actualCommunity;
 
@@ -119,6 +137,22 @@ public class CommunityDataBean implements Serializable {
 	
 	public void joinOrLeaveCommunity() {
 		
+		
+		if(!isUserMember()) {
+			//TODO: getting exception here. Any ideas?
+			//javax.ejb.EJBException: org.hibernate.LazyInitializationException: 
+			//	failed to lazily initialize a collection of role: org.se.lab.data.Community.users, could not initialize proxy - no Session
+			
+			communityService.join(actualCommunity, user);
+		}
+		else {
+			//TODO: missing method to to leave a community e.g. communityService.leave(community, user);
+		}
+		
+	}
+	
+	private boolean isUserMember() {
+		
 		int userId = (int)session.get("user");
 		
 		user = userService.findById(userId);
@@ -128,17 +162,11 @@ public class CommunityDataBean implements Serializable {
 		listCommunity = userService.getAllCommunitiesForUser(user);
 		
 		if(listCommunity.contains(actualCommunity)) {
-			System.out.println("CONTAINS! --> **************** LEAVE");
-			//communityService.join(actualCommunity, user);
-		}
-		else {
-			System.out.println("DOES NOT CONTAIN! --> **************** JOIN");
 			
-			
-			//TODO: missing a method to leave the community e.g. communityService.leave(community, user);
+			return true;
 		}
+		return false;
 	}
-	
 	
 	public void modifyCommunity() {
 		

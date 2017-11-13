@@ -18,21 +18,20 @@
 		<div id="content">
 			<p:layout style="min-width:400px;min-height:600px;">
 				<p:layoutUnit position="center">
-					<div class="buttons">
-						<p:commandButton value="(MODIFY)" />
-						<p:commandButton value="Join/Leave" />
-					</div>
+
 					<p:repeat value="#{communityDataBean.getActualCommunity()}" var="c">
+						<div class="buttons">
+							<p:commandButton value="(MODIFY)" />
+							<p:commandButton value="#{communityDataBean.joinLeaveState}" action="#{communityDataBean.joinOrLeaveCommunity()}"/>
+						</div>
 						<h:panelGrid>
-							<h2>
-								#{c.name}
-							</h2>
+							<h2>#{c.name}</h2>
 							#{c.description}
 							<div class="image">
 								<h:graphicImage library="images" name="communityicon.png" />
 							</div>
 						</h:panelGrid>
-					</p:repeat>				
+					</p:repeat>
 					<p:repeat value="#{activityStreamBean.posts}" var="posts">
 						<p:panel header="#{posts.user.username} - #{posts.created}"
 							style="text-align:center;width:50%;align:center">
