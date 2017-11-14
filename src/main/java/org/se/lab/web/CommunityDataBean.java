@@ -2,7 +2,9 @@ package org.se.lab.web;
 
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
+import org.se.lab.data.Post;
 import org.se.lab.data.User;
+import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.CommunityService;
 import org.se.lab.service.UserService;
 
@@ -36,10 +38,9 @@ public class CommunityDataBean implements Serializable {
 	private Community actualCommunity;
 	private Map<String, Object> session;
 	private User user;
-	
+	private List<Post> communityPosts;
 	
 	private String joinLeaveState;
-
 
 
 	@Inject
@@ -48,7 +49,11 @@ public class CommunityDataBean implements Serializable {
 	@Inject
 	private UserService userService;
 	
+	@Inject
+	private ActivityStreamService activityStreamService;
+	
 	public String getName() {
+		
 		return name;
 	}
 	public void setName(String name) {
@@ -143,6 +148,14 @@ public class CommunityDataBean implements Serializable {
 			return true;
 		}
 		return false;
+	}
+	
+	public List<Post> getActualCommunityStream() {
+		
+		communityPosts =  activityStreamService.getPostsForCommunity(actualCommunity);
+		System.out.println("******************>"+communityPosts.toString());
+		return communityPosts;
+		
 	}
 	
 	public void modifyCommunity() {
