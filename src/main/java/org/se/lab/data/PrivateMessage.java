@@ -28,6 +28,7 @@ public class PrivateMessage implements Serializable
 	/**
 	 * Private Message Constants
 	 */
+	
 		public static final int MAX_TEXT_LENGTH = 1024;
 		private static final String TOSTRING_MSG = "PrivateMessage: {id: %d, text: %s, FK_User_Sender: %s, FK_User_Receiver: %s}";
 
