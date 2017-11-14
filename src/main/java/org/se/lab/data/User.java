@@ -107,7 +107,7 @@ public class User implements Serializable
 		return usercontacts;
 	}
 	
-	@OneToMany(mappedBy="userSender")
+	@OneToMany(mappedBy="usersender")
 	private List<PrivateMessage> privateMessagesSender = new ArrayList<>();
 
 	public void addPrivateMessageSender(PrivateMessage privateMessage) {
@@ -121,7 +121,7 @@ public class User implements Serializable
 	}
 	
 	
-	@OneToMany(mappedBy="userReceiver")
+	@OneToMany(mappedBy="userreceiver")
 	private List<PrivateMessage> privateMessagesReceiver = new ArrayList<>();
 
 	public void addPrivateMessageReceiver(PrivateMessage privateMessage) {
