@@ -79,7 +79,8 @@ private User user2 = new User("Test User2", "test");
 	
 	@Test
 	public void testToString() {
-		String s = String.format("PrivateMessage [ID=1, text=test private message, FK_User_Sender=%s, FK_User_Receiver=%s]", user1, user1);
+		String s = String.format("PrivateMessage: {id: 1, text: test private message, FK_User_Sender: User [id=0, username=Test User1], FK_User_Receiver: User [id=0, username=Test User1]}");
+		System.out.println(pm.toString());
 		Assert.assertTrue(pm.toString().equals(s));
 	}
 	
@@ -93,6 +94,7 @@ private User user2 = new User("Test User2", "test");
 		pm4 = new PrivateMessage ("test", user1, user1);
 		pm4.setID(0);
 	}
+	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testTextFail1() {

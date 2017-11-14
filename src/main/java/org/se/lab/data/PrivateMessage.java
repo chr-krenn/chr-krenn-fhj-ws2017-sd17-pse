@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.apache.log4j.Logger;
 
 
 @Entity
@@ -19,8 +22,33 @@ public class PrivateMessage implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
+	@Transient
+	private Logger LOG = Logger.getLogger(Post.class);
+	
+	/**
+	 * Private Message Constants
+	 */
+		public static final int MAX_TEXT_LENGTH = 1024;
+		private static final String TOSTRING_MSG = "PrivateMessage: {id: %d, text: %s, FK_User_Sender: %s, FK_User_Receiver: %s}";
+
+		// Exception messages
+		private static final String ID_INVALID_ERROR = "The given id is less than 1";
+		private static final String USERSENDER_NULL_ERROR = "The given user must not be null";
+		private static final String USERRECEIVER_NULL_ERROR = "The given post must not be null";
+		private static final String TEXT_NULL_ERROR = "The given text must not be null";
+		private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds " 
+				+ MAX_TEXT_LENGTH
+				+ " characters";
+		private static final String TEXT_WHITESPACE_ERROR = "The given text must have charakters not only whitespaces";
+	
 	public PrivateMessage(String text, User sender, User receiver )
 	{
+		LOG.debug("New Private Message");
+		LOG.trace(
+				String.format("\t{\n\ttext: %s,\n\tsender: %s\n\treceiver:",
+				text,
+				sender,
+				receiver));
 		setText(text);
 		setUserSender(sender);
 		setUserReceiver(receiver);
@@ -31,6 +59,12 @@ public class PrivateMessage implements Serializable
 		
 	}
 	
+	
+	/**
+	 * Getter for id field of PrivateMessage
+	 * 
+	 * @return: (int) id
+	 */
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -39,76 +73,98 @@ public class PrivateMessage implements Serializable
 		return ID;
 	}
 
+	/**
+	 * Setter for id field of PrivateMessage Should not be negative or zero
+	 * 
+	 * @param id
+	 * 
+	 * @throws IllegalArgumentException.class if given id less than 1
+	 */
 	public void setID(int id) {
 		if (id <= 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(ID_INVALID_ERROR);
 		ID = id;
 	}
 	
+	/**
+	 * Getter to get Text of PrivateMessage
+	 * 
+	 * @return (String) text
+	 */
 	@Column(name="text")
 	private String text;
 	public String getText() {
+		LOG.debug("getText -> " + text);
 		return text;
 	}
 
 	public void setText(String text) {
-		if (text == null || text.trim().length() == 0)
-			throw new IllegalArgumentException();
+		LOG.debug("setText(" + text + ")");
+		if (text == null)
+			throw new IllegalArgumentException(TEXT_NULL_ERROR);
+		if (text.length() > MAX_TEXT_LENGTH)
+			throw new IllegalArgumentException(TEXT_INVALID_ERROR);
+		
+		if (text.trim().length() == 0)
+		{
+			throw new IllegalArgumentException(TEXT_WHITESPACE_ERROR);
+		}
 		this.text = text;
 	}
 	
-	/* Why? Just causes hirbernate MappingException (dublicate mapping) User holds id anyways
-	 * Nice comment bro, but your commentation also causes Exceptions ;) Now i turned into the right way
-	@Column(name="FK_UserID_sender")
-	private int FK_User_Sender;
-	public int getFK_User_Sender() {
-		return FK_User_Sender;
-	}
-
-	public void setFK_User_Sender(int fK_User_Sender) {
-		FK_User_Sender = fK_User_Sender;
-	}
-
-	@Column(name="FK_UserID_receiver")
-	private int FK_User_Receiver;
-	public int getFK_User_Receiver() {
-		return FK_User_Receiver;
-	}
-
-	public void setFK_User_Receiver(int fK_User_Receiver) {
-		FK_User_Receiver = fK_User_Receiver;
-	} 
-	*/
-	
-	
+	/**
+	 * Setter for UserSender field of PrivateMessage Should not be null
+	 * 
+	 * @param usersender
+	 * 
+	 * @throws IllegalArgumentException.class if given user object is null
+	 */
 	@ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="fk_user_id_sender")
-    private User userSender;
+    private User usersender;
 
-    public void setUserSender(User userSender) {
-        if(userSender == null)
-            throw new IllegalArgumentException();
-        this.userSender = userSender;
-        userSender.addPrivateMessageSender(this);
+    public void setUserSender(User usersender) {
+        if(usersender == null)
+            throw new IllegalArgumentException(USERSENDER_NULL_ERROR);
+        this.usersender = usersender;
+        usersender.addPrivateMessageSender(this);
     }
 
+    /**
+	 * Getter to get UserSender of PrivateMessage
+	 * 
+	 * @return (User) usersender
+	 */
     public User getUserSender(){
-        return userSender;
+        return usersender;
     }
     
+    
+    /**
+	 * Setter for UserReceiver field of PrivateMessage Should not be null
+	 * 
+	 * @param userreceiver
+	 * 
+	 * @throws IllegalArgumentException.class if given user object is null
+	 */
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="fk_user_id_receiver")
-    private User userReceiver;
+    private User userreceiver;
 
-    public void setUserReceiver(User userReceiver) {
-        if(userReceiver == null)
-            throw new IllegalArgumentException();
-        this.userReceiver = userReceiver;
-        userReceiver.addPrivateMessageReceiver(this);
+    public void setUserReceiver(User userreceiver) {
+        if(userreceiver == null)
+            throw new IllegalArgumentException(USERRECEIVER_NULL_ERROR);
+        this.userreceiver = userreceiver;
+        userreceiver.addPrivateMessageReceiver(this);
     }
 
+    /**
+	 * Getter to get UserReceiver of PrivateMessage
+	 * 
+	 * @return (User) userreceiver
+	 */
     public User getUserReceiver(){
-        return userReceiver;
+        return userreceiver;
     }
 	
 	
@@ -117,8 +173,8 @@ public class PrivateMessage implements Serializable
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((userReceiver != null) ? userReceiver.getId() : 0);
-		result = prime * result + ((userSender != null) ? userSender.getId() : 0);
+		result = prime * result + ((userreceiver != null) ? userreceiver.getId() : 0);
+		result = prime * result + ((usersender != null) ? usersender.getId() : 0);
 		result = prime * result + ((text == null) ? 0 : text.hashCode());
 		return result;
 	}
@@ -132,9 +188,9 @@ public class PrivateMessage implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		PrivateMessage other = (PrivateMessage) obj;
-		if (userReceiver.getId() != other.getUserReceiver().getId())
+		if (userreceiver.getId() != other.getUserReceiver().getId())
 			return false;
-		if (userSender.getId() != other.getUserSender().getId())
+		if (usersender.getId() != other.getUserSender().getId())
 			return false;
 		if (text == null) {
 			if (other.text != null)
@@ -146,8 +202,7 @@ public class PrivateMessage implements Serializable
 
 	@Override
 	public String toString() {
-		return "PrivateMessage [ID=" + ID + ", text=" + text + ", FK_User_Sender=" + userSender
-				+ ", FK_User_Receiver=" + userReceiver + "]";
+		return String.format(TOSTRING_MSG, this.ID, this.text, this.usersender, this.userreceiver);
 	}
 
 }
