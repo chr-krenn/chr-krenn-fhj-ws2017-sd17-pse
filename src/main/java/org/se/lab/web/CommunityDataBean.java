@@ -10,14 +10,12 @@ import org.se.lab.service.UserService;
 
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -153,12 +151,12 @@ public class CommunityDataBean implements Serializable {
 	public List<Post> getActualCommunityStream() {
 		
 		communityPosts =  activityStreamService.getPostsForCommunity(actualCommunity);
-		System.out.println("******************>"+communityPosts.toString());
 		return communityPosts;
 		
 	}
 	
 	public void modifyCommunity() {
+
 		
 	}
 	

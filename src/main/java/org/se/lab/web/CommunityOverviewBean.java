@@ -3,19 +3,14 @@ package org.se.lab.web;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
-import org.se.lab.data.User;
 import org.se.lab.service.CommunityService;
-import org.se.lab.service.UserService;
 
 @Named
 @RequestScoped
@@ -74,8 +69,11 @@ public class CommunityOverviewBean {
 	
 	public String createNewCommunity(){
 		Community newCommunity;
-		if(!newCommunityName.isEmpty() & !newCommunityDescription.isEmpty()){
+		if(!newCommunityName.isEmpty()){
 
+			if(newCommunityDescription.isEmpty()) {
+				newCommunityDescription = "<Edit me ...>";
+			}
 			newCommunity = new Community(newCommunityName, newCommunityDescription);
 			service.request(newCommunity);
 			List<Community> communityList = new ArrayList<Community>();
