@@ -17,6 +17,7 @@ public class User implements Serializable
 	@Transient
 	private Logger LOG = Logger.getLogger(Post.class);
 	
+	
 	/**
 	 * Private Message Constants
 	 */
