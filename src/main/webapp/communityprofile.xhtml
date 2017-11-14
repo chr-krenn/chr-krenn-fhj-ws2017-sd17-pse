@@ -32,6 +32,15 @@
 							</div>
 						</h:panelGrid>
 					</p:repeat>
+					<p:panel style="text-align:center">
+						<h3>Create a new post</h3>
+						<h:panelGrid columns="1" style="width:100%">
+							<p:inputTextarea rows="3" cols="20"
+								placeholder="Enter your message" />
+							<p:commandButton value="Send"
+								actionListener="#{activityStreamBean.newPost(posts)}" />
+						</h:panelGrid>
+					</p:panel>
 					<p:repeat value="#{communityDataBean.getActualCommunityStream()}" var="posts">
 						<p:panel header="#{posts.user.username} - #{posts.created}"
 							style="text-align:center;width:50%;align:center">
