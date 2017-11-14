@@ -20,11 +20,11 @@
     	<p:messages id="messages" />
 		<p:panelGrid columns="2">
     		<p:outputLabel for="communityName" value="Community Name" />
-			<p:inputText id="communityName" value="#{communityDataBean.newCommunityName}" />
+			<p:inputText id="communityName" value="#{communityOverviewBean.newCommunityName}" />
 			<p:outputLabel for="communityDescription" value="Community Description" />
-			<p:inputTextarea id="communityDescription" value="#{communityDataBean.newCommunityDescription}" />			
+			<p:inputTextarea id="communityDescription" value="#{communityOverviewBean.newCommunityDescription}" />			
 			<p:commandButton value="Create" icon="ui-icon-star"
-				action="#{communityDataBean.createNewCommunity()}" disabled="false" ajax="false" />
+				action="#{communityOverviewBean.createNewCommunity()}" disabled="false" ajax="false" />
 		</p:panelGrid>
     </div>
     <div id="overview">

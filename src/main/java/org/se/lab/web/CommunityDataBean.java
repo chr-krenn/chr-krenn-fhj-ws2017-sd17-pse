@@ -33,8 +33,6 @@ public class CommunityDataBean implements Serializable {
 	private boolean publicState;
 	private String description;
 	private Community dummyCommunity;
-	private String newCommunityName;
-	private String newCommunityDescription;
 	private Community actualCommunity;
 	private Map<String, Object> session;
 	private User user;
@@ -68,18 +66,7 @@ public class CommunityDataBean implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getNewCommunityName() {
-		return newCommunityName;
-	}
-	public void setNewCommunityName(String newCommunityName) {
-		this.newCommunityName = newCommunityName;
-	}
-	public String getNewCommunityDescription() {
-		return newCommunityDescription;
-	}
-	public void setNewCommunityDescription(String newCommunityDescription) {
-		this.newCommunityDescription = newCommunityDescription;
-	}
+	
 	public String getJoinLeaveState() {
 		return joinLeaveState;
 	}
@@ -123,17 +110,7 @@ public class CommunityDataBean implements Serializable {
 
 	}
 	
-	public String createNewCommunity(){
-		 
-		if(!newCommunityName.isEmpty() & !newCommunityDescription.isEmpty()){
 
-			actualCommunity = new Community(newCommunityName, newCommunityDescription);
-			communityService.request(actualCommunity);
-			LOG.info(actualCommunity.getName()+" community created");
-		}
-		
-		return "/communityprofile.xhtml?faces-redirect=true";
-	}
 	
 	public void joinOrLeaveCommunity() {
 		

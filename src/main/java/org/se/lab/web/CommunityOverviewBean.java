@@ -29,6 +29,8 @@ public class CommunityOverviewBean {
 
 	private List<Community> communities;
 	private Community selectedCommunity;
+	private String newCommunityName;
+	private String newCommunityDescription;
 
 	@PostConstruct
 	public void init() {
@@ -56,6 +58,43 @@ public class CommunityOverviewBean {
 	public void setSelectedCommunity(Community selectedCommunity) {
 		this.selectedCommunity = selectedCommunity;
 	}
+	
+	public String getNewCommunityName() {
+		return newCommunityName;
+	}
+	public void setNewCommunityName(String newCommunityName) {
+		this.newCommunityName = newCommunityName;
+	}
+	public String getNewCommunityDescription() {
+		return newCommunityDescription;
+	}
+	public void setNewCommunityDescription(String newCommunityDescription) {
+		this.newCommunityDescription = newCommunityDescription;
+	}
+	
+	public String createNewCommunity(){
+		Community newCommunity;
+		if(!newCommunityName.isEmpty() & !newCommunityDescription.isEmpty()){
+
+			newCommunity = new Community(newCommunityName, newCommunityDescription);
+			service.request(newCommunity);
+			List<Community> communityList = new ArrayList<Community>();
+			communityList = service.findAll();
+			for(Community community: communityList) {
+				if(community.getName() == newCommunity.getName()) {
+					newCommunity.setId(community.getId());
+				}
+			}
+			
+			FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());
+            
+			LOG.info(newCommunity.getName()+" community created with the id: " + newCommunity.getId() + ".");
+			return "/communityprofile.xhtml?faces-redirect=true";
+		}
+		
+		return "/communityoverview.xhtml?faces-redirect=true";
+	}
 
 	public void gotoCom() {
 		LOG.info("In Method gotoCom");
@@ -64,9 +103,6 @@ public class CommunityOverviewBean {
 
 			FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
-
-            Map<String, Object> session = context.getExternalContext().getSessionMap();
-
 
             try {
                 context.getExternalContext().redirect("/pse/communityprofile.xhtml");
