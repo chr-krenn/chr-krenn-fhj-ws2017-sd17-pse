@@ -6,6 +6,9 @@ Students SW-Project
 * SCRUM and Task-Management: https://tree.taiga.io/project/p0intr-swd15-pswengi/
 
 # Setup
+<br/>
+Please read the contributing rules: https://github.com/chr-krenn/chr-krenn-fhj-ws2017-sd17-pse/blob/master/CONTRIBUTING.md
+<br/>
 Copy the content from ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/doc/data/SETUP_WILDFLY/ to the ~/install/wildfly-10.1.0.Final/ directory
 
 Clone Repository
