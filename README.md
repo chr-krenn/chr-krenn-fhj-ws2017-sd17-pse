@@ -5,7 +5,7 @@ Students SW-Project
 * Virtual Machine: ftp://mesen.fh-joanneum.at/common/Teiniker-Fedora-VMs/Fedora-26-XFCE-2017-09-30.ova
 * SCRUM and Task-Management: https://tree.taiga.io/project/p0intr-swd15-pswengi/
 # Configure WildFly server:
-* Copy the content from doc/data/SETUP_WILDFLY/ to the install/wildfly/ directory
+Copy the content from ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/doc/data/SETUP_WILDFLY/ to the ~/install/wildfly-10.1.0.Final/ directory
 ## Setup
 Clone Repository
 <pre>
@@ -49,19 +49,12 @@ source sql/insert.sql;
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
 
 ## Import
-* Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed.
-* The JUnit test would fail if the tables contain any data. To clean the tables use the __truncate.sql__ script in the sql directory.
-<pre>
-mysql -u root -p
-...
-source sql/truncate.sql;
-</pre>
-* If something went wrong drop the database and make a new clean setup of the database.
-<pre>
-mysql -u root -p
-...
-drop database pse;
-</pre>
+Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed.
+The JUnit test would fail if the tables contain any data. To clean the tables use the __truncate.sql__ script in the sql directory. 
+<pre>source sql/truncate.sql;</pre>
+If something went wrong drop the database and make a new clean setup of the database. 
+<pre>drop database pse;</pre>
+If you clean your local git repository don't forget to delete the deployment section in the standalone.xml of Wildfly. For this purpose search for the standalone.xml in the __~/install/wildfly-10.1.0.Final/standalone/configuration/__ directory. Go to the end of the file and delete the __\<deployments\>...\<\/deployments\>__ tag.
 
 ## Optional
 Set up management user to access WildFly management console at http://localhost:9990 (optional):
