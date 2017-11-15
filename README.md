@@ -51,7 +51,7 @@ source sql/insert.sql;
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
 
 ## Important
-Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed.
+Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed. <br/><br/>
 The JUnit test would fail if the tables contain any data. To clean the tables use the __truncate.sql__ script in the sql directory. 
 <pre>source sql/truncate.sql;</pre>
 If something went wrong drop the database and make a new clean setup of the database. 
@@ -59,7 +59,7 @@ If something went wrong drop the database and make a new clean setup of the data
 If you clean your local git repository don't forget to delete the deployment section in the standalone.xml of Wildfly. For this purpose search for the standalone.xml in the __~/install/wildfly-10.1.0.Final/standalone/configuration/__ directory. Go to the end of the file and delete the __\<deployments\>...\<\/deployments\>__ tag.
 
 ## Optional
-Set up management user to access WildFly management console at http://localhost:9990 (optional):
+Set up management user to access WildFly management console at http://localhost:9990:
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/add-user.sh
 </pre>
