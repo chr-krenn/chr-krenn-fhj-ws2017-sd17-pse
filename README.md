@@ -37,11 +37,11 @@ After that run the __JUnit tests__ or __make a deployment__. Hibernate will gene
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
 mvn wildfly:deploy
 </pre>
-To run the Application correctly you have to __insert some sample data__. For this use MySQL again.
+To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
 mysql -u root -p
 </pre>
-Now run the insert sql script which you can find in __sql directory__ of the App.
+Now run the insert sql script which you can find in __sql directory__ of the app.
 <pre>
 source sql/insert.sql;
 </pre>
@@ -49,7 +49,19 @@ source sql/insert.sql;
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
 
 ## Import
-Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed.
+* Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed.
+* The JUnit test would fail if the tables contain any data. To clean the tables use the __truncate.sql__ script in the sql directory.
+<pre>
+mysql -u root -p
+...
+source sql/truncate.sql;
+</pre>
+* If something went wrong drop the database and make a new clean setup of the database.
+<pre>
+mysql -u root -p
+...
+drop database pse;
+</pre>
 
 ## Optional
 Set up management user to access WildFly management console at http://localhost:9990 (optional):
