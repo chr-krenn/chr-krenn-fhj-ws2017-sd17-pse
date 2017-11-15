@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,6 @@ public class Community implements Serializable {
 	public Community(String name, String description) {
 		setName(name);
 		setDescription(description);
-		setState(new EnumerationItem(1));
 	}
 	/**
 	 * Constructor for Hibernate
@@ -112,21 +112,25 @@ public class Community implements Serializable {
 		user.addCommunity(this);
 	}
 	
-	@Column(name = "state")
-	private EnumerationItem state;
+	@ManyToMany(mappedBy="coms", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private List<Enumeration> states = new ArrayList<Enumeration>();
 	
 	/**
 	 * Method to set state. The state is an EnumerationItem which proofs that no other state as specified in Enumerataion is used.
 	 * @param state
 	 */
-	public void setState(EnumerationItem state) {
+	public void setState(Enumeration state) {
 		if (state == null)
 			throw new IllegalArgumentException();
-		this.state = state;
+		if(states.size() > 1) {
+			states.remove(0);
+		}
+		state.setCom(this);
+		this.states.add(state);
 	}
 	
-	public EnumerationItem getState() {
-		return state;
+	public Enumeration getState() {
+		return states.get(0);
 	}
 	
 	/**

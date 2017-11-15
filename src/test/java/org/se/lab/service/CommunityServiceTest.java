@@ -5,7 +5,7 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.se.lab.data.Community;
 import org.se.lab.data.CommunityDAO;
-import org.se.lab.data.EnumerationItem;
+import org.se.lab.data.Enumeration;
 
 import static org.easymock.EasyMock.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,8 +16,8 @@ public class CommunityServiceTest {
     public static final int ID = 1;
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
-    public static final EnumerationItem APPROVE_STATE = new EnumerationItem(2);
-    public static final EnumerationItem PENDING_STATE = new EnumerationItem(1);
+    public static final Enumeration APPROVE_STATE = new Enumeration(2);
+    public static final Enumeration PENDING_STATE = new Enumeration(1);
 
     @TestSubject
     private CommunityService communityService = new CommunityService();

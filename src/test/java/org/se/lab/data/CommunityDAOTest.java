@@ -14,6 +14,7 @@ public class CommunityDAOTest extends AbstractDAOTest{
 
 	private static CommunityDAOImpl cdao = new CommunityDAOImpl();
 	private static UserDAOImpl udao = new UserDAOImpl();
+	private static EnumerationDAOImpl edao = new EnumerationDAOImpl();
 	
 	Community com1;
 	Community com2;
@@ -23,28 +24,40 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	User user3;
 	List<Community> coms;
 	List<User> users;
+	Enumeration open;
+	Enumeration closed;
+	Enumeration inspection;
+	
+	static {
+		cdao.setEntityManager(em);
+		udao.setEntityManager(em);
+		edao.setEntityManager(em);
+	}
 	
 	@Before
 	public void setup() {
-
-
+			
 	}
 	
-	@After
-	public void teardown() {
-
-	}
 	
 	@Override
 	@Test
 	public void testCreate() {
 		//setup
 		tx.begin();
-		cdao.setEntityManager(em);
-		udao.setEntityManager(em);
 		com1 = cdao.createCommunity("TestDAOCommunity1", "Community 1 to test CommunityDAO");
 		user1 = udao.createUser("TestUser1", "*****");
+		inspection = edao.findById(4);
+		em.detach(inspection);
+		Assert.assertNotNull(com1);
+		Assert.assertNotNull(user1);
+		Assert.assertNotNull(inspection);
 		com1.addUsers(user1);
+		inspection.setCom(com1);
+		Assert.assertNotNull(user1.getCommunities().get(0));
+		Assert.assertTrue(user1.getCommunities().get(0).getName() == "TestDAOCommunity1");
+		Assert.assertTrue(inspection.getCom().get(0).getName() == "TestDAOCommunity1");
+		
 		tx.commit();
 		
 		//verify with findAll
@@ -52,6 +65,7 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		Assert.assertTrue(communities.size() == 1);
 		Assert.assertEquals(communities.get(0), com1);
 		Assert.assertEquals(communities.get(0).getUsers().get(0), user1);
+		Assert.assertEquals(communities.get(0).getState(), inspection);
 		
 		//verify with findByName
 		Community actual = cdao.findByName("TestDAOCommunity1");
@@ -63,6 +77,8 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	public void testModify() {
 		//setup
 		tx.begin();
+		open = edao.createEnumeration(1);
+		closed = edao.createEnumeration(2);
 		com2 = cdao.createCommunity("TestDAOCommunity2", "Community 2 to test CommunityDAO");
 		com3 = cdao.createCommunity("TestDOACommunity3", "Community 3 to test CommunityDAO");
 		user2 = udao.createUser("TestUser2", "*****");
@@ -75,19 +91,19 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		//exercise
 		tx.begin();
 		coms = cdao.findPendingCommunities();
-		coms.get(1).setState(new EnumerationItem(2));
+		coms.get(1).setState(new Enumeration(1));
 		cdao.update(coms.get(1));
 		tx.commit();
 		
 		//verify
 		coms = cdao.findAll();
-		Assert.assertEquals(new EnumerationItem(1), new EnumerationItem(1));
-		Assert.assertEquals(coms.get(0).getState(), new EnumerationItem(1));
-		Assert.assertEquals(coms.get(1).getState(), new EnumerationItem(2));
-		Assert.assertEquals(coms.get(2).getState(), new EnumerationItem(1));
+		Assert.assertEquals(new Enumeration(1), new Enumeration(1));
+		Assert.assertEquals(coms.get(0).getState(), new Enumeration(4));
+		Assert.assertEquals(coms.get(1).getState(), new Enumeration(1));
+		Assert.assertEquals(coms.get(2).getState(), new Enumeration(4));
 		
 		coms = cdao.findApprovedCommunities();
-		Assert.assertEquals(coms.get(0).getState(), new EnumerationItem(2));
+		Assert.assertEquals(coms.get(0).getState(), new Enumeration(1));
 		Assert.assertTrue(coms.size() == 1);
 		Assert.assertTrue(coms.get(0).getName() == "TestDAOCommunity2");
 		users = coms.get(0).getUsers();

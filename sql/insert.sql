@@ -1,3 +1,14 @@
+-- reset sequence generator
+ALTER TABLE community AUTO_INCREMENT = 1; 
+ALTER TABLE contact AUTO_INCREMENT = 1;  
+ALTER TABLE enumeration AUTO_INCREMENT = 1; 
+ALTER TABLE enumeration_item AUTO_INCREMENT = 1; 
+ALTER TABLE post AUTO_INCREMENT = 1; 
+ALTER TABLE privateMessage AUTO_INCREMENT = 1; 
+ALTER TABLE user_community AUTO_INCREMENT = 1; 
+ALTER TABLE userprofile AUTO_INCREMENT = 1; 
+ALTER TABLE users AUTO_INCREMENT = 1; 
+
 -- create user profiles for admin, bob, alice and frank
 INSERT INTO userprofile (firstname, lastname, picture, address, plz, city, country, room, team, email, phone, mobile, description)
 VALUES ('Homer', 'Simpson', 'randompricture', 'Greenstreet 8', '8010', 'USA','Springfield', 'USA', '7-G', 'Sierra' 'ho.j.simpson@example.com', '555-1234', '31337', 'Technician');
@@ -15,11 +26,11 @@ INSERT INTO userprofile (firstname, lastname, picture, address, plz, city, count
 VALUES ('Maria', 'Datenbank', 'randompricture', 'Decentralization', '00000', 'Kansas', 'USA','404', 'DB', 'gmail@hotmail.gmx', '555-666666', '066000', 'Datenbank');
 
 -- create users
-INSERT INTO users(username, password, fk_userprofile) VALUES ('admin', 'pass', 1);
-INSERT INTO users(username, password, fk_userprofile) VALUES ('bob', 'pass', 2);
-INSERT INTO users(username, password, fk_userprofile) VALUES ('alice', 'pass', 3);
-INSERT INTO users(username, password, fk_userprofile) VALUES ('frank', 'pass', 4);
-INSERT INTO users(username, password, fk_userprofile) VALUES ('superadmin', 'pass', 5);
+INSERT INTO users(username, password, role, fk_userprofile) VALUES ('admin', 'pass',6 , 1);
+INSERT INTO users(username, password, role, fk_userprofile) VALUES ('bob', 'pass',8 , 2);
+INSERT INTO users(username, password, role, fk_userprofile) VALUES ('alice', 'pass',8 , 3);
+INSERT INTO users(username, password, role, fk_userprofile) VALUES ('frank', 'pass',7 , 4);
+INSERT INTO users(username, password, role, fk_userprofile) VALUES ('superadmin', 'pass',6 , 5);
 
 -- admin has contacts bob, alice
 INSERT INTO contact(user_id, fk_contact_id) VALUES (1,2);
@@ -34,11 +45,25 @@ INSERT INTO contact(user_id, fk_contact_id) VALUES (3,4);
 INSERT INTO contact(user_id, fk_contact_id) VALUES (4,3);
 
 -- write a pm from admin to alice
-INSERT INTO privateMessage(FK_UserID_sender, FK_UserID_receiver, text) VALUES (1,3, 'This is a private message.'); -- reconsider naming (e.g. private_message, fk_user_receiver_id...)
+INSERT INTO private_message(fk_user_id_sender, fk_user_id_receiver, text) VALUES (1,3, 'This is a private message.'); -- reconsider naming (e.g. private_message, fk_user_receiver_id...)
 
 -- create communities SWD15 and FH Joanneum
-INSERT INTO community(name,description) VALUES ('SWD15', 'test');
-INSERT INTO community(name,description) VALUES ('FH Joanneum', 'test');
+INSERT INTO community(name,description, state) VALUES ('SWD15', 'test', 2);
+INSERT INTO community(name,description, state) VALUES ('FH Joanneum', 'test', 3);
+INSERT INTO community(name,description, state) VALUES ('PSWEng', 'test', 1);
+INSERT INTO community(name,description, state) VALUES ('Social Web', 'test', 4);
+
+-- set relationship from users and communities
+INSERT INTO user_community(user_id, community_id) VALUES (1,1);
+INSERT INTO user_community(user_id, community_id) VALUES (2,1);
+INSERT INTO user_community(user_id, community_id) VALUES (3,1);
+INSERT INTO user_community(user_id, community_id) VALUES (4,1);
+INSERT INTO user_community(user_id, community_id) VALUES (1,2);
+INSERT INTO user_community(user_id, community_id) VALUES (2,2);
+INSERT INTO user_community(user_id, community_id) VALUES (3,2);
+INSERT INTO user_community(user_id, community_id) VALUES (4,3);
+INSERT INTO user_community(user_id, community_id) VALUES (1,4);
+
 
 -- admin posts on community SWD15
 INSERT INTO post(fk_user_id, fk_community_id,text) VALUES (1,1,'First post from admin!');
@@ -63,6 +88,8 @@ INSERT INTO enumeration (name) VALUES ('USER'); -- 8
 -- add status open to communitys
 INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (2,NULL,NULL,1);
 INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (1,NULL,NULL,2);
+INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (3,NULL,NULL,3);
+INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (4,NULL,NULL,4);
 
 -- add status to users
 INSERT INTO enumeration_item (enumeration_id,post_id,user_id,community_id) VALUES (6,NULL,1,NULL);

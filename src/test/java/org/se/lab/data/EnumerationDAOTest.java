@@ -46,9 +46,10 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	}
 	
 	private Enumeration CreateAndInsertEnumeration() {
-		Enumeration enumeration = new Enumeration();	
-		Assert.assertNotNull(dao.insert(enumeration));
-		Assert.assertTrue(enumeration.getId() > 0);
-		return enumeration;
+		Enumeration e = dao.createEnumeration(1);
+		Assert.assertNotNull(e);
+		Assert.assertTrue(e.getId() == 1);
+		Assert.assertTrue(e.getName() == "OPEN");
+		return e;
 	}
 }

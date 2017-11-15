@@ -9,4 +9,5 @@ public interface EnumerationDAO {
 	
 	List<Enumeration> findAll();
 	Enumeration findById(int id);
+	Enumeration createEnumeration(int id);
 }
