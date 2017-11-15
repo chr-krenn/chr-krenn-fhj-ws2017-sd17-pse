@@ -95,60 +95,58 @@
  <td class='comment detail'></td>
 </tr>
 <tr class='even'>
- <td class='indexedColumn' title='Indexed'>from_id</td>
+ <td class='detail'>text</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='odd'>
+ <td class='indexedColumn' title='Indexed'>fk_user_id_receiver</td>
  <td class='detail'>int</td>
  <td class='detail' align='right'>10</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
+ <td class='detail' align='right'>null</td>
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
-    <td class='relatedTable detail' title="private_message.from_id refs users.id via private_message_users"><a href='users.html'>users</a><span class='relatedKey'>.id</span>
+   <tr class='relative odd' valign='top'>
+    <td class='relatedTable detail' title="private_message.fk_user_id_receiver refs users.id via FKmjbhmvq38xehsknjxd2jl7r0u"><a href='users.html'>users</a><span class='relatedKey'>.id</span>
     </td>
-    <td class='constraint detail'>private_message_users<span title='Restrict delete:
+    <td class='constraint detail'>FKmjbhmvq38xehsknjxd2jl7r0u<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
  </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
- <td class='detail'>to_id</td>
+<tr class='even'>
+ <td class='indexedColumn' title='Indexed'>fk_user_id_sender</td>
  <td class='detail'>int</td>
  <td class='detail' align='right'>10</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
  <td class='detail'></td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='even'>
- <td class='detail'>text</td>
- <td class='detail'>varchar</td>
- <td class='detail' align='right'>1024</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail'></td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='odd'>
- <td class='detail'>created</td>
- <td class='detail'>timestamp</td>
- <td class='detail' align='right'>19</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>CURRENT_TIMESTAMP</td>
- <td class='detail'></td>
- <td class='detail'> </td>
+ <td class='detail'>
+  <table border='0' width='100%' cellspacing='0' cellpadding='0'>
+   <tr class='relative even' valign='top'>
+    <td class='relatedTable detail' title="private_message.fk_user_id_sender refs users.id via FK9jb3g7xe0cy4sjav6fk34dkhg"><a href='users.html'>users</a><span class='relatedKey'>.id</span>
+    </td>
+    <td class='constraint detail'>FK9jb3g7xe0cy4sjav6fk34dkhg<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
+  </table>
+ </td>
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='5 columns'>Table contained 1 rows at Mon Nov 06 09:26 CET 2017<p/>
+<p title='4 columns'>Table contained 0 rows at Wed Nov 15 09:53 CET 2017<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -169,10 +167,16 @@
   <td class='constraint' style='text-align:left;'>PRIMARY</td>
  </tr>
  <tr>
-  <td class='indexedColumn'>from_id</td>
+  <td class='indexedColumn'>fk_user_id_sender</td>
   <td class='detail'>Performance</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
-  <td class='constraint' style='text-align:left;'>private_message_users</td>
+  <td class='constraint' style='text-align:left;'>FK9jb3g7xe0cy4sjav6fk34dkhg</td>
+ </tr>
+ <tr>
+  <td class='indexedColumn'>fk_user_id_receiver</td>
+  <td class='detail'>Performance</td>
+  <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
+  <td class='constraint' style='text-align:left;'>FKmjbhmvq38xehsknjxd2jl7r0u</td>
  </tr>
 </table>
 </div>
@@ -180,18 +184,19 @@
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from private_message'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="private_message.html" title="private_message" alt="" coords="181,5,381,189">
-<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="5,32,137,235">
+<area shape="rect" id="node1" href="private_message.html" title="private_message" alt="" coords="181,5,431,165">
+<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="5,68,137,223">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/private_message.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="385,5,505,88">
-<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="169,141,301,344">
-<area shape="rect" id="node7" href="userprofile.html" title="userprofile" alt="" coords="5,237,125,320">
-<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="589,108,735,191">
-<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="379,141,511,224">
-<area shape="rect" id="node5" href="private_message.html" title="private_message" alt="" coords="345,241,545,425">
-<area shape="rect" id="node6" href="user_community.html" title="user_community" alt="" coords="378,443,513,525">
+<area shape="rect" id="node1" href="contact.html" title="contact" alt="" coords="410,5,530,88">
+<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="169,308,301,463">
+<area shape="rect" id="node8" href="userprofile.html" title="userprofile" alt="" coords="5,380,125,463">
+<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="639,81,784,164">
+<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="404,157,536,240">
+<area shape="rect" id="node5" href="private_message.html" title="private_message" alt="" coords="345,257,595,417">
+<area shape="rect" id="node6" href="privateMessage.html" title="privateMessage" alt="" coords="405,435,535,517">
+<area shape="rect" id="node7" href="user_community.html" title="user_community" alt="" coords="403,535,537,617">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/private_message.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>

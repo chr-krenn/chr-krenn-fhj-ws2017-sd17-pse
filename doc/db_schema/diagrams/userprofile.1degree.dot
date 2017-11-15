@@ -25,15 +25,20 @@ digraph "oneDegreeRelationshipsDiagram" {
     <TABLE BORDER="2" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">userprofile</TD></TR>
       <TR><TD PORT="id" COLSPAN="2" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD><TD PORT="id.type" ALIGN="LEFT">int[10]</TD></TR>
+      <TR><TD PORT="address" COLSPAN="2" ALIGN="LEFT">address</TD><TD PORT="address.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="city" COLSPAN="2" ALIGN="LEFT">city</TD><TD PORT="city.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="country" COLSPAN="2" ALIGN="LEFT">country</TD><TD PORT="country.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="description" COLSPAN="2" ALIGN="LEFT">description</TD><TD PORT="description.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="email" COLSPAN="2" ALIGN="LEFT">email</TD><TD PORT="email.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="firstname" COLSPAN="2" ALIGN="LEFT">firstname</TD><TD PORT="firstname.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="lastname" COLSPAN="2" ALIGN="LEFT">lastname</TD><TD PORT="lastname.type" ALIGN="LEFT">varchar[255]</TD></TR>
-      <TR><TD PORT="location" COLSPAN="2" ALIGN="LEFT">location</TD><TD PORT="location.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="mobile" COLSPAN="2" ALIGN="LEFT">mobile</TD><TD PORT="mobile.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="phone" COLSPAN="2" ALIGN="LEFT">phone</TD><TD PORT="phone.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="picture" COLSPAN="2" ALIGN="LEFT">picture</TD><TD PORT="picture.type" ALIGN="LEFT">tinyblob[255]</TD></TR>
+      <TR><TD PORT="plz" COLSPAN="2" ALIGN="LEFT">plz</TD><TD PORT="plz.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="room" COLSPAN="2" ALIGN="LEFT">room</TD><TD PORT="room.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="team" COLSPAN="2" ALIGN="LEFT">team</TD><TD PORT="team.type" ALIGN="LEFT">varchar[255]</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 0</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 0</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">5 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
     URL="userprofile.html"
     tooltip="userprofile"
@@ -42,11 +47,11 @@ digraph "oneDegreeRelationshipsDiagram" {
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">users</TD></TR>
-      <TR><TD PORT="ID" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">ID</TD></TR>
-      <TR><TD PORT="PASSWORD" COLSPAN="3" ALIGN="LEFT">PASSWORD</TD></TR>
-      <TR><TD PORT="USERNAME" COLSPAN="3" ALIGN="LEFT">USERNAME</TD></TR>
+      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
+      <TR><TD PORT="password" COLSPAN="3" ALIGN="LEFT">password</TD></TR>
+      <TR><TD PORT="username" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">username</TD></TR>
       <TR><TD PORT="fk_userprofile" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_userprofile</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">6 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">9 &gt;</TD></TR>
     </TABLE>>
     URL="users.html"
     tooltip="users"
