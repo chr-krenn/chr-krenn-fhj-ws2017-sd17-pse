@@ -33,7 +33,6 @@ Start the Wildfly server with the __standalone.sh__.
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
 </pre>
 After that run the __JUnit tests__ or __make a deployment__. Hibernate will generate the tables for the application itself.
-Deploy App:
 <pre>
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
 mvn wildfly:deploy
