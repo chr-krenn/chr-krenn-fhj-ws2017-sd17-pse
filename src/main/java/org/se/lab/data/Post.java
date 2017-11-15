@@ -227,7 +227,7 @@ public class Post implements Serializable {
 
 
 		// text
-		@Column(name = "text")
+		@Column(name = "text", length=MAX_TEXT_LENGTH)
 		private String text;
 		
 		/*
