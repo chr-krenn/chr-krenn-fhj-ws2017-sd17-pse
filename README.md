@@ -7,9 +7,9 @@ Students SW-Project
 
 # Setup
 <br/>
-Please read the contributing rules: https://github.com/chr-krenn/chr-krenn-fhj-ws2017-sd17-pse/blob/master/CONTRIBUTING.md
-<br/>
-Copy the content from ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/doc/data/SETUP_WILDFLY/ to the ~/install/wildfly-10.1.0.Final/ directory
+Please read the contributing rules: [Contribution.md](https://github.com/chr-krenn/chr-krenn-fhj-ws2017-sd17-pse/blob/master/CONTRIBUTING.md)
+<br/><br/>
+Copy the content of __~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/doc/data/SETUP_WILDFLY/__ into __~/install/wildfly-10.1.0.Final/__
 
 Clone Repository
 <pre>
