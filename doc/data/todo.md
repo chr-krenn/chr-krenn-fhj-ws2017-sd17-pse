@@ -3,12 +3,12 @@
   * [x] PrivateMessageTest
   * [ ] CommunityDAOTest
   * [ ] UserDAOTest
-   	[ ] UserTest Entities
+  *	[ ] UserTest Entities
   * [ ] PrivateMessageDAOTest 
-  	[ ] PrivateMessage Entities
+  * [ ] PrivateMessage Entities
   * [ ] EnumerationDAOTest
   * [x] Suites removal
-  * [ ] HowTo
+  * [x] HowTo
   * [x] Namenskonvention
   * [ ] Dokumentation
   * [x] Ana noch dem Ondren
