@@ -93,7 +93,7 @@ public class Community implements Serializable {
 	public void setDescription(String description) {
 		if (description == null || description.trim().length() == 0)
 			throw new IllegalArgumentException();
-		if (description.length() == MAX_TEXT_LENGTH)
+		if (description.length() > MAX_TEXT_LENGTH)
 			throw new IllegalArgumentException(MAX_TEXT_LENGTH_ERROR);
 		this.description = description;
 	}

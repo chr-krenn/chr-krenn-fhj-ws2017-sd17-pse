@@ -96,6 +96,14 @@ public class CommunityTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
+	public void testDescriptionInvalid() {
+		StringBuilder b = new StringBuilder();
+		for (int i = 0 ; i < 65536; i++)
+			b.append("M");
+		com.setDescription(b.toString());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
 	public void testNameFail2() {
 		com = new Community (null, "test community");
 	}
