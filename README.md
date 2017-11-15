@@ -48,7 +48,7 @@ source sql/insert.sql;
 
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
 
-## Import
+## Important
 Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed.
 The JUnit test would fail if the tables contain any data. To clean the tables use the __truncate.sql__ script in the sql directory. 
 <pre>source sql/truncate.sql;</pre>
