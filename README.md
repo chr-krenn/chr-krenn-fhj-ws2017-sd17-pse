@@ -27,25 +27,30 @@ Copy/paste the following commands to __create the database__:
 source sql/init.sql;
 exit
 </pre>
-After that run the JUnit tests or make a deployment. Hibernate will generate the tables for the application itself.
+## Run
+Start the Wildfly server with the __standalone.sh__.
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
 </pre>
+After that run the __JUnit tests__ or __make a deployment__. Hibernate will generate the tables for the application itself.
 Deploy App:
 <pre>
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
 mvn wildfly:deploy
 </pre>
-To run the Application correctly you have to __insert sample data__. For this use MySQL again...
+To run the Application correctly you have to __insert some sample data__. For this use MySQL again.
 <pre>
 mysql -u root -p
 </pre>
-...and run the insert sql in the sql directory of the App.
+Now run the insert sql script which you can find in __sql directory__ of the App.
 <pre>
 source sql/insert.sql;
 </pre>
 
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
+
+## Import
+Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed.
 
 ## Optional
 Set up management user to access WildFly management console at http://localhost:9990 (optional):
