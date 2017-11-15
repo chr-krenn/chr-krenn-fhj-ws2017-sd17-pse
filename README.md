@@ -7,7 +7,7 @@ Students SW-Project
 
 # Setup
 <br/>
-Please read the contributing rules: [Contribution.md](https://github.com/chr-krenn/chr-krenn-fhj-ws2017-sd17-pse/blob/master/CONTRIBUTING.md)
+Please read the contributing rules: https://github.com/chr-krenn/chr-krenn-fhj-ws2017-sd17-pse/blob/master/CONTRIBUTING.md
 <br/><br/>
 Copy the content of 
 <pre>~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/doc/data/SETUP_WILDFLY/</pre>
