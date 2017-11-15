@@ -10,7 +10,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.log4j.Logger;
+
 public class CommunityDAOImpl implements CommunityDAO{
+	
+	private final Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
 
 	@PersistenceContext
 	private EntityManager em;
@@ -110,11 +114,22 @@ public class CommunityDAOImpl implements CommunityDAO{
 		Community c = new Community();
 		c.setName(name);
 		c.setDescription(description);
-		c.setState(new Enumeration(4));
+		Enumeration e = getValidEnumeration(em.find(Enumeration.class, 1));
+		c.setState(e);
 		insert(c);
 		return c;
 	}
 	
+	
+	private Enumeration getValidEnumeration(Enumeration find) {
+		if (find != null )
+			return find;
+		LOG.debug("Creating new Enumeration 1 <OPEN>");
+		EnumerationDAOImpl edao = new EnumerationDAOImpl();
+		edao.setEntityManager(em);
+		return edao.insert(edao.createEnumeration(1));
+	}
+
 	public void setEntityManager(EntityManager em) {
 		this.em = em;
 	}

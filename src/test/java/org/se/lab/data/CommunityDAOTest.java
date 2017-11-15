@@ -77,8 +77,6 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	public void testModify() {
 		//setup
 		tx.begin();
-		open = edao.createEnumeration(1);
-		closed = edao.createEnumeration(2);
 		com2 = cdao.createCommunity("TestDAOCommunity2", "Community 2 to test CommunityDAO");
 		com3 = cdao.createCommunity("TestDOACommunity3", "Community 3 to test CommunityDAO");
 		user2 = udao.createUser("TestUser2", "*****");
