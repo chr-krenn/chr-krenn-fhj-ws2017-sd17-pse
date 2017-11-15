@@ -27,6 +27,8 @@ import javax.persistence.JoinColumn;
 public class Community implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final int MAX_TEXT_LENGTH = 65535;
+	private static final String MAX_TEXT_LENGTH_ERROR = "The given text is to long for field description. Max length = " + MAX_TEXT_LENGTH;
 
 	/**
 	 * Community Class Constructor
@@ -75,16 +77,24 @@ public class Community implements Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "description")
+	@Column(name = "description", columnDefinition="TEXT")
 	private String description;
 
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * Allows to set the description for Community
+	 * Must not be null or empty
+	 * Must not exceed 65535 characters in length
+	 * @param description
+	 */
 	public void setDescription(String description) {
 		if (description == null || description.trim().length() == 0)
 			throw new IllegalArgumentException();
+		if (description.length() == MAX_TEXT_LENGTH)
+			throw new IllegalArgumentException(MAX_TEXT_LENGTH_ERROR);
 		this.description = description;
 	}
 
