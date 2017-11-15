@@ -4,9 +4,10 @@ Students SW-Project
 ## Links
 * Virtual Machine: ftp://mesen.fh-joanneum.at/common/Teiniker-Fedora-VMs/Fedora-26-XFCE-2017-09-30.ova
 * SCRUM and Task-Management: https://tree.taiga.io/project/p0intr-swd15-pswengi/
-# Configure WildFly server:
+
+# Setup
 Copy the content from ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/doc/data/SETUP_WILDFLY/ to the ~/install/wildfly-10.1.0.Final/ directory
-## Setup
+
 Clone Repository
 <pre>
 cd ~/eclipse-workspace
@@ -27,7 +28,8 @@ Copy/paste the following commands to __create the database__:
 source sql/init.sql;
 exit
 </pre>
-## Run
+
+# Run
 Start the Wildfly server with the __standalone.sh__.
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
