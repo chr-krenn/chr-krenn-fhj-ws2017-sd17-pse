@@ -71,7 +71,7 @@ public class PostDAOImpl implements PostDAO {
 
 	@Override
 	public Post createPost(Post parentpost, Community community, User user, String text, Date created) {
-		return new Post(parentpost, community, user, text, created);
+		return insert(new Post(parentpost, community, user, text, created));
 	}
 	
 	/**

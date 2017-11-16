@@ -37,20 +37,21 @@ public abstract class AbstractDAOTest {
 		tx.begin();
 		for (int i = 1; i <= 9; i++) { 
 			if (edao.findById(i) == null)
-				em.persist(edao.createEnumeration(i));
+				edao.createEnumeration(i);
 		}
 		tx.commit();
 	}
 	
 	@AfterClass
 	public static void disconnect() {
-		//Destroy Enums
+		/*//Destroy Enums -- Messes with Tests, rather truncate before deploy
 		tx.begin();
 		List<Enumeration> enums = edao.findAll();
 		for (int i = enums.size() - 1; i >= 0; i--) { 
 			edao.delete(enums.get(i));
 		}
 		tx.commit();
+		*/
 		
 		if(em == null) return;
 		em.close();

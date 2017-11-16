@@ -20,6 +20,7 @@ public class Enumeration implements Serializable {
 
 	@Id
 	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	public int getId() {
@@ -80,8 +81,8 @@ public class Enumeration implements Serializable {
 	 */
 	@ManyToMany
 	@JoinTable(name = "likes", 
-	joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
+	joinColumns = @JoinColumn(name = "enumeration_id", referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "post_id"))
 	private List<Post> liked = new ArrayList<Post>(); // m:n
 
 
@@ -102,8 +103,8 @@ public class Enumeration implements Serializable {
 	 */
 	@ManyToMany
 	@JoinTable(name = "likes", 
-	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
+	joinColumns = @JoinColumn(name = "enumeration_id", referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> likedby = new ArrayList<User>(); // m:n
 
 	public List<User> getLikedBy() {

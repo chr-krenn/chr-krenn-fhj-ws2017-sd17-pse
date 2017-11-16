@@ -61,39 +61,39 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 		 */
 		switch (id) {
 		case 1:
-			e.setId(id);
+			//e.setId(id);
 			e.setName("OPEN");
 			break;
 		case 2:
-			e.setId(id);
+			//e.setId(id);
 			e.setName("CLOSED");
 			break;
 		case 3:
-			e.setId(id);
+			//e.setId(id);
 			e.setName("BLOCKED");
 			break;
 		case 4:
-			e.setId(id);
+			//e.setId(id);
 			e.setName("INSPECTION");
 			break;
 		case 5:
-			e.setId(id);
+			//e.setId(id);
 			e.setName("VERIFICATION");
 			break;
 		case 6:
-			e.setId(id);
+			//e.setId(id);
 			e.setName("ADMIN");
 			break;
 		case 7: 
-			e.setId(id);
+			//e.setId(id);
 			e.setName("PORTALADMIN");
 			break;
 		case 8:
-			e.setId(id);
+			//e.setId(id);
 			e.setName("USER");
 			break;
 		case 9:
-			e.setId(id);
+			//e.setId(id);
 			e.setName("LIKE");
 			break;
 		default:
