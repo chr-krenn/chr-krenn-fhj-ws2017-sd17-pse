@@ -6,18 +6,36 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author Nevzad Mujic
+ * 
+ * Enumeration is used to assign states/values to Users, Communities or Posts
+ *
+ */
+
 @Entity
 @Table(name = "enumeration")
 public class Enumeration implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * constructor for Hibernate
+	 */
 	protected Enumeration() {
 	}
 
+	/**
+	 * Enumeration class constructor
+	 * @param id id of the enumeration entity
+	 */
 	public Enumeration(int id) {
 		setId(id);
 	}
 
+	/**
+	 * unique identifier for the enumeration. Auto-generated/incremented by database
+	 */
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +52,9 @@ public class Enumeration implements Serializable {
 		this.id = id;
 	}
 
+	/**
+	 * enumeration name
+	 */
 	@Column(name = "name")
 	private String name;
 
@@ -47,7 +68,10 @@ public class Enumeration implements Serializable {
 
 		this.name = name;
 	}
-
+	
+	/**
+	 * list of users connected to this enumeration
+	 */
 	@ManyToMany
 	@JoinTable(name = "enumeration_item", 
 	joinColumns = @JoinColumn(name = "userrole_id", referencedColumnName = "id"), 
@@ -62,6 +86,9 @@ public class Enumeration implements Serializable {
 		this.userroles.add(user);
 	}
 
+	/**
+	 * list of communities connected to this enumeration
+	 */
 	@ManyToMany
 	@JoinTable(name = "enumeration_item", 
 	joinColumns = @JoinColumn(name = "state_id", referencedColumnName = "id"), 
@@ -127,9 +154,7 @@ public class Enumeration implements Serializable {
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString() Object Methods
+	 * Object Methods
 	 */
 
 	@Override
