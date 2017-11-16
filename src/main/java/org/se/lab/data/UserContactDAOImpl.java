@@ -57,4 +57,10 @@ public class UserContactDAOImpl implements UserContactDAO {
         return em.createQuery(hql).getResultList().isEmpty() ? false : true;
     }
 
+    @Override
+    public void deleteContactForUserIdAndContactId(int contactId,int userId){
+        final String hql = "DELETE FROM " + UserContact.class.getName() + " AS uc WHERE uc.user = " + userId + " AND uc.contact = " + contactId;
+        em.createQuery(hql).executeUpdate();
+    }
+
 }

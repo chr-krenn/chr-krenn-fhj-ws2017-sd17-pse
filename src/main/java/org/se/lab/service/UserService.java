@@ -114,8 +114,8 @@ public class UserService {
 
         User userToRemove = userDAO.findByUsername(contactName);
         if (userContactDAO.doesContactExistForUserId(userToRemove.getId(),user.getId())) {
-            UserContact userContact = userContactDAO.findById(userToRemove.getId());
-            userContactDAO.delete(userContact);
+
+            userContactDAO.deleteContactForUserIdAndContactId(userToRemove.getId(),user.getId());
         } else {
             LOG.error("Contact " + userToRemove.getUsername() + " is missing ");
             throw new ServiceException("Contact " + userToRemove.getUsername() + "  is missing ");
