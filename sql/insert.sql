@@ -91,15 +91,13 @@ INSERT INTO post(fk_user_id, fk_community_id,text) VALUES (2,1,'This is a post f
 INSERT INTO post(fk_user_id, fk_community_id,parent_post_id,text) VALUES (3,1,3,'This is a reply from alice to bob.');
 
 -- add status to enumeration
-INSERT INTO enumeration (name) VALUES ('OPEN'); -- 1
-INSERT INTO enumeration (name) VALUES ('CLOSED'); -- 2
-INSERT INTO enumeration (name) VALUES ('BLOCKED'); -- 3
-INSERT INTO enumeration (name) VALUES ('INSPECTION'); -- 4
-INSERT INTO enumeration (name) VALUES ('VERIFICATION'); -- 5
-INSERT INTO enumeration (name) VALUES ('ADMIN'); -- 6
-INSERT INTO enumeration (name) VALUES ('PORTALADMIN'); -- 7
-INSERT INTO enumeration (name) VALUES ('USER'); -- 8
-INSERT INTO enumeration (name) VALUES ('LIKE'); -- 9
+INSERT INTO enumeration (name) VALUES ('PENDING');		-- 1
+INSERT INTO enumeration (name) VALUES ('APPROVED');		-- 2
+INSERT INTO enumeration (name) VALUES ('REFUSED'); 		-- 3
+INSERT INTO enumeration (name) VALUES ('ADMIN'); 		-- 4
+INSERT INTO enumeration (name) VALUES ('PORTALADMIN'); 	-- 5
+INSERT INTO enumeration (name) VALUES ('USER'); 		-- 6
+INSERT INTO enumeration (name) VALUES ('LIKE'); 		-- 7
 
 /* in development
 -- add status open to communitys
