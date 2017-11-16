@@ -92,7 +92,7 @@ public class PostDAOTest extends AbstractDAOTest {
 		assertTrue(persisted.getText().equals("Modified"));
 		
 		// add Like To Post
-		like1 = edao.findById(9);
+		like1 = edao.findById(7);
 		System.out.println(edao.findAll());
 		assertNotNull(like1);
 		like1.addUserToLike(user1);
