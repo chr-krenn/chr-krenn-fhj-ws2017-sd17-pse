@@ -204,7 +204,6 @@ public class UserServiceTest {
         replay(userContactDAO);
 
         userService.removeContact(user2,user1.getUsername());
-
     }
 
 
