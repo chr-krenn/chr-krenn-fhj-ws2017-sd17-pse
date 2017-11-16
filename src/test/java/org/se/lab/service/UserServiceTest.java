@@ -72,7 +72,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void delete_Successful() {
+    public void deleteByUser_Successful() {
         userDAO.delete(user1);
         expectLastCall();
 
@@ -186,27 +186,36 @@ public class UserServiceTest {
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(false);
         replay(userContactDAO);
 
         userService.removeContact(user2, user1.getUsername());
     }
 
-    @Ignore
     @Test
     public void removeContact_Successful() {
-        //ToDo Check why not successful
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
-        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(false);
         replay(userDAO);
 
-        //replay(userContactDAO);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
 
-        userContactDAO.deleteContactForUserIdAndContactId(userContact1.getId(),user1.getId());
+        userContactDAO.deleteContactForUserIdAndContactId(user1.getId(),user2.getId());
         expectLastCall();
+        replay(userContactDAO);
 
-        userService.removeContact(user2, user1.getUsername());
+        userService.removeContact(user2,user1.getUsername());
     }
 
+    @Test
+    public void deleteById_Successful() {
+
+        expect(userDAO.findById(user1.getId())).andReturn(user1);
+
+        userDAO.delete(user1);
+        expectLastCall();
+        replay(userDAO);
+
+        userService.delete(user1.getId());
+    }
 
 }
