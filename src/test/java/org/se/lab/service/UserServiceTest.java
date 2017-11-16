@@ -181,32 +181,30 @@ public class UserServiceTest {
         userService.addContact(user2, user1.getUsername());
     }
 
-    @Ignore
     @Test(expected = ServiceException.class)
     public void removeContact_Fail() {
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(false);
         replay(userContactDAO);
 
         userService.removeContact(user2, user1.getUsername());
     }
 
-    @Ignore
     @Test
     public void removeContact_Successful() {
-        //ToDo Check why not successful
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
-        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
         replay(userDAO);
 
-        //replay(userContactDAO);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
 
-        userContactDAO.deleteContactForUserIdAndContactId(userContact1.getId(),user1.getId());
+        userContactDAO.deleteContactForUserIdAndContactId(user1.getId(),user2.getId());
         expectLastCall();
+        replay(userContactDAO);
 
-        userService.removeContact(user2, user1.getUsername());
+        userService.removeContact(user2,user1.getUsername());
+
     }
 
 
