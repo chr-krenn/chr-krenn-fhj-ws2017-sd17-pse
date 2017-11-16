@@ -113,8 +113,13 @@ public class Community implements Serializable {
 		user.addCommunity(this);
 	}
 	
-	@ManyToMany(mappedBy="coms", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	
+	@ManyToMany(mappedBy="coms")
 	private List<Enumeration> states = new ArrayList<Enumeration>();
+	
+	public List<Enumeration> getState() {
+		return states;
+	}
 	
 	/**
 	 * Method to set state. The state is an EnumerationItem which proofs that no other state as specified in Enumerataion is used.
@@ -123,17 +128,10 @@ public class Community implements Serializable {
 	public void setState(Enumeration state) {
 		if (state == null)
 			throw new IllegalArgumentException();
-		if(states.size() > 1) {
-			states.remove(0);
-		}
 		state.setCom(this);
 		this.states.add(state);
 	}
-	
-	public Enumeration getState() {
-		return states.get(0);
-	}
-	
+		
 	/**
 	 * Object Methods
 	 */

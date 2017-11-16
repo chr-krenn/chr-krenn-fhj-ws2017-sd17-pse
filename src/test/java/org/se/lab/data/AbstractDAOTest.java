@@ -35,7 +35,7 @@ public abstract class AbstractDAOTest {
 		// Everyone needs Enumeration anyways
 		edao.setEntityManager(em);
 		tx.begin();
-		for (int i = 1; i <= 9; i++) { 
+		for (int i = 1; i <= 7; i++) { 
 			if (edao.findById(i) == null)
 				edao.createEnumeration(i);
 		}

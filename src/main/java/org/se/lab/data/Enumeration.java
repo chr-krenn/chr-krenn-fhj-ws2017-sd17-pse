@@ -101,6 +101,9 @@ public class Enumeration implements Serializable {
 
 	public void setCom(Community com) {
 		this.coms.add(com);
+		
+		if (!com.getState().contains(this))
+			com.getState().add(this);
 	}
 
 	/*
@@ -141,7 +144,7 @@ public class Enumeration implements Serializable {
 	public void addUserToLike(User likedby) {
 		this.likedby.add(likedby);
 		if (!likedby.getLikes().contains(this))
-			likedby.getLikes().contains(this);
+			likedby.getLikes().add(this);
 	}
 	
 	public void removeLike(User user, Post post) {
