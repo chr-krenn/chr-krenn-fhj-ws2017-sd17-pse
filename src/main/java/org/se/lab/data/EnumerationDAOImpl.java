@@ -33,19 +33,6 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 	public void delete(Enumeration enumeration) {
 		em.remove(enumeration);
 	}
-
-	@Override
-	public List<Enumeration> findAll() {
-		LOG.info("findAll()");
-        final String hql = "SELECT e FROM " + Enumeration.class.getName() + " AS e";
-        return em.createQuery(hql, Enumeration.class).getResultList();		
-	}
-
-	@Override
-	public Enumeration findById(int id) {
-		LOG.info("findById(" + id + ")");       
-        return em.find(Enumeration.class, id);
-	}
 	
 	@Override
 	public Enumeration createEnumeration(int id) {
@@ -53,31 +40,24 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 		
 		switch (id) {
 			case 1:
-				//e.setId(id);
 				e.setName("PENDING");
 				break;
 			case 2:
-				//e.setId(id);
 				e.setName("APPROVED");
 				break;
 			case 3:
-				//e.setId(id);
 				e.setName("REFUSED");
 				break;
 			case 4:
-				//e.setId(id);
 				e.setName("ADMIN");
 				break;
 			case 5:
-				//e.setId(id);
 				e.setName("PORTALADMIN");
 				break;
 			case 6:
-				//e.setId(id);
 				e.setName("USER");
 				break;
 			case 7: 
-				//e.setId(id);
 				e.setName("LIKE");
 				break;
 			default:
@@ -87,5 +67,38 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 		insert(e);
 		
 		return e;
+	}
+	
+	@Override
+	public Enumeration findById(int id) {
+		LOG.info("findById(" + id + ")");       
+        return em.find(Enumeration.class, id);
+	}
+
+	@Override
+	public List<Enumeration> findAll() {
+		LOG.info("findAll()");
+        final String hql = "SELECT e FROM " + Enumeration.class.getName() + " AS e";
+        return em.createQuery(hql, Enumeration.class).getResultList();		
+	}
+
+	@Override
+	public List<User> findUsersByEnumeration(int id) {
+		return findById(id).getUser();
+	}
+
+	@Override
+	public List<Community> findCommunitiesByEnumeration(int id) {
+		return findById(id).getCom();
+	}
+
+	@Override
+	public List<Post> findLikedPostsByEnumeration(int id) {
+		return findById(id).getLikedPosts();
+	}
+
+	@Override
+	public List<User> findLikedUsersByEnumeration(int id) {
+		return findById(id).getLikedBy();
 	}
 }

@@ -1,5 +1,7 @@
 package org.se.lab.data;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,15 +16,17 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	@Test
 	@Override
 	public void testCreate() {
-		CreateAndInsertEnumeration();
+		CreateAndInsertEnumeration("testCreate");
 	}
 
 	@Test
 	@Override
 	public void testModify() {
-		String name = "Test";
+		String name = "testModify";
 		
-		Enumeration enumeration = CreateAndInsertEnumeration();
+		Enumeration enumeration = CreateAndInsertEnumeration(name);
+		
+		name = "testModifyUpdated";
 
 		enumeration.setName(name);
 		dao.update(enumeration);
@@ -36,7 +40,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	@Test
 	@Override
 	public void testRemove() {
-		Enumeration enumeration = CreateAndInsertEnumeration();
+		Enumeration enumeration = CreateAndInsertEnumeration("testRemove");
 		int id = enumeration.getId();
 		
 		dao.delete(enumeration);
@@ -45,10 +49,34 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 		Assert.assertNull(enumerationReloaded);
 	}
 	
-	private Enumeration CreateAndInsertEnumeration() {
-		Enumeration e = dao.createEnumeration(1);
+	@Test
+	public void testFindById() {
+		String name = "findById";
+		
+		Enumeration enumeration = CreateAndInsertEnumeration(name);
+		
+		int id = enumeration.getId();
+		
+		Enumeration enumerationFound = dao.findById(id);
+		Assert.assertNotNull(enumerationFound);
+		Assert.assertEquals(id, enumerationFound.getId());
+		Assert.assertEquals(name, enumerationFound.getName());
+	}
+	
+	@Test
+	public void testFindAll() {
+		List<Enumeration> enumerations = dao.findAll();
+		Assert.assertTrue(enumerations.size() > 0);
+	}
+		
+	private Enumeration CreateAndInsertEnumeration(String name) {
+		Enumeration e = new Enumeration();
+		e.setName(name);
+		
+		dao.insert(e);
+		
 		Assert.assertNotNull(e);
-		Assert.assertTrue(e.getName() == "PENDING");
+		Assert.assertTrue(e.getId() > 0);
 		return e;
 	}
 }
