@@ -15,13 +15,12 @@ public class User implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	@Transient
-	private Logger LOG = Logger.getLogger(Post.class);
+	private Logger LOG = Logger.getLogger(User.class);
 	
 	
 	/**
 	 * Private Message Constants
 	 */
-		private static final String TOSTRING_MSG = "PrivateMessage: {id: %d, text: %s, FK_User_Sender: %s, FK_User_Receiver: %s}";
 
 		// Exception messages
 		private static final String ID_INVALID_ERROR = "The given id is less than 1";
@@ -217,6 +216,24 @@ public class User implements Serializable
 		role.setUser(this);
 		this.roles.add(role);
 		
+	}
+	
+	/*
+	 * User for Like
+	 */
+	@ManyToMany(mappedBy="likedby")
+	private List<Enumeration> likes = new ArrayList<Enumeration>();
+	
+	public List<Enumeration> getLikes() {
+		return likes;
+	}
+	
+	public void addLike(Enumeration like) {
+		if (like == null)
+			throw new IllegalArgumentException();
+		if (!like.getLikedBy().contains(this))
+			like.addUserToLike(this);
+		this.likes.add(like);
 	}
 
 	/*

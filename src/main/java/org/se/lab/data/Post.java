@@ -125,6 +125,8 @@ public class Post implements Serializable {
 	 * Setter for parent post of post
 	 * 
 	 * @param parentpost
+	 * 
+	 * @throws IllegalArgumentException.class if Post is reply to itself
 	 */
 	public void setParentpost(Post parentpost) {
 		LOG.debug("setParentpost(" + parentpost + ")");
@@ -225,7 +227,7 @@ public class Post implements Serializable {
 	}
 
 	// Likes
-	@ManyToMany(mappedBy = "posts")
+	@ManyToMany(mappedBy = "liked")
 	private List<Enumeration> likes = new ArrayList<Enumeration>();
 
 	/**
@@ -242,27 +244,20 @@ public class Post implements Serializable {
 	 * Add a Like to a Post This EnumertionItem must not be null Takes
 	 * EnumeratioItem that allows for e.g. Dislikes etc.
 	 * 
-	 * @param item
+	 * @param like
+	 * 
+	 * @throws IllegalArgumentException.class if given Enumeration is null
 	 */
-	public void addLikeToPost(Enumeration item) {
-		LOG.debug("addLikeToPost(" + item + ")");
-		if (item == null)
+	public void addLike(Enumeration like) {
+		LOG.debug("addLikeToPost(" + like + ")");
+		if (like == null)
 			throw new IllegalArgumentException(LIKE_NULL_ERROR);
-		if (!item.getPosts().contains(this))
-			item.addPost(this);
-		if (!this.likes.contains(item))
-			this.likes.add(item);
+		if (!like.getLikedPosts().contains(this))
+			like.addLikedPost(this);
+		if (!this.likes.contains(like))
+			this.likes.add(like);
 	}
 	
-	public void removeLikeFromPost(Enumeration item) {
-		LOG.debug("removeLikeFromPost(" + item + ")");
-		if (item == null)
-			throw new IllegalArgumentException(LIKE_NULL_ERROR);
-		if (item.getPosts().contains(this))
-			item.getPosts().remove(this);
-		if (this.likes.contains(item))
-			this.likes.remove(item);
-	}
 
 	// text
 	@Column(name = "text", length=MAX_TEXT_LENGTH)

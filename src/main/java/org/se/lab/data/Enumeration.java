@@ -75,31 +75,55 @@ public class Enumeration implements Serializable {
 		this.coms.add(com);
 	}
 
+	/*
+	 * Like (Post,User,Enumeration) Post Column
+	 */
 	@ManyToMany
-	@JoinTable(name = "enumeration_item", 
+	@JoinTable(name = "likes", 
 	joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"), 
 	inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
-	private List<Post> posts = new ArrayList<Post>(); // m:n
+	private List<Post> liked = new ArrayList<Post>(); // m:n
 
-	public List<Post> getPosts() {
-		return posts;
+
+	public List<Post> getLikedPosts() {
+		return liked;
 	}
 
-	public void addPost(Post post) {
-		this.posts.add(post);
+	
+	public void addLikedPost(Post post) {
+		this.liked.add(post);
+		if (!post.getLikes().contains(this))
+			post.getLikes().add(this);
 	}
 	
-	/*private List<Enumeration> likes = new ArrayList<Enumeration>();
-	public List<Enumeration> getLikes(){
-		return likes;
+	
+	/*
+	 * Like (Post,User,Enumeration) User Column
+	 */
+	@ManyToMany
+	@JoinTable(name = "likes", 
+	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
+	inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
+	private List<User> likedby = new ArrayList<User>(); // m:n
+
+	public List<User> getLikedBy() {
+		return likedby;
+	}
+
+	public void addUserToLike(User likedby) {
+		this.likedby.add(likedby);
+		if (!likedby.getLikes().contains(this))
+			likedby.getLikes().contains(this);
 	}
 	
-	public void setEnumeration(Enumeration alike) {
-		if(alike == null)
-			throw new IllegalArgumentException();
-		likes.add(alike);
-		
-	}*/
+	public void removeLike(User user, Post post) {
+		if (likedby.contains(user))
+			likedby.remove(user);
+		if (liked.contains(post));
+			liked.remove(post);
+		user.getLikes().remove(this);
+		post.getLikes().remove(this);
+	}
 
 	/*
 	 * (non-Javadoc)

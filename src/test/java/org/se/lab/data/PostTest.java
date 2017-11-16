@@ -98,21 +98,21 @@ public class PostTest {
 		Enumeration alike = new Enumeration(1);
 		alike.setName("Like");
 		User user = new User();
-		alike.setUser(user);
+		alike.addUserToLike(user);
 		
-		post.addLikeToPost(alike);
+		post.addLike(alike);
 		assertTrue(post.getLikes().size() == 1);
 		assertEquals(alike, post.getLikes().get(0));
 		
 		// Add dame like again
-		post.addLikeToPost(alike);
+		post.addLike(alike);
 		assertTrue(post.getLikes().size() == 1);
 		assertEquals(alike, post.getLikes().get(0));
 		
 		// Post set in Like
 		alike = new Enumeration(2);
-		alike.addPost(post);
-		post.addLikeToPost(alike);
+		alike.addLikedPost(post);
+		post.addLike(alike);
 		assertTrue(post.getLikes().size() == 2);
 		assertEquals(alike, post.getLikes().get(1));
 	}
@@ -123,21 +123,22 @@ public class PostTest {
 		Enumeration alike = new Enumeration(1);
 		alike.setName("Like");
 		User user = new User();
-		alike.setUser(user);
+		assertNotNull(user);
+		alike.addUserToLike(user);
 		
-		post.addLikeToPost(alike);
+		post.addLike(alike);
 		assertTrue(post.getLikes().size() == 1);
 		
 		// remove
-		post.removeLikeFromPost(alike);
+		alike.removeLike(user, post);
 		assertTrue(post.getLikes().size() == 0);
 		
 		// Like never added to post
-		alike.addPost(post);
-		assertEquals(alike.getPosts().get(0), post);
-		post.removeLikeFromPost(alike);
+		alike.addLikedPost(post);
+		assertEquals(alike.getLikedPosts().get(0), post);
+		alike.removeLike(user, post);
 		assertTrue(post.getLikes().size() == 0);
-		assertTrue(alike.getPosts().size() == 0);
+		assertTrue(alike.getLikedPosts().size() == 0);
 		
 	}
 	
@@ -171,7 +172,7 @@ public class PostTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidLikeIsNull() {
-		post.addLikeToPost(null);
+		post.addLike(null);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -196,11 +197,6 @@ public class PostTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidPostIsParent() {
 		post.setParentpost(post);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testInvalidRemoveLikefromPostNull() {
-		post.removeLikeFromPost(null);
 	}
 	
 	@Test(expected=AssertionError.class)
