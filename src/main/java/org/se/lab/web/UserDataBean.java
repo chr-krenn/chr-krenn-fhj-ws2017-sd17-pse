@@ -81,11 +81,6 @@ public class UserDataBean implements Serializable {
             LOG.info("SESSIOn UID: " + userId);
 
 
-            // Dummy Data
-            // contacts.add(new UserContact(40, userBob, 1));
-            // contacts.add(new UserContact(41, userBob, 4));
-            // contacts.add(new UserContact(42, userBob,3));
-
             communities.add(new Community("C1", "NewC1"));
             communities.add(new Community("C2", "NewC2"));
             communities.add(new Community("C3", "NewC3"));
@@ -125,16 +120,11 @@ public class UserDataBean implements Serializable {
             	setShowAddContactBtn(false);
             }
 
-		/*
-         * Activate when DAO works
-		 */
+		//TODO: Check if usercontact name is right
             contacts = service.getAllContactsByUser(user);
-    
-		/*
-         * Suchen aller Communities zur ID dieses Users
-		 */
-            
-           // communities = user.getCommunities();
+
+		//TODO: Activate when DAO works
+            //communities = user.getCommunities();
             
             
             userProfile = service.getUserProfilById(user.getId());
