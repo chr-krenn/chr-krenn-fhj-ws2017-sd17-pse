@@ -2,6 +2,8 @@ package org.se.lab.data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="enumeration_item")
@@ -72,15 +74,17 @@ public class EnumerationItem implements Serializable
         return post;
     }    
     
-    @ManyToOne
+    @OneToMany(
+			targetEntity = Community.class,
+			fetch=FetchType.EAGER)
     @JoinColumn(name="community_id")
-    private Community community;
-    public void setCommunity(Community community) {
+    private List<Community> community = new ArrayList<Community>();
+    public void addCommunity(Community community) {
         if(community == null)
             throw new IllegalArgumentException();        
-        this.community = community;
+        this.community.add(community);
     }
-    public Community getCommunity(){
+    public List<Community> getCommunity(){
         return community;
     }
 	

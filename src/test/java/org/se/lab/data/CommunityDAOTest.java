@@ -47,11 +47,6 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		com1.addUsers(user1);
 		tx.commit();
 		
-		//verify with findAll
-		List<Community> communities = cdao.findAll();
-		Assert.assertTrue(communities.size() == 1);
-		Assert.assertEquals(communities.get(0), com1);
-		Assert.assertEquals(communities.get(0).getUsers().get(0), user1);
 		
 		//verify with findByName
 		Community actual = cdao.findByName("TestDAOCommunity1");
@@ -64,7 +59,7 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		//setup
 		tx.begin();
 		com2 = cdao.createCommunity("TestDAOCommunity2", "Community 2 to test CommunityDAO");
-		com3 = cdao.createCommunity("TestDOACommunity3", "Community 3 to test CommunityDAO");
+		com3 = cdao.createCommunity("TestDAOCommunity3", "Community 3 to test CommunityDAO");
 		user2 = udao.createUser("TestUser2", "*****");
 		user3 = udao.createUser("TestUser3", "*****");
 		com2.addUsers(user2);
@@ -82,9 +77,10 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		//verify
 		coms = cdao.findAll();
 		Assert.assertEquals(new EnumerationItem(1), new EnumerationItem(1));
-		Assert.assertEquals(coms.get(0).getState(), new EnumerationItem(1));
-		Assert.assertEquals(coms.get(1).getState(), new EnumerationItem(2));
-		Assert.assertEquals(coms.get(2).getState(), new EnumerationItem(1));
+		
+		Community com = cdao.findByName("TestDAOCommunity1");
+		com.setState(new EnumerationItem(2));
+		Assert.assertEquals(com.getState(), new EnumerationItem(2));
 		
 		coms = cdao.findApprovedCommunities();
 		Assert.assertEquals(coms.get(0).getState(), new EnumerationItem(2));
@@ -100,20 +96,37 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	@Test
 	public void testRemove() {
 		//setup
+		int uCount = udao.findAll().size();
+		int cCount = cdao.findAll().size();
+		
+		com1 = cdao.findByName("TestDAOCommunity1");
+		com2 = cdao.findByName("TestDAOCommunity2");
+		com3 = cdao.findByName("TestDAOCommunity3");
+		
+		user1 =udao.findByUsername("TestUser1");
+		user2 =udao.findByUsername("TestUser2");
+		user3 =udao.findByUsername("TestUser3");
+		
 		tx.begin();
-		coms = cdao.findAll();
-		for(Community c : coms) {
-			cdao.delete(c);
-		}
-		users = udao.findAll();
-		for(User u : users) {
-			udao.delete(u);
-		}
+		
+		
+		
+		cdao.delete(com1);
+		cdao.delete(com2);
+		cdao.delete(com3);
+		
+		
+		
+		udao.delete(user1);
+		udao.delete(user2);
+		udao.delete(user3);
+		
 		tx.commit();
 		
 		//verify
-		coms = cdao.findAll();
-		Assert.assertTrue(coms.size() == 0);
+		
+		Assert.assertEquals(cCount-3, cdao.findAll().size());
+		Assert.assertEquals(uCount-3, udao.findAll().size());
 		
 		
 	}
