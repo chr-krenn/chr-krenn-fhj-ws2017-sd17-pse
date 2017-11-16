@@ -72,7 +72,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void delete_Successful() {
+    public void deleteByUser_Successful() {
         userDAO.delete(user1);
         expectLastCall();
 
@@ -206,5 +206,16 @@ public class UserServiceTest {
         userService.removeContact(user2,user1.getUsername());
     }
 
+    @Test
+    public void deleteById_Successful() {
+
+        expect(userDAO.findById(user1.getId())).andReturn(user1);
+
+        userDAO.delete(user1);
+        expectLastCall();
+        replay(userDAO);
+
+        userService.delete(user1.getId());
+    }
 
 }
