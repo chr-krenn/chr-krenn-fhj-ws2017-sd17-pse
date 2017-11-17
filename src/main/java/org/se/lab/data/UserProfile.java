@@ -115,7 +115,8 @@ public class UserProfile implements Serializable {
      *          userprofile picture
      */
 
-    @Column(name = "picture")
+
+    @Column(name = "picture", columnDefinition="blob")
     private byte[] picture;
 
     public byte[] getPicture() {
