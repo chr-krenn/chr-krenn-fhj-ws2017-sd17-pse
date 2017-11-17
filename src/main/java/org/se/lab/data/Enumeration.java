@@ -22,8 +22,7 @@ public class Enumeration implements Serializable {
 	/**
 	 * constructor for Hibernate
 	 */
-	protected Enumeration() {
-	}
+	protected Enumeration() {}
 
 	/**
 	 * Enumeration class constructor
@@ -73,34 +72,39 @@ public class Enumeration implements Serializable {
 	 * list of users connected to this enumeration
 	 */
 	@ManyToMany
-	@JoinTable(name = "enumeration_item", 
-	joinColumns = @JoinColumn(name = "userrole_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
-	private List<User> userroles = new ArrayList<User>(); // m:n
+	@JoinTable(name = "enumeration_item", joinColumns = @JoinColumn(name = "userrole_id", referencedColumnName = "id"), 
+			   inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
+	
+	private List<User> userroles = new ArrayList<User>();
 
 	public List<User> getUser() {
 		return userroles;
 	}
 
 	public void setUser(User user) {
-		this.userroles.add(user);
+		if(!this.userroles.contains(user))
+			this.userroles.add(user);
+		
+		if(!user.getRoles().contains(this))
+			user.getRoles().add(this);
 	}
 
 	/**
 	 * list of communities connected to this enumeration
 	 */
 	@ManyToMany
-	@JoinTable(name = "enumeration_item", 
-	joinColumns = @JoinColumn(name = "state_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
-	private List<Community> coms = new ArrayList<Community>(); // m:n
+	@JoinTable(name = "enumeration_item", joinColumns = @JoinColumn(name = "state_id", referencedColumnName = "id"), 
+			   inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
+	
+	private List<Community> coms = new ArrayList<Community>();
 
 	public List<Community> getCom() {
 		return coms;
 	}
 
 	public void setCom(Community com) {
-		this.coms.add(com);
+		if(!this.coms.contains(com))
+			this.coms.add(com);
 		
 		if (!com.getState().contains(this))
 			com.getState().add(this);
@@ -110,11 +114,10 @@ public class Enumeration implements Serializable {
 	 * Like (Post,User,Enumeration) Post Column
 	 */
 	@ManyToMany
-	@JoinTable(name = "likes", 
-	joinColumns = @JoinColumn(name = "enumeration_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "post_id"))
-	private List<Post> liked = new ArrayList<Post>(); // m:n
-
+	@JoinTable(name = "likes", joinColumns = @JoinColumn(name = "enumeration_id", referencedColumnName = "id"), 
+			   inverseJoinColumns = @JoinColumn(name = "post_id"))
+	
+	private List<Post> liked = new ArrayList<Post>();
 
 	public List<Post> getLikedPosts() {
 		return liked;
@@ -122,7 +125,9 @@ public class Enumeration implements Serializable {
 
 	
 	public void addLikedPost(Post post) {
-		this.liked.add(post);
+		if(!this.liked.contains(post))
+			this.liked.add(post);
+		
 		if (!post.getLikes().contains(this))
 			post.getLikes().add(this);
 	}
@@ -132,10 +137,10 @@ public class Enumeration implements Serializable {
 	 * Like (Post,User,Enumeration) User Column
 	 */
 	@ManyToMany
-	@JoinTable(name = "likes", 
-	joinColumns = @JoinColumn(name = "enumeration_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private List<User> likedby = new ArrayList<User>(); // m:n
+	@JoinTable(name = "likes", joinColumns = @JoinColumn(name = "enumeration_id", referencedColumnName = "id"), 
+			   inverseJoinColumns = @JoinColumn(name = "user_id"))
+	
+	private List<User> likedby = new ArrayList<User>();
 
 	public List<User> getLikedBy() {
 		return likedby;
@@ -150,8 +155,10 @@ public class Enumeration implements Serializable {
 	public void removeLike(User user, Post post) {
 		if (likedby.contains(user))
 			likedby.remove(user);
+		
 		if (liked.contains(post));
 			liked.remove(post);
+		
 		user.getLikes().remove(this);
 		post.getLikes().remove(this);
 	}
