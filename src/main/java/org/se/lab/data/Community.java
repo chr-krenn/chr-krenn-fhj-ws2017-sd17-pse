@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 
 /**
  * 
@@ -28,7 +27,9 @@ import javax.persistence.JoinTable;
 public class Community implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	private static final int MAX_TEXT_LENGTH = 65535;
+	private static final String MAX_TEXT_LENGTH_ERROR = "The given text is to long for field description. Max length = " + MAX_TEXT_LENGTH;
+	
 	/**
 	 * Community Class Constructor
 	 * @param name name of the community
@@ -85,8 +86,10 @@ public class Community implements Serializable {
 	public void setDescription(String description) {
 		if (description == null || description.trim().length() == 0)
 			throw new IllegalArgumentException();
+		if (description.length() > MAX_TEXT_LENGTH)
+			throw new IllegalArgumentException(MAX_TEXT_LENGTH_ERROR);
 		this.description = description;
-	}
+}
 
 	/**
 	 * users is a list of users which are in the same community

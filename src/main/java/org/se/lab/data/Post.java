@@ -289,7 +289,7 @@ public class Post implements Serializable {
 			throw new IllegalArgumentException(TEXT_INVALID_ERROR);
 		this.text = text;
 	}
-
+	
 	// created (Timestamp)
 	@Column(name = "created")
 	@Temporal(TemporalType.TIMESTAMP)

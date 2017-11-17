@@ -72,7 +72,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void delete_Successful() {
+    public void deleteByUser_Successful() {
         userDAO.delete(user1);
         expectLastCall();
 
@@ -193,17 +193,29 @@ public class UserServiceTest {
     }
 
     @Test
-    public void removeContact_Succesfull() {
+    public void removeContact_Successful() {
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
         replay(userDAO);
 
         expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
-        expect(userContactDAO.findById(user1.getId())).andReturn(userContact2);
-        userContactDAO.delete(userContact2);
+
+        userContactDAO.deleteContactForUserIdAndContactId(user1.getId(),user2.getId());
+        expectLastCall();
         replay(userContactDAO);
 
-        userService.removeContact(user2, user1.getUsername());
+        userService.removeContact(user2,user1.getUsername());
     }
 
+    @Test
+    public void deleteById_Successful() {
+
+        expect(userDAO.findById(user1.getId())).andReturn(user1);
+
+        userDAO.delete(user1);
+        expectLastCall();
+        replay(userDAO);
+
+        userService.delete(user1.getId());
+    }
 
 }

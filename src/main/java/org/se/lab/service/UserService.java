@@ -91,21 +91,6 @@ public class UserService {
         }
     }
 
-    public void addContact(User user, User contactUser) {
-        LOG.debug("add contact" + contactUser.getUsername() + " to " + user);
-
-        userValidator(user);
-        userValidator(contactUser);
-
-        if (!userContactDAO.doesContactExistForUserId(contactUser.getId(),user.getId())) {
-            UserContact userContact = new UserContact(user, contactUser.getId());
-            userContactDAO.insert(userContact);
-        } else {
-            LOG.error("Contact " + contactUser.getUsername() + " already exist ");
-            throw new ServiceException("Contact " + contactUser.getUsername() + " already exist ");
-        }
-    }
-
     public void removeContact(User user, String contactName) {
         LOG.debug("remove contact from " + user);
 
@@ -114,28 +99,14 @@ public class UserService {
 
         User userToRemove = userDAO.findByUsername(contactName);
         if (userContactDAO.doesContactExistForUserId(userToRemove.getId(),user.getId())) {
-            UserContact userContact = userContactDAO.findById(userToRemove.getId());
-            userContactDAO.delete(userContact);
+
+            userContactDAO.deleteContactForUserIdAndContactId(userToRemove.getId(),user.getId());
         } else {
             LOG.error("Contact " + userToRemove.getUsername() + " is missing ");
             throw new ServiceException("Contact " + userToRemove.getUsername() + "  is missing ");
         }
     }
 
-    public void removeContact(User user, User contactUser) {
-        LOG.debug("remove contact from " + user);
-
-        userValidator(user);
-        userValidator(contactUser);
-
-        if (userContactDAO.doesContactExistForUserId(contactUser.getId(),user.getId())) {
-            UserContact userContact = userContactDAO.findById(contactUser.getId());
-            userContactDAO.delete(userContact);
-        } else {
-            LOG.error("Contact " + contactUser.getUsername() + " is missing ");
-            throw new ServiceException("Contact " + contactUser.getUsername() + "  is missing ");
-        }
-    }
 
     public List<UserContact> getAllContactsByUser(User user) {
         LOG.debug("get all contacts from " + user);

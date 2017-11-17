@@ -18,113 +18,132 @@
         <div id="content">
             <h1>Profile</h1>
             <p:layout style="min-width:400px;min-height:600px;">
-            <p:layoutUnit position="center">
-            <div class="buttons">
-                <p:commandButton value="Admin Area" action="adminArea.xhtml?faces-redirect=true"/> 
-                <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}" rendered="#{userDataBean.showAddContactBtn==true}">
-                <f:param name="contactName" value="#{userDataBean.user.username}" />
-                </p:commandButton>
-                <p:commandButton value="Remove Contact" action="#{userDataBean.removeContact()}" rendered="#{userDataBean.showRemoveContactBtn==true}">
-                <f:param name="contactName" value="#{userDataBean.user.username}" />
-                </p:commandButton>
-                
-            </div>
-            <h2>User-Profile</h2>
-            <p:repeat value="#{userDataBean.user}" var="u">
-                <h:panelGrid columns="2" style="width:100%" class="panel" columnClasses="logo,detail">
+                <p:layoutUnit position="center">
+                    <div class="buttons" id="buttons">
+                        <p:commandButton value="Admin Area" action="adminPortal.xhtml?faces-redirect=true"/>
+                        <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}"
+                                         rendered="#{userDataBean.contactAddable and not userDataBean.ownProfile}"
+                                         update=":buttons" ajax="false">
+                            <f:param name="contactName" value="#{userDataBean.user.username}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Remove Contact" action="#{userDataBean.removeContact()}"
+                                         rendered="#{not userDataBean.contactAddable and not userDataBean.ownProfile}"
+                                         update=":buttons" ajax="false">
+                            <f:param name="contactName" value="#{userDataBean.user.username}"/>
+                        </p:commandButton>
+
+                    </div>
+                    <h2>User-Profile</h2>
+                    <p:repeat value="#{userDataBean.user}" var="u">
+                        <h:panelGrid columns="2" style="width:100%" class="panel" columnClasses="logo,detail">
 
 
-                    <p:outputPanel class="panel">
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputText value="Id:"/>
-                            <h:outputText value="#{u.id}" style="font-weight: bold"/>
+                            <p:outputPanel class="panel">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Id:"/>
+                                    <h:outputText value="#{u.id}" style="font-weight: bold"/>
 
-                            <h:outputText value="Username"/>
-                            <h:outputText value="#{u.username}" style="font-weight: bold"/>
-
-
+                                    <h:outputText value="Username"/>
+                                    <h:outputText value="#{u.username}" style="font-weight: bold"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
                         </h:panelGrid>
-                    </p:outputPanel>
-                </h:panelGrid>
-                <hr/>
-            </p:repeat>
-            <br/>
-            <div class="userinformation">
-                <p:outputPanel>
-                    <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputText value="Firstname:"/>
-                    <h:outputText value="#{userDataBean.userProfile.firstname}" style="font-weight: bold"/>
-                    <h:outputText value="Lastname:"/>
-                    <h:outputText value="#{userDataBean.userProfile.lastname}" style="font-weight: bold"/>
-                    <h:outputText value="e-Mail:"/>
-                    <h:outputText value="#{userDataBean.userProfile.email}" style="font-weight: bold"/>
-                    <h:outputText value="Phone:"/>
-                    <h:outputText value="#{userDataBean.userProfile.phone}" style="font-weight: bold"/>
-                    <h:outputText value="Additional Information:"/>
-                    <h:outputText value="#{userDataBean.userProfile.description}" style="font-weight: bold"/>
-                    </h:panelGrid>
-                </p:outputPanel>
-            </div>
-        <div class="contactcommunities">
-            <div class="contactlist">
-                <h2>Contacts</h2>
-                <p:repeat value="#{userDataBean.contacts}" var="contact">
-                    <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                        <hr/>
+                    </p:repeat>
+                    <br/>
+                    <div class="userinformation">
                         <p:outputPanel>
                             <h:panelGrid columns="2" cellpadding="5">
-                                <h:outputText value="Id:"/>
-                                <h:outputText value="#{contact.id}" style="font-weight: bold"/>
-                                <h:outputText value="Username"/>
-                                <h:outputText value="#{contact.user.username}" style="font-weight: bold"/>
+                                <h:outputText value="Firstname:"/>
+                                <h:outputText value="#{userDataBean.userProfile.firstname}" style="font-weight: bold"/>
+                                <h:outputText value="Lastname:"/>
+                                <h:outputText value="#{userDataBean.userProfile.lastname}" style="font-weight: bold"/>
+                                <h:outputText value="e-Mail:"/>
+                                <h:outputText value="#{userDataBean.userProfile.email}" style="font-weight: bold"/>
+                                <h:outputText value="Phone:"/>
+                                <h:outputText value="#{userDataBean.userProfile.phone}" style="font-weight: bold"/>
 
+                                <h:outputText value="Address:"/>
+                                <h:outputText value="#{userDataBean.userProfile.address}" style="font-weight: bold"/>
+
+                                <h:outputText value="Zip:"/>
+                                <h:outputText value="#{userDataBean.userProfile.plz}" style="font-weight: bold"/>
+                                <h:outputText value="City:"/>
+                                <h:outputText value="#{userDataBean.userProfile.city}" style="font-weight: bold"/>
+                                <h:outputText value="Country:"/>
+                                <h:outputText value="#{userDataBean.userProfile.country}" style="font-weight: bold"/>
+                                <h:outputText value="Room:"/>
+                                <h:outputText value="#{userDataBean.userProfile.room}" style="font-weight: bold"/>
+                                <h:outputText value="Team:"/>
+                                <h:outputText value="#{userDataBean.userProfile.team}" style="font-weight: bold"/>
+
+
+                                <h:outputText value="Additional Information:"/>
+                                <h:outputText value="#{userDataBean.userProfile.description}"
+                                              style="font-weight: bold"/>
                             </h:panelGrid>
                         </p:outputPanel>
-                    </h:panelGrid>
-                    <hr/>
-                </p:repeat>
-            </div>
-            <div class="communitylist">
-                <h2>Communities</h2>
-                <p:repeat value="#{userDataBean.communities}" var="community">
-                    <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                    </div>
+                    <div class="contactcommunities">
+                        <div class="contactlist">
+                            <h2>Contacts</h2>
+                            <p:repeat value="#{userDataBean.contacts}" var="contact">
+                                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                                    <p:outputPanel>
+                                        <h:panelGrid columns="2" cellpadding="5">
+                                            <h:outputText value="Id:"/>
+                                            <h:outputText value="#{contact.id}" style="font-weight: bold"/>
+                                            <h:outputText value="Username"/>
+                                            <h:outputText value="#{contact.user.username}" style="font-weight: bold"/>
+
+                                        </h:panelGrid>
+                                    </p:outputPanel>
+                                </h:panelGrid>
+                                <hr/>
+                            </p:repeat>
+                        </div>
+                        <div class="communitylist">
+                            <h2>Communities</h2>
+                            <p:repeat value="#{userDataBean.communities}" var="community">
+                                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
 
 
-                        <p:outputPanel>
-                            <h:panelGrid columns="2" cellpadding="5">
-                                <h:outputText value="Id:"/>
-                                <h:outputText value="#{community.id}" style="font-weight: bold"/>
-                                <h:outputText value="Description:"/>
-                                <h:outputText value="#{community.description}" style="font-weight: bold"/>
+                                    <p:outputPanel>
+                                        <h:panelGrid columns="2" cellpadding="5">
+                                            <h:outputText value="Id:"/>
+                                            <h:outputText value="#{community.id}" style="font-weight: bold"/>
+                                            <h:outputText value="Description:"/>
+                                            <h:outputText value="#{community.description}" style="font-weight: bold"/>
 
-                            </h:panelGrid>
-                        </p:outputPanel>
-                    </h:panelGrid>
-                    <hr/>
-                </p:repeat>
-            </div>
+                                        </h:panelGrid>
+                                    </p:outputPanel>
+                                </h:panelGrid>
+                                <hr/>
+                            </p:repeat>
+                        </div>
 
-            <!-- Einkommentieren wenn Community Entity OK ist-->
+                        <!-- Einkommentieren wenn Community Entity OK ist-->
 
-            <!--
+                        <!--
 
-            -->
+                        -->
 
+                    </div>
+                    <div class="image">
+                        <h2>image</h2>
+                        <p:graphicImage value="#{userDataBean.photo}"/>
+                        <h:graphicImage library="images" name="index.png"/>
+                    </div>
+                </p:layoutUnit>
+            </p:layout>
         </div>
-        <div class="image">
-            <h2>image</h2>
-            <p:graphicImage value="#{userDataBean.photo}"/>
-            <h:graphicImage library="images" name="index.png"/>
+
+
+        <div id="footer">
+            <ui:insert name="footer">
+                <ui:include src="templates/footer.xhtml"/>
+            </ui:insert>
         </div>
-    </p:layoutUnit>
-</p:layout>
-</div>
-
-
-<div id="footer">
-<ui:insert name="footer">
-    <ui:include src="templates/footer.xhtml"/>
-</ui:insert>
-</div>
-        </h:form>
-        </h:body>
-        </html>
+    </h:form>
+</h:body>
+</html>

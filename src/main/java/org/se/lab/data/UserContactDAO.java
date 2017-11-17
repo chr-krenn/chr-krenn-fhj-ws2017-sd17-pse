@@ -13,5 +13,6 @@ public interface UserContactDAO {
     UserContact findById(int id);
 
     boolean doesContactExistForUserId(int id, int userId);
+    void deleteContactForUserIdAndContactId(int contactId,int userId);
 
 }

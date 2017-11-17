@@ -53,11 +53,6 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		
 		tx.commit();
 		
-		//verify with findAll
-		List<Community> communities = cdao.findAll();
-		Assert.assertTrue(communities.size() == 1);
-		Assert.assertEquals(communities.get(0), com1);
-		Assert.assertEquals(communities.get(0).getUsers().get(0), user1);
 		
 		//verify with findByName
 		Community actual = cdao.findByName("TestDAOCommunity1");
@@ -70,7 +65,7 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		//setup
 		tx.begin();
 		com2 = cdao.createCommunity("TestDAOCommunity2", "Community 2 to test CommunityDAO");
-		com3 = cdao.createCommunity("TestDOACommunity3", "Community 3 to test CommunityDAO");
+		com3 = cdao.createCommunity("TestDAOCommunity3", "Community 3 to test CommunityDAO");
 		user2 = udao.createUser("TestUser2", "*****");
 		user3 = udao.createUser("TestUser3", "*****");
 		com2.addUsers(user2);
@@ -90,7 +85,6 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		Assert.assertEquals(coms.get(0).getState(), edao.findById(1));
 		Assert.assertEquals(coms.get(1).getState(), edao.findById(2));
 		Assert.assertEquals(coms.get(2).getState(), edao.findById(1));
-		
 		coms = cdao.findApprovedCommunities();
 		Assert.assertEquals(coms.get(0).getState(), edao.findById(2));
 		Assert.assertTrue(coms.size() == 1);
@@ -105,6 +99,17 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	@Test
 	public void testRemove() {
 		//setup
+		int uCount = udao.findAll().size();
+		int cCount = cdao.findAll().size();
+		
+		com1 = cdao.findByName("TestDAOCommunity1");
+		com2 = cdao.findByName("TestDAOCommunity2");
+		com3 = cdao.findByName("TestDAOCommunity3");
+		
+		user1 =udao.findByUsername("TestUser1");
+		user2 =udao.findByUsername("TestUser2");
+		user3 =udao.findByUsername("TestUser3");
+		
 		tx.begin();
 		users = udao.findAll();
 		for(User u : users) {
@@ -121,8 +126,9 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		
 		
 		//verify
-		coms = cdao.findAll();
-		Assert.assertTrue(coms.size() == 0);
+		
+		Assert.assertEquals(cCount-3, cdao.findAll().size());
+		Assert.assertEquals(uCount-3, udao.findAll().size());
 		
 		
 	}
