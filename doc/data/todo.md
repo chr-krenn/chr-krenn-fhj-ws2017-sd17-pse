@@ -6,7 +6,7 @@
   *	[ ] UserTest Entities
   * [ ] PrivateMessageDAOTest 
   * [ ] PrivateMessage Entities
-  * [ ] EnumerationDAOTest
+  * [x] EnumerationDAOTest
   * [x] Suites removal
   * [x] HowTo
   * [x] Namenskonvention
