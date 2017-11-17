@@ -8,6 +8,7 @@
     	<class>org.se.lab.data.Post</class>
     	<class>org.se.lab.data.Community</class>
     	<class>org.se.lab.data.Enumeration</class>
+    	<class>org.se.lab.data.EnumerationItem</class>
     	<class>org.se.lab.data.User</class>
     	<class>org.se.lab.data.UserContact</class>
     	<class>org.se.lab.data.UserProfile</class>
