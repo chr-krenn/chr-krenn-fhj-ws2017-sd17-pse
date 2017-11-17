@@ -9,10 +9,12 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	
 	private static EnumerationDAOImpl dao = new EnumerationDAOImpl();
 	private static UserDAOImpl userDao = new UserDAOImpl();
+	private static PostDAOImpl postDao = new PostDAOImpl();
 	
     static {
     	dao.setEntityManager(em);
     	userDao.setEntityManager(em);
+    	postDao.setEntityManager(em);
     }
 	    
 	@Test
@@ -93,6 +95,35 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 		Assert.assertEquals(1, users.size());
 		Assert.assertEquals(username, users.get(0).getUsername());
 		Assert.assertEquals(pass, users.get(0).getPassword());
+	}
+	
+	
+	@Test
+	public void testPost() {
+		String name = "testPost";
+		String text = "Test";
+		
+		Post post = new Post();
+		post.setText(text);
+		postDao.insert(post);
+
+		Enumeration e = new Enumeration();
+		e.setName(name);
+		e.addLikedPost(post);
+				
+		dao.insert(e);
+		
+		int id = e.getId();
+		
+		Enumeration enumerationFound = dao.findById(id);
+		
+		Assert.assertNotNull(enumerationFound);
+		Assert.assertEquals(1, enumerationFound.getLikedPosts().size());
+		Assert.assertEquals(text, enumerationFound.getLikedPosts().get(0).getText());
+		
+		List<Post> posts = dao.findLikedPostsByEnumeration(id);
+		Assert.assertEquals(1, posts.size());
+		Assert.assertEquals(text, posts.get(0).getText());
 	}
 	
 	@Test
