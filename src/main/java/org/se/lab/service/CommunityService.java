@@ -13,7 +13,8 @@ import java.util.List;
 @Stateless
 public class CommunityService {
     public static final Enumeration PENDING = new Enumeration(1);
-    public static final Enumeration APPROVE = new Enumeration(2);
+    public static final Enumeration APPROVED = new Enumeration(2);
+    public static final Enumeration REFUSED = new Enumeration(3);
     private final Logger LOG = Logger.getLogger(CommunityService.class);
 
     @Inject
@@ -98,7 +99,7 @@ public class CommunityService {
 
     public void approve(Community community) {
         LOG.debug("approve " + community);
-        community.setState(APPROVE);
+        community.setState(APPROVED);
 
         update(community);
     }
@@ -112,7 +113,16 @@ public class CommunityService {
             LOG.error("Can`t find Id " + id, e);
             throw new ServiceException("Can`t find Id " + id);
         }
+    }
 
-
+    public void refuse(Community community){
+        LOG.debug("refuse " + community);
+        if(community.getState().equals(PENDING)){
+            community.setState(REFUSED);
+            update(community);
+        }else {
+            LOG.error("Can`t refuse community " + community.getName());
+            throw new ServiceException("Can`t refuse community " + community.getName());
+        }
     }
 }
