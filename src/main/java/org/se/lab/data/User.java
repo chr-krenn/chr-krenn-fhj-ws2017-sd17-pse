@@ -167,7 +167,7 @@ public class User implements Serializable
 	}
 
 
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user",fetch = FetchType.EAGER)
 	private List<UserContact> usercontacts = new ArrayList<>();
 
 	public void addUserContacts(UserContact usercontact) {
