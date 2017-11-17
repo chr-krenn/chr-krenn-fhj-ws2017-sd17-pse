@@ -113,8 +113,7 @@ public class Community implements Serializable {
 		user.addCommunity(this);
 	}
 	
-	
-	@ManyToMany(mappedBy="coms")
+	@ManyToMany(mappedBy="coms", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) 
 	private List<Enumeration> states = new ArrayList<Enumeration>();
 	
 	public List<Enumeration> getState() {
@@ -128,6 +127,11 @@ public class Community implements Serializable {
 	public void setState(Enumeration state) {
 		if (state == null)
 			throw new IllegalArgumentException();
+		
+		if(states.size() > 1) {
+			states.remove(0);
+		}
+		
 		state.setCom(this);
 		this.states.add(state);
 	}
