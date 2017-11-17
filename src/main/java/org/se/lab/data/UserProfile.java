@@ -2,7 +2,6 @@ package org.se.lab.data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Blob;
 
 @Entity
 @Table(name = "userprofile")

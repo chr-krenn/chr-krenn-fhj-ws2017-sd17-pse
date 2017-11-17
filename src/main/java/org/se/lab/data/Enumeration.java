@@ -72,8 +72,9 @@ public class Enumeration implements Serializable {
 	 * list of users connected to this enumeration
 	 */
 	@ManyToMany
-	@JoinTable(name = "enumeration_item", joinColumns = @JoinColumn(name = "userrole_id", referencedColumnName = "id"), 
-			   inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
+	@JoinTable(name = "enumeration_item", 
+			joinColumns = @JoinColumn(name = "enumeration_id", referencedColumnName = "id"), 
+			inverseJoinColumns = @JoinColumn(name = "users_id"))
 	
 	private List<User> userroles = new ArrayList<User>();
 
@@ -112,8 +113,9 @@ public class Enumeration implements Serializable {
 	 * Like (Post,User,Enumeration) Post Column
 	 */
 	@ManyToMany
-	@JoinTable(name = "likes", joinColumns = @JoinColumn(name = "enumeration_id", referencedColumnName = "id"), 
-			   inverseJoinColumns = @JoinColumn(name = "post_id"))
+	@JoinTable(name = "likes", 
+			joinColumns = @JoinColumn(name = "enumeration_id", referencedColumnName = "id"), 
+			inverseJoinColumns = @JoinColumn(name = "post_id"))
 	
 	private List<Post> liked = new ArrayList<Post>();
 
