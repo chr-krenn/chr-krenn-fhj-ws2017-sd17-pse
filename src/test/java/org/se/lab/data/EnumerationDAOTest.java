@@ -160,11 +160,9 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	@Test
 	public void testCommunity() {
 		String name = "testCommunity";
-		String community = "Test";
+		String description = "Test";
 		
-		Community com = new Community();
-		com.setName(community);
-		commDao.insert(com);
+		Community com = commDao.createCommunity(name, description);
 
 		Enumeration e = new Enumeration();
 		e.setName(name);
@@ -178,11 +176,11 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 		
 		Assert.assertNotNull(enumerationFound);
 		Assert.assertEquals(1, enumerationFound.getCom().size());
-		Assert.assertEquals(community, enumerationFound.getCom().get(0).getName());
+		Assert.assertEquals(name, enumerationFound.getCom().get(0).getName());
 		
 		List<Community> communities = dao.findCommunitiesByEnumeration(id);
 		Assert.assertEquals(1, communities.size());
-		Assert.assertEquals(community, communities.get(0).getName());
+		Assert.assertEquals(name, communities.get(0).getName());
 	}
 	
 	@Test

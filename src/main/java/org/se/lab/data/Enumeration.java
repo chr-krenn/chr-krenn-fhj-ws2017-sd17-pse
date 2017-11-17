@@ -92,10 +92,7 @@ public class Enumeration implements Serializable {
 	/**
 	 * list of communities connected to this enumeration
 	 */
-	@ManyToMany
-	@JoinTable(name = "enumeration_item", joinColumns = @JoinColumn(name = "state_id", referencedColumnName = "id"), 
-			   inverseJoinColumns = @JoinColumn(name = "enumeration_id"))
-	
+	@OneToMany(mappedBy = "state", fetch = FetchType.EAGER)
 	private List<Community> coms = new ArrayList<Community>();
 
 	public List<Community> getCom() {
@@ -103,11 +100,12 @@ public class Enumeration implements Serializable {
 	}
 
 	public void setCom(Community com) {
+		if(com == null)
+			throw new IllegalArgumentException();
+		
 		if(!this.coms.contains(com))
 			this.coms.add(com);
 		
-		if (!com.getState().contains(this))
-			com.getState().add(this);
 	}
 
 	/*

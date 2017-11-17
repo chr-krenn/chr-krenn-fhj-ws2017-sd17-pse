@@ -73,7 +73,7 @@ public class CommunityDAOImpl implements CommunityDAO{
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
-		criteria.where(builder.equal(community.get("state"), new Enumeration(4)));
+		criteria.where(builder.equal(community.get("state"), new Enumeration(1)));
 		TypedQuery<Community> query = em.createQuery(criteria);
 		try {
 			return query.getResultList();
@@ -90,7 +90,7 @@ public class CommunityDAOImpl implements CommunityDAO{
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
-		criteria.where(builder.equal(community.get("state"), new Enumeration(1)));
+		criteria.where(builder.equal(community.get("state"), new Enumeration(2)));
 		TypedQuery<Community> query = em.createQuery(criteria);
 		try {
 			return query.getResultList();
