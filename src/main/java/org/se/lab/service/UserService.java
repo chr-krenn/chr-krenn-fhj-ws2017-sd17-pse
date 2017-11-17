@@ -81,7 +81,7 @@ public class UserService {
         validateString(contactName);
 
         User userToAdd = userDAO.findByUsername(contactName);
-        if (!userContactDAO.doesContactExistForUserId(userToAdd.getId(),user.getId())) {
+        if (!userContactDAO.doesContactExistForUserId(userToAdd.getId(), user.getId())) {
 
             UserContact userContact = new UserContact(user, userToAdd.getId());
             userContactDAO.insert(userContact);
@@ -98,9 +98,9 @@ public class UserService {
         validateString(contactName);
 
         User userToRemove = userDAO.findByUsername(contactName);
-        if (userContactDAO.doesContactExistForUserId(userToRemove.getId(),user.getId())) {
+        if (userContactDAO.doesContactExistForUserId(userToRemove.getId(), user.getId())) {
 
-            userContactDAO.deleteContactForUserIdAndContactId(userToRemove.getId(),user.getId());
+            userContactDAO.deleteContactForUserIdAndContactId(userToRemove.getId(), user.getId());
         } else {
             LOG.error("Contact " + userToRemove.getUsername() + " is missing ");
             throw new ServiceException("Contact " + userToRemove.getUsername() + "  is missing ");
@@ -112,7 +112,8 @@ public class UserService {
         LOG.debug("get all contacts from " + user);
 
         //todo wegl
-        return userContactDAO.findAll().stream().filter(userContact -> userContact.getUser().equals(user)).collect(Collectors.toList());
+        //todo return liste an kontakten - wegl baut um
+        return userContactDAO.findAll().stream().filter(userContact -> userContact.getUser().equals(user.getUserContacts())).collect(Collectors.toList());
     }
 
     public void update(User user) {
@@ -214,5 +215,10 @@ public class UserService {
                 throw new ServiceException("Missing Argument ");
             }
         }
+    }
+
+
+    public void addPictureToProfile(UserProfile userProfile) {
+        userProfileDAO.update(userProfile);
     }
 }

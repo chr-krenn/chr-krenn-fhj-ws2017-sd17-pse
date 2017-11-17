@@ -1,7 +1,10 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import org.se.lab.data.Community;
 import org.se.lab.data.User;
 import org.se.lab.data.UserContact;
@@ -14,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -243,6 +247,28 @@ public class UserDataBean implements Serializable {
         setContactAddable(true);
 
 
+    }
+
+    public StreamedContent getImage() {
+
+        //todo maybe need to load from db
+
+        if(user.getUserProfile().getPicture()!=null){
+            return new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
+        }
+        return null;
+    }
+
+    public void upload(FileUploadEvent event) {
+
+        UploadedFile uploadedFile = event.getFile();
+        UserProfile userProfile = user.getUserProfile();
+        userProfile.setPicture(uploadedFile.getContents());
+        service.addPictureToProfile(userProfile);
+    }
+
+    public boolean isImageExists() {
+        return user.getUserProfile().getPicture() != null;
     }
 
 

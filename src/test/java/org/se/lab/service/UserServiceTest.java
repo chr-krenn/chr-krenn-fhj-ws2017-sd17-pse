@@ -97,6 +97,7 @@ public class UserServiceTest {
         Assert.assertThat(user, nullValue());
     }
 
+    @Ignore
     @Test
     public void getAllContactsByUser() {
         List<UserContact> userContactList = new ArrayList<>();
