@@ -110,6 +110,7 @@ public class AdminDataBean implements Serializable {
         }
 
 
+
         requestedCommunityList = new ArrayList<>();
         approvedCommunityList = new ArrayList<>();
 
@@ -134,16 +135,6 @@ public class AdminDataBean implements Serializable {
     }
 
 
-    public void onRowSelect(SelectEvent event) {
-        FacesMessage msg = new FacesMessage("Community Selected", ((Community) event.getObject()).getName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    public void onRowUnselect(UnselectEvent event) {
-        FacesMessage msg = new FacesMessage("Community Unselected", ((Community) event.getObject()).getName());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
     List<Community> selectedCommunities;
     Community selectedCommunity;
     public Community getSelectedCommunity() {
@@ -161,5 +152,26 @@ public class AdminDataBean implements Serializable {
     public void setSelectedCommunities(List<Community> selectedCommunities) {
         this.selectedCommunities = selectedCommunities;
     }
+
+    public void goToCommunity()
+    {
+        LOG.info("In Method goToCommunity");
+
+		if (selectedCommunity != null)
+		{
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
+
+        try
+        {
+            context.getExternalContext().redirect("/pse/communityprofile.xhtml");
+        } catch (IOException e) {
+            LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+        }
+
+
+    }
+}
 
 }

@@ -28,11 +28,11 @@
                 <p:column headerText="Description">
                     <h:outputText value="#{community.description}"/>
                 </p:column>
-                <p:column style="width:32px;text-align: center">
-                    <p:commandButton onclick="#{adminDataBean.declineRequestedCommunity(community)}"  icon="ui-icon-search" title="Decline" />
+                <p:column style="text-align: center">
+                    <p:commandButton actionListener="#{adminDataBean.declineRequestedCommunity(community)}"  value="Dec" title="Decline" />
                 </p:column>
-                <p:column style="width:32px;text-align: center">
-                    <p:commandButton onclick="#{adminDataBean.approveRequestedCommunity(community)}" icon="ui-icon-search" title="Approve" />
+                <p:column style="text-align: center">
+                    <p:commandButton actionListener="#{adminDataBean.approveRequestedCommunity(community)}" value="App" title="Approve" />
                 </p:column>
             </p:dataTable>
 
@@ -48,6 +48,12 @@
                 <p:column headerText="Description">
                     <h:outputText value="#{community.description}"/>
                 </p:column>
+                <p:column style="text-align: center">
+                    <p:commandLink  action="#{adminDataBean.goToCommunity()}" title="View Detail">
+                        <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                        <f:setPropertyActionListener value="#{community}"  target="#{adminDataBean.selectedCommunity}" />
+                    </p:commandLink>
+            </p:column>
             </p:dataTable>
         </h:panelGrid>
         <div id="footer">
