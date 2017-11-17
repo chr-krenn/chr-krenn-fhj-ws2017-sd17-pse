@@ -83,8 +83,8 @@
 </tr>
 </thead>
 <tbody valign='top'>
-<tr class='even'>
- <td class='primaryKey' title='Primary Key'>ID</td>
+<tr class='odd'>
+ <td class='primaryKey' title='Primary Key'>id</td>
  <td class='detail'>int</td>
  <td class='detail' align='right'>10</td>
  <td class='detail' align='center'></td>
@@ -92,10 +92,22 @@
  <td class='detail'></td>
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
-   <tr class='relative even' valign='top'>
-    <td class='relatedTable detail' title="enumeration_item.enumeration_id refs enumeration.ID via FK2a64bbexb95mu9n8c769rrl0k"><a href='enumeration_item.html'>enumeration_item</a><span class='relatedKey'>.enumeration_id</span>
+   <tr class='relative odd' valign='top'>
+    <td class='relatedTable detail' title="enumeration_item.state_id refs enumeration.id via FKh1m51ibchmdno8gw8ubktcij6"><a href='enumeration_item.html'>enumeration_item</a><span class='relatedKey'>.state_id</span>
     </td>
-    <td class='constraint detail'>FK2a64bbexb95mu9n8c769rrl0k<span title='Restrict delete:
+    <td class='constraint detail'>FKh1m51ibchmdno8gw8ubktcij6<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
+   <tr class='relative odd' valign='top'>
+    <td class='relatedTable detail' title="enumeration_item.userrole_id refs enumeration.id via FK9ygalsausrm0pkg4kb4ruogob"><a href='enumeration_item.html'>enumeration_item</a><span class='relatedKey'>.userrole_id</span>
+    </td>
+    <td class='constraint detail'>FK9ygalsausrm0pkg4kb4ruogob<span title='Restrict delete:
+ Parent cannot be deleted if children exist'>&nbsp;R</span></td>
+   </tr>
+   <tr class='relative odd' valign='top'>
+    <td class='relatedTable detail' title="likes.enumeration_id refs enumeration.id via FK5f7eh2n1ynlotnmvjq3a69gwo"><a href='likes.html'>likes</a><span class='relatedKey'>.enumeration_id</span>
+    </td>
+    <td class='constraint detail'>FK5f7eh2n1ynlotnmvjq3a69gwo<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
   </table>
@@ -103,8 +115,8 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
- <td class='detail'>NAME</td>
+<tr class='even'>
+ <td class='detail'>name</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
@@ -115,7 +127,7 @@
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='2 columns'>Table contained 0 rows at Wed Nov 15 10:00 CET 2017<p/>
+<p title='2 columns'>Table contained 7 rows at Fri Nov 17 10:10 CET 2017<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -130,7 +142,7 @@
 </thead>
 <tbody>
  <tr>
-  <td class='primaryKey'>ID</td>
+  <td class='primaryKey'>id</td>
   <td class='detail'>Primary key</td>
   <td class='detail' style='text-align:left;'><span title='Ascending'>Asc</span></td>
   <td class='constraint' style='text-align:left;'>PRIMARY</td>
@@ -141,16 +153,17 @@
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from enumeration'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="247,5,392,184">
-<area shape="rect" id="node2" href="enumeration.html" title="enumeration" alt="" coords="5,51,203,163">
+<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="247,5,392,160">
+<area shape="rect" id="node2" href="enumeration.html" title="enumeration" alt="" coords="5,75,203,187">
+<area shape="rect" id="node3" href="likes.html" title="likes" alt="" coords="255,177,384,308">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/enumeration.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="423,48,568,227">
-<area shape="rect" id="node2" href="community.html" title="community" alt="" coords="11,40,131,123">
-<area shape="rect" id="node3" href="enumeration.html" title="enumeration" alt="" coords="181,42,379,154">
-<area shape="rect" id="node4" href="post.html" title="post" alt="" coords="214,171,346,254">
-<area shape="rect" id="node5" href="users.html" title="users" alt="" coords="5,206,137,288">
+<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="423,5,568,160">
+<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="5,187,137,269">
+<area shape="rect" id="node3" href="enumeration.html" title="enumeration" alt="" coords="181,89,379,201">
+<area shape="rect" id="node4" href="likes.html" title="likes" alt="" coords="431,177,560,308">
+<area shape="rect" id="node5" href="post.html" title="post" alt="" coords="214,255,346,337">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/enumeration.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
