@@ -33,16 +33,16 @@ public class UserDataBean implements Serializable {
     @Inject
     private UserService service;
     private User user;
-    private User  loggedInUser;
+    private User loggedInUser;
     private UserProfile userProfile;
     private List<UserContact> contacts;
     private List<Community> communities;
     private String id = "";
     private String hideAddRemove ="";
     private int userId = 0;
-    private boolean showAddContactBtn = true;
-    private boolean showRemoveContactBtn = true;
- 
+    private boolean isProfileAdded = false;
+    private boolean ownProfile = false;
+
 
     @PostConstruct
     public void init() {
@@ -66,67 +66,83 @@ public class UserDataBean implements Serializable {
 		 */
 
 
+            //todo
             id = context.getExternalContext().getRequestParameterMap().get("userid");
+            if (id == null) {
+                id = (String) flash.get("uid");
+            }
+            if (id != null) {
+                flash.put("uid", id);
+                if (id.equals(Integer.toString((Integer) session.get("user")))) {
+                    setOwnProfile(true);
+                } else {
+                    setOwnProfile(false);
+                }
+            }
+
+
+
             hideAddRemove = context.getExternalContext().getRequestParameterMap().get("hideAddRemove");
+
+
+
             flash.put("uid", id);
             flash.put("hideAddRemove", hideAddRemove);
 
-            String userProfId = (String) context.getExternalContext().getFlash().get("uid");
             String hideAddRemoveCheck = (String) context.getExternalContext().getFlash().get("hideAddRemove");
+            //Hide Buttons for own profile
+            if("1".equals(hideAddRemoveCheck))
+            {
+                setOwnProfile(true);
+            }
+
+            String userProfId = (String) context.getExternalContext().getFlash().get("uid");
 
             LOG.info("userProfId: " + userProfId);
 
 
             userId = (int) session.get("user");
+
             LOG.info("SESSIOn UID: " + userId);
 
 
             communities.add(new Community("C1", "NewC1"));
             communities.add(new Community("C2", "NewC2"));
             communities.add(new Community("C3", "NewC3"));
-            
-          //Wr befinden uns auf einem Profil eines anderen Users
+
+            //Wr befinden uns auf einem Profil eines anderen Users
             if (userProfId != null) {
-            	
+
                 user = getUser(Integer.parseInt(userProfId));
-                //setShowAddContactBtn(true);
-                
-                
+                //isProfileAdded(true);
+
+
                 //Holen des eingeloggten Users
-                 loggedInUser = service.findById(userId);
-                
+                loggedInUser = service.findById(userId);
+
                 //Kontaktliste des eingeloggten Users um zu prüfen ob wir den User des aktuellen
                 //Profils schon in der Kontaktliste haben
                 List<UserContact> loggedInContacts = service.getAllContactsByUser(loggedInUser);
-                setShowRemoveContactBtn(false);
-                for(UserContact c : loggedInContacts)
-                {
-                	//Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
-                	if(c.getContactId() == user.getId())
-                	{
-                		setShowRemoveContactBtn(true);
-                		setShowAddContactBtn(false);
-                	}
+                setProfileAdded(true);
+                for (UserContact c : loggedInContacts) {
+                    //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
+                    if (c.getContactId() == user.getId()) {
+                        setProfileAdded(false);
+                    }
                 }
             } else {
                 user = getUser(userId);
                 loggedInUser = user;
             }
-            
-            //Hide Buttons for own profile
-            if(hideAddRemoveCheck != null && !hideAddRemoveCheck.isEmpty() && hideAddRemoveCheck.equals("1"))
-            {
-            	setShowRemoveContactBtn(false);
-            	setShowAddContactBtn(false);
-            }
 
-		//TODO: Check if usercontact name is right
+
+            //TODO: Check if usercontact name is right
             contacts = service.getAllContactsByUser(user);
 
-		//TODO: Activate when DAO works
+            //TODO: Activate when DAO works
             //communities = user.getCommunities();
-            
-            
+
+
             userProfile = service.getUserProfilById(user.getId());
 
 
@@ -134,7 +150,7 @@ public class UserDataBean implements Serializable {
             
 
 		/*
-		 * File chartFile = new File("dynamichart"); try { photo = new
+         * File chartFile = new File("dynamichart"); try { photo = new
 		 * DefaultStreamedContent(new FileInputStream(chartFile), "image/png"); } catch
 		 * (FileNotFoundException e) { // TODO Auto-generated catch block
 		 * e.printStackTrace(); }
@@ -210,9 +226,10 @@ public class UserDataBean implements Serializable {
         //todo if works from dao
         service.addContact(loggedInUser, contactName);
 
+        setProfileAdded(true);
 
     }
-    
+
     public void removeContact() {
 
         String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
@@ -226,9 +243,11 @@ public class UserDataBean implements Serializable {
         //todo if works from dao
         service.removeContact(loggedInUser, contactName);
 
+        setProfileAdded(false);
+
 
     }
-    
+
 
     public List<UserContact> getContacts() {
         return contacts;
@@ -258,20 +277,20 @@ public class UserDataBean implements Serializable {
         return "/profile.xhtml?faces-redirect=true";
     }
 
-	public boolean isShowAddContactBtn() {
-		return showAddContactBtn;
-	}
+    public boolean isProfileAdded() {
+        return isProfileAdded;
+    }
 
-	public void setShowAddContactBtn(boolean showAddContactBtn) {
-		this.showAddContactBtn = showAddContactBtn;
-	}
+    public void setProfileAdded(boolean profileAdded) {
+        this.isProfileAdded = profileAdded;
+    }
 
-	public boolean isShowRemoveContactBtn() {
-		return showRemoveContactBtn;
-	}
 
-	public void setShowRemoveContactBtn(boolean showRemoveContactBtn) {
-		this.showRemoveContactBtn = showRemoveContactBtn;
-	}
+    public boolean isOwnProfile() {
+        return ownProfile;
+    }
 
+    public void setOwnProfile(boolean ownProfile) {
+        this.ownProfile = ownProfile;
+    }
 }

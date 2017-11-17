@@ -19,15 +19,15 @@
             <h1>Profile</h1>
             <p:layout style="min-width:400px;min-height:600px;">
             <p:layoutUnit position="center">
-            <div class="buttons">
+            <div class="buttons" id="buttons">
                 <p:commandButton value="Admin Area" action="adminPortal.xhtml?faces-redirect=true"/>
-                <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}" rendered="#{userDataBean.showAddContactBtn==true}">
+                <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}" rendered="#{userDataBean.profileAdded and not userDataBean.ownProfile}" update=":buttons" ajax="false">
                 <f:param name="contactName" value="#{userDataBean.user.username}" />
                 </p:commandButton>
-                <p:commandButton value="Remove Contact" action="#{userDataBean.removeContact()}" rendered="#{userDataBean.showRemoveContactBtn==true}">
+                <p:commandButton value="Remove Contact" action="#{userDataBean.removeContact()}" rendered="#{not userDataBean.profileAdded and not userDataBean.ownProfile}" update=":buttons" ajax="false">
                 <f:param name="contactName" value="#{userDataBean.user.username}" />
                 </p:commandButton>
-                
+
             </div>
             <h2>User-Profile</h2>
             <p:repeat value="#{userDataBean.user}" var="u">
