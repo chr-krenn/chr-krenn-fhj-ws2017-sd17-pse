@@ -1,17 +1,18 @@
 ## Tasks and Todos
 #### (Check only, delete only in meetings)
   * [x] PrivateMessageTest
-  * [ ] CommunityDAOTest
-  * [ ] UserDAOTest
+  * [x] CommunityDAOTest
+  * [x] UserDAOTest
   *	[ ] UserTest Entities
-  * [ ] PrivateMessageDAOTest 
   * [ ] PrivateMessage Entities
   * [x] EnumerationDAOTest
   * [x] Suites removal
   * [x] HowTo
   * [x] Namenskonvention
-  * [ ] Dokumentation
+  * [ ] Dokumentation JavaDoc
   * [x] Ana noch dem Ondren
-
+  * [ ] insert.sql
+  * [ ] DB-Entwicklung mit UserStories vergleichen
   
-  
+  Mit Vorbehalt gilt ab 20.11.2017
+  * [ ] UserStories der 2. Iteration hier erfassen 
