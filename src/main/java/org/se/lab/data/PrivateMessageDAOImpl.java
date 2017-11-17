@@ -20,16 +20,16 @@ public class PrivateMessageDAOImpl implements PrivateMessageDAO
 	}
 
 	@Override
-	public PrivateMessage insert(PrivateMessage privateMessage) {
-		LOG.info("insert(" + privateMessage + ")");
-        em.persist(privateMessage);
-        return privateMessage;
+	public PrivateMessage insert(PrivateMessage privatemessage) {
+		LOG.info("insert(" + privatemessage + ")");
+        em.persist(privatemessage);
+        return privatemessage;
 	}
 
 	@Override
-	public void delete(PrivateMessage privateMessage) {
-		LOG.info("delete(" + privateMessage + ")");
-        em.remove(privateMessage);
+	public void delete(PrivateMessage privatemessage) {
+		LOG.info("delete(" + privatemessage + ")");
+        em.remove(privatemessage);
 	}
 
 	@Override

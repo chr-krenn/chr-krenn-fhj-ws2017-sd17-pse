@@ -1,0 +1,17 @@
+## Tasks and Todos
+#### (Check only, delete only in meetings)
+  * [x] PrivateMessageTest
+  * [ ] CommunityDAOTest
+  * [ ] UserDAOTest
+  *	[ ] UserTest Entities
+  * [ ] PrivateMessageDAOTest 
+  * [ ] PrivateMessage Entities
+  * [x] EnumerationDAOTest
+  * [x] Suites removal
+  * [x] HowTo
+  * [x] Namenskonvention
+  * [ ] Dokumentation
+  * [x] Ana noch dem Ondren
+
+  
+  

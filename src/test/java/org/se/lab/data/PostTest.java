@@ -95,27 +95,51 @@ public class PostTest {
 	
 	@Test
 	public void testLikePost() {
-		Enumeration alike = new Enumeration(1, "Like");
+		Enumeration alike = new Enumeration(1);
+		alike.setName("Like");
 		User user = new User();
-		EnumerationItem item = new EnumerationItem(1);
-		item.setEnumeration(alike);
-		item.setUser(user);
-		item.setPost(post);
+		alike.addUserToLike(user);
 		
-		post.addLikeToPost(item);
-		assertEquals(item, post.getLikes().get(0));
+		post.addLike(alike);
+		assertTrue(post.getLikes().size() == 1);
+		assertEquals(alike, post.getLikes().get(0));
+		
+		// Add dame like again
+		post.addLike(alike);
+		assertTrue(post.getLikes().size() == 1);
+		assertEquals(alike, post.getLikes().get(0));
+		
+		// Post set in Like
+		alike = new Enumeration(2);
+		alike.addLikedPost(post);
+		post.addLike(alike);
+		assertTrue(post.getLikes().size() == 2);
+		assertEquals(alike, post.getLikes().get(1));
 	}
 	
 	@Test
-	public void testLikePostWithPostNotSetInItem() {
-		Enumeration alike = new Enumeration(1, "Like");
+	public void testRemoveLikePost() {
+		// Setup
+		Enumeration alike = new Enumeration(1);
+		alike.setName("Like");
 		User user = new User();
-		EnumerationItem item = new EnumerationItem(1);
-		item.setEnumeration(alike);
-		item.setUser(user);
+		assertNotNull(user);
+		alike.addUserToLike(user);
 		
-		post.addLikeToPost(item);
-		assertEquals(item, post.getLikes().get(0));
+		post.addLike(alike);
+		assertTrue(post.getLikes().size() == 1);
+		
+		// remove
+		alike.removeLike(user, post);
+		assertTrue(post.getLikes().size() == 0);
+		
+		// Like never added to post
+		alike.addLikedPost(post);
+		assertEquals(alike.getLikedPosts().get(0), post);
+		alike.removeLike(user, post);
+		assertTrue(post.getLikes().size() == 0);
+		assertTrue(alike.getLikedPosts().size() == 0);
+		
 	}
 	
 	@Test
@@ -130,10 +154,11 @@ public class PostTest {
 		post.setId(0);
 	}
 	
+	/* Community can be null
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidCommunityIsNull() {
 		post.setCommunity(null);
-	}
+	}*/
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidUserIsNull() {
@@ -147,7 +172,7 @@ public class PostTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidLikeIsNull() {
-		post.addLikeToPost(null);
+		post.addLike(null);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -174,20 +199,6 @@ public class PostTest {
 		post.setParentpost(post);
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testInvalidEnumItemPostDiffer() {
-		Enumeration alike = new Enumeration(1, "Like");
-		User user = new User();
-		EnumerationItem item = new EnumerationItem(1);
-		Post post2 = new Post(null, community, user, "Test text", new Date(180L));
-		item.setEnumeration(alike);
-		item.setUser(user);
-		item.setPost(post2);
-		
-		post.addLikeToPost(item);
-		assertEquals(item, post.getLikes().get(0));
-	}
-	
 	@Test(expected=AssertionError.class)
 	public void testCustomAssertEquals() {
 		assertEquals(null, post);
@@ -211,7 +222,7 @@ public class PostTest {
 			fail(actual + " post is not equal to expected " + expected);
 	}
 	
-	private void assertEquals(EnumerationItem expected, EnumerationItem actual) {
+	private void assertEquals(Enumeration expected, Enumeration actual) {
 		if (!actual.equals(expected))
 			fail(actual + " enumerationItem is not equal to expected " + expected);
 	}

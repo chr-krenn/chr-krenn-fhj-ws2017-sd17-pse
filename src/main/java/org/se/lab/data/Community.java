@@ -6,14 +6,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
@@ -21,7 +18,8 @@ import javax.persistence.JoinColumn;
  * 
  * @author Christian Hofer
  * 
- * The community is a group of users which have the same interests. Also workgroups or hobby-groups are able
+ *         The community is a group of users which have the same interests. Also
+ *         workgroups or hobby-groups are able
  *
  */
 
@@ -31,30 +29,34 @@ public class Community implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_TEXT_LENGTH = 65535;
-	private static final String MAX_TEXT_LENGTH_ERROR = "The given text is to long for field description. Max length = " + MAX_TEXT_LENGTH;
+	private static final String MAX_TEXT_LENGTH_ERROR = "The given text is to long for field description. Max length = "
+			+ MAX_TEXT_LENGTH;
 
 	/**
 	 * Community Class Constructor
-	 * @param name name of the community
-	 * @param description small description of the community
+	 * 
+	 * @param name
+	 *            name of the community
+	 * @param description
+	 *            small description of the community
 	 */
 	public Community(String name, String description) {
 		setName(name);
 		setDescription(description);
-		setState(new EnumerationItem(1));
 	}
+
 	/**
 	 * Constructor for Hibernate
 	 */
 	Community() {
 	}
-	
+
 	/**
 	 * id unique identifier for the community. Auto genereted by DB
 	 */
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	public int getId() {
@@ -66,9 +68,9 @@ public class Community implements Serializable {
 			throw new IllegalArgumentException();
 		this.id = id;
 	}
-	
+
 	@Column(name = "name", nullable = false, unique = false)
-	private  String name;
+	private String name;
 
 	public String getName() {
 		return name;
@@ -80,19 +82,13 @@ public class Community implements Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "description", columnDefinition="TEXT")
+	@Column(name = "description")
 	private String description;
 
 	public String getDescription() {
 		return description;
 	}
 
-	/**
-	 * Allows to set the description for Community
-	 * Must not be null or empty
-	 * Must not exceed 65535 characters in length
-	 * @param description
-	 */
 	public void setDescription(String description) {
 		if (description == null || description.trim().length() == 0)
 			throw new IllegalArgumentException();
@@ -101,13 +97,22 @@ public class Community implements Serializable {
 		this.description = description;
 	}
 
+	@Column(name = "picture")
+	private byte[] picture;
+
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+
 	/**
 	 * users is a list of users which are in the same community
 	 */
-	@ManyToMany
-	@JoinTable(name = "user_community", 
-	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "community_id"))
+
+	@ManyToMany(mappedBy = "communities")
 	private List<User> users = new ArrayList<User>();
 
 	public List<User> getUsers() {
@@ -115,8 +120,11 @@ public class Community implements Serializable {
 	}
 
 	/**
-	 * Method to add users to the community. This method sets the community of the user too.
-	 * @param user the user which is added
+	 * Method to add users to the community. This method sets the community of the
+	 * user too.
+	 * 
+	 * @param user
+	 *            the user which is added
 	 */
 	public void addUsers(User user) {
 		if (user == null)
@@ -124,24 +132,29 @@ public class Community implements Serializable {
 		users.add(user);
 		user.addCommunity(this);
 	}
-	
-	@ManyToOne
-	private EnumerationItem state;
-	
-	/**
-	 * Method to set state. The state is an EnumerationItem which proofs that no other state as specified in Enumerataion is used.
-	 * @param state
-	 */
-	public void setState(EnumerationItem state) {
-		if (state == null)
-			throw new IllegalArgumentException();
-		this.state = state;
-	}
-	
-	public EnumerationItem getState() {
+
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "enumeration_id")
+	private Enumeration state;
+
+	public Enumeration getState() {
 		return state;
 	}
-	
+
+	/**
+	 * Method to set state. The state is an EnumerationItem which proofs that no
+	 * other state as specified in Enumerataion is used.
+	 * 
+	 * @param state
+	 */
+	public void setState(Enumeration state) {
+		if (state == null)
+			throw new IllegalArgumentException();
+
+		state.setCom(this);
+		this.state = state;
+	}
+
 	/**
 	 * Object Methods
 	 */

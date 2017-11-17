@@ -12,12 +12,15 @@ import javax.persistence.Persistence;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 public abstract class AbstractDAOTest {
 	
-	protected static final String persistencUnitName = "pse_test";
+	protected static final String persistencUnitName = "pse";
 	protected static EntityManagerFactory factory;
 	protected static EntityManager em;
 	protected static EntityTransaction tx;
+	protected static EnumerationDAOImpl edao = new EnumerationDAOImpl();
 	
 	
 	@BeforeClass
@@ -28,10 +31,28 @@ public abstract class AbstractDAOTest {
 		assertNotNull(em);
 		tx = em.getTransaction();
 		assertNotNull(tx);
+		
+		// Everyone needs Enumeration anyways
+		edao.setEntityManager(em);
+		tx.begin();
+		for (int i = 1; i <= 7; i++) { 
+			if (edao.findById(i) == null)
+				edao.createEnumeration(i);
+		}
+		tx.commit();
 	}
 	
 	@AfterClass
 	public static void disconnect() {
+		/*//Destroy Enums -- Messes with Tests, rather truncate before deploy
+		tx.begin();
+		List<Enumeration> enums = edao.findAll();
+		for (int i = enums.size() - 1; i >= 0; i--) { 
+			edao.delete(enums.get(i));
+		}
+		tx.commit();
+		*/
+		
 		if(em == null) return;
 		em.close();
 		factory.close();

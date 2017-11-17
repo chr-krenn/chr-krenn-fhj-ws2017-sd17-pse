@@ -86,7 +86,7 @@ public class UserTest
 		
 		@Test
 		public void testToString() {
-			String s = "User [id=1, username=Test User, password=test]";
+			String s = "User [id=1, username=Test User]";
 			Assert.assertTrue(user.toString().equals(s));
 		}
 		

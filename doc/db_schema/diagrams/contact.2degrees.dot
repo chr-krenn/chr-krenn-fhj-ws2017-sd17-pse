@@ -19,13 +19,14 @@ digraph "twoDegreesRelationshipsDiagram" {
   edge [
     arrowsize="0.8"
   ];
-  "contact":"user_id":w -> "users":"ID":e [arrowhead=none dir=back arrowtail=crowodot];
-  "enumeration_item":"elipses":w -> "post":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
-  "enumeration_item":"elipses":w -> "users":"ID":e [arrowhead=none dir=back arrowtail=crowodot];
-  "post":"elipses":w -> "users":"ID":e [arrowhead=none dir=back arrowtail=crowodot];
-  "privateMessage":"elipses":w -> "users":"ID":e [arrowhead=none dir=back arrowtail=crowodot];
-  "privateMessage":"elipses":w -> "users":"ID":e [arrowhead=none dir=back arrowtail=crowodot];
-  "user_community":"elipses":w -> "users":"ID":e [arrowhead=none dir=back arrowtail=crowodot];
+  "contact":"user_id":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "enumeration_item":"elipses":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "likes":"elipses":w -> "post":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
+  "likes":"elipses":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "post":"elipses":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "private_message":"elipses":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "private_message":"elipses":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "user_community":"elipses":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "users":"fk_userprofile":w -> "userprofile":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
   "contact" [
     label=<
@@ -44,10 +45,20 @@ digraph "twoDegreesRelationshipsDiagram" {
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">enumeration_item</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="enumeration_item.html"
     tooltip="enumeration_item"
+  ];
+  "likes" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">likes</TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="likes.html"
+    tooltip="likes"
   ];
   "post" [
     label=<
@@ -59,15 +70,15 @@ digraph "twoDegreesRelationshipsDiagram" {
     URL="post.html"
     tooltip="post"
   ];
-  "privateMessage" [
+  "private_message" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">privateMessage</TD></TR>
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">private_message</TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
-    URL="privateMessage.html"
-    tooltip="privateMessage"
+    URL="private_message.html"
+    tooltip="private_message"
   ];
   "user_community" [
     label=<
@@ -93,11 +104,11 @@ digraph "twoDegreesRelationshipsDiagram" {
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">users</TD></TR>
-      <TR><TD PORT="ID" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">ID</TD></TR>
-      <TR><TD PORT="PASSWORD" COLSPAN="3" ALIGN="LEFT">PASSWORD</TD></TR>
-      <TR><TD PORT="USERNAME" COLSPAN="3" ALIGN="LEFT">USERNAME</TD></TR>
+      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
+      <TR><TD PORT="password" COLSPAN="3" ALIGN="LEFT">password</TD></TR>
+      <TR><TD PORT="username" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">username</TD></TR>
       <TR><TD PORT="fk_userprofile" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_userprofile</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">6 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">7 &gt;</TD></TR>
     </TABLE>>
     URL="users.html"
     tooltip="users"
