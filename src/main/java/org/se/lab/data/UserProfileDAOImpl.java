@@ -13,16 +13,18 @@ public class UserProfileDAOImpl implements UserProfileDAO {
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * @param em
+     *      em to get instance for testing
+     */
 
     public void setEntityManager(EntityManager em) {
         this.em = em;
     }
 
-
-	/*
-	 * CRUD Operations
-	 */
-
+    /**
+     * insert method to add userprofile
+     */
 
     @Override
     public UserProfile insert(UserProfile up) {
@@ -31,6 +33,10 @@ public class UserProfileDAOImpl implements UserProfileDAO {
         return up;
     }
 
+    /**
+     * update method to change existing userprofile
+     */
+
     @Override
     public UserProfile update(UserProfile up) {
         LOG.info("update(" + up + ")");
@@ -38,17 +44,29 @@ public class UserProfileDAOImpl implements UserProfileDAO {
         return up;
     }
 
+    /**
+     * delete method to remove existing userprofile
+     */
+
     @Override
     public void delete(UserProfile up) {
         LOG.info("delete(" + up + ")");
         em.remove(up);
     }
 
+    /**
+     * findById method to find existing userprofile by ID in DB.
+     */
+
     @Override
     public UserProfile findById(int id) {
         LOG.info("findById(" + id + ")");
         return em.find(UserProfile.class, id);
     }
+
+    /**
+     * find all method to find all existing userprofile in DB.
+     */
 
     @Override
     public List<UserProfile> findAll() {

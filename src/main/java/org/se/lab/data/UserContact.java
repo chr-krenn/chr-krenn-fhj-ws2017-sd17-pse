@@ -3,11 +3,27 @@ package org.se.lab.data;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ *
+ *  @author Christopher Wegl
+ *
+ *          UserContact junction object with user and contact
+ *
+ */
+
 @Entity
 @Table(name = "contact")
 public class UserContact implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     * @param user
+     *        user object
+     * @param contact
+     *        contact id which gets connected to user object
+     */
 
     public UserContact(User user, int contact)
     {
@@ -15,9 +31,17 @@ public class UserContact implements Serializable {
         setContactId(contact);
     }
 
+    /**
+     * Constructor for Hibernate
+     */
+
     protected UserContact()
     {
     }
+
+    /**
+     * id unique identifier for the usercontact. Auto genereted by DB.
+     */
 
     @Id
     @Column(name = "id")
@@ -28,7 +52,11 @@ public class UserContact implements Serializable {
         return id;
     }
 
-    @ManyToOne
+    /**
+     * user mapping of object of user
+     */
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
     private User user;
 
@@ -43,6 +71,9 @@ public class UserContact implements Serializable {
         return user;
     }
 
+    /**
+     * usercontact mapping with id of contact
+     */
 
     @Column(name = "fk_contact_id")
     private int contact;

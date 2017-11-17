@@ -3,11 +3,48 @@ package org.se.lab.data;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ *
+ * @author Christopher Wegl
+ *
+ *         Userprofile is a user specific entity which keeps personal attributes.
+ *
+ */
+
 @Entity
 @Table(name = "userprofile")
 public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * UserProfile Class Constructor
+     *
+     * @param firstname
+     *          firstname of the user
+     * @param lastname
+     *          lastname  of the user
+     * @param address
+     *          address of user
+     * @param plz
+     *          plz of user
+     * @param city
+     *          city of user
+     * @param country
+     *          country of user
+     * @param room
+     *          room of user's company
+     * @param team
+     *          team which user participate in
+     * @param email
+     *          email address of user
+     * @param phone
+     *          phone number of user
+     * @param mobile
+     *          mobile phone number of user
+     * @param description
+     *          description added by user
+     */
 
     public UserProfile(String firstname, String lastname, String address, String plz, String city, String country, String room, String team, String email, String phone, String mobile, String description) {
         setFirstname(firstname);
@@ -24,9 +61,16 @@ public class UserProfile implements Serializable {
         setDescription(description);
     }
 
+    /**
+     * Constructor for Hibernate
+     */
+
     protected UserProfile() {
     }
 
+    /**
+     * id unique identifier for the userprofile. Auto genereted by DB.
+     */
 
     @Id
     @Column(name = "id")
@@ -65,6 +109,11 @@ public class UserProfile implements Serializable {
         this.lastname = lastname;
     }
 
+    /**
+     *
+     * @param picture
+     *          userprofile picture
+     */
 
     @Column(name = "picture")
     private byte[] picture;
@@ -199,6 +248,9 @@ public class UserProfile implements Serializable {
         this.description = description;
     }
 
+    /**
+     * user mapping of object of user
+     */
 
     @OneToOne (mappedBy="userprofile")
     private User user;

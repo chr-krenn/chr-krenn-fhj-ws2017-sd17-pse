@@ -17,12 +17,20 @@ public class UserContactDAOImpl implements UserContactDAO {
         this.em = em;
     }
 
+    /**
+     * insert method to add a new contact in DB.
+     */
+
     @Override
     public UserContact insert(UserContact contact) {
         LOG.info("insert(" + contact + ")");
         em.persist(contact);
         return contact;
     }
+
+    /**
+     * update contact object in DB.
+     */
 
     @Override
     public UserContact update(UserContact contact) {
@@ -31,11 +39,19 @@ public class UserContactDAOImpl implements UserContactDAO {
         return contact;
     }
 
+    /**
+     * delete contact object
+     */
+
     @Override
     public void delete(UserContact contact) {
         LOG.info("delete(" + contact + ")");
         em.remove(contact);
     }
+
+    /**
+     *  find all contact objects in DB.
+     */
 
     @SuppressWarnings("unchecked")
 	@Override
@@ -45,17 +61,39 @@ public class UserContactDAOImpl implements UserContactDAO {
         return em.createQuery(hql).getResultList();
     }
 
+    /**
+     *  find contact objects by ID in DB.
+     */
+
     @Override
     public UserContact findById(int id) {
         LOG.info("findById(" + id + ")");
         return em.find(UserContact.class, id);
     }
 
+    /**
+     *
+     * @param contactId
+     * @param userId
+     *
+     * checks if user exists in DB.
+     *
+     */
+
     @Override
     public boolean doesContactExistForUserId(int contactId,int userId){
         final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc WHERE uc.user = " + userId + " AND uc.contact = " + contactId;
         return em.createQuery(hql).getResultList().isEmpty() ? false : true;
     }
+
+    /**
+     *
+     * @param contactId
+     * @param userId
+     *
+     * deletes contact where user id and contact id matches
+     *
+     */
 
     @Override
     public void deleteContactForUserIdAndContactId(int contactId,int userId){
