@@ -14,5 +14,6 @@ public interface UserContactDAO {
 
     boolean doesContactExistForUserId(int id, int userId);
     void deleteContactForUserIdAndContactId(int contactId,int userId);
+    List<UserContact> findContactsbyUser(User user);
 
 }

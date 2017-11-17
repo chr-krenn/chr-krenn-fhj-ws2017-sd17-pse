@@ -32,19 +32,19 @@ INSERT INTO enumeration (name) VALUES ('LIKE'); 		-- 7
 
 -- create user profiles for admin, bob, alice and frank
 INSERT INTO userprofile (firstname, lastname, picture, address, plz, city, country, room, team, email, phone, mobile, description)
-VALUES ('Homer', 'Simpson', 'randompicture', 'Greenstreet 8', '8010', 'USA','Springfield', 'USA', '7-G', 'Sierra' 'ho.j.simpson@example.com', '555-1234', '31337', 'Technician');
+VALUES ('Homer', 'Simpson', null , 'Greenstreet 8', '8010', 'USA','Springfield', 'USA', '7-G', 'Sierra' 'ho.j.simpson@example.com', '555-1234', '31337', 'Technician');
 
 INSERT INTO userprofile (firstname, lastname, picture, address, plz, city, country, room, team, email, phone, mobile, description)
-VALUES ('Bob', 'Carter', 'randompicture', 'Abbey 12', '51E232', 'London', 'England', '4A','Alpha','bob.carter@example.com', '555-1235', '065762', 'CIO');
+VALUES ('Bob', 'Carter', null , 'Abbey 12', '51E232', 'London', 'England', '4A','Alpha','bob.carter@example.com', '555-1235', '065762', 'CIO');
 
 INSERT INTO userprofile (firstname, lastname, picture, address, plz, city, country, room, team, email, phone, mobile, description)
-VALUES ('Alice', 'Carroll', 'randompicture', 'Neuholdgasse 123', '1130', 'Vienna', 'Austria', '24B 12','Dev', 'a.carroll@example.com', '555-1236', '065762', 'Accounting');
+VALUES ('Alice', 'Carroll', null, 'Neuholdgasse 123', '1130', 'Vienna', 'Austria', '24B 12','Dev', 'a.carroll@example.com', '555-1236', '065762', 'Accounting');
 
 INSERT INTO userprofile (firstname, lastname, picture, address, plz, city, country, room, team, email, phone, mobile, description)
-VALUES ('Frank', 'Morlar', 'randompicture', 'ølmek', '83ne1', 'Olso', 'Norway', '103','Tester','fm@example.com', '555-1237', '065762', 'HR');
+VALUES ('Frank', 'Morlar', null, 'ølmek', '83ne1', 'Olso', 'Norway', '103','Tester','fm@example.com', '555-1237', '065762', 'HR');
 
 INSERT INTO userprofile (firstname, lastname, picture, address, plz, city, country, room, team, email, phone, mobile, description)
-VALUES ('Maria', 'Datenbank', 'randompicture', 'Decentralization', '00000', 'Kansas', 'USA','404', 'DB', 'gmail@hotmail.gmx', '555-666666', '066000', 'Datenbank');
+VALUES ('Maria', 'Datenbank', null , 'Decentralization', '00000', 'Kansas', 'USA','404', 'DB', 'gmail@hotmail.gmx', '555-666666', '066000', 'Datenbank');
 
 -- create users
 INSERT INTO users(username, password, fk_userprofile) VALUES ('admin', 'pass', 1);

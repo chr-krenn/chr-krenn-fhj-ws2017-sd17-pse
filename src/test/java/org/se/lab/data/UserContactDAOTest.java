@@ -9,18 +9,20 @@ import java.util.List;
 public class UserContactDAOTest extends AbstractDAOTest {
 
     private User u = new User("James", "***");
-    private UserContact uc = new UserContact(u,2);
+    private UserProfile up = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43", "MI6", "james.bond@gmail.com", "test", "test", "test userprofile");
+    private UserContact uc = new UserContact(u, 2);
     private UserContact uc2 = new UserContact(u, 3);
 
     private UserDAOImpl udao = new UserDAOImpl();
     private UserContactDAOImpl ucdao = new UserContactDAOImpl();
-
+    private UserProfileDAOImpl updao = new UserProfileDAOImpl();
 
     @Before
     @Override
     public void setup() {
         tx.begin();
         udao.setEntityManager(em);
+        updao.setEntityManager(em);
         ucdao.setEntityManager(em);
 
     }
@@ -73,15 +75,49 @@ public class UserContactDAOTest extends AbstractDAOTest {
     public void testdoesContactExistForUserIdtrue() {
         udao.insert(u);
         ucdao.insert(uc);
-        Assert.assertTrue(ucdao.doesContactExistForUserId(2,u.getId()));
+        Assert.assertTrue(ucdao.doesContactExistForUserId(2, u.getId()));
     }
 
     @Test
     public void testdoesContactExistForUserIdfalse() {
         udao.insert(u);
         ucdao.insert(uc);
-        Assert.assertFalse(ucdao.doesContactExistForUserId(-1,u.getId()));
+        Assert.assertFalse(ucdao.doesContactExistForUserId(-1, u.getId()));
     }
+
+    @Test
+    public void testdeleteContactForUserIdAndContactId() {
+        udao.insert(u);
+        ucdao.insert(uc);
+        Assert.assertTrue(ucdao.doesContactExistForUserId(2, u.getId()));
+        ucdao.deleteContactForUserIdAndContactId(2, u.getId());
+        Assert.assertFalse(ucdao.doesContactExistForUserId(2, u.getId()));
+    }
+
+    @Test
+    public void findContactbyUser() {
+        udao.insert(u);
+        ucdao.insert(uc);
+        ucdao.insert(uc2);
+
+        List<UserContact> ucs = ucdao.findContactsbyUser(u);
+        Assert.assertEquals(2, ucs.size());
+
+        Assert.assertEquals(2, ucs.get(0).getContactId());
+        Assert.assertEquals(3, ucs.get(1).getContactId());
+    }
+
+    @Test
+    public void findContactbyUsernot() {
+        udao.insert(u);
+        ucdao.insert(uc);
+        ucdao.insert(uc2);
+
+        List<UserContact> ucs = ucdao.findContactsbyUser(u);
+        Assert.assertNotEquals(1, ucs.size());
+
+    }
+
 
     @Test
     public void testUserbyContact() {
@@ -97,6 +133,26 @@ public class UserContactDAOTest extends AbstractDAOTest {
         Assert.assertEquals("***", ucs.get(0).getUser().getPassword());
 
         Assert.assertEquals(2, ucs.get(0).getContactId());
+    }
+
+    @Test
+    public void testUserProfilebyContact() {
+        udao.insert(u);
+        ucdao.insert(uc);
+        updao.insert(up);
+        u.setUserProfile(up);
+
+        List<UserContact> ucs = ucdao.findAll();
+        Assert.assertEquals(1, ucs.size());
+        Assert.assertEquals(uc.getId(), ucs.get(0).getId());
+
+        Assert.assertEquals(up.getId(), ucs.get(0).getUser().getUserProfile().getId());
+        Assert.assertEquals("James", ucs.get(0).getUser().getUserProfile().getFirstname());
+        Assert.assertEquals("Bond", ucs.get(0).getUser().getUserProfile().getLastname());
+        Assert.assertEquals("james.bond@gmail.com", ucs.get(0).getUser().getUserProfile().getEmail());
+
+        Assert.assertEquals(2, ucs.get(0).getContactId());
+
     }
 
 }
