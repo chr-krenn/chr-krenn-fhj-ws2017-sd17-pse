@@ -10,11 +10,13 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	private static EnumerationDAOImpl dao = new EnumerationDAOImpl();
 	private static UserDAOImpl userDao = new UserDAOImpl();
 	private static PostDAOImpl postDao = new PostDAOImpl();
+	private static CommunityDAOImpl commDao = new CommunityDAOImpl();
 	
     static {
     	dao.setEntityManager(em);
     	userDao.setEntityManager(em);
     	postDao.setEntityManager(em);
+    	commDao.setEntityManager(em);
     }
 	    
 	@Test
@@ -97,6 +99,35 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 		Assert.assertEquals(pass, users.get(0).getPassword());
 	}
 	
+	@Test
+	public void testLikedUser() {
+		String name = "testLikedUser";
+		String username = "test";
+		String pass = "pass";
+		
+		User user = new User(username, pass);
+		userDao.insert(user);
+
+		Enumeration e = new Enumeration();
+		e.setName(name);
+		e.addUserToLike(user);
+				
+		dao.insert(e);
+		
+		int id = e.getId();
+		
+		Enumeration enumerationFound = dao.findById(id);
+		
+		Assert.assertNotNull(enumerationFound);
+		Assert.assertEquals(1, enumerationFound.getLikedBy().size());
+		Assert.assertEquals(username, enumerationFound.getLikedBy().get(0).getUsername());
+		Assert.assertEquals(pass, enumerationFound.getLikedBy().get(0).getPassword());
+		
+		List<User> users = dao.findLikedUsersByEnumeration(id);
+		Assert.assertEquals(1, users.size());
+		Assert.assertEquals(username, users.get(0).getUsername());
+		Assert.assertEquals(pass, users.get(0).getPassword());
+	}
 	
 	@Test
 	public void testPost() {
@@ -124,6 +155,34 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 		List<Post> posts = dao.findLikedPostsByEnumeration(id);
 		Assert.assertEquals(1, posts.size());
 		Assert.assertEquals(text, posts.get(0).getText());
+	}
+	
+	@Test
+	public void testCommunity() {
+		String name = "testCommunity";
+		String community = "Test";
+		
+		Community com = new Community();
+		com.setName(community);
+		commDao.insert(com);
+
+		Enumeration e = new Enumeration();
+		e.setName(name);
+		e.setCom(com);
+				
+		dao.insert(e);
+		
+		int id = e.getId();
+		
+		Enumeration enumerationFound = dao.findById(id);
+		
+		Assert.assertNotNull(enumerationFound);
+		Assert.assertEquals(1, enumerationFound.getCom().size());
+		Assert.assertEquals(community, enumerationFound.getCom().get(0).getName());
+		
+		List<Community> communities = dao.findCommunitiesByEnumeration(id);
+		Assert.assertEquals(1, communities.size());
+		Assert.assertEquals(community, communities.get(0).getName());
 	}
 	
 	@Test
