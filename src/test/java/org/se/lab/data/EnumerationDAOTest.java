@@ -8,9 +8,11 @@ import org.junit.Test;
 public class EnumerationDAOTest extends AbstractDAOTest {
 	
 	private static EnumerationDAOImpl dao = new EnumerationDAOImpl();
+	private static UserDAOImpl userDao = new UserDAOImpl();
 	
     static {
     	dao.setEntityManager(em);
+    	userDao.setEntityManager(em);
     }
 	    
 	@Test
@@ -61,6 +63,36 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 		Assert.assertNotNull(enumerationFound);
 		Assert.assertEquals(id, enumerationFound.getId());
 		Assert.assertEquals(name, enumerationFound.getName());
+	}
+	
+	@Test
+	public void testUser() {
+		String name = "testUser";
+		String username = "test";
+		String pass = "pass";
+		
+		User user = new User(username, pass);
+		userDao.insert(user);
+
+		Enumeration e = new Enumeration();
+		e.setName(name);
+		e.setUser(user);
+				
+		dao.insert(e);
+		
+		int id = e.getId();
+		
+		Enumeration enumerationFound = dao.findById(id);
+		
+		Assert.assertNotNull(enumerationFound);
+		Assert.assertEquals(1, enumerationFound.getUser().size());
+		Assert.assertEquals(username, enumerationFound.getUser().get(0).getUsername());
+		Assert.assertEquals(pass, enumerationFound.getUser().get(0).getPassword());
+		
+		List<User> users = dao.findUsersByEnumeration(id);
+		Assert.assertEquals(1, users.size());
+		Assert.assertEquals(username, users.get(0).getUsername());
+		Assert.assertEquals(pass, users.get(0).getPassword());
 	}
 	
 	@Test

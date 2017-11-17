@@ -205,7 +205,7 @@ public class User implements Serializable
 	}
 	
 	@ManyToMany(mappedBy="userroles")
-	private List<Enumeration> roles;
+	private List<Enumeration> roles = new ArrayList<Enumeration>();
 	public List<Enumeration> getRoles() {
 		return roles;
 	}
