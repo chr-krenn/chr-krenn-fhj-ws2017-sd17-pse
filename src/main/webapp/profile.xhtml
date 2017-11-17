@@ -21,10 +21,10 @@
             <p:layoutUnit position="center">
             <div class="buttons" id="buttons">
                 <p:commandButton value="Admin Area" action="adminPortal.xhtml?faces-redirect=true"/>
-                <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}" rendered="#{userDataBean.profileAdded and not userDataBean.ownProfile}" update=":buttons" ajax="false">
+                <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}" rendered="#{userDataBean.contactAddable and not userDataBean.ownProfile}" update=":buttons" ajax="false">
                 <f:param name="contactName" value="#{userDataBean.user.username}" />
                 </p:commandButton>
-                <p:commandButton value="Remove Contact" action="#{userDataBean.removeContact()}" rendered="#{not userDataBean.profileAdded and not userDataBean.ownProfile}" update=":buttons" ajax="false">
+                <p:commandButton value="Remove Contact" action="#{userDataBean.removeContact()}" rendered="#{not userDataBean.contactAddable and not userDataBean.ownProfile}" update=":buttons" ajax="false">
                 <f:param name="contactName" value="#{userDataBean.user.username}" />
                 </p:commandButton>
 

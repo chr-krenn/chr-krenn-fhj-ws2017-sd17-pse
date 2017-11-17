@@ -38,9 +38,9 @@ public class UserDataBean implements Serializable {
     private List<UserContact> contacts;
     private List<Community> communities;
     private String id = "";
-    private String hideAddRemove ="";
+    private String hideAddRemove = "";
     private int userId = 0;
-    private boolean isProfileAdded = false;
+    private boolean isContactAddable = false;
     private boolean ownProfile = false;
 
 
@@ -81,9 +81,7 @@ public class UserDataBean implements Serializable {
             }
 
 
-
             hideAddRemove = context.getExternalContext().getRequestParameterMap().get("hideAddRemove");
-
 
 
             flash.put("uid", id);
@@ -91,8 +89,7 @@ public class UserDataBean implements Serializable {
 
             String hideAddRemoveCheck = (String) context.getExternalContext().getFlash().get("hideAddRemove");
             //Hide Buttons for own profile
-            if("1".equals(hideAddRemoveCheck))
-            {
+            if ("1".equals(hideAddRemoveCheck)) {
                 setOwnProfile(true);
             }
 
@@ -114,7 +111,7 @@ public class UserDataBean implements Serializable {
             if (userProfId != null) {
 
                 user = getUser(Integer.parseInt(userProfId));
-                //isProfileAdded(true);
+                //isContactAddable(true);
 
 
                 //Holen des eingeloggten Users
@@ -123,11 +120,11 @@ public class UserDataBean implements Serializable {
                 //Kontaktliste des eingeloggten Users um zu prüfen ob wir den User des aktuellen
                 //Profils schon in der Kontaktliste haben
                 List<UserContact> loggedInContacts = service.getAllContactsByUser(loggedInUser);
-                setProfileAdded(true);
+                setContactAddable(true);
                 for (UserContact c : loggedInContacts) {
                     //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
                     if (c.getContactId() == user.getId()) {
-                        setProfileAdded(false);
+                        setContactAddable(false);
                     }
                 }
             } else {
@@ -156,7 +153,7 @@ public class UserDataBean implements Serializable {
 		 * e.printStackTrace(); }
 		 */
         } else {
-			/*
+            /*
 			 * If session is null - redirect to login page!
 			 *
 			 */
@@ -226,7 +223,7 @@ public class UserDataBean implements Serializable {
         //todo if works from dao
         service.addContact(loggedInUser, contactName);
 
-        setProfileAdded(true);
+        setContactAddable(false);
 
     }
 
@@ -243,7 +240,7 @@ public class UserDataBean implements Serializable {
         //todo if works from dao
         service.removeContact(loggedInUser, contactName);
 
-        setProfileAdded(false);
+        setContactAddable(true);
 
 
     }
@@ -277,12 +274,12 @@ public class UserDataBean implements Serializable {
         return "/profile.xhtml?faces-redirect=true";
     }
 
-    public boolean isProfileAdded() {
-        return isProfileAdded;
+    public boolean isContactAddable() {
+        return isContactAddable;
     }
 
-    public void setProfileAdded(boolean profileAdded) {
-        this.isProfileAdded = profileAdded;
+    public void setContactAddable(boolean contactAddable) {
+        this.isContactAddable = contactAddable;
     }
 
 
