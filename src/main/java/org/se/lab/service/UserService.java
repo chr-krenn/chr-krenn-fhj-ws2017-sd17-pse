@@ -82,7 +82,7 @@ public class UserService {
 
         User userToAdd = userDAO.findByUsername(contactName);
         if (!userContactDAO.doesContactExistForUserId(userToAdd.getId(),user.getId())) {
-            //todo remove id if possible
+
             UserContact userContact = new UserContact(user, userToAdd.getId());
             userContactDAO.insert(userContact);
         } else {
@@ -111,6 +111,7 @@ public class UserService {
     public List<UserContact> getAllContactsByUser(User user) {
         LOG.debug("get all contacts from " + user);
 
+        //todo wegl
         return userContactDAO.findAll().stream().filter(userContact -> userContact.getUser().equals(user)).collect(Collectors.toList());
     }
 
