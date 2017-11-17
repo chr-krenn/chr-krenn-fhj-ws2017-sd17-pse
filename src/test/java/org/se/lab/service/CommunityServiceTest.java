@@ -21,6 +21,7 @@ public class CommunityServiceTest {
     public static final String DESCRIPTION = "description";
     public static final Enumeration APPROVE_STATE = new Enumeration(2);
     public static final Enumeration PENDING_STATE = new Enumeration(1);
+    public static final Enumeration REFUSED_STATE = new Enumeration(3);
 
     @TestSubject
     private CommunityService communityService = new CommunityService();
@@ -33,6 +34,8 @@ public class CommunityServiceTest {
 
     private Community community1;
     private Community community2;
+    private Community community3;
+
     List<Community> communities;
 
     @Before
@@ -41,6 +44,8 @@ public class CommunityServiceTest {
         community1.setState(APPROVE_STATE);
         community2 = new Community("name2", "description2");
         community2.setState(PENDING_STATE);
+        community3 = new Community("name3", "description3");
+        community3.setState(REFUSED_STATE);
 
         communities = new ArrayList<>();
     }
@@ -136,4 +141,22 @@ public class CommunityServiceTest {
 
         communityService.findById(ID);
     }
+
+    @Test
+    public void refuse_Successful(){
+        community3.setState(PENDING_STATE);
+
+        expect(communityDAO.update(community3)).andReturn(community3);
+        replay(communityDAO);
+
+        communityService.refuse(community3);
+
+        Assert.assertThat(community3.getState(), is(REFUSED_STATE));
+    }
+
+    @Test (expected = ServiceException.class)
+    public void refuse_Fail(){
+        communityService.refuse(community3);
+    }
+
 }
