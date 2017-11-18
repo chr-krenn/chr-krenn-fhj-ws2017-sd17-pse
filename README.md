@@ -49,9 +49,13 @@ To run the Application correctly __insert some sample data__. Without them no lo
 <pre>
 mysql -u root -p
 </pre>
-Now run the insert sql script which you can find in __sql directory__ of the app.
+Now run the insert sql script which you can find in __sql directory__ of the app. To add just a few test entries execute
 <pre>
 source sql/insert.sql;
+</pre>
+To add a bigger set of sample data for about 200 users including realistic user profiles, contacts, etc. execute
+<pre>
+source sql/insert_sample_data.sql;
 </pre>
 
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
