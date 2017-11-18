@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 
 public class CommunityDAOImpl implements CommunityDAO{
 	
@@ -44,7 +45,10 @@ public class CommunityDAOImpl implements CommunityDAO{
 	 */
 	@Override
 	public Community findById(int id) {
-		return em.find(Community.class, id);
+		Community c  = em.find(Community.class, id);
+		Hibernate.initialize(c.getState());
+		Hibernate.initialize(c.getUsers());
+		return c;
 	}
 	
 	/**
@@ -59,7 +63,10 @@ public class CommunityDAOImpl implements CommunityDAO{
 		criteria.where(builder.equal(community.get("name"), name));
 		TypedQuery<Community> query = em.createQuery(criteria);
 		try {
-			return query.getSingleResult();
+			Community c = query.getSingleResult();
+			Hibernate.initialize(c.getState());
+			Hibernate.initialize(c.getUsers());
+			return c;
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -76,7 +83,12 @@ public class CommunityDAOImpl implements CommunityDAO{
 		criteria.where(builder.equal(community.get("state"), new Enumeration(1)));
 		TypedQuery<Community> query = em.createQuery(criteria);
 		try {
-			return query.getResultList();
+			List <Community> coms = query.getResultList();
+			for(Community c : coms) {
+				Hibernate.initialize(c.getState());
+				Hibernate.initialize(c.getUsers());
+			}
+			return coms;
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -93,7 +105,12 @@ public class CommunityDAOImpl implements CommunityDAO{
 		criteria.where(builder.equal(community.get("state"), new Enumeration(2)));
 		TypedQuery<Community> query = em.createQuery(criteria);
 		try {
-			return query.getResultList();
+			List <Community> coms = query.getResultList();
+			for(Community c : coms) {
+				Hibernate.initialize(c.getState());
+				Hibernate.initialize(c.getUsers());
+			}
+			return coms;
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -105,8 +122,13 @@ public class CommunityDAOImpl implements CommunityDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Community> findAll() {
-		final String hql = "SELECT c FROM " + Community.class.getName() + " AS c";	    
-	    return em.createQuery(hql).getResultList();
+		final String hql = "SELECT c FROM " + Community.class.getName() + " AS c";
+		List<Community> coms = em.createQuery(hql).getResultList();
+		for(Community c : coms) {
+			Hibernate.initialize(c.getState());
+			Hibernate.initialize(c.getUsers());
+		}
+		return coms;
 	}
 
 	@Override

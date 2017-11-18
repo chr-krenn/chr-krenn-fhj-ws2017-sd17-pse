@@ -107,9 +107,9 @@ public class UserDataBean implements Serializable {
             LOG.info("SESSIOn UID: " + userId);
 
 
-            communities.add(new Community("C1", "NewC1"));
-            communities.add(new Community("C2", "NewC2"));
-            communities.add(new Community("C3", "NewC3"));
+            //communities.add(new Community("C1", "NewC1"));
+            //communities.add(new Community("C2", "NewC2"));
+            //communities.add(new Community("C3", "NewC3"));
 
             //Wr befinden uns auf einem Profil eines anderen Users
             if (userProfId != null) {
