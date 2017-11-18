@@ -30,6 +30,7 @@
     
 	<p:commandButton value="#{headerBean.username}" action="#{userDataBean.redirect()}" >
 	<f:param name="hideAddRemove" value="1" />
+	<f:param name="fromHeader" value="1" />
 	</p:commandButton>
 	<p:spacer width="30" height="10" />
 	<p:commandButton value="Logout" action="#{loginBean.logout()}" />

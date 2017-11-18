@@ -43,6 +43,7 @@ public class UserDataBean implements Serializable {
     private List<Community> communities;
     private String id = "";
     private String hideAddRemove = "";
+    private String fromHeader = "";
     private int userId = 0;
     private boolean isContactAddable = false;
     private boolean ownProfile = false;
@@ -86,12 +87,14 @@ public class UserDataBean implements Serializable {
 
 
             hideAddRemove = context.getExternalContext().getRequestParameterMap().get("hideAddRemove");
-
+            fromHeader = context.getExternalContext().getRequestParameterMap().get("fromHeader");
 
             flash.put("uid", id);
             flash.put("hideAddRemove", hideAddRemove);
+            flash.put("fromHeader", fromHeader);
 
             String hideAddRemoveCheck = (String) context.getExternalContext().getFlash().get("hideAddRemove");
+            String fromHeaderCheck = (String) context.getExternalContext().getFlash().get("fromHeader");
             //Hide Buttons for own profile
             if ("1".equals(hideAddRemoveCheck)) {
                 setOwnProfile(true);
@@ -106,10 +109,11 @@ public class UserDataBean implements Serializable {
 
             LOG.info("SESSIOn UID: " + userId);
 
-
-            //communities.add(new Community("C1", "NewC1"));
-            //communities.add(new Community("C2", "NewC2"));
-            //communities.add(new Community("C3", "NewC3"));
+            
+            	if(fromHeaderCheck != null && fromHeaderCheck.equals("1"))
+            	{
+            		userProfId = null;
+            	}
 
             //Wr befinden uns auf einem Profil eines anderen Users
             if (userProfId != null) {
@@ -145,7 +149,7 @@ public class UserDataBean implements Serializable {
 
 
             userProfile = service.getUserProfilById(user.getId());
-
+            
 
             //show ContactButton only if profil is not mine
 
@@ -168,6 +172,7 @@ public class UserDataBean implements Serializable {
                 //e.printStackTrace();
             }
         }
+        
     }
 
     public User getUser(int id) {

@@ -16,7 +16,7 @@
             <h:outputStylesheet library="css" name="style.css"/>
         </div>
         <div id="content">
-            <h1>Profile</h1>
+            
             <p:layout style="min-width:400px;min-height:600px;">
                 <p:layoutUnit position="center">
                     <div class="buttons" id="buttons">
@@ -107,7 +107,7 @@
                                     <p:outputPanel>
                                         <h:panelGrid columns="2" cellpadding="5">
                                             <h:outputText value="Id:"/>
-                                            <h:outputText value="#{contact.id}" style="font-weight: bold"/>
+                                            <h:outputText value="#{contact.getContactId()}" style="font-weight: bold"/>
                                             <h:outputText value="Username"/>
                                             <h:outputText value="#{contact.user.username}" style="font-weight: bold"/>
 
