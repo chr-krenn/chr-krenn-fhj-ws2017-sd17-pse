@@ -221,4 +221,23 @@ public class UserService {
     public void addPictureToProfile(UserProfile userProfile) {
         userProfileDAO.update(userProfile);
     }
+
+    public boolean hasUserTheRole(ROLE privileg, User user) {
+        User loadedUser = findById(user.getId());
+        List<Enumeration> roles = loadedUser.getRoles();
+
+        for (Enumeration enumeration : roles) {
+            if (enumeration.getName().equals(privileg)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static class ROLE {
+        String ADMIN = "ADMIN";
+        String PORTALADMIN = "PORTALADMIN";
+        String USER = "USER";
+        String LIKE = "LIKE";
+    }
 }
