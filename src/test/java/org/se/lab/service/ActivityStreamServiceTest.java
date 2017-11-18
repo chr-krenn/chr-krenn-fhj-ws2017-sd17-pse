@@ -28,7 +28,7 @@ public class ActivityStreamServiceTest {
     public static final String NAME = "name";
     public static final int ID = 1;
     @TestSubject
-    private ActivityStreamService activityStreamService = new ActivityStreamService();
+    private ActivityStreamService activityStreamService = new ActivityStreamServiceImpl();
 
     @Rule
     public EasyMockRule mocks = new EasyMockRule(this);

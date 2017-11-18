@@ -24,7 +24,7 @@ public class UserServiceTest {
     public static final String PASSWORD = "password";
 
     @TestSubject
-    private UserService userService = new UserService();
+    private UserService userService = new UserServiceImpl();
 
     @Rule
     public EasyMockRule mocks = new EasyMockRule(this);

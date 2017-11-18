@@ -24,7 +24,7 @@ public class CommunityServiceTest {
     public static final Enumeration REFUSED_STATE = new Enumeration(3);
 
     @TestSubject
-    private CommunityService communityService = new CommunityService();
+    private CommunityService communityService = new CommunityServiceImpl();
 
     @Rule
     public EasyMockRule mocks = new EasyMockRule(this);

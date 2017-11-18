@@ -1,36 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.1" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="org.se.lab.service.UserService" project="chr-krenn-fhj-ws2017-sd17-pse" 
-    file="/chr-krenn-fhj-ws2017-sd17-pse/src/main/java/org/se/lab/service/UserService.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="170" y="214"/>    
+  <interface id="1" language="java" name="org.se.lab.service.CommunityService" project="pse" 
+    file="/pse/src/main/java/org/se/lab/service/CommunityService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="293" width="183" x="225" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="2" language="java" name="org.se.lab.service.CommunityServiceImpl" project="pse" 
+    file="/pse/src/main/java/org/se/lab/service/CommunityServiceImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="293" width="183" x="225" y="64"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="org.se.lab.service.CommunityService" project="chr-krenn-fhj-ws2017-sd17-pse" 
-    file="/chr-krenn-fhj-ws2017-sd17-pse/src/main/java/org/se/lab/service/CommunityService.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="358" y="223"/>    
+  <interface id="3" language="java" name="org.se.lab.service.UserService" project="pse" 
+    file="/pse/src/main/java/org/se/lab/service/UserService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="347" width="275" x="448" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="4" language="java" name="org.se.lab.service.UserServiceImpl.ROLE" project="pse" 
+    file="/pse/src/main/java/org/se/lab/service/UserServiceImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="149" width="138" x="763" y="595"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="org.se.lab.service.ActivityStreamService" project="chr-krenn-fhj-ws2017-sd17-pse" 
-    file="/chr-krenn-fhj-ws2017-sd17-pse/src/main/java/org/se/lab/service/ActivityStreamService.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="606" y="217"/>    
+  <class id="5" language="java" name="org.se.lab.service.UserServiceImpl" project="pse" 
+    file="/pse/src/main/java/org/se/lab/service/UserServiceImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="491" width="275" x="606" y="64"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
+  <interface id="6" language="java" name="org.se.lab.service.ActivityStreamService" project="pse" 
+    file="/pse/src/main/java/org/se/lab/service/ActivityStreamService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="167" width="258" x="941" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="7" language="java" name="org.se.lab.service.ActivityStreamServiceImpl" project="pse" 
+    file="/pse/src/main/java/org/se/lab/service/ActivityStreamServiceImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="221" width="258" x="941" y="64"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="8">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
+  <realization id="9">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <realization id="10">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <nesting id="11">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="4"/>  
+  </nesting>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

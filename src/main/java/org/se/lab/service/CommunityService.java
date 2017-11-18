@@ -1,128 +1,35 @@
 package org.se.lab.service;
 
-import org.apache.log4j.Logger;
+import java.util.List;
+
 import org.se.lab.data.Community;
-import org.se.lab.data.CommunityDAO;
 import org.se.lab.data.Enumeration;
 import org.se.lab.data.User;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import java.util.List;
+public interface CommunityService {
 
-@Stateless
-public class CommunityService {
-    public static final Enumeration PENDING = new Enumeration(1);
-    public static final Enumeration APPROVED = new Enumeration(2);
-    public static final Enumeration REFUSED = new Enumeration(3);
-    private final Logger LOG = Logger.getLogger(CommunityService.class);
+	Enumeration PENDING = new Enumeration(1);
+	Enumeration APPROVED = new Enumeration(2);
+	Enumeration REFUSED = new Enumeration(3);
 
-    @Inject
-    private CommunityDAO dao;
+	List<Community> findAll();
 
-    public List<Community> findAll() {
-        try {
-            return dao.findAll();
-        } catch (Exception e) {
-            LOG.error("Error during findAll Communities", e);
-            throw new ServiceException("Error during findAll Communities");
-        }
-    }
+	List<Community> getApproved();
 
-    public List<Community> getApproved() {
-        LOG.debug("getApproved Communities ");
+	List<Community> getPending();
 
-        try {
-            return dao.findApprovedCommunities();
-        } catch (Exception e) {
-            LOG.error("Can't findApprovedCommunities", e);
-            throw new ServiceException("Can't findApprovedCommunities");
-        }
-    }
+	void delete(Community community);
 
-    public List<Community> getPending() {
-        LOG.debug("getPending Communities");
+	void update(Community community);
 
-        try {
-            return dao.findPendingCommunities();
-        } catch (Exception e) {
-            LOG.error("Can't findPendingCommunities", e);
-            throw new ServiceException("Can't findPendingCommunities");
-        }
-    }
+	void join(Community community, User user);
 
-    public void delete(Community community) {
-        LOG.debug("delete " + community);
+	void request(Community community);
 
-        try {
-            dao.delete(community);
-        } catch (Exception e) {
-            LOG.error("Can't delete community " + community, e);
-            throw new ServiceException("Can't delete community " + community);
-        }
-    }
+	void approve(Community community);
 
-    public void update(Community community) {
-        LOG.debug("update " + community);
+	Community findById(int id);
 
-        try {
-            dao.update(community);
-        } catch (Exception e) {
-            LOG.error("Can't update community " + community, e);
-            throw new ServiceException("Can't update community " + community);
-        }
-    }
+	void refuse(Community community);
 
-    public void join(Community community, User user) {
-        LOG.debug("adding " + user + " to " + community);
-
-        if (community != null && user != null) {
-            community.addUsers(user);
-            update(community);
-        } else {
-            LOG.error("Can't join user " + user + " to community " + community);
-            throw new ServiceException("Can't join user " + user + " to community " + community);
-        }
-    }
-
-    public void request(Community community) {
-        LOG.debug("request " + community);
-        community.setState(PENDING);
-
-        try {
-            dao.insert(community);
-        } catch (Exception e) {
-            LOG.error("Can't insert community " + community, e);
-            throw new ServiceException("Can't insert community " + community);
-        }
-    }
-
-    public void approve(Community community) {
-        LOG.debug("approve " + community);
-        community.setState(APPROVED);
-
-        update(community);
-    }
-
-    public Community findById(int id) {
-        LOG.debug("findById " + id);
-
-        try {
-            return dao.findById(id);
-        } catch (Exception e) {
-            LOG.error("Can`t find Id " + id, e);
-            throw new ServiceException("Can`t find Id " + id);
-        }
-    }
-
-    public void refuse(Community community){
-        LOG.debug("refuse " + community);
-        if(community.getState().equals(PENDING)){
-            community.setState(REFUSED);
-            update(community);
-        }else {
-            LOG.error("Can`t refuse community " + community.getName());
-            throw new ServiceException("Can`t refuse community " + community.getName());
-        }
-    }
 }
