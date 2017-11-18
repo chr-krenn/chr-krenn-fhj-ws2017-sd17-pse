@@ -6,7 +6,6 @@ import org.hibernate.Hibernate;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -52,6 +51,7 @@ class UserDAOImpl
 		LOG.info("delete(" + user + ")");
 		em.remove(user);
 	}
+	
 
 	@Override
 	public User findById(int id)
