@@ -3,6 +3,8 @@ package org.se.lab.service;
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
 import org.se.lab.data.CommunityDAO;
+import org.se.lab.data.Enumeration;
+import org.se.lab.data.EnumerationDAO;
 import org.se.lab.data.User;
 
 import javax.ejb.Stateless;
@@ -13,8 +15,15 @@ import java.util.List;
 public class CommunityServiceImpl implements CommunityService {
     private final Logger LOG = Logger.getLogger(CommunityServiceImpl.class);
 
+    private final int PENDING = 1;
+    private final int APPROVED = 2;
+    private final int REFUSED = 3;
+    
     @Inject
-    private CommunityDAO dao;
+    private CommunityDAO communityDAO;
+    
+    @Inject
+    private EnumerationDAO enumerationDAO;
 
     /* (non-Javadoc)
 	 * @see org.se.lab.service.CommunityService#findAll()
@@ -22,7 +31,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
 	public List<Community> findAll() {
         try {
-            return dao.findAll();
+            return communityDAO.findAll();
         } catch (Exception e) {
             LOG.error("Error during findAll Communities", e);
             throw new ServiceException("Error during findAll Communities");
@@ -37,7 +46,7 @@ public class CommunityServiceImpl implements CommunityService {
         LOG.debug("getApproved Communities ");
 
         try {
-            return dao.findApprovedCommunities();
+            return communityDAO.findApprovedCommunities();
         } catch (Exception e) {
             LOG.error("Can't findApprovedCommunities", e);
             throw new ServiceException("Can't findApprovedCommunities");
@@ -52,7 +61,7 @@ public class CommunityServiceImpl implements CommunityService {
         LOG.debug("getPending Communities");
 
         try {
-            return dao.findPendingCommunities();
+            return communityDAO.findPendingCommunities();
         } catch (Exception e) {
             LOG.error("Can't findPendingCommunities", e);
             throw new ServiceException("Can't findPendingCommunities");
@@ -67,7 +76,7 @@ public class CommunityServiceImpl implements CommunityService {
         LOG.debug("delete " + community);
 
         try {
-            dao.delete(community);
+            communityDAO.delete(community);
         } catch (Exception e) {
             LOG.error("Can't delete community " + community, e);
             throw new ServiceException("Can't delete community " + community);
@@ -82,7 +91,7 @@ public class CommunityServiceImpl implements CommunityService {
         LOG.debug("update " + community);
 
         try {
-            dao.update(community);
+            communityDAO.update(community);
         } catch (Exception e) {
             LOG.error("Can't update community " + community, e);
             throw new ServiceException("Can't update community " + community);
@@ -111,10 +120,10 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
 	public void request(Community community) {
         LOG.debug("request " + community);
-        community.setState(PENDING);
+        community.setState(getStateForID(PENDING));
 
         try {
-            dao.insert(community);
+            communityDAO.insert(community);
         } catch (Exception e) {
             LOG.error("Can't insert community " + community, e);
             throw new ServiceException("Can't insert community " + community);
@@ -127,7 +136,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
 	public void approve(Community community) {
         LOG.debug("approve " + community);
-        community.setState(APPROVED);
+        community.setState(getStateForID(APPROVED));
 
         update(community);
     }
@@ -140,7 +149,7 @@ public class CommunityServiceImpl implements CommunityService {
         LOG.debug("findById " + id);
 
         try {
-            return dao.findById(id);
+            return communityDAO.findById(id);
         } catch (Exception e) {
             LOG.error("Can`t find Id " + id, e);
             throw new ServiceException("Can`t find Id " + id);
@@ -153,12 +162,21 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
 	public void refuse(Community community){
         LOG.debug("refuse " + community);
-        if(community.getState().equals(PENDING)){
-            community.setState(REFUSED);
+        if(community.getState().equals(getStateForID(PENDING))){
+            community.setState(getStateForID(REFUSED));
             update(community);
         }else {
             LOG.error("Can`t refuse community " + community.getName());
             throw new ServiceException("Can`t refuse community " + community.getName());
+        }
+    }
+    
+    private Enumeration getStateForID(int id) {
+        try {
+            return enumerationDAO.findById(id);
+        } catch (Exception e) {
+            LOG.error("Can`t find Id " + id, e);
+            throw new ServiceException("Can`t find Id " + id);
         }
     }
 }

@@ -3,15 +3,9 @@ package org.se.lab.service;
 import java.util.List;
 
 import org.se.lab.data.Community;
-import org.se.lab.data.Enumeration;
 import org.se.lab.data.User;
 
-public interface CommunityService {
-
-	Enumeration PENDING = new Enumeration(1);
-	Enumeration APPROVED = new Enumeration(2);
-	Enumeration REFUSED = new Enumeration(3);
-
+public interface CommunityService {	
 	List<Community> findAll();
 
 	List<Community> getApproved();
