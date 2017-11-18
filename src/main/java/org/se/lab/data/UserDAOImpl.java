@@ -58,13 +58,17 @@ class UserDAOImpl
 	{
 		LOG.info("findById(" + id + ")");
 		User u = em.find(User.class, id);
-		Hibernate.initialize(u.getLikes());
-		Hibernate.initialize(u.getCommunities());
-		Hibernate.initialize(u.getRoles());
-		Hibernate.initialize(u.getUserContacts());
-		Hibernate.initialize(u.getPrivateMessagesReceiver());
-		Hibernate.initialize(u.getPrivateMessagesSender());
-		return u;
+		if(u != null)
+		{
+			Hibernate.initialize(u.getLikes());
+			Hibernate.initialize(u.getCommunities());
+			Hibernate.initialize(u.getRoles());
+			Hibernate.initialize(u.getUserContacts());
+			Hibernate.initialize(u.getPrivateMessagesReceiver());
+			Hibernate.initialize(u.getPrivateMessagesSender());
+			return u;
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

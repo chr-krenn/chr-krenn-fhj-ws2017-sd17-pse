@@ -1,5 +1,6 @@
 package org.se.lab.data;
 
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -11,8 +12,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
 
 public abstract class AbstractDAOTest {
 	
@@ -40,6 +39,7 @@ public abstract class AbstractDAOTest {
 				edao.createEnumeration(i);
 		}
 		tx.commit();
+	
 	}
 	
 	@AfterClass
