@@ -291,7 +291,7 @@ public class UserServiceImpl implements UserService {
         List<Enumeration> roles = loadedUser.getRoles();
 
         for (Enumeration enumeration : roles) {
-            if (enumeration.getName().equals(privileg.getName())) {
+            if (enumeration.getName().equals(privileg.name())) {
                 return true;
             }
         }

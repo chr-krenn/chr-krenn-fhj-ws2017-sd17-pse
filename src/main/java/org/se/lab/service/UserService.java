@@ -10,17 +10,7 @@ import org.se.lab.data.UserProfile;
 public interface UserService {
 
 	public enum ROLE {
-		ADMIN("ADMIN"), PORTALADMIN("PORTALADMIN"), USER("USER"), LIKE("LIKE");
-		
-		ROLE(String name){
-			this.name = name;
-		}
-		
-		String name;
-		
-		public String getName() {
-			return this.name;
-		}
+		ADMIN, PORTALADMIN, USER, LIKE;
 	}
 
 	void insert(User user);
