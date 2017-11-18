@@ -54,6 +54,20 @@
 </thead>
 <tbody>
   <tr class='even'>
+  <td class='detail'>FK2a64bbexb95mu9n8c769rrl0k</td>
+  <td class='detail'><a href='tables/enumeration_item.html'>enumeration_item</a>.enumeration_id</td>
+  <td class='detail'><a href='tables/enumeration.html'>enumeration</a>.id</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
+  <td class='detail'>FK4mv0y3ugdd9ogy9x4ii08ld6c</td>
+  <td class='detail'><a href='tables/user_community.html'>user_community</a>.users_id</td>
+  <td class='detail'><a href='tables/users.html'>users</a>.id</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
   <td class='detail'>FK5f7eh2n1ynlotnmvjq3a69gwo</td>
   <td class='detail'><a href='tables/likes.html'>likes</a>.enumeration_id</td>
   <td class='detail'><a href='tables/enumeration.html'>enumeration</a>.id</td>
@@ -68,8 +82,8 @@
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='even'>
-  <td class='detail'>FK9fufpcf4o7lgyul2im0ubuio2</td>
-  <td class='detail'><a href='tables/user_community.html'>user_community</a>.community_id</td>
+  <td class='detail'>FK9fjj5j3di6uvh1nylihdj0fh2</td>
+  <td class='detail'><a href='tables/enumeration_item.html'>enumeration_item</a>.users_id</td>
   <td class='detail'><a href='tables/users.html'>users</a>.id</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
@@ -77,20 +91,6 @@
   <tr class='odd'>
   <td class='detail'>FK9jb3g7xe0cy4sjav6fk34dkhg</td>
   <td class='detail'><a href='tables/private_message.html'>private_message</a>.fk_user_id_sender</td>
-  <td class='detail'><a href='tables/users.html'>users</a>.id</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>FK9ygalsausrm0pkg4kb4ruogob</td>
-  <td class='detail'><a href='tables/enumeration_item.html'>enumeration_item</a>.userrole_id</td>
-  <td class='detail'><a href='tables/enumeration.html'>enumeration</a>.id</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='odd'>
-  <td class='detail'>FKb8u693fyf9of1dic6keht7pby</td>
-  <td class='detail'><a href='tables/enumeration_item.html'>enumeration_item</a>.enumeration_id</td>
   <td class='detail'><a href='tables/users.html'>users</a>.id</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
@@ -117,20 +117,6 @@
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>FKh1m51ibchmdno8gw8ubktcij6</td>
-  <td class='detail'><a href='tables/enumeration_item.html'>enumeration_item</a>.state_id</td>
-  <td class='detail'><a href='tables/enumeration.html'>enumeration</a>.id</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>FKi6dld5fbdp8k42jql9q11e6jl</td>
-  <td class='detail'><a href='tables/user_community.html'>user_community</a>.user_id</td>
-  <td class='detail'><a href='tables/community.html'>community</a>.id</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='odd'>
   <td class='detail'>FKjsft64pkupfvvrs6bd4kyokwi</td>
   <td class='detail'><a href='tables/post.html'>post</a>.fk_community_id</td>
   <td class='detail'><a href='tables/community.html'>community</a>.id</td>
@@ -138,23 +124,37 @@
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='even'>
+  <td class='detail'>FKk7o792d66bqgrp4x310en9a98</td>
+  <td class='detail'><a href='tables/community.html'>community</a>.enumeration_id</td>
+  <td class='detail'><a href='tables/enumeration.html'>enumeration</a>.id</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='odd'>
   <td class='detail'>FKmjbhmvq38xehsknjxd2jl7r0u</td>
   <td class='detail'><a href='tables/private_message.html'>private_message</a>.fk_user_id_receiver</td>
   <td class='detail'><a href='tables/users.html'>users</a>.id</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
-  <tr class='odd'>
+  <tr class='even'>
   <td class='detail'>FKnvx9seeqqyy71bij291pwiwrg</td>
   <td class='detail'><a href='tables/likes.html'>likes</a>.user_id</td>
   <td class='detail'><a href='tables/users.html'>users</a>.id</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
-  <tr class='even'>
+  <tr class='odd'>
   <td class='detail'>FKowd6f4s7x9f3w50pvlo6x3b41</td>
   <td class='detail'><a href='tables/likes.html'>likes</a>.post_id</td>
   <td class='detail'><a href='tables/post.html'>post</a>.id</td>
+  <td class='detail'><span title='Restrict delete:
+ Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
+ </tr>
+  <tr class='even'>
+  <td class='detail'>FKvx9uvin2jevvy9sychijjx5d</td>
+  <td class='detail'><a href='tables/user_community.html'>user_community</a>.community_id</td>
+  <td class='detail'><a href='tables/community.html'>community</a>.id</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>

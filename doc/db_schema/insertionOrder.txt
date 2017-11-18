@@ -1,10 +1,10 @@
 enumeration
-community
 userprofile
 users
+community
 post
 contact
+enumeration_item
 private_message
 user_community
-enumeration_item
 likes

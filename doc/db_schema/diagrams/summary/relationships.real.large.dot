@@ -26,7 +26,9 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
       <TR><TD PORT="description" COLSPAN="3" ALIGN="LEFT">description</TD></TR>
       <TR><TD PORT="name" COLSPAN="3" ALIGN="LEFT">name</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
+      <TR><TD PORT="picture" COLSPAN="3" ALIGN="LEFT">picture</TD></TR>
+      <TR><TD PORT="enumeration_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">enumeration_id</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
     </TABLE>>
     URL="tables/community.html"
     tooltip="community"
@@ -38,7 +40,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
       <TR><TD PORT="fk_contact_id" COLSPAN="3" ALIGN="LEFT">fk_contact_id</TD></TR>
       <TR><TD PORT="user_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">user_id</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">200 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="tables/contact.html"
     tooltip="contact"
@@ -58,11 +60,9 @@ digraph "largeRelationshipsDiagram" {
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">enumeration_item</TD></TR>
-      <TR><TD PORT="id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">id</TD></TR>
-      <TR><TD PORT="userrole_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">userrole_id</TD></TR>
       <TR><TD PORT="enumeration_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">enumeration_id</TD></TR>
-      <TR><TD PORT="state_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">state_id</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+      <TR><TD PORT="users_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">users_id</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="tables/enumeration_item.html"
     tooltip="enumeration_item"
@@ -102,7 +102,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="text" COLSPAN="3" ALIGN="LEFT">text</TD></TR>
       <TR><TD PORT="fk_user_id_receiver" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_user_id_receiver</TD></TR>
       <TR><TD PORT="fk_user_id_sender" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_user_id_sender</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">200 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="tables/private_message.html"
     tooltip="private_message"
@@ -111,7 +111,7 @@ digraph "largeRelationshipsDiagram" {
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">user_community</TD></TR>
-      <TR><TD PORT="user_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">user_id</TD></TR>
+      <TR><TD PORT="users_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">users_id</TD></TR>
       <TR><TD PORT="community_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">community_id</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
@@ -136,7 +136,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="plz" COLSPAN="3" ALIGN="LEFT">plz</TD></TR>
       <TR><TD PORT="room" COLSPAN="3" ALIGN="LEFT">room</TD></TR>
       <TR><TD PORT="team" COLSPAN="3" ALIGN="LEFT">team</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">200 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
     URL="tables/userprofile.html"
     tooltip="userprofile"
@@ -149,15 +149,15 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="password" COLSPAN="3" ALIGN="LEFT">password</TD></TR>
       <TR><TD PORT="username" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">username</TD></TR>
       <TR><TD PORT="fk_userprofile" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_userprofile</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">7 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">192 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">7 &gt;</TD></TR>
     </TABLE>>
     URL="tables/users.html"
     tooltip="users"
   ];
+  "community":"enumeration_id":w -> "enumeration":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "contact":"user_id":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "enumeration_item":"enumeration_id":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "enumeration_item":"state_id":w -> "enumeration":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "enumeration_item":"userrole_id":w -> "enumeration":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "enumeration_item":"enumeration_id":w -> "enumeration":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "enumeration_item":"users_id":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "likes":"enumeration_id":w -> "enumeration":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "likes":"post_id":w -> "post":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "likes":"user_id":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -166,7 +166,7 @@ digraph "largeRelationshipsDiagram" {
   "post":"parent_post_id":w -> "post":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "private_message":"fk_user_id_receiver":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "private_message":"fk_user_id_sender":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "user_community":"community_id":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
-  "user_community":"user_id":w -> "community":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "user_community":"community_id":w -> "community":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "user_community":"users_id":w -> "users":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "users":"fk_userprofile":w -> "userprofile":"id":e [arrowhead=none dir=back arrowtail=crowodot];
 }

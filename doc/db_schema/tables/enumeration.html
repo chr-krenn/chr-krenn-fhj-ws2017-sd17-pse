@@ -93,15 +93,15 @@
  <td class='detail'>
   <table border='0' width='100%' cellspacing='0' cellpadding='0'>
    <tr class='relative odd' valign='top'>
-    <td class='relatedTable detail' title="enumeration_item.state_id refs enumeration.id via FKh1m51ibchmdno8gw8ubktcij6"><a href='enumeration_item.html'>enumeration_item</a><span class='relatedKey'>.state_id</span>
+    <td class='relatedTable detail' title="community.enumeration_id refs enumeration.id via FKk7o792d66bqgrp4x310en9a98"><a href='community.html'>community</a><span class='relatedKey'>.enumeration_id</span>
     </td>
-    <td class='constraint detail'>FKh1m51ibchmdno8gw8ubktcij6<span title='Restrict delete:
+    <td class='constraint detail'>FKk7o792d66bqgrp4x310en9a98<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
    <tr class='relative odd' valign='top'>
-    <td class='relatedTable detail' title="enumeration_item.userrole_id refs enumeration.id via FK9ygalsausrm0pkg4kb4ruogob"><a href='enumeration_item.html'>enumeration_item</a><span class='relatedKey'>.userrole_id</span>
+    <td class='relatedTable detail' title="enumeration_item.enumeration_id refs enumeration.id via FK2a64bbexb95mu9n8c769rrl0k"><a href='enumeration_item.html'>enumeration_item</a><span class='relatedKey'>.enumeration_id</span>
     </td>
-    <td class='constraint detail'>FK9ygalsausrm0pkg4kb4ruogob<span title='Restrict delete:
+    <td class='constraint detail'>FK2a64bbexb95mu9n8c769rrl0k<span title='Restrict delete:
  Parent cannot be deleted if children exist'>&nbsp;R</span></td>
    </tr>
    <tr class='relative odd' valign='top'>
@@ -127,7 +127,7 @@
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='2 columns'>Table contained 7 rows at Fri Nov 17 10:10 CET 2017<p/>
+<p title='2 columns'>Table contained 7 rows at Sat Nov 18 10:40 CET 2017<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>
@@ -153,17 +153,20 @@
 <br><form action='get'><b>Close relationships</b><span class='degrees' id='degrees' title='Detail diminishes with increased separation from enumeration'>
 &nbsp;within <label for='oneDegree'><input type='radio' name='degrees' id='oneDegree' checked>one</label>  <label for='twoDegrees'><input type='radio' name='degrees' id='twoDegrees'>two degrees</label> of separation</span><b>:</b></form>
 <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
-<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="247,5,392,160">
-<area shape="rect" id="node2" href="enumeration.html" title="enumeration" alt="" coords="5,75,203,187">
-<area shape="rect" id="node3" href="likes.html" title="likes" alt="" coords="255,177,384,308">
+<area shape="rect" id="node1" href="community.html" title="community" alt="" coords="253,5,385,184">
+<area shape="rect" id="node2" href="enumeration.html" title="enumeration" alt="" coords="5,199,203,311">
+<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="247,201,392,308">
+<area shape="rect" id="node4" href="likes.html" title="likes" alt="" coords="255,325,384,456">
 </map>
   <a name='diagram'><img id='oneDegreeImg' src='../diagrams/enumeration.1degree.png' usemap='#oneDegreeRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
 <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
-<area shape="rect" id="node1" href="enumeration_item.html" title="enumeration_item" alt="" coords="423,5,568,160">
-<area shape="rect" id="node2" href="users.html" title="users" alt="" coords="5,187,137,269">
-<area shape="rect" id="node3" href="enumeration.html" title="enumeration" alt="" coords="181,89,379,201">
-<area shape="rect" id="node4" href="likes.html" title="likes" alt="" coords="431,177,560,308">
-<area shape="rect" id="node5" href="post.html" title="post" alt="" coords="214,255,346,337">
+<area shape="rect" id="node1" href="community.html" title="community" alt="" coords="255,241,387,419">
+<area shape="rect" id="node2" href="enumeration.html" title="enumeration" alt="" coords="5,46,203,158">
+<area shape="rect" id="node3" href="enumeration_item.html" title="enumeration_item" alt="" coords="439,49,584,155">
+<area shape="rect" id="node4" href="users.html" title="users" alt="" coords="247,141,395,223">
+<area shape="rect" id="node5" href="likes.html" title="likes" alt="" coords="628,117,757,247">
+<area shape="rect" id="node6" href="post.html" title="post" alt="" coords="445,309,577,391">
+<area shape="rect" id="node7" href="user_community.html" title="user_community" alt="" coords="444,209,579,291">
 </map>
 
   <a name='diagram'><img id='twoDegreesImg' src='../diagrams/enumeration.2degrees.png' usemap='#twoDegreesRelationshipsDiagram' class='diagram' border='0' alt='' align='left'></a>
