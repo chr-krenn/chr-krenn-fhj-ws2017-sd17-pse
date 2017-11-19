@@ -38,8 +38,8 @@ public class UserDataBean implements Serializable {
     private User user;
     private User loggedInUser;
     private UserProfile userProfile;
-    private List<User> contacts;
-    private List<Community> communities;
+    private List<User> contacts = new ArrayList<User>();;
+    private List<Community> communities = new ArrayList<Community>();;
     private String id = "";
     private String hideAddRemove = "";
     private String fromHeader = "";
@@ -54,51 +54,16 @@ public class UserDataBean implements Serializable {
         Map<String, Object> session = context.getExternalContext().getSessionMap();
         if (session.size() != 0 && session.get("user") != null) {
 
-            contacts = new ArrayList<User>();
-            communities = new ArrayList<Community>();
-
             flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-
             id = context.getExternalContext().getRequestParameterMap().get("userid");
-            if (id == null) {
-                id = (String) flash.get("uid");
-            }
-            if (id != null) {
-                flash.put("uid", id);
-                if (id.equals(Integer.toString((Integer) session.get("user")))) {
-                    setOwnProfile(true);
-                } else {
-                    setOwnProfile(false);
-                }
-            }
-
-
-            hideAddRemove = context.getExternalContext().getRequestParameterMap().get("hideAddRemove");
-            fromHeader = context.getExternalContext().getRequestParameterMap().get("fromHeader");
-
-            flash.put("uid", id);
-            flash.put("hideAddRemove", hideAddRemove);
-            flash.put("fromHeader", fromHeader);
-
-            String hideAddRemoveCheck = (String) context.getExternalContext().getFlash().get("hideAddRemove");
-            String fromHeaderCheck = (String) context.getExternalContext().getFlash().get("fromHeader");
-            //Hide Buttons for own profile
-            if ("1".equals(hideAddRemoveCheck)) {
-                setOwnProfile(true);
-            }
-
-            String userProfId = (String) context.getExternalContext().getFlash().get("uid");
-
-            LOG.info("userProfId: " + userProfId);
-
+            handleButton(session);
 
             userId = (int) session.get("user");
-
-            LOG.info("SESSIOn UID: " + userId);
+            String userProfId = (String) context.getExternalContext().getFlash().get("uid");
+            String fromHeaderCheck = (String) context.getExternalContext().getFlash().get("fromHeader");
             if (fromHeaderCheck != null && fromHeaderCheck.equals("1")) {
                 userProfId = null;
             }
-
             //Wr befinden uns auf einem Profil eines anderen Users
             if (userProfId != null) {
                 setContactAddable(true);
@@ -106,7 +71,6 @@ public class UserDataBean implements Serializable {
 
                 //Holen des eingeloggten Users
                 loggedInUser = service.findById(userId);
-
                 for (User u : service.getContactsOfUser(loggedInUser)) {
                     //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
                     if (u.getId() == user.getId()) {
@@ -119,20 +83,7 @@ public class UserDataBean implements Serializable {
             }
 
 
-            contacts = service.getContactsOfUser(user);
-            communities = user.getCommunities();
-            userProfile = service.getUserProfilById(user.getId());
-
-
-            //show ContactButton only if profil is not mine
-
-
-		/*
-         * File chartFile = new File("dynamichart"); try { photo = new
-		 * DefaultStreamedContent(new FileInputStream(chartFile), "image/png"); } catch
-		 * (FileNotFoundException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
+            loadContactsCommunitiesAndUserprofile();
         } else {
             /*
              * If session is null - redirect to login page!
@@ -148,50 +99,38 @@ public class UserDataBean implements Serializable {
 
     }
 
-
-    public User getUser(int id) {
-        return service.findById(id);
+    private void loadContactsCommunitiesAndUserprofile() {
+        contacts = service.getContactsOfUser(user);
+        communities = user.getCommunities();
+        userProfile = service.getUserProfilById(user.getId());
     }
 
-	/*
-	 * Diese Methode sollte auf den Service zugreifen welcher eine Methode
-	 * bereitstellt die alle Kontakte zu einem bestimmten User(einer ID) zurück
-	 * liefert
-	 */
+    private void handleButton(Map<String, Object> session) {
+        if (id == null) {
+            id = (String) flash.get("uid");
+        }
+        if (id != null) {
+            flash.put("uid", id);
+            if (id.equals(Integer.toString((Integer) session.get("user")))) {
+                setOwnProfile(true);
+            } else {
+                setOwnProfile(false);
+            }
+        }
 
 
+        hideAddRemove = context.getExternalContext().getRequestParameterMap().get("hideAddRemove");
+        fromHeader = context.getExternalContext().getRequestParameterMap().get("fromHeader");
 
-	/*
-	 * Diese Methode sollte auf den Service zugreifen welcher eine Methode
-	 * bereitstellt die alle Communities zu einem bestimmten User(einer ID) zurück
-	 * liefert
-	 */
+        flash.put("uid", id);
+        flash.put("hideAddRemove", hideAddRemove);
+        flash.put("fromHeader", fromHeader);
 
-    public List<Community> findAllCommunities() {
-        return null;
-        // To be activated if method exists in userService - to be done from backend
-        // team!!
-        // return service.getAllCommunitiesBy(user);
-    }
-
-	/*
-	 * Actions
-	 */
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public StreamedContent getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(StreamedContent photo) {
-        this.photo = photo;
+        String hideAddRemoveCheck = (String) context.getExternalContext().getFlash().get("hideAddRemove");
+        //Hide Buttons for own profile
+        if ("1".equals(hideAddRemoveCheck)) {
+            setOwnProfile(true);
+        }
     }
 
     public void addContact() {
@@ -203,7 +142,6 @@ public class UserDataBean implements Serializable {
         LOG.info("contactName " + contactName);
         LOG.info("u " + loggedInUser.getId());
         LOG.info("userid " + userId);
-        //todo if works from dao
         service.addContact(loggedInUser, contactName);
 
         setContactAddable(false);
@@ -244,6 +182,26 @@ public class UserDataBean implements Serializable {
         UserProfile userProfile = user.getUserProfile();
         userProfile.setPicture(uploadedFile.getContents());
         service.addPictureToProfile(userProfile);
+    }
+
+    public User getUser(int id) {
+        return service.findById(id);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public StreamedContent getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(StreamedContent photo) {
+        this.photo = photo;
     }
 
     public boolean isImageExists() {
