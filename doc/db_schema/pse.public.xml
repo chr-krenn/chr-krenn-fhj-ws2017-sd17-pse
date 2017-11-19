@@ -130,7 +130,7 @@
             <column ascending="true" name="fk_user_id_receiver"/>
          </index>
       </table>
-      <table name="user_community" numRows="0" remarks="" type="TABLE">
+      <table name="user_community" numRows="200" remarks="" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="users_id" nullable="false" remarks="" size="10" type="INT">
             <parent column="id" foreignKey="FK4mv0y3ugdd9ogy9x4ii08ld6c" implied="false" onDeleteCascade="false" table="users"/>
          </column>
