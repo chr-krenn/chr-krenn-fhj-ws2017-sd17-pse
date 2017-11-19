@@ -44,8 +44,8 @@ public class ActivityStreamBean {
 
         if (session.size() != 0 && session.get("user") != null) {
 
-            userId = (int) session.get("user");
-            LOG.info("SESSIOn UID: " + userId);
+            id = context.getExternalContext().getRequestParameterMap().get("userid");
+            LOG.info("SESSIOn UID: " + id);
 
             Community com = new Community("C1", "NewC1");
             user = new User("Harry Hirsch", "pass");

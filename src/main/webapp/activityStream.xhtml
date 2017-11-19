@@ -27,7 +27,7 @@
 			</p:panel>
 
 
-			<p:repeat value="#{activityStreamBean.posts}" var="posts">
+			<p:repeat value="#{activityStreamBean.posts}" var="posts" rendered="not empty posts">
 				<p:panel style="text-align:center">
 
 					<f:facet name="header">
