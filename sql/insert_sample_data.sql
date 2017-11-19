@@ -255,7 +255,7 @@ insert into users (password, username, fk_userprofile) values ('rYVTOmk', 'ewins
 insert into users (password, username, fk_userprofile) values ('eO4Jz98p', 'ggawenh', 18);
 insert into users (password, username, fk_userprofile) values ('9gZYpU6MkpI', 'vfeasti', 19);
 insert into users (password, username, fk_userprofile) values ('UIYwk1', 'rpinaj', 20);
-insert into users (password, username, fk_userprofile) values ('rqRiYI5SI', 'messelk', 21);
+insert into users (password, username, fk_userprofile) values ('pass', 'frank', 21);
 insert into users (password, username, fk_userprofile) values ('XJdfJQ', 'geccottl', 22);
 insert into users (password, username, fk_userprofile) values ('fsK96NBpX', 'kbrislawnm', 23);
 insert into users (password, username, fk_userprofile) values ('8gbeSNoyaJp', 'dbaconn', 24);
@@ -335,7 +335,7 @@ insert into users (password, username, fk_userprofile) values ('1plXgy2', 'jtutt
 insert into users (password, username, fk_userprofile) values ('WYwfkIezp', 'pprantl2p', 98);
 insert into users (password, username, fk_userprofile) values ('lxuT8JX5SE7C', 'gbourthouloume2q', 99);
 insert into users (password, username, fk_userprofile) values ('i0kwp4i0Uf', 'clevick2r', 100);
-insert into users (password, username, fk_userprofile) values ('VWvCbMFIWVZI', 'bblackie2s', 101);
+insert into users (password, username, fk_userprofile) values ('pass', 'alice', 101);
 insert into users (password, username, fk_userprofile) values ('nWYTFL55kOq', 'gpatinkin2t', 102);
 insert into users (password, username, fk_userprofile) values ('32zjXy8QaT', 'thuccaby2u', 103);
 insert into users (password, username, fk_userprofile) values ('p4e722NZ89i', 'ktarbin2v', 104);
