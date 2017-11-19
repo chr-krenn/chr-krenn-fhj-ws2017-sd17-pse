@@ -5,6 +5,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.se.lab.data.Community;
 import org.se.lab.service.CommunityService;
+import org.se.lab.service.ServiceException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -42,8 +43,13 @@ public class AdminDataBean implements Serializable {
     Community selectedCommunity;
     private String id = "";
     private int userId = 0;
+    private String reactionOnPendingRequest = null;
     @Inject
     private CommunityService service;
+
+    public String getReactionOnPendingRequest() {
+        return reactionOnPendingRequest;
+    }
 
     public List<Community> getRequestedCommunityList() {
         return requestedCommunityList;
@@ -94,8 +100,8 @@ public class AdminDataBean implements Serializable {
             userId = (int) session.get("user");
             LOG.info("SESSIOn UID: " + userId);
         } else {
-			/*
-			 * If session is null - redirect to login page!
+            /*
+             * If session is null - redirect to login page!
 			 *
 			 */
             try {
@@ -117,14 +123,41 @@ public class AdminDataBean implements Serializable {
 
     public void declineRequestedCommunity(Community community) {
         LOG.info("Community declined >" + community);
-        service.refuse(community);
-        //TODO refresh after decline; errorhandling
+
+        //TODO evaluate why catch block isn't entered
+        try {
+            service.refuse(community);
+            reactionOnPendingRequest = "Sucessfully declined";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(reactionOnPendingRequest));
+
+        } catch (ServiceException e) {
+            reactionOnPendingRequest = "Decline failed";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, reactionOnPendingRequest, "Please retry"));
+
+        }
     }
 
     public void approveRequestedCommunity(Community community) {
         LOG.info("Community approved > " + community);
-        service.approve(community);
-        //TODO refresh after approval; errorhandling
+
+        try {
+            service.approve(community);
+            refreshPage();
+        } catch (ServiceException e) {
+            reactionOnPendingRequest = "Approval failed";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, reactionOnPendingRequest, "Please retry"));
+
+        }
+
+    }
+
+    private void refreshPage() {
+        try {
+            context.getExternalContext().redirect("/pse/adminPortal.xhtml");
+        } catch (IOException e) {
+            LOG.error("Can't redirect to /pse/adminPortal.xhtml");
+            //e.printStackTrace();
+        }
     }
 
     public Community getSelectedCommunity() {

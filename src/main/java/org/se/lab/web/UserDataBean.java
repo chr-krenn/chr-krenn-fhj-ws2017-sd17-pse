@@ -46,6 +46,7 @@ public class UserDataBean implements Serializable {
     private int userId = 0;
     private boolean isContactAddable = false;
     private boolean ownProfile = false;
+    private boolean isAdmin = true;
 
 
     @PostConstruct
@@ -75,6 +76,7 @@ public class UserDataBean implements Serializable {
                     //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
                     if (u.getId() == user.getId()) {
                         setContactAddable(false);
+                        validateUserPriviles(u);
                     }
                 }
             } else {
@@ -243,6 +245,15 @@ public class UserDataBean implements Serializable {
 
     public void setContactAddable(boolean contactAddable) {
         this.isContactAddable = contactAddable;
+    }
+
+    private void validateUserPriviles(User u) {
+        //TODO set role when enum is available
+        this.isAdmin = service.hasUserTheRole(null, u);
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
 
