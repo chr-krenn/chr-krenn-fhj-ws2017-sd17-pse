@@ -46,7 +46,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">enumeration_item</TD></TR>
       <TR><TD PORT="enumeration_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">enumeration_id</TD></TR>
       <TR><TD PORT="users_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">users_id</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">200 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="enumeration_item.html"
     tooltip="enumeration_item"
@@ -58,7 +58,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="enumeration_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">enumeration_id</TD></TR>
       <TR><TD PORT="user_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">user_id</TD></TR>
       <TR><TD PORT="post_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">post_id</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">200 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="likes.html"
     tooltip="likes"
@@ -73,7 +73,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="fk_community_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_community_id</TD></TR>
       <TR><TD PORT="parent_post_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">parent_post_id</TD></TR>
       <TR><TD PORT="fk_user_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_user_id</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">200 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
     </TABLE>>
     URL="post.html"
     tooltip="post"
@@ -133,7 +133,7 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="password" COLSPAN="2" ALIGN="LEFT">password</TD><TD PORT="password.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="username" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">username</TD><TD PORT="username.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="fk_userprofile" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">fk_userprofile</TD><TD PORT="fk_userprofile.type" ALIGN="LEFT">int[10]</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">192 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">7 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">200 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">7 &gt;</TD></TR>
     </TABLE>>
     URL="users.html"
     tooltip="users"
