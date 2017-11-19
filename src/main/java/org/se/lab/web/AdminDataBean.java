@@ -27,10 +27,23 @@ import java.util.Map;
 @Named
 @RequestScoped
 @ViewScoped
-@ManagedBean(name="AdminDataBean")
+@ManagedBean(name = "AdminDataBean")
 public class AdminDataBean implements Serializable {
 
-	private final Logger LOG = Logger.getLogger(AdminDataBean.class);
+    private final Logger LOG = Logger.getLogger(AdminDataBean.class);
+    List<Community> requestedCommunityList;
+    List<Community> approvedCommunityList;
+    /*
+     * Properties for Session
+     */
+    Flash flash;
+    FacesContext context;
+    List<Community> selectedCommunities;
+    Community selectedCommunity;
+    private String id = "";
+    private int userId = 0;
+    @Inject
+    private CommunityService service;
 
     public List<Community> getRequestedCommunityList() {
         return requestedCommunityList;
@@ -40,8 +53,6 @@ public class AdminDataBean implements Serializable {
         this.requestedCommunityList = requestedCommunityList;
     }
 
-    List<Community> requestedCommunityList;
-
     public List<Community> getApprovedCommunityList() {
         return approvedCommunityList;
     }
@@ -50,22 +61,8 @@ public class AdminDataBean implements Serializable {
         this.approvedCommunityList = approvedCommunityList;
     }
 
-    List<Community> approvedCommunityList;
-
-    /*
-     * Properties for Session
-     */
-    Flash flash;
-    FacesContext context;
-    private String id = "";
-    private int userId = 0;
-
-    @Inject
-    private CommunityService service;
-
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         context = FacesContext.getCurrentInstance();
 
 		/*
@@ -75,7 +72,7 @@ public class AdminDataBean implements Serializable {
         flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 
 		/*
-		 * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
+         * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
 		 *
 		 */
 
@@ -104,13 +101,10 @@ public class AdminDataBean implements Serializable {
             try {
                 context.getExternalContext().redirect("/pse/login.xhtml");
             } catch (IOException e) {
-				LOG.error("Can't redirect to /pse/login.xhtml");
+                LOG.error("Can't redirect to /pse/login.xhtml");
                 //e.printStackTrace();
             }
         }
-
-
-
         requestedCommunityList = new ArrayList<>();
         approvedCommunityList = new ArrayList<>();
 
@@ -121,22 +115,18 @@ public class AdminDataBean implements Serializable {
         LOG.info("Size of Requested Comm: " + approvedCommunityList.size());
     }
 
-    public void declineRequestedCommunity(Community community)
-    {
+    public void declineRequestedCommunity(Community community) {
         LOG.info("Community declined >" + community);
-        //TODO decline community method in service, what should happen?
-        //throw new NotImplementedException();
+        service.refuse(community);
+        //TODO refresh after decline; errorhandling
     }
 
-    public void approveRequestedCommunity(Community community)
-    {
+    public void approveRequestedCommunity(Community community) {
         LOG.info("Community approved > " + community);
         service.approve(community);
+        //TODO refresh after approval; errorhandling
     }
 
-
-    List<Community> selectedCommunities;
-    Community selectedCommunity;
     public Community getSelectedCommunity() {
         return selectedCommunity;
     }
@@ -153,25 +143,20 @@ public class AdminDataBean implements Serializable {
         this.selectedCommunities = selectedCommunities;
     }
 
-    public void goToCommunity()
-    {
+    public void goToCommunity() {
         LOG.info("In Method goToCommunity");
 
-		if (selectedCommunity != null)
-		{
+        if (selectedCommunity != null) {
 
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
 
-        try
-        {
-            context.getExternalContext().redirect("/pse/communityprofile.xhtml");
-        } catch (IOException e) {
-            LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+            try {
+                context.getExternalContext().redirect("/pse/communityprofile.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+            }
         }
-
-
     }
-}
 
 }
