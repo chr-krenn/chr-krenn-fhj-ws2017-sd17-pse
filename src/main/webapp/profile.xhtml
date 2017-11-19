@@ -20,7 +20,8 @@
             <p:layout style="min-width:400px;min-height:600px;">
                 <p:layoutUnit position="center">
                     <div class="buttons" id="buttons">
-                        <p:commandButton value="Admin Area" action="adminPortal.xhtml?faces-redirect=true"/>
+                        <p:commandButton value="Admin Area" action="adminPortal.xhtml?faces-redirect=true"
+                                         rendered="#{userDataBean.admin}"/>
                         <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}"
                                          rendered="#{userDataBean.contactAddable and not userDataBean.ownProfile}"
                                          update=":buttons" ajax="false">
