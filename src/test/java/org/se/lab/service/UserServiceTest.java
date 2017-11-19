@@ -109,7 +109,7 @@ public class UserServiceTest {
 
         expect(userContactDAO.findAll()).andReturn(userContactList);
         replay(userContactDAO);
-        List<UserContact> allContacts = userService.getAllContactsByUser(user1);
+        List<User> allContacts = userService.getContactsOfUser(user1);
 
         Assert.assertThat(allContacts.size(), is(1));
         Assert.assertThat(allContacts.get(0), is(contact1));

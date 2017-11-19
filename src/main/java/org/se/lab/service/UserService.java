@@ -108,12 +108,8 @@ public class UserService {
         }
     }
 
-    @Deprecated //use getContactsOfUser to get username out of contact
-    public List<UserContact> getAllContactsByUser(User user) {
+    private List<UserContact> getAllContactsByUser(User user) {
         LOG.debug("get all contacts from " + user);
-
-        //todo wegl
-        //todo return liste an kontakten - wegl baut um
         return userContactDAO.findContactsbyUser(user);
     }
 

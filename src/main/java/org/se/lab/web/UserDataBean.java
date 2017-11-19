@@ -7,7 +7,6 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.se.lab.data.Community;
 import org.se.lab.data.User;
-import org.se.lab.data.UserContact;
 import org.se.lab.data.UserProfile;
 import org.se.lab.service.UserService;
 
@@ -58,20 +57,8 @@ public class UserDataBean implements Serializable {
             contacts = new ArrayList<User>();
             communities = new ArrayList<Community>();
 
-
-		/*
-         * FG Info Flash: We need flash to make the param survive one redirect request
-		 * otherwise param will be null
-		 */
             flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 
-		/*
-         * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
-		 *
-		 */
-
-
-            //todo
             id = context.getExternalContext().getRequestParameterMap().get("userid");
             if (id == null) {
                 id = (String) flash.get("uid");
@@ -108,30 +95,21 @@ public class UserDataBean implements Serializable {
             userId = (int) session.get("user");
 
             LOG.info("SESSIOn UID: " + userId);
-
-            
-            	if(fromHeaderCheck != null && fromHeaderCheck.equals("1"))
-            	{
-            		userProfId = null;
-            	}
+            if (fromHeaderCheck != null && fromHeaderCheck.equals("1")) {
+                userProfId = null;
+            }
 
             //Wr befinden uns auf einem Profil eines anderen Users
             if (userProfId != null) {
-
+                setContactAddable(true);
                 user = getUser(Integer.parseInt(userProfId));
-                //isContactAddable(true);
-
 
                 //Holen des eingeloggten Users
                 loggedInUser = service.findById(userId);
 
-                //Kontaktliste des eingeloggten Users um zu prüfen ob wir den User des aktuellen
-                //Profils schon in der Kontaktliste haben
-                List<UserContact> loggedInContacts = service.getAllContactsByUser(loggedInUser);
-                setContactAddable(true);
-                for (UserContact c : loggedInContacts) {
+                for (User u : service.getContactsOfUser(loggedInUser)) {
                     //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
-                    if (c.getContactId() == user.getId()) {
+                    if (u.getId() == user.getId()) {
                         setContactAddable(false);
                     }
                 }
@@ -141,15 +119,10 @@ public class UserDataBean implements Serializable {
             }
 
 
-            //TODO: Check if usercontact name is right
             contacts = service.getContactsOfUser(user);
-
-            //TODO: Activate when DAO works
             communities = user.getCommunities();
-
-
             userProfile = service.getUserProfilById(user.getId());
-            
+
 
             //show ContactButton only if profil is not mine
 
@@ -162,7 +135,7 @@ public class UserDataBean implements Serializable {
 		 */
         } else {
             /*
-			 * If session is null - redirect to login page!
+             * If session is null - redirect to login page!
 			 *
 			 */
             try {
@@ -172,7 +145,7 @@ public class UserDataBean implements Serializable {
                 //e.printStackTrace();
             }
         }
-        
+
     }
 
 
@@ -259,7 +232,7 @@ public class UserDataBean implements Serializable {
 
         //todo maybe need to load from db
 
-        if(user.getUserProfile().getPicture()!=null){
+        if (user.getUserProfile().getPicture() != null) {
             return new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
         }
         return null;
