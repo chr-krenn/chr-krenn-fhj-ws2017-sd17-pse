@@ -21,8 +21,8 @@
 			<p:panel style="text-align:center">
 				<h3>Create a new post</h3>
 				<h:panelGrid columns="1" style="width:100%">
-				<p:inputTextarea rows="3" cols="20" placeholder="Enter your message" />
-				<p:commandButton value="Send" actionListener="#{activityStreamBean.newPost(posts)}" /> 
+				<p:inputTextarea rows="3" cols="20" var="inputText" value="#{activityStreamBean.inputText}" placeholder="Enter your message" />
+				<p:commandButton value="Send" actionListener="#{activityStreamBean.newPost()}" /> 
 				</h:panelGrid>	
 			</p:panel>
 
@@ -41,10 +41,10 @@
 							style="font-weight: bold" /><br />
 						<h:outputText value="#{posts.text}" /><br />
 
-						<p:inputTextarea rows="3" cols="20"
+						<p:inputTextarea rows="3" cols="20" var="inputText" value="#{activityStreamBean.inputText}" rendered="not empty inputText"
 							placeholder="Enter your comment!" />
 						<p:commandButton value="Post"
-							actionListener="#{activityStreamBean.newPost(posts)}" /><br />
+							actionListener="#{activityStreamBean.newPost()}" /><br />
 
 
 					</h:panelGrid>
