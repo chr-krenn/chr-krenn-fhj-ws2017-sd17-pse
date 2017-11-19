@@ -6,6 +6,7 @@ import org.se.lab.data.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -107,13 +108,13 @@ public class UserService {
         }
     }
 
-
+    @Deprecated //use getContactsOfUser to get username out of contact
     public List<UserContact> getAllContactsByUser(User user) {
         LOG.debug("get all contacts from " + user);
 
         //todo wegl
         //todo return liste an kontakten - wegl baut um
-        return userContactDAO.findAll().stream().filter(userContact -> userContact.getUser().equals(user.getUserContacts())).collect(Collectors.toList());
+        return userContactDAO.findContactsbyUser(user);
     }
 
     public void update(User user) {
@@ -187,6 +188,20 @@ public class UserService {
             throw new ServiceException("Can't delete user with ID " + id);
         }
 
+    }
+
+    public List<User> getContactsOfUser(User user) {
+        List<UserContact> userContactObjects = getAllContactsByUser(user);
+
+        List<User> userContacts = new ArrayList<>();
+        for (UserContact userContact : userContactObjects) {
+
+            User contacUser = findById(userContact.getContactId());
+            if (contacUser != null) {
+                userContacts.add(contacUser);
+            }
+        }
+        return userContacts;
     }
 
     public User findById(int id) {

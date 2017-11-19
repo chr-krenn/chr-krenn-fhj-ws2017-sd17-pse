@@ -39,7 +39,7 @@ public class UserDataBean implements Serializable {
     private User user;
     private User loggedInUser;
     private UserProfile userProfile;
-    private List<UserContact> contacts;
+    private List<User> contacts;
     private List<Community> communities;
     private String id = "";
     private String hideAddRemove = "";
@@ -55,7 +55,7 @@ public class UserDataBean implements Serializable {
         Map<String, Object> session = context.getExternalContext().getSessionMap();
         if (session.size() != 0 && session.get("user") != null) {
 
-            contacts = new ArrayList<UserContact>();
+            contacts = new ArrayList<User>();
             communities = new ArrayList<Community>();
 
 
@@ -142,7 +142,7 @@ public class UserDataBean implements Serializable {
 
 
             //TODO: Check if usercontact name is right
-            contacts = service.getAllContactsByUser(user);
+            contacts = service.getContactsOfUser(user);
 
             //TODO: Activate when DAO works
             communities = user.getCommunities();
@@ -174,6 +174,7 @@ public class UserDataBean implements Serializable {
         }
         
     }
+
 
     public User getUser(int id) {
         return service.findById(id);
@@ -277,11 +278,11 @@ public class UserDataBean implements Serializable {
     }
 
 
-    public List<UserContact> getContacts() {
+    public List<User> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<UserContact> contacts) {
+    public void setContacts(List<User> contacts) {
         this.contacts = contacts;
     }
 

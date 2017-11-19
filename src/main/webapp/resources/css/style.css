@@ -66,7 +66,11 @@ h2 {
 	background-color: grey;
 	text-align: center;
 	overflow: hidden;
-	 background-color: grey;
+	display: block;
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	z-index: 1;
 }
 
 #header {
