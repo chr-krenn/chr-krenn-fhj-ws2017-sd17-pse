@@ -12,6 +12,8 @@ import org.se.lab.service.dao.UserProfileDAO;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -302,5 +304,19 @@ public class UserServiceImpl implements UserService {
             }
         }
         return false;
+    }
+    
+    public List<User> getContactsOfUser(User user) {
+        List<UserContact> userContactObjects = getAllContactsByUser(user);
+
+        List<User> userContacts = new ArrayList<>();
+        for (UserContact userContact : userContactObjects) {
+
+            User contacUser = findById(userContact.getContactId());
+            if (contacUser != null) {
+                userContacts.add(contacUser);
+            }
+        }
+        return userContacts;
     }
 }

@@ -16,11 +16,12 @@
             <h:outputStylesheet library="css" name="style.css"/>
         </div>
         <div id="content">
-            <h1>Profile</h1>
+            
             <p:layout style="min-width:400px;min-height:600px;">
                 <p:layoutUnit position="center">
                     <div class="buttons" id="buttons">
-                        <p:commandButton value="Admin Area" action="adminPortal.xhtml?faces-redirect=true"/>
+                        <p:commandButton value="Admin Area" action="adminPortal.xhtml?faces-redirect=true"
+                                         rendered="#{userDataBean.admin}"/>
                         <p:commandButton value="Add Contact" action="#{userDataBean.addContact()}"
                                          rendered="#{userDataBean.contactAddable and not userDataBean.ownProfile}"
                                          update=":buttons" ajax="false">
@@ -90,7 +91,7 @@
                                         rendered="#{not userDataBean.imageExists}" style="width:300px"/>
 
                         <h:graphicImage value="#{userDataBean.image}"
-                                        rendered="#{userDataBean.imageExists}" style="width:300px"/>
+                                        rendered="false" style="width:300px"/>
                         <h:outputText value="Change Profile Picture ?" rendered="#{userDataBean.imageExists}"/>
                         <h:form id="form" enctype="multipart/form-data">
                             <p:fileUpload id="file" fileUploadListener="#{userDataBean.upload}"
@@ -107,9 +108,9 @@
                                     <p:outputPanel>
                                         <h:panelGrid columns="2" cellpadding="5">
                                             <h:outputText value="Id:"/>
-                                            <h:outputText value="#{contact.id}" style="font-weight: bold"/>
+                                            <h:outputText value="#{contact.getId()}" style="font-weight: bold"/>
                                             <h:outputText value="Username"/>
-                                            <h:outputText value="#{contact.user.username}" style="font-weight: bold"/>
+                                            <h:outputText value="#{contact.username}" style="font-weight: bold"/>
 
                                         </h:panelGrid>
                                     </p:outputPanel>

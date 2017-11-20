@@ -1,20 +1,33 @@
+/**
+ * @author Philipp Trummer
+ * adjust that all relationships are loaded with lazy fetchtype. 18.11.2017
+ */
+
 package org.se.lab.service.dao;
 
 import java.util.List;
 
 import org.se.lab.data.User;
 
-
 public interface UserDAO
 {
 	User insert(User user);
 	User update(User user);
 	void delete(User user);
-	
-	User findById(int id);
-	List<User> findAll();
-	
-	User createUser(String username, String password);
 
+	/**
+	 * @return user who is serached for
+	 */
+	User findById(int id);
+
+	/**
+	 * @return all users of application
+	 */
+	List<User> findAll();
+	/**
+	 * @return user searched by username
+	 */
 	User findByUsername(String username);
+
+	User createUser(String username, String password);
 }

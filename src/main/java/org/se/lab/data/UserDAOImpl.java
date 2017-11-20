@@ -2,11 +2,11 @@ package org.se.lab.data;
 
 import org.apache.log4j.Logger;
 import org.se.lab.service.dao.UserDAO;
+import org.hibernate.Hibernate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -52,12 +52,24 @@ class UserDAOImpl
 		LOG.info("delete(" + user + ")");
 		em.remove(user);
 	}
+	
 
 	@Override
 	public User findById(int id)
 	{
 		LOG.info("findById(" + id + ")");
-		return em.find(User.class, id);
+		User u = em.find(User.class, id);
+		if(u != null)
+		{
+			Hibernate.initialize(u.getLikes());
+			Hibernate.initialize(u.getCommunities());
+			Hibernate.initialize(u.getRoles());
+			Hibernate.initialize(u.getUserContacts());
+			Hibernate.initialize(u.getPrivateMessagesReceiver());
+			Hibernate.initialize(u.getPrivateMessagesSender());
+			return u;
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -66,8 +78,38 @@ class UserDAOImpl
 	{
 		LOG.info("findAll()");
 		final String hql = "SELECT u FROM " + User.class.getName() + " AS u";	    
-	    return em.createQuery(hql).getResultList();
-	}	
+	    List<User> users = em.createQuery(hql).getResultList();
+		for(User u: users){
+			Hibernate.initialize(u.getLikes());
+			Hibernate.initialize(u.getCommunities());
+			Hibernate.initialize(u.getRoles());
+			Hibernate.initialize(u.getUserContacts());
+			Hibernate.initialize(u.getPrivateMessagesReceiver());
+			Hibernate.initialize(u.getPrivateMessagesSender());
+		}
+		return users;
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<User> criteria = builder.createQuery(User.class);
+		Root<User> user = criteria.from(User.class);
+		criteria.where(builder.equal(user.get("username"), username));
+		TypedQuery<User> query = em.createQuery(criteria);
+		try {
+			User u = query.getSingleResult();
+			Hibernate.initialize(u.getLikes());
+			Hibernate.initialize(u.getCommunities());
+			Hibernate.initialize(u.getRoles());
+			Hibernate.initialize(u.getUserContacts());
+			Hibernate.initialize(u.getPrivateMessagesReceiver());
+			Hibernate.initialize(u.getPrivateMessagesSender());
+			return u;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 	
 	/*
 	 * Factory methods
@@ -85,17 +127,5 @@ class UserDAOImpl
 		return u;
 	}
 
-	@Override
-	public User findByUsername(String username) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<User> criteria = builder.createQuery(User.class);
-		Root<User> user = criteria.from(User.class);
-		criteria.where(builder.equal(user.get("username"), username));
-		TypedQuery<User> query = em.createQuery(criteria);
-		try {
-			return query.getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		}
-	}
+
 }

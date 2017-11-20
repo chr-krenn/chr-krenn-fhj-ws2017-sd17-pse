@@ -5,7 +5,7 @@ Students SW-Project
 * Virtual Machine: ftp://mesen.fh-joanneum.at/common/Teiniker-Fedora-VMs/Fedora-26-XFCE-2017-09-30.ova
 * SCRUM and Task-Management: https://tree.taiga.io/project/p0intr-swd15-pswengi/
 
-# Setup
+# Setup & run
 <br/>
 Please read the contributing rules: https://github.com/chr-krenn/chr-krenn-fhj-ws2017-sd17-pse/blob/master/CONTRIBUTING.md
 <br/><br/>
@@ -34,8 +34,6 @@ Copy/paste the following commands to __create the database__:
 source sql/init.sql;
 exit
 </pre>
-
-# Run
 Start the Wildfly server with the __standalone.sh__.
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
@@ -53,9 +51,17 @@ Now run the insert sql script which you can find in __sql directory__ of the app
 <pre>
 source sql/insert.sql;
 </pre>
-To add a bigger set of sample data for about 200 users including realistic user profiles, contacts, etc. execute
+To add a bigger set of sample data for 200 users including realistic user profiles, contacts, etc. execute
 <pre>
 source sql/insert_sample_data.sql;
+</pre>
+Users 1-20 have the admin role, 21-100 are portal admins, 101-200 are normal users.
+Login credentials for the bigger sample data set:
+<pre>
+id    role        username  password
+  1   ADMIN       bob       pass
+ 21   PORTALADMIN frank     pass
+101   USER        alice     pass
 </pre>
 
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml

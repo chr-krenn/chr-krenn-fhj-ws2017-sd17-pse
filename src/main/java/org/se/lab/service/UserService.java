@@ -47,5 +47,7 @@ public interface UserService {
 	void addPictureToProfile(UserProfile userProfile);
 
 	boolean hasUserTheRole(ROLE privileg, User user);
+	
+	List<User> getContactsOfUser(User user)
 
 }

@@ -1,5 +1,6 @@
 .userinformation {
 	font-size: 0.8em;
+	float: left;
 }
 
 .panel {
@@ -26,6 +27,7 @@ h2 {
 	right: 8px;
 }
 
+
 .contactcommunities {
 	float: left;
 }
@@ -33,16 +35,18 @@ h2 {
 .contactlist {
 	float: left;
 	background-color: lightgrey;
+	margin-left: 150px;
 	margin-right: 150px;
 }
 
 .communitylist {
 	background-color: lightgrey;
 	float: left;
-	margin-right: 300px;
+	margin-right: 100px;
 }
 
 .image {
+	margin-left: 150px;
 	float: left;
 }
 
@@ -60,8 +64,9 @@ h2 {
 
 #footer {
 	background-color: grey;
-	display: block;
 	text-align: center;
+	overflow: hidden;
+	display: block;
 	position: fixed;
 	width: 100%;
 	bottom: 0px;

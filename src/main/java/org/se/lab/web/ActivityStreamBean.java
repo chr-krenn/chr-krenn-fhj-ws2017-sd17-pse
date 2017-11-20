@@ -4,13 +4,17 @@ import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
+import org.se.lab.service.ActivityStreamService;
+import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,126 +22,129 @@ import java.util.Map;
 
 @Named
 @RequestScoped
-public class ActivityStreamBean {
+public class ActivityStreamBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    private final Logger LOG = Logger.getLogger(ActivityStreamBean.class);
+	private final Logger LOG = Logger.getLogger(ActivityStreamBean.class);
 
-    private List<Post> posts;
-    private int likecount = 0;
-    private Post post;
-    private List<Post> postChildren;
-    private List<Post> parentposts = new ArrayList<Post>();
+	private String inputText;
+	private String inputTextChild;
 
-    private User user;
-    private User dummyUser = new User("bob", "pass");
+	private List<Post> posts;
+	private int likecount = 0;
+	private Post post;
+	private List<Post> postChildren;
+	private List<Post> parentposts;
 
-    private String id = "";
-    private int userId = 0;
-
-    Flash flash;
-    FacesContext context;
-
-    @PostConstruct
-    public void init() {
-        context = FacesContext.getCurrentInstance();
-        Map<String, Object> session = context.getExternalContext().getSessionMap();
-
-        if (session.size() != 0 && session.get("user") != null) {
-
-            userId = (int) session.get("user");
-            LOG.info("SESSIOn UID: " + userId);
-
-            Community com = new Community("C1", "NewC1");
-            user = new User("Harry Hirsch", "pass");
-
-            // DummyData
-            post = new Post(null, com, user, "Hello World!", new Date());
-            // setParentPost(post);
-            posts = new ArrayList<Post>();
-            posts.add(post);
-            posts.add(new Post(post, com, dummyUser, "Whats up Harry?", new Date()));
-            posts.add(new Post(post, com, dummyUser, "Let's have a drink tonight!", new Date()));
-            posts.add(new Post(null, com, dummyUser, "My first Post on this platform :)", new Date()));
+	private int id = 0;
 
 
-		/*
-         * FG Info Flash: We need flash to make the param survive one redirect request
-		 * otherwise param will be null
-		 */
-            flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+	Flash flash;
+	FacesContext context;
 
-		/*
-		 * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
-		 * 
-		 */
+	@Inject
+	ActivityStreamService service;
+	@Inject
+	private UserService uservice;
+	User user;
+
+	@PostConstruct
+	public void init() {
+		context = FacesContext.getCurrentInstance();
+		Map<String, Object> session = context.getExternalContext().getSessionMap();
+
+		if (session.size() != 0 && session.get("user") != null) {
+
+			id = (int) session.get("user");   
+			LOG.info("SESSION UID: " + String.valueOf(id));
+
+			flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+			flash.put("uid", id);
+			loadPostsForUser();
+
+		} else {
+			try {
+				context.getExternalContext().redirect("/pse/login.xhtml");
+			} catch (IOException e) {
+				LOG.error("Can't redirect to /pse/login.xhtml");
+				//e.printStackTrace();
+			}
+		}       
+	}
+
+	public List<Post> getChildPosts(Post post) {
+		postChildren = new ArrayList<Post>();
+		postChildren = post.getChildPosts();
+		return postChildren;
+	}
 
 
-            id = context.getExternalContext().getRequestParameterMap().get("userid");
 
-            flash.put("uid", id);
+	public int getLikeCount() {
+		return likecount;
+	}
 
-            String userProfId = (String) context.getExternalContext().getFlash().get("uid");
+	public void addLike(Post post) {
+		likecount++;
+		LOG.info("Likes: " + likecount + " - " + post.toString());
+	}
 
-            LOG.info("userProfId: " + userProfId);
+	public int getLikes(Post p) {
+		return likecount;
+	}
+
+	public void newPost(Post parentpost) {
+
+		
+		
+		if(parentpost == null) {
+			flash.put("inputText", inputText);
+			post = new Post(null, null, getLoggedInUser(), inputText, new Date()); 
+		} else {
+			flash.put("inputText", inputTextChild);
+			post = new Post(parentpost, parentpost.getCommunity(), getLoggedInUser(), inputTextChild, new Date()); 
+		}
+		flash.put("post", post);
+		LOG.info("Flash: " + flash.toString());
+
+		service.insert(post);
+	}
+
+	public User getLoggedInUser() {
+		return uservice.findById(id);
+	}
+	public void loadPostsForUser() {
+		List<Post>uposts = service.getPostsForUser(getLoggedInUser());
+		setPosts(uposts);
+	}
 
 
-        } else {
-            try {
-                context.getExternalContext().redirect("/pse/login.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/login.xhtml");
-                //e.printStackTrace();
-            }
 
-        }
 
-        // When service works
-        // posts = this.getPostsForUser()
-    }
+/**
+ * GETTER & SETTER
+ **/
 
-	/*
-	 * Method when service works - now dummy data public List<Post>
-	 * getPostsForUser(){ posts = service.getPostsForUser(user) }
-	 * 
-	 */
 
-    public List<Post> getChildPosts(Post post) {
-        postChildren = new ArrayList<Post>();
-        postChildren = post.getChildPosts();
-        return postChildren;
-    }
+	public List<Post> getPosts() {
+		return posts;
+	}
+	
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+	public String getInputText() {
+		return inputText;
+	}
+	public void setInputText(String inputText) {
+		this.inputText = inputText;
+	}
+	public String getInputTextChild() {
+		return inputTextChild;
+	}
 
-    public List<Post> getPosts() {
-
-        for (Post post : posts) {
-            if (post.getParentpost() == null) {
-                parentposts.add(post);
-            }
-
-        }
-        return parentposts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
-    public int getLikeCount() {
-        return likecount;
-    }
-
-    public void addLike(Post post) {
-        likecount++;
-        LOG.info("Likes: " + likecount + " - " + post.toString());
-    }
-
-    public int getLikes(Post p) {
-        return likecount;
-    }
-
-    public void newPost(Post post) {
-        LOG.info("NEW POST:" + post.toString());
-        // service.insert(post);
-    }
-
-}
+	public void setInputTextChild(String inputTextChild) {
+		this.inputTextChild = inputTextChild;
+	}
+	
+	}
