@@ -27,7 +27,7 @@
 			</p:panel>
 
 
-			<p:repeat value="#{activityStreamBean.posts}" var="posts" rendered="not empty posts">
+			<p:repeat value="#{activityStreamBean.posts}" var="posts" >
 				<p:panel style="text-align:center">
 
 					<f:facet name="header">
@@ -37,7 +37,7 @@
 					</f:facet>
 
 					<h:panelGrid columns="1" style="width:100%">
-						<h:outputText value="Posted in Community: #{posts.community.name}"
+						<h:outputText value="Posted in Community: #{osts.community.name}"
 							style="font-weight: bold" /><br />
 						<h:outputText value="#{posts.text}" /><br />
 
