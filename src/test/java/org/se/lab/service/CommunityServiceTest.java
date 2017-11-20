@@ -4,9 +4,11 @@ import org.easymock.*;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.se.lab.data.Community;
-import org.se.lab.data.CommunityDAO;
 import org.se.lab.data.Enumeration;
 import org.se.lab.data.User;
+import org.se.lab.service.dao.CommunityDAO;
+import org.se.lab.service.impl.CommunityServiceImpl;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,19 +21,19 @@ public class CommunityServiceTest {
     public static final int ID = 1;
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
-    public static final Enumeration APPROVE_STATE = new Enumeration(2);
-    public static final Enumeration PENDING_STATE = new Enumeration(1);
-    public static final Enumeration REFUSED_STATE = new Enumeration(3);
-
+    
     @TestSubject
     private CommunityService communityService = new CommunityServiceImpl();
-
+    
     @Rule
     public EasyMockRule mocks = new EasyMockRule(this);
 
     @Mock
+    private EnumerationService enumerationService;
+    
+    @Mock
     private CommunityDAO communityDAO;
-
+    
     private Community community1;
     private Community community2;
     private Community community3;
@@ -40,14 +42,27 @@ public class CommunityServiceTest {
 
     @Before
     public void setUp() throws Exception {
+    	expect(enumerationService.getPending()).andStubReturn(new Enumeration(1));
+    	expect(enumerationService.getApproved()).andStubReturn(new Enumeration(2));
+    	expect(enumerationService.getRefused()).andStubReturn(new Enumeration(3));
+    	
+    	replay(enumerationService);
+     	
         community1 = new Community("name1", "description1");
-        community1.setState(APPROVE_STATE);
+        community1.setState(enumerationService.getApproved());
         community2 = new Community("name2", "description2");
-        community2.setState(PENDING_STATE);
+        community2.setState(enumerationService.getPending());
         community3 = new Community("name3", "description3");
-        community3.setState(REFUSED_STATE);
+        community3.setState(enumerationService.getRefused());
 
         communities = new ArrayList<>();
+    }
+    
+    @Test
+    public void aatest() {
+    	Assert.assertThat(enumerationService.getApproved().getId(), is(2));
+		Assert.assertThat(enumerationService.getApproved().getId(), is(2));
+		Assert.assertThat(enumerationService.getApproved().getId(), is(2));
     }
 
     @Test
@@ -55,14 +70,14 @@ public class CommunityServiceTest {
         Community community = new Community(NAME, DESCRIPTION);
 
         Community communityResult = new Community(NAME, DESCRIPTION);
-        community.setState(APPROVE_STATE);
+        community.setState(enumerationService.getApproved());
 
-        Capture<Community> communityCapture = new Capture<Community>();
+        Capture<Community> communityCapture = EasyMock.newCapture();
         expect(communityDAO.update(capture(communityCapture))).andReturn(communityResult);
         replay(communityDAO);
 
         communityService.approve(community);
-        Assert.assertThat(communityCapture.getValue().getState(), is(APPROVE_STATE));
+        Assert.assertThat(communityCapture.getValue().getState(), is(enumerationService.getApproved()));
     }
 
     @Test
@@ -70,14 +85,14 @@ public class CommunityServiceTest {
         Community community = new Community(NAME, DESCRIPTION);
 
         Community communityResult = new Community(NAME, DESCRIPTION);
-        community.setState(PENDING_STATE);
+        community.setState(enumerationService.getPending());
 
-        Capture<Community> communityCapture = new Capture<Community>();
+        Capture<Community> communityCapture = EasyMock.newCapture();
         expect(communityDAO.insert(capture(communityCapture))).andReturn(communityResult);
         replay(communityDAO);
 
         communityService.request(community);
-        Assert.assertThat(communityCapture.getValue().getState(), is(PENDING_STATE));
+        Assert.assertThat(communityCapture.getValue().getState(), is(enumerationService.getPending()));
     }
 
     @Test
@@ -144,14 +159,14 @@ public class CommunityServiceTest {
 
     @Test
     public void refuse_Successful(){
-        community3.setState(PENDING_STATE);
+        community3.setState(enumerationService.getPending());
 
         expect(communityDAO.update(community3)).andReturn(community3);
         replay(communityDAO);
 
         communityService.refuse(community3);
 
-        Assert.assertThat(community3.getState(), is(REFUSED_STATE));
+        Assert.assertThat(community3.getState(), is(enumerationService.getRefused()));
     }
 
     @Test (expected = ServiceException.class)

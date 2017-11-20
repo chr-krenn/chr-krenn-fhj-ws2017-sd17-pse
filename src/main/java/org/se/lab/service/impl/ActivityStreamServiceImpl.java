@@ -1,10 +1,12 @@
-package org.se.lab.service;
+package org.se.lab.service.impl;
 
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
 import org.se.lab.data.Post;
-import org.se.lab.data.PostDAO;
 import org.se.lab.data.User;
+import org.se.lab.service.ActivityStreamService;
+import org.se.lab.service.ServiceException;
+import org.se.lab.service.dao.PostDAO;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

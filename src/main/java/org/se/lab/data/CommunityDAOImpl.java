@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.apache.log4j.Logger;
+import org.se.lab.service.dao.CommunityDAO;
 
 public class CommunityDAOImpl implements CommunityDAO{
 	

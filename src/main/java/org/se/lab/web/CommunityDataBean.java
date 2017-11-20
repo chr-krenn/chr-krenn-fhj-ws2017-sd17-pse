@@ -8,7 +8,6 @@ import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.CommunityService;
 import org.se.lab.service.UserService;
 
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;

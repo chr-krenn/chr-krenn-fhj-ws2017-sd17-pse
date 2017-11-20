@@ -7,6 +7,10 @@ import org.easymock.TestSubject;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.se.lab.data.*;
+import org.se.lab.service.dao.UserContactDAO;
+import org.se.lab.service.dao.UserDAO;
+import org.se.lab.service.dao.UserProfileDAO;
+import org.se.lab.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

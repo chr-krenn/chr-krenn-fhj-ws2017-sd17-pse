@@ -1,6 +1,9 @@
-package org.se.lab.data;
+package org.se.lab.service.dao;
 
 import java.util.List;
+
+import org.se.lab.data.User;
+import org.se.lab.data.UserContact;
 
 public interface UserContactDAO {
 

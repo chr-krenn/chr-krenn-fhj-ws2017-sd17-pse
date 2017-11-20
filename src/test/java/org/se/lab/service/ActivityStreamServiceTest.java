@@ -10,8 +10,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.se.lab.data.Community;
 import org.se.lab.data.Post;
-import org.se.lab.data.PostDAO;
 import org.se.lab.data.User;
+import org.se.lab.service.dao.PostDAO;
+import org.se.lab.service.impl.ActivityStreamServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Date;

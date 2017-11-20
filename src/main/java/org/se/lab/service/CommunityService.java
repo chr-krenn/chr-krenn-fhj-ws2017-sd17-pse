@@ -6,6 +6,7 @@ import org.se.lab.data.Community;
 import org.se.lab.data.User;
 
 public interface CommunityService {	
+	
 	List<Community> findAll();
 
 	List<Community> getApproved();

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
+import org.se.lab.service.dao.EnumerationDAO;
 
 public class EnumerationDAOImpl implements EnumerationDAO {
 

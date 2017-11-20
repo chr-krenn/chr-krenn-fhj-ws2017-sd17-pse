@@ -1,6 +1,7 @@
 package org.se.lab.data;
 
 import org.apache.log4j.Logger;
+import org.se.lab.service.dao.UserProfileDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

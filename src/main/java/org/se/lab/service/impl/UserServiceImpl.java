@@ -1,8 +1,14 @@
-package org.se.lab.service;
+package org.se.lab.service.impl;
 
 
 import org.apache.log4j.Logger;
 import org.se.lab.data.*;
+import org.se.lab.service.ServiceException;
+import org.se.lab.service.UserService;
+import org.se.lab.service.dao.CommunityDAO;
+import org.se.lab.service.dao.UserContactDAO;
+import org.se.lab.service.dao.UserDAO;
+import org.se.lab.service.dao.UserProfileDAO;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -266,7 +272,7 @@ public class UserServiceImpl implements UserService {
 
     private void validateString(String... strings) {
         for (String field : strings) {
-            if (field == null && field.isEmpty()) {
+            if (field == null || field.isEmpty()) {
                 LOG.error("Missing Argument ");
                 throw new ServiceException("Missing Argument ");
             }

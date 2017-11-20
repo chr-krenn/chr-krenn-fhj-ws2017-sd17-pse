@@ -1,6 +1,11 @@
-package org.se.lab.data;
+package org.se.lab.service.dao;
 
 import java.util.List;
+
+import org.se.lab.data.Community;
+import org.se.lab.data.Enumeration;
+import org.se.lab.data.Post;
+import org.se.lab.data.User;
 
 public interface EnumerationDAO {
 	/**

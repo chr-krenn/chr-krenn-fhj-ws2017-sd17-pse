@@ -1,11 +1,12 @@
-package org.se.lab.service;
+package org.se.lab.service.impl;
 
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
-import org.se.lab.data.CommunityDAO;
-import org.se.lab.data.Enumeration;
-import org.se.lab.data.EnumerationDAO;
 import org.se.lab.data.User;
+import org.se.lab.service.CommunityService;
+import org.se.lab.service.EnumerationService;
+import org.se.lab.service.ServiceException;
+import org.se.lab.service.dao.CommunityDAO;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,17 +15,13 @@ import java.util.List;
 @Stateless
 public class CommunityServiceImpl implements CommunityService {
     private final Logger LOG = Logger.getLogger(CommunityServiceImpl.class);
-
-    private final int PENDING = 1;
-    private final int APPROVED = 2;
-    private final int REFUSED = 3;
+    
+	@Inject
+	private EnumerationService enumerationService;
     
     @Inject
     private CommunityDAO communityDAO;
     
-    @Inject
-    private EnumerationDAO enumerationDAO;
-
     /* (non-Javadoc)
 	 * @see org.se.lab.service.CommunityService#findAll()
 	 */
@@ -120,7 +117,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
 	public void request(Community community) {
         LOG.debug("request " + community);
-        community.setState(getStateForID(PENDING));
+        community.setState(enumerationService.getPending());
 
         try {
             communityDAO.insert(community);
@@ -136,7 +133,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
 	public void approve(Community community) {
         LOG.debug("approve " + community);
-        community.setState(getStateForID(APPROVED));
+        community.setState(enumerationService.getApproved());
 
         update(community);
     }
@@ -162,21 +159,12 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
 	public void refuse(Community community){
         LOG.debug("refuse " + community);
-        if(community.getState().equals(getStateForID(PENDING))){
-            community.setState(getStateForID(REFUSED));
+        if(community.getState().equals(enumerationService.getPending())){
+            community.setState(enumerationService.getRefused());
             update(community);
         }else {
             LOG.error("Can`t refuse community " + community.getName());
             throw new ServiceException("Can`t refuse community " + community.getName());
-        }
-    }
-    
-    private Enumeration getStateForID(int id) {
-        try {
-            return enumerationDAO.findById(id);
-        } catch (Exception e) {
-            LOG.error("Can`t find Id " + id, e);
-            throw new ServiceException("Can`t find Id " + id);
         }
     }
 }
