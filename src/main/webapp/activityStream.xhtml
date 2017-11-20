@@ -22,14 +22,12 @@
 				<h3>Create a new post</h3>
 				<h:panelGrid columns="1" style="width:100%">
 				<p:inputTextarea rows="3" cols="20" var="inputText" value="#{activityStreamBean.inputText}" placeholder="Enter your message" />
-				<p:commandButton value="Send" actionListener="#{activityStreamBean.newPost()}" /> 
+				<p:commandButton value="Send" actionListener="#{activityStreamBean.newPost(null)}" /> 
 				</h:panelGrid>	
 			</p:panel>
 
-
-			<p:repeat value="#{activityStreamBean.posts}" var="posts" >
+			<p:repeat value="#{activityStreamBean.posts}" var="posts">
 				<p:panel style="text-align:center">
-
 					<f:facet name="header">
 						<h:outputText value="#{posts.user.username} - #{posts.created}" />
 						<p:commandButton value="Like!"
@@ -37,18 +35,19 @@
 					</f:facet>
 
 					<h:panelGrid columns="1" style="width:100%">
-						<h:outputText value="Posted in Community: #{osts.community.name}"
+						<h:outputText value="Posted in Community: #{posts.community.name}"
+							style="font-weight: bold" /><br />
+							<h:outputText value="by #{posts.user.username}"
 							style="font-weight: bold" /><br />
 						<h:outputText value="#{posts.text}" /><br />
 
-						<p:inputTextarea rows="3" cols="20" var="inputText" value="#{activityStreamBean.inputText}" rendered="not empty inputText"
+						<p:inputTextarea rows="3" cols="20" var="inputTextChild" value="#{activityStreamBean.inputTextChild}" 
 							placeholder="Enter your comment!" />
-						<p:commandButton value="Post"
-							actionListener="#{activityStreamBean.newPost()}" /><br />
-
-
+						<p:commandButton value="Reply"
+							actionListener="#{activityStreamBean.newPost(posts)}" /><br />
 					</h:panelGrid>
-					<div class="postComments">
+					
+					<div class="postComments" rendered="#{not empty activityStreamBean.getChildPosts(posts)}">
 						<p:panel header="Comments" style="text-align:center">
 
 							<p:repeat value="#{activityStreamBean.getChildPosts(posts)}"

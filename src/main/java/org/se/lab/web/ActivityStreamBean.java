@@ -28,7 +28,7 @@ public class ActivityStreamBean implements Serializable {
 	private final Logger LOG = Logger.getLogger(ActivityStreamBean.class);
 
 	private String inputText;
-
+	private String inputTextChild;
 
 	private List<Post> posts;
 	private int likecount = 0;
@@ -93,20 +93,21 @@ public class ActivityStreamBean implements Serializable {
 		return likecount;
 	}
 
-	public void newPost() {
+	public void newPost(Post parentpost) {
 
-		flash.put("inputText", inputText);
-
-		parentposts = service.getPostsForUser(uservice.findById(id));
-
-		flash.put("parentposts", parentposts);
-		// new Post(Post parentpost, Community community, User user, String text, Date created)
-		Post newPost = new Post(null, null, getLoggedInUser(), inputText, new Date()); 
-
-		flash.put("post", newPost);
+		
+		
+		if(parentpost == null) {
+			flash.put("inputText", inputText);
+			post = new Post(null, null, getLoggedInUser(), inputText, new Date()); 
+		} else {
+			flash.put("inputText", inputTextChild);
+			post = new Post(parentpost, parentpost.getCommunity(), getLoggedInUser(), inputTextChild, new Date()); 
+		}
+		flash.put("post", post);
 		LOG.info("Flash: " + flash.toString());
 
-		service.insert(newPost);
+		service.insert(post);
 	}
 
 	public User getLoggedInUser() {
@@ -138,8 +139,12 @@ public class ActivityStreamBean implements Serializable {
 	public void setInputText(String inputText) {
 		this.inputText = inputText;
 	}
-	public List<Post> getParentposts() {
-		return parentposts;
+	public String getInputTextChild() {
+		return inputTextChild;
+	}
+
+	public void setInputTextChild(String inputTextChild) {
+		this.inputTextChild = inputTextChild;
 	}
 	
 	}
