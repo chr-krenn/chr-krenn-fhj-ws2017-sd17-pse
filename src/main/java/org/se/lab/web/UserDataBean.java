@@ -109,11 +109,11 @@ public class UserDataBean implements Serializable {
 
     private void handleButton(Map<String, Object> session) {
         if (id == null) {
-            id = (String) flash.get("uid");
+            id = String.valueOf(flash.get("uid"));
         }
         if (id != null) {
             flash.put("uid", id);
-            if (id.equals(Integer.toString((Integer) session.get("user")))) {
+            if (id.equals(String.valueOf(session.get("user")))) {
                 setOwnProfile(true);
             } else {
                 setOwnProfile(false);
