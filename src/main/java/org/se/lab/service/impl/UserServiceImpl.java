@@ -35,10 +35,10 @@ public class UserServiceImpl implements UserService {
 
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#insert(org.se.lab.data.User)
+     * @see org.se.lab.service.UserService#insert(org.se.lab.data.User)
 	 */
     @Override
-	public void insert(User user) {
+    public void insert(User user) {
         LOG.debug("insert " + user);
         userValidator(user);
 
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#delete(org.se.lab.data.User)
 	 */
     @Override
-	public void delete(User user) {
+    public void delete(User user) {
         LOG.debug("delete " + user);
         userValidator(user);
 
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#login(java.lang.String, java.lang.String)
 	 */
     @Override
-	public User login(String username, String password) {
+    public User login(String username, String password) {
         LOG.debug("login for " + username);
         // TODO +hashing
 
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#addContact(org.se.lab.data.User, java.lang.String)
 	 */
     @Override
-	public void addContact(User user, String contactName) {
+    public void addContact(User user, String contactName) {
         LOG.debug("add contact" + contactName + " to " + user);
 
         userValidator(user);
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#removeContact(org.se.lab.data.User, java.lang.String)
 	 */
     @Override
-	public void removeContact(User user, String contactName) {
+    public void removeContact(User user, String contactName) {
         LOG.debug("remove contact from " + user);
 
         userValidator(user);
@@ -140,19 +140,16 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#getAllContactsByUser(org.se.lab.data.User)
 	 */
     @Override
-	public List<UserContact> getAllContactsByUser(User user) {
+    public List<UserContact> getAllContactsByUser(User user) {
         LOG.debug("get all contacts from " + user);
-
-        //todo wegl
-        //todo return liste an kontakten - wegl baut um
-        return userContactDAO.findAll().stream().filter(userContact -> userContact.getUser().equals(user.getUserContacts())).collect(Collectors.toList());
+        return userContactDAO.findContactsbyUser(user);
     }
 
     /* (non-Javadoc)
 	 * @see org.se.lab.service.UserService#update(org.se.lab.data.User)
 	 */
     @Override
-	public void update(User user) {
+    public void update(User user) {
         LOG.debug("update " + user);
 
         try {
@@ -167,7 +164,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#findAll()
 	 */
     @Override
-	public List<User> findAll() {
+    public List<User> findAll() {
         LOG.debug("find all users");
 
         try {
@@ -183,7 +180,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#getUserProfilById(int)
 	 */
     @Override
-	public UserProfile getUserProfilById(int id) {
+    public UserProfile getUserProfilById(int id) {
         LOG.debug("getUserProfil by Id");
 
         try {
@@ -198,7 +195,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#getAllUserProfiles()
 	 */
     @Override
-	public List<UserProfile> getAllUserProfiles() {
+    public List<UserProfile> getAllUserProfiles() {
         LOG.debug("getAllUserProfiles");
 
         try {
@@ -213,7 +210,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#getAllCommunitiesForUser(org.se.lab.data.User)
 	 */
     @Override
-	public List<Community> getAllCommunitiesForUser(User user) {
+    public List<Community> getAllCommunitiesForUser(User user) {
         LOG.debug("getAllUserProfiles");
 
         try {
@@ -232,7 +229,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#delete(int)
 	 */
     @Override
-	public void delete(int id) {
+    public void delete(int id) {
         LOG.info("delete: " + id);
 
         try {
@@ -249,7 +246,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#findById(int)
 	 */
     @Override
-	public User findById(int id) {
+    public User findById(int id) {
         LOG.debug("find User with id=" + id);
 
         try {
@@ -264,7 +261,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#userValidator(org.se.lab.data.User)
 	 */
     @Override
-	public void userValidator(User user) {
+    public void userValidator(User user) {
         boolean isValidUser = user != null && user.getUsername() != null && user.getPassword() != null;
         if (!isValidUser) {
             LOG.error("User not valid " + user);
@@ -286,7 +283,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#addPictureToProfile(org.se.lab.data.UserProfile)
 	 */
     @Override
-	public void addPictureToProfile(UserProfile userProfile) {
+    public void addPictureToProfile(UserProfile userProfile) {
         userProfileDAO.update(userProfile);
     }
 
@@ -294,7 +291,7 @@ public class UserServiceImpl implements UserService {
 	 * @see org.se.lab.service.UserService#hasUserTheRole(org.se.lab.service.UserServiceImpl.ROLE, org.se.lab.data.User)
 	 */
     @Override
-	public boolean hasUserTheRole(ROLE privileg, User user) {
+    public boolean hasUserTheRole(ROLE privileg, User user) {
         User loadedUser = findById(user.getId());
         List<Enumeration> roles = loadedUser.getRoles();
 
@@ -305,7 +302,7 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
-    
+
     public List<User> getContactsOfUser(User user) {
         List<UserContact> userContactObjects = getAllContactsByUser(user);
 
