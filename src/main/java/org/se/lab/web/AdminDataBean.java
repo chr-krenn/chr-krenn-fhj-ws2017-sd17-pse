@@ -90,7 +90,7 @@ public class AdminDataBean implements Serializable {
         flash.put("uid", id);
 
 
-        String userProfId = (String) context.getExternalContext().getFlash().get("uid");
+        String userProfId = String.valueOf(context.getExternalContext().getFlash().get("uid"));
 
 
         LOG.info("userProfId: " + userProfId);

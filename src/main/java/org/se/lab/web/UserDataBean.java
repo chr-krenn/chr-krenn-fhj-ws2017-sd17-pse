@@ -60,14 +60,15 @@ public class UserDataBean implements Serializable {
             handleButton(session);
 
             userId = (int) session.get("user");
-            String userProfId = (String) context.getExternalContext().getFlash().get("uid");
-            String fromHeaderCheck = (String) context.getExternalContext().getFlash().get("fromHeader");
+            String userProfId = String.valueOf(context.getExternalContext().getFlash().get("uid"));
+            String fromHeaderCheck = String.valueOf(context.getExternalContext().getFlash().get("fromHeader"));
             if (fromHeaderCheck != null && fromHeaderCheck.equals("1")) {
                 userProfId = null;
             }
             //Wr befinden uns auf einem Profil eines anderen Users
             if (userProfId != null) {
                 setContactAddable(true);
+                /* TODO userProfId might be "null" or NaN */
                 user = getUser(Integer.parseInt(userProfId));
 
                 //Holen des eingeloggten Users
@@ -128,7 +129,7 @@ public class UserDataBean implements Serializable {
         flash.put("hideAddRemove", hideAddRemove);
         flash.put("fromHeader", fromHeader);
 
-        String hideAddRemoveCheck = (String) context.getExternalContext().getFlash().get("hideAddRemove");
+        String hideAddRemoveCheck = String.valueOf(context.getExternalContext().getFlash().get("hideAddRemove"));
         //Hide Buttons for own profile
         if ("1".equals(hideAddRemoveCheck)) {
             setOwnProfile(true);
