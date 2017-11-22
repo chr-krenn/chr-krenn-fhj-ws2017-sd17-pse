@@ -66,7 +66,7 @@ public class UserDataBean implements Serializable {
                 userProfId = null;
             }
             //Wr befinden uns auf einem Profil eines anderen Users
-            if (userProfId != null) {
+            if (userProfId != null && !userProfId.equals("null")) {
                 setContactAddable(true);
                 /* TODO userProfId might be "null" or NaN */
                 user = getUser(Integer.parseInt(userProfId));
