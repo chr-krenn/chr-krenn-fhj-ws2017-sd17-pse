@@ -249,8 +249,7 @@ public class UserDataBean implements Serializable {
     }
 
     private void validateUserPriviles(User u) {
-        //TODO set role when enum is available
-        this.isAdmin = service.hasUserTheRole(null, u);
+        this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
     }
 
     public boolean isAdmin() {
