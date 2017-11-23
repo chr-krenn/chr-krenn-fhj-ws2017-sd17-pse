@@ -15,18 +15,18 @@ import java.util.List;
 @Stateless
 public class CommunityServiceImpl implements CommunityService {
     private final Logger LOG = Logger.getLogger(CommunityServiceImpl.class);
-    
-	@Inject
-	private EnumerationService enumerationService;
-    
+
+    @Inject
+    private EnumerationService enumerationService;
+
     @Inject
     private CommunityDAO communityDAO;
-    
+
     /* (non-Javadoc)
-	 * @see org.se.lab.service.CommunityService#findAll()
+     * @see org.se.lab.service.CommunityService#findAll()
 	 */
     @Override
-	public List<Community> findAll() {
+    public List<Community> findAll() {
         try {
             return communityDAO.findAll();
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class CommunityServiceImpl implements CommunityService {
 	 * @see org.se.lab.service.CommunityService#getApproved()
 	 */
     @Override
-	public List<Community> getApproved() {
+    public List<Community> getApproved() {
         LOG.debug("getApproved Communities ");
 
         try {
@@ -54,7 +54,7 @@ public class CommunityServiceImpl implements CommunityService {
 	 * @see org.se.lab.service.CommunityService#getPending()
 	 */
     @Override
-	public List<Community> getPending() {
+    public List<Community> getPending() {
         LOG.debug("getPending Communities");
 
         try {
@@ -69,7 +69,7 @@ public class CommunityServiceImpl implements CommunityService {
 	 * @see org.se.lab.service.CommunityService#delete(org.se.lab.data.Community)
 	 */
     @Override
-	public void delete(Community community) {
+    public void delete(Community community) {
         LOG.debug("delete " + community);
 
         try {
@@ -84,7 +84,7 @@ public class CommunityServiceImpl implements CommunityService {
 	 * @see org.se.lab.service.CommunityService#update(org.se.lab.data.Community)
 	 */
     @Override
-	public void update(Community community) {
+    public void update(Community community) {
         LOG.debug("update " + community);
 
         try {
@@ -99,7 +99,7 @@ public class CommunityServiceImpl implements CommunityService {
 	 * @see org.se.lab.service.CommunityService#join(org.se.lab.data.Community, org.se.lab.data.User)
 	 */
     @Override
-	public void join(Community community, User user) {
+    public void join(Community community, User user) {
         LOG.debug("adding " + user + " to " + community);
 
         if (community != null && user != null) {
@@ -115,7 +115,7 @@ public class CommunityServiceImpl implements CommunityService {
 	 * @see org.se.lab.service.CommunityService#request(org.se.lab.data.Community)
 	 */
     @Override
-	public void request(Community community) {
+    public void request(Community community) {
         LOG.debug("request " + community);
         community.setState(enumerationService.getPending());
 
@@ -131,18 +131,23 @@ public class CommunityServiceImpl implements CommunityService {
 	 * @see org.se.lab.service.CommunityService#approve(org.se.lab.data.Community)
 	 */
     @Override
-	public void approve(Community community) {
+    public void approve(Community community) {
         LOG.debug("approve " + community);
-        community.setState(enumerationService.getApproved());
 
-        update(community);
+        if (community.getState().equals(enumerationService.getPending())) {
+            community.setState(enumerationService.getApproved());
+            update(community);
+        } else {
+            LOG.warn("Can`t approve community " + community.getName() + "; Community is in State: " + community.getState());
+            throw new ServiceException("Can`t approve community " + community.getName() + "; Community is in State: " + community.getState());
+        }
     }
 
     /* (non-Javadoc)
 	 * @see org.se.lab.service.CommunityService#findById(int)
 	 */
     @Override
-	public Community findById(int id) {
+    public Community findById(int id) {
         LOG.debug("findById " + id);
 
         try {
@@ -157,14 +162,14 @@ public class CommunityServiceImpl implements CommunityService {
 	 * @see org.se.lab.service.CommunityService#refuse(org.se.lab.data.Community)
 	 */
     @Override
-	public void refuse(Community community){
+    public void refuse(Community community) {
         LOG.debug("refuse " + community);
-        if(community.getState().equals(enumerationService.getPending())){
+        if (community.getState().equals(enumerationService.getPending())) {
             community.setState(enumerationService.getRefused());
             update(community);
-        }else {
-            LOG.error("Can`t refuse community " + community.getName());
-            throw new ServiceException("Can`t refuse community " + community.getName());
+        } else {
+            LOG.warn("Can`t refuse community " + community.getName() + "; Community is in State: " + community.getState());
+            throw new ServiceException("Can`t refuse community " + community.getName() + "; Community is in State: " + community.getState());
         }
     }
 }

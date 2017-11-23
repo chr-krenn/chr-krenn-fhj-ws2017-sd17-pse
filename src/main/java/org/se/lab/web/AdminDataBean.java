@@ -1,8 +1,6 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.event.UnselectEvent;
 import org.se.lab.data.Community;
 import org.se.lab.service.CommunityService;
 import org.se.lab.service.ServiceException;
@@ -129,7 +127,7 @@ public class AdminDataBean implements Serializable {
             service.refuse(community);
             reactionOnPendingRequest = "Sucessfully declined";
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(reactionOnPendingRequest));
-
+            refreshPage();
         } catch (ServiceException e) {
             reactionOnPendingRequest = "Decline failed";
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, reactionOnPendingRequest, "Please retry"));
