@@ -21,13 +21,13 @@ ALTER TABLE userprofile AUTO_INCREMENT = 1;
 ALTER TABLE users AUTO_INCREMENT = 1; 
 
 -- add status to enumeration
-INSERT INTO enumeration (name) VALUES ('PENDING');		-- 1
-INSERT INTO enumeration (name) VALUES ('APPROVED');		-- 2
-INSERT INTO enumeration (name) VALUES ('REFUSED'); 		-- 3
-INSERT INTO enumeration (name) VALUES ('ADMIN'); 		-- 4
-INSERT INTO enumeration (name) VALUES ('PORTALADMIN'); 	-- 5
-INSERT INTO enumeration (name) VALUES ('USER'); 		-- 6
-INSERT INTO enumeration (name) VALUES ('LIKE'); 		-- 7
+INSERT INTO enumeration (name) VALUES ('PENDING');
+INSERT INTO enumeration (name) VALUES ('APPROVED');
+INSERT INTO enumeration (name) VALUES ('REFUSED');
+INSERT INTO enumeration (name) VALUES ('ADMIN');
+INSERT INTO enumeration (name) VALUES ('PORTALADMIN');
+INSERT INTO enumeration (name) VALUES ('USER');
+INSERT INTO enumeration (name) VALUES ('LIKE');
 
 -- create user profiles
 insert into userprofile (address, city, country, description, email, firstname, lastname, mobile, phone, picture, plz, room, team) values ('54 Brown Place','Tacoma','Washington','innovate B2C functionalities','alexander.baar@edu.fh-joanneum.at','Alexander','Baar','253-883-9229','801-140-3618','NULL',98447,47,'Backend');
