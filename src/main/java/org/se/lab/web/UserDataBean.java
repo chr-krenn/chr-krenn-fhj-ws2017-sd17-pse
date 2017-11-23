@@ -38,8 +38,10 @@ public class UserDataBean implements Serializable {
     private User user;
     private User loggedInUser;
     private UserProfile userProfile;
-    private List<User> contacts = new ArrayList<User>();;
-    private List<Community> communities = new ArrayList<Community>();;
+    private List<User> contacts = new ArrayList<User>();
+    ;
+    private List<Community> communities = new ArrayList<Community>();
+    ;
     private String id = "";
     private String hideAddRemove = "";
     private String fromHeader = "";
@@ -77,7 +79,6 @@ public class UserDataBean implements Serializable {
                     //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
                     if (u.getId() == user.getId()) {
                         setContactAddable(false);
-
                     }
                 }
             } else {
@@ -85,9 +86,8 @@ public class UserDataBean implements Serializable {
                 loggedInUser = user;
             }
 
-
             loadContactsCommunitiesAndUserprofile();
-            validateUserPriviles(user);
+            validateUserPriviles(loggedInUser);
         } else {
             /*
              * If session is null - redirect to login page!
@@ -250,9 +250,7 @@ public class UserDataBean implements Serializable {
     }
 
     private void validateUserPriviles(User u) {
-        this.isAdmin = true;
-        //TODO call service methode, if roles are implemented
-//        this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
+        this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
     }
 
     public boolean isAdmin() {
