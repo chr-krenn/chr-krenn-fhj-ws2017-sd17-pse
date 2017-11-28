@@ -2,8 +2,6 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.Community;
-import org.se.lab.data.User;
 import org.se.lab.data.UserProfile;
 import org.se.lab.service.UserService;
 
@@ -14,7 +12,6 @@ import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

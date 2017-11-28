@@ -2,43 +2,25 @@ package org.se.lab.data;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.apache.log4j.Logger;
 import org.se.lab.service.dao.CommunityDAO;
 import org.hibernate.Hibernate;
 
-public class CommunityDAOImpl implements CommunityDAO{
-	
-	private final Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
-
-	@PersistenceContext
-	private EntityManager em;
+public class CommunityDAOImpl extends DAOImplTemplate<Community> implements CommunityDAO{
 	
 	/*
-	 * CRUD Operations
-	 */	
+	 * Constructor
+	 */
+	public CommunityDAOImpl() {}
 	
 	@Override
-	public Community insert(Community com) {
-		em.persist(com);
-		return com;
-	}
-
-	@Override
-	public Community update(Community com) {
-		return em.merge(com);
-	}
-
-	@Override
-	public void delete(Community com) {
-		em.remove(com);
+	protected Class<Community> getEntityClass() {
+		return Community.class;
 	}
 	
 	/**
@@ -147,16 +129,9 @@ public class CommunityDAOImpl implements CommunityDAO{
 	private Enumeration getValidEnumeration(Enumeration find) {
 		if (find != null )
 			return find;
-		LOG.debug("Creating new Enumeration 1 <OPEN>");
 		EnumerationDAOImpl edao = new EnumerationDAOImpl();
 		edao.setEntityManager(em);
 		return edao.insert(edao.createEnumeration(1));
 	}
-
-	public void setEntityManager(EntityManager em) {
-		this.em = em;
-	}
-
-
 
 }

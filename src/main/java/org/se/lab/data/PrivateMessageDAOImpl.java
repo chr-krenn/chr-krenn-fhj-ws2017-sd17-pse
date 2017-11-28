@@ -33,6 +33,7 @@ public class PrivateMessageDAOImpl implements PrivateMessageDAO
         em.remove(privatemessage);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<PrivateMessage> findAll() {
 		LOG.info("findAll()");

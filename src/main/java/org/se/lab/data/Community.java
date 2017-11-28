@@ -186,5 +186,6 @@ public class Community implements Serializable {
 	public String toString() {
 		return "Community [id=" + id + ", name=" + name + ", description=" + description + "]";
 	}
+	//+", state="+ state.toString()
 
 }

@@ -69,7 +69,8 @@ public class UserProfileDAOImpl implements UserProfileDAO {
      * find all method to find all existing userprofile in DB.
      */
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<UserProfile> findAll() {
         LOG.info("findAll()");
         final String hql = "SELECT up FROM " + UserProfile.class.getName() + " AS up";

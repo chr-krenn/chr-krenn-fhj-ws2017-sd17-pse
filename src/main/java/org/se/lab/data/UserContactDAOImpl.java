@@ -102,7 +102,8 @@ public class UserContactDAOImpl implements UserContactDAO {
         em.createQuery(hql).executeUpdate();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<UserContact> findContactsbyUser(User user){
         final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc WHERE uc.user = " + user.getId();
         return em.createQuery(hql).getResultList();

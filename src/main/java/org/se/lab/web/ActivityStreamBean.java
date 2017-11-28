@@ -1,7 +1,6 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.Community;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
 import org.se.lab.service.ActivityStreamService;
@@ -34,7 +33,6 @@ public class ActivityStreamBean implements Serializable {
 	private int likecount = 0;
 	private Post post;
 	private List<Post> postChildren;
-	private List<Post> parentposts;
 
 	private int id = 0;
 
