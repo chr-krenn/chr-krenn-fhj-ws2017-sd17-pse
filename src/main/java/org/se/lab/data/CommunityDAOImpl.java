@@ -26,9 +26,6 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		return Community.class;
 	}
 	
-	/**
-	 * findById Method to find an specific community by the id
-	 */
 	@Override
 	public Community findById(int id) {
 		LOG.info("findById(int " + id + ")");
@@ -38,9 +35,6 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		return c;
 	}
 	
-	/**
-	 *findAll communities whithout any specific criteria 
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Community> findAll() {
@@ -54,10 +48,6 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		return coms;
 	}
 	
-	/**
-	 * findByName Method to find an specific community by the name. 
-	 * Hibernate CriteriaBuilder is used to get a single result.
-	 */
 	@Override
 	public Community findByName(String name) {
 		LOG.info("findByName(name = " + name + ")");
@@ -76,9 +66,6 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		}
 	}	
 
-	/**
-	 * findPendigCommunities Method to find all communities which art approved. This Method could only be invoked by (Portal-)admin
-	 */
 	@Override
 	public List<Community> findPendingCommunities() {
 		LOG.info("findPendingCommunites()");
@@ -99,9 +86,6 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		}
 	}
 
-	/**
-	 * findApprovedCommunities find all approved and published communities.
-	 */
 	@Override
 	public List<Community> findApprovedCommunities() {
 		LOG.info("findApprovedCommunites()");

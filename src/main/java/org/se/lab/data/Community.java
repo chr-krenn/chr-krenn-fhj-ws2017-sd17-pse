@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.JoinColumn;
 
 /**
@@ -83,7 +85,8 @@ public class Community implements Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "description", columnDefinition="TEXT")
+	@Column(name = "description")
+	@Type(type = "org.hibernate.type.TextType")
 	private String description;
 
 	public String getDescription() {
