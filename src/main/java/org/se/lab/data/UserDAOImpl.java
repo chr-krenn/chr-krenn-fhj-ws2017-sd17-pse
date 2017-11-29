@@ -4,9 +4,7 @@ import org.apache.log4j.Logger;
 import org.se.lab.service.dao.UserDAO;
 import org.hibernate.Hibernate;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,53 +12,25 @@ import javax.persistence.criteria.Root;
 
 import java.util.List;
 
-class UserDAOImpl
-	implements UserDAO
-{
+class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
 	private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
 
-	@PersistenceContext
-	private EntityManager em;
-	
-	public void setEntityManager(EntityManager em) {
-		this.em = em;
-	}
-
-
 	/*
-	 * CRUD Operations
+	 * class constructor
 	 */
-
-	@Override
-	public User insert(User user)
-	{
-		LOG.info("insert(" + user + ")");
-		em.persist(user);
-		return user;
-	}
-
-	@Override
-	public User update(User user)
-	{
-		LOG.info("update(" + user + ")");
-		return em.merge(user);
-	}
-
-	@Override
-	public void delete(User user)
-	{
-		LOG.info("delete(" + user + ")");
-		em.remove(user);
-	}
 	
+	public UserDAOImpl() {}
+	
+	@Override
+	protected Class<User> getEntityClass() {
+		return User.class;
+	}
 
 	@Override
-	public User findById(int id)
-	{
+	public User findById(int id) {
 		LOG.info("findById(" + id + ")");
 		User u = em.find(User.class, id);
-		if(u != null)
-		{
+		if (u != null) {
 			Hibernate.initialize(u.getLikes());
 			Hibernate.initialize(u.getCommunities());
 			Hibernate.initialize(u.getRoles());
@@ -74,12 +44,11 @@ class UserDAOImpl
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> findAll()
-	{
+	public List<User> findAll() {
 		LOG.info("findAll()");
-		final String hql = "SELECT u FROM " + User.class.getName() + " AS u";	    
-	    List<User> users = em.createQuery(hql).getResultList();
-		for(User u: users){
+		final String hql = "SELECT u FROM " + User.class.getName() + " AS u";
+		List<User> users = em.createQuery(hql).getResultList();
+		for (User u : users) {
 			Hibernate.initialize(u.getLikes());
 			Hibernate.initialize(u.getCommunities());
 			Hibernate.initialize(u.getRoles());
@@ -110,22 +79,22 @@ class UserDAOImpl
 			return null;
 		}
 	}
-	
+
 	/*
 	 * Factory methods
 	 */
 
 	@Override
-	public User createUser(String username, String password)
-	{
-		LOG.info("createArticle(\"" + username + "\"," + "***" +")");
-		
+	public User createUser(String username, String password) {
+		LOG.info("createArticle(\"" + username + "\"," + "***" + ")");
+
 		User u = new User();
 		u.setUsername(username);
-		u.setPassword(password);	
+		u.setPassword(password);
 		insert(u);
 		return u;
 	}
+
 
 
 }

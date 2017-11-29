@@ -5,25 +5,10 @@
 
 package org.se.lab.service.dao;
 
-import java.util.List;
-
 import org.se.lab.data.User;
 
-public interface UserDAO
-{
-	User insert(User user);
-	User update(User user);
-	void delete(User user);
+public interface UserDAO extends DAOTemplate<User> {
 
-	/**
-	 * @return user who is serached for
-	 */
-	User findById(int id);
-
-	/**
-	 * @return all users of application
-	 */
-	List<User> findAll();
 	/**
 	 * @return user searched by username
 	 */

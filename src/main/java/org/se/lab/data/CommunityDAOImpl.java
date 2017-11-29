@@ -9,13 +9,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.se.lab.service.dao.CommunityDAO;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 
 public class CommunityDAOImpl extends DAOImplTemplate<Community> implements CommunityDAO{
+	private final Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
 	
 	/*
-	 * Constructor
+	 * class constructor
 	 */
+	
 	public CommunityDAOImpl() {}
 	
 	@Override
@@ -28,10 +31,27 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 	 */
 	@Override
 	public Community findById(int id) {
+		LOG.info("findById(int " + id + ")");
 		Community c  = em.find(Community.class, id);
 		Hibernate.initialize(c.getState());
 		Hibernate.initialize(c.getUsers());
 		return c;
+	}
+	
+	/**
+	 *findAll communities whithout any specific criteria 
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Community> findAll() {
+		LOG.info("findAll()");
+		final String hql = "SELECT c FROM " + Community.class.getName() + " AS c";
+		List<Community> coms = em.createQuery(hql).getResultList();
+		for(Community c : coms) {
+			Hibernate.initialize(c.getState());
+			Hibernate.initialize(c.getUsers());
+		}
+		return coms;
 	}
 	
 	/**
@@ -40,6 +60,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 	 */
 	@Override
 	public Community findByName(String name) {
+		LOG.info("findByName(name = " + name + ")");
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
@@ -60,6 +81,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 	 */
 	@Override
 	public List<Community> findPendingCommunities() {
+		LOG.info("findPendingCommunites()");
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
@@ -82,6 +104,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 	 */
 	@Override
 	public List<Community> findApprovedCommunities() {
+		LOG.info("findApprovedCommunites()");
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
@@ -99,23 +122,9 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		}
 	}
 
-	/**
-	 *findAll communities whithout any specific criteria 
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Community> findAll() {
-		final String hql = "SELECT c FROM " + Community.class.getName() + " AS c";
-		List<Community> coms = em.createQuery(hql).getResultList();
-		for(Community c : coms) {
-			Hibernate.initialize(c.getState());
-			Hibernate.initialize(c.getUsers());
-		}
-		return coms;
-	}
-
 	@Override
 	public Community createCommunity(String name, String description) {
+		LOG.info("createCommunity(name = "+ name +", description = "+ description + ")");
 		Community c = new Community();
 		c.setName(name);
 		c.setDescription(description);
