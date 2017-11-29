@@ -15,6 +15,10 @@ public abstract class DAOImplTemplate<E> implements DAOTemplate<E> {
 
 	public DAOImplTemplate() {}
 	
+	/**
+	 * Set the EntityManager for DAO
+	 * @param em
+	 */
 	public void setEntityManager(EntityManager em) {
 		this.em = em;
 	}

@@ -83,7 +83,7 @@ public class Community implements Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "description")
+	@Column(name = "description", columnDefinition="TEXT")
 	private String description;
 
 	public String getDescription() {

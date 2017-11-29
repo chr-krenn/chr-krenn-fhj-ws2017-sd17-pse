@@ -3,25 +3,13 @@ package org.se.lab.data;
 import org.apache.log4j.Logger;
 import org.se.lab.service.dao.UserProfileDAO;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public class UserProfileDAOImpl implements UserProfileDAO {
+public class UserProfileDAOImpl extends DAOImplTemplate<UserProfile> implements UserProfileDAO {
 
     private final Logger LOG = Logger.getLogger(UserProfileDAOImpl.class);
 
-    @PersistenceContext
-    private EntityManager em;
 
-    /**
-     * @param em
-     *      em to get instance for testing
-     */
-
-    public void setEntityManager(EntityManager em) {
-        this.em = em;
-    }
 
     /**
      * insert method to add userprofile
@@ -30,8 +18,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
     @Override
     public UserProfile insert(UserProfile up) {
         LOG.info("insert(" + up + ")");
-        em.persist(up);
-        return up;
+        return super.insert(up);
     }
 
     /**
@@ -41,8 +28,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
     @Override
     public UserProfile update(UserProfile up) {
         LOG.info("update(" + up + ")");
-        em.merge(up);
-        return up;
+        return super.update(up);
     }
 
     /**
@@ -52,7 +38,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
     @Override
     public void delete(UserProfile up) {
         LOG.info("delete(" + up + ")");
-        em.remove(up);
+        super.delete(up);
     }
 
     /**
@@ -62,19 +48,22 @@ public class UserProfileDAOImpl implements UserProfileDAO {
     @Override
     public UserProfile findById(int id) {
         LOG.info("findById(" + id + ")");
-        return em.find(UserProfile.class, id);
+        return super.findById(id);
     }
 
     /**
      * find all method to find all existing userprofile in DB.
      */
 
-    @SuppressWarnings("unchecked")
 	@Override
     public List<UserProfile> findAll() {
         LOG.info("findAll()");
-        final String hql = "SELECT up FROM " + UserProfile.class.getName() + " AS up";
-        return em.createQuery(hql).getResultList();
+        return super.findAll();
     }
+
+	@Override
+	protected Class<UserProfile> getEntityClass() {
+		return UserProfile.class;
+	}
 
 }

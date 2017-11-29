@@ -2,7 +2,6 @@ package org.se.lab.data;
 
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManager;
 
 import org.apache.log4j.Logger;
 import org.se.lab.service.dao.PostDAO;
@@ -98,16 +97,6 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
 	@Override
 	public Post createPost(Post parentpost, Community community, User user, String text, Date created) {
 		return insert(new Post(parentpost, community, user, text, created));
-	}
-	
-	
-	/**
-	 * Set the EntityManager for DAO
-	 * @param em
-	 */
-	public void setEntityManager(EntityManager em) {
-		LOG.debug("setting EntityManager (" + em + ") ");
-		super.em = em;
 	}
 	
 	
