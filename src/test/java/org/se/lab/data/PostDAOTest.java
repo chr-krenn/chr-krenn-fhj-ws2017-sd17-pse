@@ -59,6 +59,11 @@ public class PostDAOTest extends AbstractDAOTest {
 		assertTrue(posts.contains(post2));
 		assertTrue(posts.contains(post3));
 		assertTrue(posts.get(posts.size()-1).getUser().equals(user1));
+		assertTrue(post2.getChildPosts().contains(post1));
+		assertTrue(
+				dao.findById(post1.getId()) // circle ( post1
+				.getParentpost().getUser() // -> parentpost -> user
+				.equals(post1.getUser())); // == post1 -> user ) 
 		
 	}
 	
@@ -93,7 +98,6 @@ public class PostDAOTest extends AbstractDAOTest {
 		
 		// add Like To Post
 		like1 = edao.findById(7);
-		System.out.println(edao.findAll());
 		assertNotNull(like1);
 		like1.addUserToLike(user1);
 		persisted.addLike(like1);
@@ -101,8 +105,7 @@ public class PostDAOTest extends AbstractDAOTest {
 		assertTrue(persisted.getLikes().contains(like1));
 		assertTrue(persisted.getLikes()
 				.get(persisted.getLikes().size()-1) // last like
-				.getLikedBy().get(0) // only user in like
-				.equals(user1));
+				.getLikedBy().contains(user1));
 		
 	}
 
