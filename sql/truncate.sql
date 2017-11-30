@@ -12,6 +12,7 @@ TRUNCATE user_community;
 TRUNCATE userprofile;
 TRUNCATE users;
 TRUNCATE community;
+TRUNCATE likes;
 SET FOREIGN_KEY_CHECKS = 1;
 
 ALTER TABLE community AUTO_INCREMENT = 1; 
