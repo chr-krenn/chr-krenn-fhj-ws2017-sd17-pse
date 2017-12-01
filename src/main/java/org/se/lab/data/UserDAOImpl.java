@@ -31,13 +31,7 @@ class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
 		LOG.info("findById(" + id + ")");
 		User u = em.find(User.class, id);
 		if (u != null) {
-			Hibernate.initialize(u.getLikes());
-			Hibernate.initialize(u.getCommunities());
-			Hibernate.initialize(u.getRoles());
-			Hibernate.initialize(u.getUserContacts());
-			Hibernate.initialize(u.getPrivateMessagesReceiver());
-			Hibernate.initialize(u.getPrivateMessagesSender());
-			return u;
+			return initializeUser(u);
 		}
 		return null;
 	}
@@ -49,12 +43,7 @@ class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
 		final String hql = "SELECT u FROM " + User.class.getName() + " AS u";
 		List<User> users = em.createQuery(hql).getResultList();
 		for (User u : users) {
-			Hibernate.initialize(u.getLikes());
-			Hibernate.initialize(u.getCommunities());
-			Hibernate.initialize(u.getRoles());
-			Hibernate.initialize(u.getUserContacts());
-			Hibernate.initialize(u.getPrivateMessagesReceiver());
-			Hibernate.initialize(u.getPrivateMessagesSender());
+			initializeUser(u);
 		}
 		return users;
 	}
@@ -68,13 +57,7 @@ class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
 		TypedQuery<User> query = em.createQuery(criteria);
 		try {
 			User u = query.getSingleResult();
-			Hibernate.initialize(u.getLikes());
-			Hibernate.initialize(u.getCommunities());
-			Hibernate.initialize(u.getRoles());
-			Hibernate.initialize(u.getUserContacts());
-			Hibernate.initialize(u.getPrivateMessagesReceiver());
-			Hibernate.initialize(u.getPrivateMessagesSender());
-			return u;
+			return initializeUser(u);
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -95,6 +78,17 @@ class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
 		return u;
 	}
 
+	/*
+	 * Helper
+	 */
 
-
+	private User initializeUser(User u){
+		Hibernate.initialize(u.getLikes());
+		Hibernate.initialize(u.getCommunities());
+		Hibernate.initialize(u.getRoles());
+		Hibernate.initialize(u.getUserContacts());
+		Hibernate.initialize(u.getPrivateMessagesReceiver());
+		Hibernate.initialize(u.getPrivateMessagesSender());
+		return u;
+	}
 }

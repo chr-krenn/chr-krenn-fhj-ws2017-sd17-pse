@@ -30,9 +30,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 	public Community findById(int id) {
 		LOG.info("findById(int " + id + ")");
 		Community c  = em.find(Community.class, id);
-		Hibernate.initialize(c.getState());
-		Hibernate.initialize(c.getUsers());
-		return c;
+		return initializeCom(c);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -42,8 +40,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		final String hql = "SELECT c FROM " + Community.class.getName() + " AS c";
 		List<Community> coms = em.createQuery(hql).getResultList();
 		for(Community c : coms) {
-			Hibernate.initialize(c.getState());
-			Hibernate.initialize(c.getUsers());
+			initializeCom(c);
 		}
 		return coms;
 	}
@@ -58,9 +55,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		TypedQuery<Community> query = em.createQuery(criteria);
 		try {
 			Community c = query.getSingleResult();
-			Hibernate.initialize(c.getState());
-			Hibernate.initialize(c.getUsers());
-			return c;
+			return initializeCom(c);
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -77,8 +72,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		try {
 			List <Community> coms = query.getResultList();
 			for(Community c : coms) {
-				Hibernate.initialize(c.getState());
-				Hibernate.initialize(c.getUsers());
+				initializeCom(c);
 			}
 			return coms;
 		} catch (NoResultException e) {
@@ -97,8 +91,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		try {
 			List <Community> coms = query.getResultList();
 			for(Community c : coms) {
-				Hibernate.initialize(c.getState());
-				Hibernate.initialize(c.getUsers());
+				initializeCom(c);
 			}
 			return coms;
 		} catch (NoResultException e) {
@@ -126,5 +119,14 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		edao.setEntityManager(em);
 		return edao.insert(edao.createEnumeration(1));
 	}
-
+	
+	/*
+	 * helper
+	 */
+	private Community initializeCom(Community c) {
+		Hibernate.initialize(c.getState());
+		Hibernate.initialize(c.getUsers());
+		return c;
+	}
+	
 }
