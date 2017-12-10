@@ -39,9 +39,10 @@ public class UserDataBean implements Serializable {
     private User loggedInUser;
     private UserProfile userProfile;
     private List<User> contacts = new ArrayList<User>();
-    ;
+    private String errorMsg = "";
+    
     private List<Community> communities = new ArrayList<Community>();
-    ;
+    
     private String id = "";
     private String hideAddRemove = "";
     private String fromHeader = "";
@@ -60,7 +61,7 @@ public class UserDataBean implements Serializable {
             flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
             id = context.getExternalContext().getRequestParameterMap().get("userid");
             handleButton(session);
-
+            
             userId = (int) session.get("user");
             String userProfId = String.valueOf(context.getExternalContext().getFlash().get("uid"));
             String fromHeaderCheck = String.valueOf(context.getExternalContext().getFlash().get("fromHeader"));
@@ -74,20 +75,39 @@ public class UserDataBean implements Serializable {
                 user = getUser(Integer.parseInt(userProfId));
 
                 //Holen des eingeloggten Users
+                try {
                 loggedInUser = service.findById(userId);
-                for (User u : service.getContactsOfUser(loggedInUser)) {
+            
+                List<User> usersList= service.getContactsOfUser(loggedInUser);
+                
+                for (User u : usersList) {
                     //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
                     if (u.getId() == user.getId()) {
                         setContactAddable(false);
                     }
                 }
+                
+                }    
+                catch (Exception e) {
+                    errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";     
+                    LOG.error(errorMsg);
+                    setErrorMsg(errorMsg);
+                }    
             } else {
                 user = getUser(userId);
                 loggedInUser = user;
             }
 
+            try {
             loadContactsCommunitiesAndUserprofile();
             validateUserPriviles(loggedInUser);
+            
+        } catch (Exception e) {
+            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
+            
         } else {
             /*
              * If session is null - redirect to login page!
@@ -100,13 +120,20 @@ public class UserDataBean implements Serializable {
                 //e.printStackTrace();
             }
         }
-
+        setErrorMsg("");
     }
 
     private void loadContactsCommunitiesAndUserprofile() {
-        contacts = service.getContactsOfUser(user);
+     try {
+    	contacts = service.getContactsOfUser(user);
         communities = user.getCommunities();
         userProfile = service.getUserProfilById(user.getId());
+        
+    } catch (Exception e) {
+        errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+        LOG.error(errorMsg);
+        setErrorMsg(errorMsg);
+    }
     }
 
     private void handleButton(Map<String, Object> session) {
@@ -209,7 +236,19 @@ public class UserDataBean implements Serializable {
     }
 
     public boolean isImageExists() {
-        return user.getUserProfile().getPicture() != null;
+    	
+    	boolean imageExists = false;
+    	
+    	try {
+    		 user.getUserProfile().getPicture();
+    		imageExists = true;
+    		
+    } catch (Exception e) {
+         errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+        LOG.error(errorMsg);
+        setErrorMsg(errorMsg);
+    }
+        return imageExists;
     }
 
 
@@ -250,11 +289,27 @@ public class UserDataBean implements Serializable {
     }
 
     private void validateUserPriviles(User u) {
-        this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
+    try {
+    	this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
+    	
+    } catch (Exception e) {
+        errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+       LOG.error(errorMsg);
+       setErrorMsg(errorMsg);
+   }
     }
 
     public boolean isAdmin() {
         return isAdmin;
+    }
+    
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
     }
 
 
