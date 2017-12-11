@@ -20,10 +20,10 @@ public abstract class PageObject {
 		System.setProperty("webdriver.gecko.driver", "lib/geckodriver");
 		driver = new FirefoxDriver();
 		baseUrl = "http://localhost:8080/";
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 
-	private boolean isElementPresent(By by) {
+	boolean isElementPresent(By by) {
 		try {
 			driver.findElement(by);
 			return true;
