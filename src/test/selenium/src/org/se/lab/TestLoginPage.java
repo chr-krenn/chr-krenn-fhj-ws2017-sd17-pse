@@ -18,22 +18,22 @@ public class TestLoginPage {
 	}
 
 	@Test
-	public void testValidLogin() throws Exception {
+	public void testValidLogin() {
 		assertEquals(true, loginPage.login(validUsername, validPassword));
 	}
 
 	@Test
-	public void testInvalidUsername() throws Exception {
+	public void testInvalidUsername() {
 		assertEquals(false, loginPage.login(invalidUsername, validPassword));
 	}
 
 	@Test
-	public void testInvalidPassword() throws Exception {
+	public void testInvalidPassword() {
 		assertEquals(false, loginPage.login(validUsername, invalidPassword));
 	}
 
 	@Test
-	public void testInvalidUsernameInvalidPassword() throws Exception {
+	public void testInvalidUsernameInvalidPassword() {
 		assertEquals(false, loginPage.login(invalidUsername, invalidPassword));
 	}
 
