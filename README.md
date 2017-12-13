@@ -78,8 +78,8 @@ If you clean your local git repository don't forget to delete the deployment sec
 UI tests reside in _src/test/selenium/_ and need sample data from _insert_sample_data.sql_ to be imported to be able to run successfully. __Setup a new project__ containing only UI tests: __Import Maven -> src/test/selenium/pom.xml__
 ### Setup Selenium IDE
 * Download Firefox 54: https://ftp.mozilla.org/pub/firefox/releases/54.0/
-* Extract & delete updates & update-settings.ini
-* Start firefox executable
+* Extract files -> delete update & update-settings.ini
+* Run extracted firefox executable
 * about:preferences#advanced -> Never check for updates
 * https://addons.mozilla.org/de/firefox/addon/selenium-ide/
 * ALT + CTRL + S
