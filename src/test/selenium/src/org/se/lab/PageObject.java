@@ -16,11 +16,20 @@ public abstract class PageObject {
 	StringBuffer verificationErrors = new StringBuffer();
 	String baseUrl;
 
+	private void setDefaults() {
+		baseUrl = "http://localhost:8080/";
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	}
+
 	public PageObject() {
 		System.setProperty("webdriver.gecko.driver", "lib/geckodriver");
 		driver = new FirefoxDriver();
-		baseUrl = "http://localhost:8080/";
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		setDefaults();
+	}
+
+	public PageObject(WebDriver driver) {
+		this.driver = driver;
+		setDefaults();
 	}
 
 	boolean isElementPresent(By by) {
@@ -53,6 +62,14 @@ public abstract class PageObject {
 			return alertText;
 		} finally {
 			acceptNextAlert = true;
+		}
+	}
+
+	public void tearDown() throws Exception {
+		driver.quit();
+		String verificationErrorString = verificationErrors.toString();
+		if (!"".equals(verificationErrorString)) {
+			throw new RuntimeException(verificationErrorString);
 		}
 	}
 }

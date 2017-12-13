@@ -1,6 +1,5 @@
 package org.se.lab;
 
-import static org.junit.Assert.fail;
 import org.openqa.selenium.By;
 
 public class LoginPage extends PageObject {
@@ -11,7 +10,7 @@ public class LoginPage extends PageObject {
 
 	public boolean login(String username, String password) {
 		/**
-		 * Takes username and password.
+		 * Login to system.
 		 * 
 		 * @param username
 		 *            The username.
@@ -34,11 +33,4 @@ public class LoginPage extends PageObject {
 		}
 	}
 
-	public void tearDown() throws Exception {
-		driver.quit();
-		String verificationErrorString = verificationErrors.toString();
-		if (!"".equals(verificationErrorString)) {
-			fail(verificationErrorString);
-		}
-	}
 }
