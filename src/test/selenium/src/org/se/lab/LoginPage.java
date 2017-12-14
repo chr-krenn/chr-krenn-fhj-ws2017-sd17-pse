@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 
 public class LoginPage extends PageObject {
 
+	private String url = "/pse/login.xhtml";
+
 	public LoginPage() {
 		super();
 	}
@@ -19,7 +21,7 @@ public class LoginPage extends PageObject {
 		 * @return True if successful, False otherwise.
 		 * 
 		 */
-		driver.get(baseUrl + "/pse/login.xhtml");
+		driver.get(baseUrl + url);
 		driver.findElement(By.id("j_idt4:nameUser")).clear();
 		driver.findElement(By.id("j_idt4:nameUser")).sendKeys(username);
 		driver.findElement(By.id("j_idt4:password")).clear();

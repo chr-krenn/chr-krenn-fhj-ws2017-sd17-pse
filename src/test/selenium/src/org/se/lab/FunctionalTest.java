@@ -30,6 +30,11 @@ public class FunctionalTest {
 	public void testCommunityListPresent() throws Exception {
 		assertEquals(true, (new CommunityOverviewPage(getValidSession())).isCommunityListPresent());
 	}
+	
+	@Test
+	public void testCreateCommunity() throws Exception {
+		assertEquals(true, (new CommunityOverviewPage(getValidSession())).createCommunity());
+	}
 
 	// helper function to get valid user session
 	private WebDriver getValidSession() {
