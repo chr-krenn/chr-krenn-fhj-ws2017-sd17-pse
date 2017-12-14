@@ -1,12 +1,12 @@
 package org.se.lab;
 
 import org.junit.*;
+import org.openqa.selenium.WebDriver;
 
 import static org.junit.Assert.*;
 
 public class FunctionalTest {
 	private LoginPage loginPage;
-	private UserOverviewPage userOverviewPage;
 
 	private String validUsername = "baar";
 	private String validPassword = "pass";
@@ -23,12 +23,18 @@ public class FunctionalTest {
 
 	@Test
 	public void testUserListPresent() throws Exception {
-		if (!loginPage.login(validUsername, validPassword)) fail();
+		assertEquals(true, (new UserOverviewPage(getValidSession())).isUserListPresent());
+	}
 
-		// we have to use a valid user session
-		userOverviewPage = new UserOverviewPage(loginPage.driver);
+	@Test
+	public void testCommunityListPresent() throws Exception {
+		assertEquals(true, (new CommunityOverviewPage(getValidSession())).isCommunityListPresent());
+	}
 
-		assertEquals(true, userOverviewPage.isUserListPresent());
+	// helper function to get valid user session
+	private WebDriver getValidSession() {
+		loginPage.login(validUsername, validPassword);
+		return loginPage.driver;
 	}
 
 	@After
