@@ -47,8 +47,6 @@ public class CommunityOverviewPage extends PageObject {
 			driver.findElement(By.id("j_idt4:communityDescription")).sendKeys(cdesc);
 			driver.findElement(By.id("j_idt4:j_idt30")).click();
 
-			System.out.println((driver.findElement(By.cssSelector("h2")).getText()));
-
 			return (driver.findElement(By.cssSelector("h2")).getText().equals(cname))
 					&& (driver.findElement(By.cssSelector("td")).getText().contains(cdesc));
 		} catch (org.openqa.selenium.NoSuchElementException e) {
