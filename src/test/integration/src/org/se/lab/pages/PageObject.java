@@ -1,4 +1,4 @@
-package org.se.lab;
+package org.se.lab.pages;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,30 +11,30 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public abstract class PageObject {
 
-	WebDriver driver;
+	private WebDriver driver;
 	boolean acceptNextAlert = true;
 	StringBuffer verificationErrors = new StringBuffer();
 	String baseUrl;
 
 	private void setDefaults() {
 		baseUrl = "http://localhost:8080/";
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 
 	public PageObject() {
 		System.setProperty("webdriver.gecko.driver", "lib/geckodriver");
-		driver = new FirefoxDriver();
+		setDriver(new FirefoxDriver());
 		setDefaults();
 	}
 
 	public PageObject(WebDriver driver) {
-		this.driver = driver;
+		this.setDriver(driver);
 		setDefaults();
 	}
 
 	boolean isElementPresent(By by) {
 		try {
-			driver.findElement(by);
+			getDriver().findElement(by);
 			return true;
 		} catch (NoSuchElementException e) {
 			return false;
@@ -43,7 +43,7 @@ public abstract class PageObject {
 
 	boolean isAlertPresent() {
 		try {
-			driver.switchTo().alert();
+			getDriver().switchTo().alert();
 			return true;
 		} catch (NoAlertPresentException e) {
 			return false;
@@ -52,7 +52,7 @@ public abstract class PageObject {
 
 	String closeAlertAndGetItsText() {
 		try {
-			Alert alert = driver.switchTo().alert();
+			Alert alert = getDriver().switchTo().alert();
 			String alertText = alert.getText();
 			if (acceptNextAlert) {
 				alert.accept();
@@ -66,10 +66,18 @@ public abstract class PageObject {
 	}
 
 	public void tearDown() throws Exception {
-		driver.quit();
+		getDriver().quit();
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
 			throw new RuntimeException(verificationErrorString);
 		}
+	}
+
+	public WebDriver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(WebDriver driver) {
+		this.driver = driver;
 	}
 }

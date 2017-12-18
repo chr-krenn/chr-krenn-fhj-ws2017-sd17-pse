@@ -1,4 +1,4 @@
-package org.se.lab;
+package org.se.lab.pages;
 
 import java.util.UUID;
 
@@ -22,7 +22,7 @@ public class CommunityOverviewPage extends PageObject {
 	public boolean isCommunityListPresent() throws Exception {
 		try {
 			return "Bachelorarbeit 1".equals(
-					driver.findElement(By.xpath("//div[@id='j_idt4:communities:0:j_idt33_content']/table/tbody/tr/td"))
+					getDriver().findElement(By.xpath("//div[@id='j_idt4:communities:0:j_idt33_content']/table/tbody/tr/td"))
 							.getText());
 		} catch (org.openqa.selenium.NoSuchElementException e) {
 			return false;
@@ -41,14 +41,14 @@ public class CommunityOverviewPage extends PageObject {
 		String cdesc = "Community description created by functional test.";
 
 		try {
-			driver.findElement(By.id("j_idt4:communityName")).clear();
-			driver.findElement(By.id("j_idt4:communityName")).sendKeys(cname);
-			driver.findElement(By.id("j_idt4:communityDescription")).clear();
-			driver.findElement(By.id("j_idt4:communityDescription")).sendKeys(cdesc);
-			driver.findElement(By.id("j_idt4:j_idt30")).click();
+			getDriver().findElement(By.id("j_idt4:communityName")).clear();
+			getDriver().findElement(By.id("j_idt4:communityName")).sendKeys(cname);
+			getDriver().findElement(By.id("j_idt4:communityDescription")).clear();
+			getDriver().findElement(By.id("j_idt4:communityDescription")).sendKeys(cdesc);
+			getDriver().findElement(By.id("j_idt4:j_idt30")).click();
 
-			return (driver.findElement(By.cssSelector("h2")).getText().equals(cname))
-					&& (driver.findElement(By.cssSelector("td")).getText().contains(cdesc));
+			return (getDriver().findElement(By.cssSelector("h2")).getText().equals(cname))
+					&& (getDriver().findElement(By.cssSelector("td")).getText().contains(cdesc));
 		} catch (org.openqa.selenium.NoSuchElementException e) {
 			return false;
 		}

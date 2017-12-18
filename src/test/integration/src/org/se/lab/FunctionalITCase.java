@@ -2,10 +2,13 @@ package org.se.lab;
 
 import org.junit.*;
 import org.openqa.selenium.WebDriver;
+import org.se.lab.pages.CommunityOverviewPage;
+import org.se.lab.pages.LoginPage;
+import org.se.lab.pages.UserOverviewPage;
 
 import static org.junit.Assert.*;
 
-public class FunctionalTest {
+public class FunctionalITCase {
 	private LoginPage loginPage;
 
 	private String validUsername = "baar";
@@ -39,7 +42,7 @@ public class FunctionalTest {
 	// helper function to get valid user session
 	private WebDriver getValidSession() {
 		loginPage.login(validUsername, validPassword);
-		return loginPage.driver;
+		return loginPage.getDriver();
 	}
 
 	@After
