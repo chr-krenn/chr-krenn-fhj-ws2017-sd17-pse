@@ -84,7 +84,7 @@ UI tests reside in _src/test/selenium/_ and need sample data from _insert_sample
 * https://addons.mozilla.org/de/firefox/addon/selenium-ide/
 * ALT + CTRL + S
 ### UI Test Class Diagram
-![UI Test Class Diagram](src/test/selenium/ClassDiagram.png)
+![UI Test Class Diagram](src/test/integration/ClassDiagram.png)
 
 ## Optional
 Set up management user to access WildFly management console at http://localhost:9990:
