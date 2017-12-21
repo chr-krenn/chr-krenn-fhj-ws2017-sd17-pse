@@ -3,6 +3,7 @@ package org.se.lab.test;
 import org.junit.*;
 import org.se.lab.pages.CommunityOverviewPage;
 import org.se.lab.pages.LoginPage;
+import org.se.lab.pages.ProfilePage;
 import org.se.lab.pages.UserOverviewPage;
 
 import static org.junit.Assert.*;
@@ -13,6 +14,7 @@ public class FunctionalITCase {
 	private LoginPage loginPage;
 	private CommunityOverviewPage communityOverviewPage;
 	private UserOverviewPage userOverViewPage;
+	private ProfilePage profilePage;
 
 	private String validUsername = "baar";
 	private String validPassword = "pass";
@@ -54,6 +56,16 @@ public class FunctionalITCase {
 		communityOverviewPage = loginPage.getCommunityOverviewPage();
 
 		assertEquals(true, communityOverviewPage.getAvailableCommunities().contains("Bachelorarbeit 1"));
+	}
+	
+	@Test
+	public void testProfilePageReachable() {
+		userOverViewPage = loginPage.getUserOverviewPage();
+		profilePage = userOverViewPage.getBaarUserProfilePage();
+		
+		assertEquals("Alexander", profilePage.getFirstName());
+		assertEquals("Baar", profilePage.getLastName());
+		assertEquals("alexander.baar@edu.fh-joanneum.at", profilePage.getMailAddress());
 	}
 
 	@After

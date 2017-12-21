@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="org.se.lab.test.FunctionalITCase" project="pse_ui_tests" 
     file="/pse_ui_tests/src/org/se/lab/test/FunctionalITCase.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="813" y="141"/>    
+    <position height="-1" width="-1" x="765" y="636"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="org.se.lab.pages.PageObject" project="pse_ui_tests" 
     file="/pse_ui_tests/src/org/se/lab/pages/PageObject.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="260" y="157"/>    
+    <position height="-1" width="-1" x="128" y="708"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="org.se.lab.pages.UserOverviewPage" project="pse_ui_tests" 
     file="/pse_ui_tests/src/org/se/lab/pages/UserOverviewPage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="535" y="161"/>    
+    <position height="-1" width="-1" x="404" y="753"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="org.se.lab.pages.LoginPage" project="pse_ui_tests" 
     file="/pse_ui_tests/src/org/se/lab/pages/LoginPage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="526" y="47"/>    
+    <position height="-1" width="-1" x="405" y="899"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,42 +39,64 @@
   </class>  
   <class id="5" language="java" name="org.se.lab.pages.CommunityOverviewPage" project="pse_ui_tests" 
     file="/pse_ui_tests/src/org/se/lab/pages/CommunityOverviewPage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="539" y="283"/>    
+    <position height="-1" width="-1" x="405" y="469"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <dependency id="6">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
+  <class id="6" language="java" name="org.se.lab.pages.ProfilePage" project="pse_ui_tests" 
+    file="/pse_ui_tests/src/org/se/lab/pages/ProfilePage.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="402" y="624"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
   <generalization id="7">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <generalization id="8">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
+  <dependency id="8">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
   <association id="9">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="10" name="loginPage">        
-        <position height="0" width="0" x="2" y="-153"/>      
+      <attribute id="10" name="profilePage"/>      
+      <multiplicity id="11" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="12">    
+    <bendpoint x="625" y="899"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="13" name="loginPage">        
+        <position height="0" width="0" x="-130" y="293"/>      
       </attribute>      
-      <multiplicity id="11" minimum="0" maximum="1">        
-        <position height="0" width="0" x="2" y="-153"/>      
+      <multiplicity id="14" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-130" y="293"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="12">    
+  <dependency id="15">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="5"/>  
   </dependency>  
-  <generalization id="13">    
+  <generalization id="16">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="17">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="18">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
