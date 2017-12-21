@@ -8,22 +8,6 @@ public class CommunityOverviewPage extends PageObject {
 		super(driver);
 	}
 
-	/**
-	 * Checks if community list is present in community overview.
-	 * 
-	 * @return True if successful, False otherwise.
-	 * 
-	 */
-	public boolean isCommunityListPresent() throws Exception {
-		try {
-			return "Bachelorarbeit 1".equals(getDriver()
-					.findElement(By.xpath("//div[@id='j_idt4:communities:0:j_idt33_content']/table/tbody/tr/td"))
-					.getText());
-		} catch (org.openqa.selenium.NoSuchElementException e) {
-			return false;
-		}
-	}
-
 	public void createCommunity(String name, String description) throws Exception {
 		driver.findElement(By.id("j_idt4:communityName")).clear();
 		driver.findElement(By.id("j_idt4:communityName")).sendKeys(name);

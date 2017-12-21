@@ -13,7 +13,6 @@ public class UserOverviewPage extends PageObject {
 	}
 	
 	public ProfilePage getBaarUserProfilePage() {
-		// navigate to useroverview.xhtml
 		driver.findElement(By.cssSelector("span.ui-icon.ui-icon-search")).click();
 		return new ProfilePage(driver);
 	}

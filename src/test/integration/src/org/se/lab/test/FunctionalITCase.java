@@ -1,6 +1,7 @@
 package org.se.lab.test;
 
 import org.junit.*;
+import org.se.lab.pages.ActivityStreamPage;
 import org.se.lab.pages.CommunityOverviewPage;
 import org.se.lab.pages.LoginPage;
 import org.se.lab.pages.ProfilePage;
@@ -15,6 +16,7 @@ public class FunctionalITCase {
 	private CommunityOverviewPage communityOverviewPage;
 	private UserOverviewPage userOverViewPage;
 	private ProfilePage profilePage;
+	private ActivityStreamPage activityStreamPage;
 
 	private String validUsername = "baar";
 	private String validPassword = "pass";
@@ -22,17 +24,17 @@ public class FunctionalITCase {
 	@Before
 	public void setUp() throws Exception {
 		loginPage = new LoginPage();
-		loginPage.login(validUsername, validPassword);
+		activityStreamPage = loginPage.login(validUsername, validPassword);
 	}
 
 	@Test
 	public void testValidLogin() {
-		assertEquals("Activity Stream", loginPage.getHeader());
+		assertEquals("Activity Stream", activityStreamPage.getHeader());
 	}
 
 	@Test
 	public void testUserListPresent() throws Exception {
-		userOverViewPage = loginPage.getUserOverviewPage();
+		userOverViewPage = activityStreamPage.getUserOverviewPage();
 
 		assertEquals(true, userOverViewPage.getAvailableUsers().contains("Baar"));
 		assertEquals(true, userOverViewPage.getAvailableUsers().contains("Berdiev"));
@@ -44,7 +46,7 @@ public class FunctionalITCase {
 		String cname = UUID.randomUUID().toString();
 		String cdesc = "Community description created by functional test.";
 
-		communityOverviewPage = loginPage.getCommunityOverviewPage();
+		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 		communityOverviewPage.createCommunity(cname, cdesc);
 
 		assertEquals(cname, communityOverviewPage.getCommunityName());
@@ -53,14 +55,14 @@ public class FunctionalITCase {
 
 	@Test
 	public void testCommunityListPresent() {
-		communityOverviewPage = loginPage.getCommunityOverviewPage();
+		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 
 		assertEquals(true, communityOverviewPage.getAvailableCommunities().contains("Bachelorarbeit 1"));
 	}
 	
 	@Test
 	public void testProfilePageReachable() {
-		userOverViewPage = loginPage.getUserOverviewPage();
+		userOverViewPage = activityStreamPage.getUserOverviewPage();
 		profilePage = userOverViewPage.getBaarUserProfilePage();
 		
 		assertEquals("Alexander", profilePage.getFirstName());
