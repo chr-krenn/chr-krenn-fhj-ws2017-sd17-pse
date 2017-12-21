@@ -11,10 +11,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public abstract class PageObject {
 
-	private WebDriver driver;
-	boolean acceptNextAlert = true;
-	StringBuffer verificationErrors = new StringBuffer();
-	String baseUrl;
+	protected WebDriver driver;
+	protected boolean acceptNextAlert = true;
+	protected StringBuffer verificationErrors = new StringBuffer();
+	protected String baseUrl;
 
 	private void setDefaults() {
 		baseUrl = "http://localhost:8080/";
