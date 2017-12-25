@@ -31,6 +31,14 @@ public class FunctionalITCase {
 	public void testValidLogin() {
 		assertEquals("Activity Stream", activityStreamPage.getHeader());
 	}
+	
+	@Test(expected=org.openqa.selenium.NoSuchElementException.class)
+	public void testLogout() {
+		activityStreamPage.logout();
+		activityStreamPage.refresh();
+		
+		activityStreamPage.getHeader();
+	}
 
 	@Test
 	public void testUserListPresent() throws Exception {

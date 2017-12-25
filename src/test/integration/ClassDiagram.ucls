@@ -57,75 +57,79 @@
   </class>  
   <class id="7" language="java" name="org.se.lab.pages.ActivityStreamPage" project="pse_ui_tests" 
     file="/pse_ui_tests/src/org/se/lab/pages/ActivityStreamPage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="403" y="465"/>    
+    <position height="-1" width="-1" x="393" y="495"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <dependency id="8">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <association id="9">    
-    <bendpoint x="677" y="465"/>    
+  <association id="8">    
+    <bendpoint x="667" y="489"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="10" name="activityStreamPage"/>      
-      <multiplicity id="11" minimum="0" maximum="1"/>    
+      <attribute id="9" name="activityStreamPage">        
+        <position height="0" width="0" x="-10" y="30"/>      
+      </attribute>      
+      <multiplicity id="10" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-10" y="30"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="12">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <generalization id="13">    
-    <bendpoint x="216" y="425"/>    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <association id="14">    
+  <dependency id="11">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <association id="12">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="15" name="loginPage">        
+      <attribute id="13" name="loginPage">        
         <position height="0" width="0" x="-385" y="-123"/>      
       </attribute>      
-      <multiplicity id="16" minimum="0" maximum="1">        
+      <multiplicity id="14" minimum="0" maximum="1">        
         <position height="0" width="0" x="-385" y="-123"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="17">    
+  <association id="15">    
     <bendpoint x="585" y="-61"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="18" name="profilePage">        
+      <attribute id="16" name="profilePage">        
         <position height="0" width="0" x="-232" y="-458"/>      
       </attribute>      
-      <multiplicity id="19" minimum="0" maximum="1">        
+      <multiplicity id="17" minimum="0" maximum="1">        
         <position height="0" width="0" x="-232" y="-458"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <generalization id="18">    
+    <bendpoint x="219" y="-22"/>    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="19">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
   <dependency id="20">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="5"/>  
   </dependency>  
   <generalization id="21">    
-    <end type="SOURCE" refId="4"/>    
+    <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
   <generalization id="22">    
-    <bendpoint x="219" y="-22"/>    
-    <end type="SOURCE" refId="6"/>    
+    <bendpoint x="216" y="425"/>    
+    <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
   <generalization id="23">    
-    <end type="SOURCE" refId="5"/>    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
