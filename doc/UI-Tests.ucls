@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.1" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="org.se.lab.pages.ProfilePage" project="chr-krenn-fhj-ws2017-sd17-pse" 
+    file="/chr-krenn-fhj-ws2017-sd17-pse/src/test/java/org/se/lab/pages/ProfilePage.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="131" width="141" x="199" y="74"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="org.se.lab.pages.UserOverviewPage" project="chr-krenn-fhj-ws2017-sd17-pse" 
+    file="/chr-krenn-fhj-ws2017-sd17-pse/src/test/java/org/se/lab/pages/UserOverviewPage.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="113" width="208" x="380" y="74"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="org.se.lab.pages.PageObject" project="chr-krenn-fhj-ws2017-sd17-pse" 
+    file="/chr-krenn-fhj-ws2017-sd17-pse/src/test/java/org/se/lab/pages/PageObject.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="293" width="183" x="628" y="-259"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="org.se.lab.pages.ActivityStreamPage" project="chr-krenn-fhj-ws2017-sd17-pse" 
+    file="/chr-krenn-fhj-ws2017-sd17-pse/src/test/java/org/se/lab/pages/ActivityStreamPage.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="185" width="306" x="628" y="74"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="org.se.lab.pages.CommunityOverviewPage" project="chr-krenn-fhj-ws2017-sd17-pse" 
+    file="/chr-krenn-fhj-ws2017-sd17-pse/src/test/java/org/se/lab/pages/CommunityOverviewPage.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="149" width="213" x="974" y="74"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="org.se.lab.pages.LoginPage" project="chr-krenn-fhj-ws2017-sd17-pse" 
+    file="/chr-krenn-fhj-ws2017-sd17-pse/src/test/java/org/se/lab/pages/LoginPage.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="113" width="213" x="1227" y="74"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="org.se.lab.integration.FunctionalITCase" project="chr-krenn-fhj-ws2017-sd17-pse" 
+    file="/chr-krenn-fhj-ws2017-sd17-pse/src/test/java/org/se/lab/integration/FunctionalITCase.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="780" y="465"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="8">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="9">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="10">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="11">    
+    <bendpoint x="354" y="368"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="12" name="profilePage"/>      
+      <multiplicity id="13" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="15">    
+    <bendpoint x="1219" y="361"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="16" name="loginPage"/>      
+      <multiplicity id="17" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="18">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="19" name="activityStreamPage"/>      
+      <multiplicity id="20" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="21">    
+    <bendpoint x="520" y="311"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="22" name="userOverViewPage"/>      
+      <multiplicity id="23" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="24">    
+    <bendpoint x="1092" y="340"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="25" name="communityOverviewPage"/>      
+      <multiplicity id="26" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="27">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
