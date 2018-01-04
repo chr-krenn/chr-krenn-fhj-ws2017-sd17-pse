@@ -41,6 +41,14 @@ Start the Wildfly server with the __standalone.sh__.
 After that run the __JUnit tests__ or __make a deployment__. Hibernate will generate the tables for the application itself.
 <pre>
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
+
+# run unit tests
+mvn test
+
+# run unit tests and integration tests
+mvn verify
+
+# run unit tests and deploy
 mvn wildfly:deploy
 </pre>
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
