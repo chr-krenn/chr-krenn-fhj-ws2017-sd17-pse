@@ -1,4 +1,4 @@
-package org.se.lab.test;
+package org.se.lab.integration;
 
 import org.junit.*;
 import org.se.lab.pages.ActivityStreamPage;
@@ -71,7 +71,7 @@ public class FunctionalITCase {
 	@Test
 	public void testProfilePageReachable() {
 		userOverViewPage = activityStreamPage.getUserOverviewPage();
-		profilePage = userOverViewPage.getBaarUserProfilePage();
+		profilePage = userOverViewPage.getFirstUserProfilePage();
 		
 		assertEquals("Alexander", profilePage.getFirstName());
 		assertEquals("Baar", profilePage.getLastName());
