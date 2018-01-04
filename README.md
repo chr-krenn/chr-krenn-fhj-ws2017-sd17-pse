@@ -38,7 +38,7 @@ Start the Wildfly server with the __standalone.sh__.
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
 </pre>
-After that run the __JUnit tests__ or __make a deployment__. Hibernate will generate the tables for the application itself.
+After that run the unit/integration tests or deploy the app.
 <pre>
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
 
@@ -50,6 +50,15 @@ mvn verify
 
 # run unit tests and deploy
 mvn wildfly:deploy
+
+# insert sample data
+mvn pre-integration-test
+
+# execute unit + integration tests
+mvn integration-test
+
+# truncate tables
+mvn post-integration-test
 </pre>
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
@@ -92,7 +101,7 @@ UI tests reside in _src/test/integration/_ and need sample data from _sql/insert
 * https://addons.mozilla.org/de/firefox/addon/selenium-ide/
 * ALT + CTRL + S
 ### UI Test Class Diagram
-![UI Test Class Diagram](src/test/integration/ClassDiagram.png)
+![UI Test Class Diagram](doc/UI-Tests.png)
 
 ## Optional
 Set up management user to access WildFly management console at http://localhost:9990:
