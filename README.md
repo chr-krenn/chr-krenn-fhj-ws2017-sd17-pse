@@ -47,6 +47,7 @@ mvn test
 
 # run unit tests and integration tests
 mvn verify
+mvn integration-test   # this will not execute post-integration-test
 
 # run unit tests and deploy
 mvn wildfly:deploy
@@ -54,10 +55,7 @@ mvn wildfly:deploy
 # insert sample data
 mvn pre-integration-test
 
-# execute unit + integration tests
-mvn integration-test
-
-# truncate tables
+# remove sample data
 mvn post-integration-test
 </pre>
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
