@@ -5,74 +5,105 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:body>
-	<h:form>
-		<div id="header">
-			<ui:insert name="header">
-				<ui:include src="templates/header.xhtml" />
-			</ui:insert>
-			<h:outputStylesheet library="css" name="style.css" />
-		</div>
-		<div class="activityStream">
-			<h1>Activity Stream</h1>
-
-			<p:panel style="text-align:center">
-				<h3>Create a new post</h3>
-				<h:panelGrid columns="1" style="width:100%">
-				<p:inputTextarea rows="3" cols="20" var="inputText" value="#{activityStreamBean.inputText}" placeholder="Enter your message" />
-				<p:commandButton value="Send" actionListener="#{activityStreamBean.newPost(null)}" /> 
-				</h:panelGrid>	
-			</p:panel>
-
+	<ui:insert name="header">
+		<ui:include src="templates/header.xhtml" />
+	</ui:insert>
+	<b:jumbotron>
+		<b:container>
+			<h2>Activity Stream</h2>
+			<b:modal id="newPostModal" title="New post">
+				<h:form>
+					<b:row>
+						<b:inputTextarea span="12" rows="4" var="inputText"
+							value="#{activityStreamBean.inputText}"
+							placeholder="Enter your message" />
+					</b:row>
+					<b:row>
+						<b:column span="4">
+							<b:commandButton value="Send" look="primary" dismiss="modal"
+								actionListener="#{activityStreamBean.newPost(null)}" />
+							<b:button value="Close" dismiss="modal" />
+						</b:column>
+					</b:row>
+				</h:form>
+			</b:modal>
+			<b:panel collapsible="false">
+				<f:facet name="heading">Actions</f:facet>
+				<button class="btn btn-success" data-target="#newPostModal"
+					data-toggle="modal">New post</button>
+			</b:panel>
 			<p:repeat value="#{activityStreamBean.posts}" var="posts">
-				<p:panel style="text-align:center">
-					<f:facet name="header">
-						<h:outputText value="#{posts.user.username} - #{posts.created}" />
-						<p:commandButton value="Like!"
-							actionListener="#{activityStreamBean.addLike(posts)}" />
+				<b:modal title="New comment to #{posts.user.username}'s post"
+					styleClass="newCommentModal_#{posts.id}">
+					<h:form>
+						<b:row>
+							<b:inputTextarea span="12" rows="4" var="inputTextChild"
+								value="#{activityStreamBean.inputTextChild}"
+								placeholder="Enter your comment" />
+						</b:row>
+						<b:row>
+							<b:column span="4">
+								<b:commandButton value="Reply" look="primary" dismiss="modal"
+									actionListener="#{activityStreamBean.newPost(posts)}" />
+								<b:button value="Close" dismiss="modal" />
+							</b:column>
+						</b:row>
+					</h:form>
+				</b:modal>
+				<b:panel look="success" collapsible="false">
+					<f:facet name="heading">
+						Posted
+						<h:outputText value=" in #{posts.community.name} " rendered="#{posts.community != null}"/>
+						<h:outputText value="at #{posts.created}" />
 					</f:facet>
-
-					<h:panelGrid columns="1" style="width:100%">
-						<h:outputText value="Posted in Community: #{posts.community.name}"
-							style="font-weight: bold" /><br />
-							<h:outputText value="by #{posts.user.username}"
-							style="font-weight: bold" /><br />
-						<h:outputText value="#{posts.text}" /><br />
-
-						<p:inputTextarea rows="3" cols="20" var="inputTextChild" value="#{activityStreamBean.inputTextChild}" 
-							placeholder="Enter your comment!" />
-						<p:commandButton value="Reply"
-							actionListener="#{activityStreamBean.newPost(posts)}" /><br />
-					</h:panelGrid>
-					
-					<div class="postComments" rendered="#{not empty activityStreamBean.getChildPosts(posts)}">
-						<p:panel header="Comments" style="text-align:center">
-
+					<b:row>
+						<b:column>
+							<b:panel look="primary" collapsible="false">
+								<b:row>
+									<b:column span="2">
+										<h:outputText value="#{posts.user.username} says:" />
+									</b:column>
+									<b:column span="6">
+										<h:outputText value="#{posts.text}" />
+									</b:column>
+								</b:row>
+							</b:panel>
+						</b:column>
+					</b:row>
+					<b:row>
+						<b:column offset="2" span="10">
 							<p:repeat value="#{activityStreamBean.getChildPosts(posts)}"
 								var="children">
-
-								<h:panelGrid columns="1" style="width:100%">
-
-									<h:outputText value="#{children.user.username} says:" />
-									<h:outputText value="#{children.text}" />
-
-								</h:panelGrid>
-
+								<b:panel look="info" collapsible="false">
+									<b:row>
+										<b:column span="2">
+											<h:outputText value="#{children.user.username} says:" />
+										</b:column>
+										<b:column span="6">
+											<h:outputText value="#{children.text}" />
+										</b:column>
+									</b:row>
+								</b:panel>
 							</p:repeat>
-
-						</p:panel>
-					</div>
-
-				</p:panel>
+						</b:column>
+					</b:row>
+					<f:facet name="footer">
+						<h:form>
+							<b:commandButton value="Like!"
+								actionListener="#{activityStreamBean.addLike(posts)}"
+								look="success" />
+							<b:button value="New comment" look="primary" onclick="$('.newCommentModal_#{posts.id}').modal()" />
+						</h:form>
+					</f:facet>
+				</b:panel>
 			</p:repeat>
-		</div>
-		<div id="footer">
-			<ui:insert name="footer">
-				<ui:include src="templates/footer.xhtml" />
-			</ui:insert>
-		</div>
-	</h:form>
+		</b:container>
+	</b:jumbotron>
+	<ui:insert name="footer">
+		<ui:include src="templates/footer.xhtml" />
+	</ui:insert>
 </h:body>
 </html>

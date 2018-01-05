@@ -2,64 +2,66 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:body>
-<h:form>
-    <div id="header">
-        <ui:insert name="header">
-            <ui:include src="templates/header.xhtml" />
-        </ui:insert>
-        <h:outputStylesheet library = "css" name = "style.css"  />
-    </div>
-    <div id="createcommunity" class="createForm">
-    	<h3>Create a community</h3>
-    	<p:messages id="messages" />
-		<p:panelGrid columns="2">
-    		<p:outputLabel for="communityName" value="Community Name" />
-			<p:inputText id="communityName" value="#{communityOverviewBean.newCommunityName}" />
-			<p:outputLabel for="communityDescription" value="Community Description" />
-			<p:inputTextarea id="communityDescription" value="#{communityOverviewBean.newCommunityDescription}" />			
-			<p:commandButton value="Create" icon="ui-icon-star"
-				action="#{communityOverviewBean.createNewCommunity()}" disabled="false" ajax="false" />
-		</p:panelGrid>
-    </div>
-    <div id="overview">
-    <p:dataGrid var="community" value="#{communityOverviewBean.communities}" columns="3" layout="grid"
-        rows="12" paginator="true" id="communities"
-        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-        rowsPerPageTemplate="6,12,16">
- 
-        <f:facet name="header">
-            Available Communities
-        </f:facet>
- 
-        <p:panel header="#{community.id}" style="text-align:center">
-            <h:panelGrid columns="1" style="width:100%">
- 
-                <h:outputText value="#{community.name}" />
-                
- 		   <p:commandLink  action="#{communityOverviewBean.gotoCom()}" title="View Detail">
-                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
-                    <f:setPropertyActionListener value="#{community}"  target="#{communityOverviewBean.selectedCommunity}" />
-                </p:commandLink>
-               
-            </h:panelGrid>
-        </p:panel>
- 
-    </p:dataGrid>
-     
-    
-    </div>
-      <div id="footer">
-        <ui:insert name="footer">
-            <ui:include src="templates/footer.xhtml" />
-        </ui:insert>
-    </div>
-    </h:form>
+	<ui:insert name="header">
+		<ui:include src="templates/header.xhtml" />
+	</ui:insert>
+	<b:jumbotron>
+		<b:container>
+			<h2>Available Communities</h2>
+			<b:modal id="newCommunityModal" title="Request community">
+				<h:form>
+					<b:row>
+						<b:inputText span="12" var="communityName"
+							value="#{communityOverviewBean.newCommunityName}"
+							placeholder="Community name" />
+					</b:row>
+					<b:row>
+						<b:inputTextarea span="12" rows="4" var="communityDescription"
+							value="#{communityOverviewBean.newCommunityDescription}"
+							placeholder="Enter your description" />
+					</b:row>
+					<b:row>
+						<b:column span="4">
+							<b:commandButton value="Send" look="primary" dismiss="modal"
+								actionListener="#{communityOverviewBean.createNewCommunity()}" />
+							<b:button value="Close" dismiss="modal" />
+						</b:column>
+					</b:row>
+				</h:form>
+			</b:modal>
+			<b:panel title="Communities" look="success" collapsible="false">
+				<h:form>
+					<b:dataTable value="#{userDataBean.communities}" var="community">
+						<b:dataTableColumn value="#{community.id}" label="Id" order="asc" />
+						<b:dataTableColumn value="#{community.name}" label="Name" />
+						<b:dataTableColumn value="#{community.description}"
+							label="Description" />
+						<b:dataTableColumn label="Details">
+							<p:commandLink action="#{communityOverviewBean.gotoCom()}"
+								title="View Detail">
+								<h:outputText styleClass="ui-icon ui-icon-search"
+									style="margin:0 auto;" />
+								<f:setPropertyActionListener value="#{community}"
+									target="#{communityOverviewBean.selectedCommunity}" />
+							</p:commandLink>
+						</b:dataTableColumn>
+					</b:dataTable>
+				</h:form>
+				<f:facet name="footer">
+				<button class="btn btn-success" data-target="#newCommunityModal"
+					data-toggle="modal">Request community</button>
+				</f:facet>
+			</b:panel>
+		</b:container>
+	</b:jumbotron>
+	<ui:insert name="footer">
+		<ui:include src="templates/footer.xhtml" />
+	</ui:insert>
 </h:body>
 </html>
- 

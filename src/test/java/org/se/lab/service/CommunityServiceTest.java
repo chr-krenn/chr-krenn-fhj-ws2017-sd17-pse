@@ -70,7 +70,7 @@ public class CommunityServiceTest {
         Community community = new Community(NAME, DESCRIPTION);
 
         Community communityResult = new Community(NAME, DESCRIPTION);
-        community.setState(enumerationService.getApproved());
+        community.setState(enumerationService.getPending());
 
         Capture<Community> communityCapture = EasyMock.newCapture();
         expect(communityDAO.update(capture(communityCapture))).andReturn(communityResult);

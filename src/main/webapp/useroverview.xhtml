@@ -5,57 +5,37 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:body>
-	<h:form>
-		<div id="header">
-			<ui:insert name="header">
-				<ui:include src="templates/header.xhtml" />
-			</ui:insert>
-			<h:outputStylesheet library="css" name="style.css" />
-		</div>
-		<div id="overview">
-			<p:dataGrid var="user" value="#{userOverviewBean.profiles}"
-				columns="3" layout="grid" rows="12" paginator="true" id="prof"
-				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="6,12,16">
-
-				<f:facet name="header">
-            Available Users
-        </f:facet>
-
-				<p:panel header="#{user.id}" style="text-align:center">
-					<h:panelGrid columns="1" style="width:100%">
-
-						<h:outputText value="#{user.id}" />
-						<h:outputText value="#{user.firstname}" />
-						<h:outputText value="#{user.lastname}" />
-						<h:outputText value="#{user.description}" />
-
-
-						<p:commandLink action="#{userDataBean.redirect()}"
-							title="View Detail">
-
-							<h:outputText styleClass="ui-icon ui-icon-search"
-								style="margin:0 auto;" />
-							<f:param name="userid" value="#{user.id}" />
-						</p:commandLink>
-
-
-
-					</h:panelGrid>
-				</p:panel>
-
-			</p:dataGrid>
-
-
-		</div>
-		<div id="footer">
-			<ui:insert name="footer">
-				<ui:include src="templates/footer.xhtml" />
-			</ui:insert>
-		</div>
-	</h:form>
+	<ui:insert name="header">
+		<ui:include src="templates/header.xhtml" />
+	</ui:insert>
+	<b:jumbotron>
+		<b:container>
+			<h2>Available Users</h2>
+			<b:panel title="Users" look="success" collapsible="false">
+				<h:form>
+					<b:dataTable value="#{userOverviewBean.profiles}" var="user">
+						<b:dataTableColumn value="#{user.id}" label="Id" order="asc" />
+						<b:dataTableColumn value="#{user.firstname}" label="Firstname" />
+						<b:dataTableColumn value="#{user.lastname}" label="Lastname" />
+						<b:dataTableColumn value="#{user.description}" label="Description" />
+						<b:dataTableColumn label="Details">
+							<p:commandLink action="#{userDataBean.redirect()}"
+								title="View Detail"> 
+								<h:outputText styleClass="ui-icon ui-icon-search"
+									style="margin:0 auto;" />
+								<f:param name="userid" value="#{user.id}" />
+							</p:commandLink>
+						</b:dataTableColumn>
+					</b:dataTable>
+				</h:form>
+			</b:panel>
+		</b:container>
+	</b:jumbotron>
+	<ui:insert name="footer">
+		<ui:include src="templates/footer.xhtml" />
+	</ui:insert>
 </h:body>
 </html>
