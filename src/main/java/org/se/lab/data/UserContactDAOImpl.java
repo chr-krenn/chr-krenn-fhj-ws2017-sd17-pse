@@ -3,20 +3,11 @@ package org.se.lab.data;
 import org.apache.log4j.Logger;
 import org.se.lab.service.dao.UserContactDAO;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public class UserContactDAOImpl implements UserContactDAO {
+public class UserContactDAOImpl extends DAOImplTemplate<UserContact> implements UserContactDAO {
 
     private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
-
-    @PersistenceContext
-    private EntityManager em;
-
-    public void setEntityManager(EntityManager em) {
-        this.em = em;
-    }
 
     /**
      * insert method to add a new contact in DB.
@@ -25,8 +16,7 @@ public class UserContactDAOImpl implements UserContactDAO {
     @Override
     public UserContact insert(UserContact contact) {
         LOG.info("insert(" + contact + ")");
-        em.persist(contact);
-        return contact;
+        return super.insert(contact);
     }
 
     /**
@@ -36,8 +26,7 @@ public class UserContactDAOImpl implements UserContactDAO {
     @Override
     public UserContact update(UserContact contact) {
         LOG.info("update(" + contact + ")");
-        em.merge(contact);
-        return contact;
+        return super.update(contact);
     }
 
     /**
@@ -47,19 +36,17 @@ public class UserContactDAOImpl implements UserContactDAO {
     @Override
     public void delete(UserContact contact) {
         LOG.info("delete(" + contact + ")");
-        em.remove(contact);
+        super.delete(contact);
     }
 
     /**
      *  find all contact objects in DB.
      */
 
-    @SuppressWarnings("unchecked")
 	@Override
     public List<UserContact> findAll() {
         LOG.info("findAll()");
-        final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc";
-        return em.createQuery(hql).getResultList();
+        return super.findAll();
     }
 
     /**
@@ -69,7 +56,7 @@ public class UserContactDAOImpl implements UserContactDAO {
     @Override
     public UserContact findById(int id) {
         LOG.info("findById(" + id + ")");
-        return em.find(UserContact.class, id);
+        return super.findById(id);
     }
 
     /**
@@ -102,11 +89,16 @@ public class UserContactDAOImpl implements UserContactDAO {
         em.createQuery(hql).executeUpdate();
     }
 
-    @Override
+	@Override
     public List<UserContact> findContactsbyUser(User user){
         final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc WHERE uc.user = " + user.getId();
-        return em.createQuery(hql).getResultList();
+        return em.createQuery(hql, UserContact.class).getResultList();
     }
+
+	@Override
+	protected Class<UserContact> getEntityClass() {
+		return UserContact.class;
+	}
 
 
 }

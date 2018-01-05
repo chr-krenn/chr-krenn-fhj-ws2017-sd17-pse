@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.se.lab.data.CommunityDAOImpl;
 import org.se.lab.data.UserDAOImpl;
 
-
 public class CommunityDAOTest extends AbstractDAOTest{
 
 	private static CommunityDAOImpl cdao = new CommunityDAOImpl();
@@ -41,6 +40,7 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		//setup
 		tx.begin();
 		com1 = cdao.createCommunity("TestDAOCommunity1", "Community 1 to test CommunityDAO");
+		Assert.assertNotNull(com1);
 		user1 = udao.createUser("TestUser1", "*****");
 		Assert.assertNotNull(com1);
 		Assert.assertNotNull(user1);
@@ -99,9 +99,7 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	@Test
 	public void testRemove() {
 		//setup
-		int uCount = udao.findAll().size();
-		int cCount = cdao.findAll().size();
-		
+
 		com1 = cdao.findByName("TestDAOCommunity1");
 		com2 = cdao.findByName("TestDAOCommunity2");
 		com3 = cdao.findByName("TestDAOCommunity3");
@@ -127,8 +125,8 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		
 		//verify
 		
-		Assert.assertEquals(cCount-3, cdao.findAll().size());
-		Assert.assertEquals(uCount-3, udao.findAll().size());
+		Assert.assertEquals(0, cdao.findAll().size());
+		Assert.assertEquals(0, udao.findAll().size());
 		
 		
 	}

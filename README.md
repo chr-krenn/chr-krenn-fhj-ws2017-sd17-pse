@@ -38,10 +38,25 @@ Start the Wildfly server with the __standalone.sh__.
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
 </pre>
-After that run the __JUnit tests__ or __make a deployment__. Hibernate will generate the tables for the application itself.
+After that run the unit/integration tests or deploy the app.
 <pre>
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
+
+# run unit tests
+mvn test
+
+# run unit tests and integration tests
+mvn verify
+mvn integration-test   # this will not execute post-integration-test
+
+# run unit tests and deploy
 mvn wildfly:deploy
+
+# insert sample data
+mvn pre-integration-test
+
+# remove sample data
+mvn post-integration-test
 </pre>
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
@@ -73,6 +88,18 @@ The JUnit test would fail if the tables contain any data. To clean the tables us
 If something went wrong drop the database and make a new clean setup of the database. 
 <pre>drop database pse;</pre>
 If you clean your local git repository don't forget to delete the deployment section in the standalone.xml of Wildfly. For this purpose search for the standalone.xml in the __~/install/wildfly-10.1.0.Final/standalone/configuration/__ directory. Go to the end of the file and delete the __\<deployments\>...\<\/deployments\>__ tag.
+
+## UI Testing
+UI tests reside in _src/test/integration/_ and need sample data from _sql/insert_sample_data.sql_ to be imported in order to be able to run successfully. __Setup a new project__ containing only UI tests: __Import Maven -> src/test/integration/pom.xml__
+### Setup Selenium IDE
+* Download Firefox 54: https://ftp.mozilla.org/pub/firefox/releases/54.0/linux-x86_64/en-US/firefox-54.0.tar.bz2
+* Extract files -> delete update & update-settings.ini
+* Run extracted firefox executable
+* about:preferences#advanced -> Never check for updates
+* https://addons.mozilla.org/de/firefox/addon/selenium-ide/
+* ALT + CTRL + S
+### UI Test Class Diagram
+![UI Test Class Diagram](doc/UI-Tests.png)
 
 ## Optional
 Set up management user to access WildFly management console at http://localhost:9990:

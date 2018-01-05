@@ -15,6 +15,9 @@ public class CommunityTest {
 	public void setUp() throws Exception{
 		com = new Community("test", "test community");
 		com.setId(1);
+		Enumeration state = new Enumeration(1);
+		state.setName("pending");
+		com.setState(state);
 	}
 
 	@After
@@ -76,7 +79,7 @@ public class CommunityTest {
 	}
 	
 	public void testEqualsFail() {
-		Assert.assertFalse(com.equals(null) && com.equals(new User()) && com.equals(new Community()));
+		Assert.assertFalse(com.equals(null) && com.equals(new Community()));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

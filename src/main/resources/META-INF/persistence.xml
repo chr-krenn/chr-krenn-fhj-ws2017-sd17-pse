@@ -3,19 +3,30 @@
 	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
-	<persistence-unit name="pse" transaction-type="JTA">
-    	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+	<persistence-unit name="pse">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>org.se.lab.data.Post</class>
+		<class>org.se.lab.data.Community</class>
+		<class>org.se.lab.data.Enumeration</class>
+		<class>org.se.lab.data.User</class>
+		<class>org.se.lab.data.UserContact</class>
+		<class>org.se.lab.data.UserProfile</class>
+		<class>org.se.lab.data.PrivateMessage</class>
 
-	    <properties>
-	        <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pse"/>
-	        <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-	        <property name="hibernate.connection.username" value="student"/>
-	        <property name="hibernate.connection.password" value="student"/>
-	        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-	        <property name="hibernate.show_sql" value="true"/>
-	        <property name="jboss.as.jpa.providerModule" value="org.hibernate:5.0"/>
-	        <property name="hibernate.hbm2ddl.auto" value="update" />
-	    </properties>
+		<properties>
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pse" />
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.username" value="student" />
+			<property name="hibernate.connection.password" value="student" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="jboss.as.jpa.providerModule" value="org.hibernate:5.0" />
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="toplink.ddl-generation" value="create-tables" />
+			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+		</properties>
+
 	</persistence-unit>
 
 </persistence>

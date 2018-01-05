@@ -29,7 +29,12 @@ import java.util.Map;
 @ManagedBean(name = "AdminDataBean")
 public class AdminDataBean implements Serializable {
 
-    private final Logger LOG = Logger.getLogger(AdminDataBean.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private final Logger LOG = Logger.getLogger(AdminDataBean.class);
     List<Community> requestedCommunityList;
     List<Community> approvedCommunityList;
     /*

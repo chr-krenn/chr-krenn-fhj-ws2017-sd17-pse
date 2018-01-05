@@ -34,6 +34,26 @@
 				</configuration>
 			</plugin>
 			
+
+			<!-- Unit tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.20.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<forkCount>4</forkCount>
+					<reuseForks>false</reuseForks>
+				</configuration>
+			</plugin>
+
+			<!-- integration tests -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${version.compiler.plugin}</version>

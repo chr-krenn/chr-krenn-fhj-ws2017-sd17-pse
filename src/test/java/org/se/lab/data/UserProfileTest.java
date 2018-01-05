@@ -72,8 +72,6 @@ public class UserProfileTest {
     @Test
     public void testToString() {
         String s = "UserProfile [firstname=James, lastname=Bond, address=Abbey 12, plz=72FE4, city=London, country=England, room=43, team=MI6, email=james.bond@gmail.com, phone=test, mobile=test, description=test userprofile]";
-        System.out.println(s);
-        System.out.println(up);
         Assert.assertTrue(up.toString().equals(s));
     }
 

@@ -159,3 +159,4 @@ nbdist/
 .nb-gradle/
 
 # End of https://www.gitignore.io/api/eclipse,netbeans,intellij
+/.pmd

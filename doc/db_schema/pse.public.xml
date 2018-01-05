@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="pse" schema="public" type="MySQL - 5.5.5-10.1.26-MariaDB">
    <tables>
-      <table name="community" numRows="50" remarks="" type="TABLE">
+      <table name="community" numRows="8" remarks="" type="TABLE">
          <column autoUpdated="true" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT">
             <child column="fk_community_id" foreignKey="FKjsft64pkupfvvrs6bd4kyokwi" implied="false" onDeleteCascade="false" table="post"/>
             <child column="community_id" foreignKey="FKvx9uvin2jevvy9sychijjx5d" implied="false" onDeleteCascade="false" table="user_community"/>
          </column>
-         <column autoUpdated="false" digits="0" id="1" name="description" nullable="true" remarks="" size="255" type="VARCHAR"/>
+         <column autoUpdated="false" digits="0" id="1" name="description" nullable="true" remarks="" size="2147483647" type="LONGTEXT"/>
          <column autoUpdated="false" digits="0" id="2" name="name" nullable="false" remarks="" size="255" type="VARCHAR"/>
          <column autoUpdated="false" digits="0" id="3" name="picture" nullable="true" remarks="" size="255" type="TINYBLOB"/>
          <column autoUpdated="false" digits="0" id="4" name="enumeration_id" nullable="true" remarks="" size="10" type="INT">
@@ -20,7 +20,7 @@
             <column ascending="true" name="enumeration_id"/>
          </index>
       </table>
-      <table name="contact" numRows="200" remarks="" type="TABLE">
+      <table name="contact" numRows="60" remarks="" type="TABLE">
          <column autoUpdated="true" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT"/>
          <column autoUpdated="false" digits="0" id="1" name="fk_contact_id" nullable="true" remarks="" size="10" type="INT"/>
          <column autoUpdated="false" digits="0" id="2" name="user_id" nullable="true" remarks="" size="10" type="INT">
@@ -46,7 +46,7 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="enumeration_item" numRows="200" remarks="" type="TABLE">
+      <table name="enumeration_item" numRows="20" remarks="" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="enumeration_id" nullable="false" remarks="" size="10" type="INT">
             <parent column="id" foreignKey="FK2a64bbexb95mu9n8c769rrl0k" implied="false" onDeleteCascade="false" table="enumeration"/>
          </column>
@@ -60,7 +60,7 @@
             <column ascending="true" name="users_id"/>
          </index>
       </table>
-      <table name="likes" numRows="200" remarks="" type="TABLE">
+      <table name="likes" numRows="100" remarks="" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="enumeration_id" nullable="false" remarks="" size="10" type="INT">
             <parent column="id" foreignKey="FK5f7eh2n1ynlotnmvjq3a69gwo" implied="false" onDeleteCascade="false" table="enumeration"/>
          </column>
@@ -110,7 +110,7 @@
             <column ascending="true" name="fk_community_id"/>
          </index>
       </table>
-      <table name="private_message" numRows="200" remarks="" type="TABLE">
+      <table name="private_message" numRows="60" remarks="" type="TABLE">
          <column autoUpdated="true" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT"/>
          <column autoUpdated="false" digits="0" id="1" name="text" nullable="true" remarks="" size="255" type="VARCHAR"/>
          <column autoUpdated="false" digits="0" id="2" name="fk_user_id_receiver" nullable="true" remarks="" size="10" type="INT">
@@ -130,7 +130,7 @@
             <column ascending="true" name="fk_user_id_receiver"/>
          </index>
       </table>
-      <table name="user_community" numRows="200" remarks="" type="TABLE">
+      <table name="user_community" numRows="44" remarks="" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="users_id" nullable="false" remarks="" size="10" type="INT">
             <parent column="id" foreignKey="FK4mv0y3ugdd9ogy9x4ii08ld6c" implied="false" onDeleteCascade="false" table="users"/>
          </column>
@@ -144,7 +144,7 @@
             <column ascending="true" name="community_id"/>
          </index>
       </table>
-      <table name="userprofile" numRows="200" remarks="" type="TABLE">
+      <table name="userprofile" numRows="20" remarks="" type="TABLE">
          <column autoUpdated="true" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT">
             <child column="fk_userprofile" foreignKey="FKcmombhhasank864ums4swd519" implied="false" onDeleteCascade="false" table="users"/>
          </column>
@@ -166,7 +166,7 @@
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="users" numRows="200" remarks="" type="TABLE">
+      <table name="users" numRows="20" remarks="" type="TABLE">
          <column autoUpdated="true" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="INT">
             <child column="user_id" foreignKey="FKbxl6anxo14q097g8cd2e51v55" implied="false" onDeleteCascade="false" table="contact"/>
             <child column="users_id" foreignKey="FK9fjj5j3di6uvh1nylihdj0fh2" implied="false" onDeleteCascade="false" table="enumeration_item"/>

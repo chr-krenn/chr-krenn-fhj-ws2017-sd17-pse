@@ -2,37 +2,29 @@ package org.se.lab.data;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.apache.log4j.Logger;
 import org.se.lab.service.dao.EnumerationDAO;
 
-public class EnumerationDAOImpl implements EnumerationDAO {
+public class EnumerationDAOImpl extends DAOImplTemplate<Enumeration> implements EnumerationDAO {
 
 	private final Logger LOG = Logger.getLogger(EnumerationDAOImpl.class);
 
-	@PersistenceContext
-	private EntityManager em;
-	
-	public void setEntityManager(EntityManager em) {
-		this.em = em;
-	}
-
 	@Override
 	public Enumeration insert(Enumeration enumeration) {
-		em.persist(enumeration);
-		return enumeration;
+		LOG.info("insert(" + enumeration + ")");
+		return super.insert(enumeration);
 	}
 
 	@Override
 	public Enumeration update(Enumeration enumeration) {
-		return em.merge(enumeration);
+		LOG.info("update(" + enumeration + ")");
+		return super.update(enumeration);
 	}
 
 	@Override
 	public void delete(Enumeration enumeration) {
-		em.remove(enumeration);
+		LOG.info("delete(" + enumeration + ")");
+		super.delete(enumeration);
 	}
 	
 	@Override
@@ -73,14 +65,13 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 	@Override
 	public Enumeration findById(int id) {
 		LOG.info("findById(" + id + ")");       
-        return em.find(Enumeration.class, id);
+        return super.findById(id);
 	}
 
 	@Override
 	public List<Enumeration> findAll() {
 		LOG.info("findAll()");
-        final String hql = "SELECT e FROM " + Enumeration.class.getName() + " AS e";
-        return em.createQuery(hql, Enumeration.class).getResultList();		
+        return super.findAll();		
 	}
 
 	@Override
@@ -101,5 +92,10 @@ public class EnumerationDAOImpl implements EnumerationDAO {
 	@Override
 	public List<User> findLikedUsersByEnumeration(int id) {
 		return findById(id).getLikedBy();
+	}
+
+	@Override
+	protected Class<Enumeration> getEntityClass() {
+		return Enumeration.class;
 	}
 }

@@ -19,8 +19,8 @@ import static org.hamcrest.CoreMatchers.is;
 public class CommunityServiceTest {
 
     public static final int ID = 1;
-    public static final String NAME = "name";
-    public static final String DESCRIPTION = "description";
+    public static final String NAME = "testcommunity";
+    public static final String DESCRIPTION = "testcommunity description";
     
     @TestSubject
     private CommunityService communityService = new CommunityServiceImpl();
@@ -42,9 +42,16 @@ public class CommunityServiceTest {
 
     @Before
     public void setUp() throws Exception {
-    	expect(enumerationService.getPending()).andStubReturn(new Enumeration(1));
-    	expect(enumerationService.getApproved()).andStubReturn(new Enumeration(2));
-    	expect(enumerationService.getRefused()).andStubReturn(new Enumeration(3));
+    	Enumeration pending = new Enumeration(1); 
+    	pending.setName("pending");
+    	Enumeration approved = new Enumeration(2);
+    	approved.setName("approved");
+    	Enumeration refused = new Enumeration(3);
+    	refused.setName("refused");
+    	
+    	expect(enumerationService.getPending()).andStubReturn(pending);
+    	expect(enumerationService.getApproved()).andStubReturn(approved);
+    	expect(enumerationService.getRefused()).andStubReturn(refused);
     	
     	replay(enumerationService);
      	
@@ -68,14 +75,14 @@ public class CommunityServiceTest {
     @Test
     public void approve() {
         Community community = new Community(NAME, DESCRIPTION);
-
+        
         Community communityResult = new Community(NAME, DESCRIPTION);
         community.setState(enumerationService.getPending());
-
+       
         Capture<Community> communityCapture = EasyMock.newCapture();
         expect(communityDAO.update(capture(communityCapture))).andReturn(communityResult);
         replay(communityDAO);
-
+        
         communityService.approve(community);
         Assert.assertThat(communityCapture.getValue().getState(), is(enumerationService.getApproved()));
     }

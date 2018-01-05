@@ -2,62 +2,52 @@ package org.se.lab.data;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.apache.log4j.Logger;
 import org.se.lab.service.dao.CommunityDAO;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 
-public class CommunityDAOImpl implements CommunityDAO{
-	
+public class CommunityDAOImpl extends DAOImplTemplate<Community> implements CommunityDAO{
 	private final Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
-
-	@PersistenceContext
-	private EntityManager em;
 	
 	/*
-	 * CRUD Operations
-	 */	
-	
-	@Override
-	public Community insert(Community com) {
-		em.persist(com);
-		return com;
-	}
-
-	@Override
-	public Community update(Community com) {
-		return em.merge(com);
-	}
-
-	@Override
-	public void delete(Community com) {
-		em.remove(com);
-	}
-	
-	/**
-	 * findById Method to find an specific community by the id
+	 * class constructor
 	 */
+	
+	public CommunityDAOImpl() {}
+	
+	@Override
+	protected Class<Community> getEntityClass() {
+		return Community.class;
+	}
+	
 	@Override
 	public Community findById(int id) {
+		LOG.info("findById(int " + id + ")");
 		Community c  = em.find(Community.class, id);
-		Hibernate.initialize(c.getState());
-		Hibernate.initialize(c.getUsers());
-		return c;
+		return initializeCom(c);
 	}
 	
-	/**
-	 * findByName Method to find an specific community by the name. 
-	 * Hibernate CriteriaBuilder is used to get a single result.
-	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Community> findAll() {
+		LOG.info("findAll()");
+		final String hql = "SELECT c FROM " + Community.class.getName() + " AS c";
+		List<Community> coms = em.createQuery(hql).getResultList();
+		for(Community c : coms) {
+			initializeCom(c);
+		}
+		return coms;
+	}
+	
 	@Override
 	public Community findByName(String name) {
+		LOG.info("findByName(name = " + name + ")");
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
@@ -65,19 +55,15 @@ public class CommunityDAOImpl implements CommunityDAO{
 		TypedQuery<Community> query = em.createQuery(criteria);
 		try {
 			Community c = query.getSingleResult();
-			Hibernate.initialize(c.getState());
-			Hibernate.initialize(c.getUsers());
-			return c;
+			return initializeCom(c);
 		} catch (NoResultException e) {
 			return null;
 		}
 	}	
 
-	/**
-	 * findPendigCommunities Method to find all communities which art approved. This Method could only be invoked by (Portal-)admin
-	 */
 	@Override
 	public List<Community> findPendingCommunities() {
+		LOG.info("findPendingCommunites()");
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
@@ -86,8 +72,7 @@ public class CommunityDAOImpl implements CommunityDAO{
 		try {
 			List <Community> coms = query.getResultList();
 			for(Community c : coms) {
-				Hibernate.initialize(c.getState());
-				Hibernate.initialize(c.getUsers());
+				initializeCom(c);
 			}
 			return coms;
 		} catch (NoResultException e) {
@@ -95,11 +80,9 @@ public class CommunityDAOImpl implements CommunityDAO{
 		}
 	}
 
-	/**
-	 * findApprovedCommunities find all approved and published communities.
-	 */
 	@Override
 	public List<Community> findApprovedCommunities() {
+		LOG.info("findApprovedCommunites()");
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
@@ -108,8 +91,7 @@ public class CommunityDAOImpl implements CommunityDAO{
 		try {
 			List <Community> coms = query.getResultList();
 			for(Community c : coms) {
-				Hibernate.initialize(c.getState());
-				Hibernate.initialize(c.getUsers());
+				initializeCom(c);
 			}
 			return coms;
 		} catch (NoResultException e) {
@@ -117,23 +99,9 @@ public class CommunityDAOImpl implements CommunityDAO{
 		}
 	}
 
-	/**
-	 *findAll communities whithout any specific criteria 
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Community> findAll() {
-		final String hql = "SELECT c FROM " + Community.class.getName() + " AS c";
-		List<Community> coms = em.createQuery(hql).getResultList();
-		for(Community c : coms) {
-			Hibernate.initialize(c.getState());
-			Hibernate.initialize(c.getUsers());
-		}
-		return coms;
-	}
-
 	@Override
 	public Community createCommunity(String name, String description) {
+		LOG.info("createCommunity(name = "+ name +", description = "+ description + ")");
 		Community c = new Community();
 		c.setName(name);
 		c.setDescription(description);
@@ -147,16 +115,18 @@ public class CommunityDAOImpl implements CommunityDAO{
 	private Enumeration getValidEnumeration(Enumeration find) {
 		if (find != null )
 			return find;
-		LOG.debug("Creating new Enumeration 1 <OPEN>");
 		EnumerationDAOImpl edao = new EnumerationDAOImpl();
 		edao.setEntityManager(em);
 		return edao.insert(edao.createEnumeration(1));
 	}
-
-	public void setEntityManager(EntityManager em) {
-		this.em = em;
+	
+	/*
+	 * helper
+	 */
+	private Community initializeCom(Community c) {
+		Hibernate.initialize(c.getState());
+		Hibernate.initialize(c.getUsers());
+		return c;
 	}
-
-
-
+	
 }
