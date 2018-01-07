@@ -24,16 +24,6 @@
 		<finalName>${project.artifactId}</finalName>
 
 		<plugins>
-		
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12.4</version>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
-			</plugin>
-			
 
 			<!-- Unit tests -->
 			<plugin>
@@ -55,6 +45,86 @@
 
 			<!-- integration tests -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.20.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- insert sample data before executing integration tests -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+
+				<!-- this is broken: <version>3.0.0-SNAPSHOT</version> -->
+
+				<dependencies>
+					<!-- specify the dependent jdbc driver -->
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.37</version>
+					</dependency>
+				</dependencies>
+
+				<configuration>
+					<driver>org.gjt.mm.mysql.Driver</driver>
+					<url>jdbc:mysql://localhost:3306/pse</url>
+					<username>root</username>
+					<password>root66</password>
+					<!-- The value of settingsKey should be a server id in ~/.m2/settings.xml -->
+					<settingsKey>mysql-db-dev</settingsKey>
+					<!--all executions are ignored if -Dmaven.test.skip=true -->
+					<skip>${maven.test.skip}</skip>
+				</configuration>
+
+				<executions>
+					<!-- insert integration test data -->
+					<execution>
+						<id>create-integration-test-data</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<orderFile>ascending</orderFile>
+							<fileset>
+								<basedir>sql</basedir>
+								<includes>
+									<include>insert_sample_data.sql</include>
+								</includes>
+							</fileset>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>remove-integration-test-data</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<orderFile>ascending</orderFile>
+							<fileset>
+								<basedir>sql</basedir>
+								<includes>
+									<include>truncate.sql</include>
+								</includes>
+							</fileset>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${version.compiler.plugin}</version>
 				<configuration>
@@ -72,26 +142,15 @@
 					<port>9990</port>
 					<server-config>standalone.xml</server-config>
 				</configuration>
+
 				<executions>
-					<!-- Run wildfly and deploy application for integration tests. -->
-					<execution>
-						<id>wildfly-run</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start</goal>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-					<!-- Integration test teardown. -->
-					<execution>
-						<id>wildfly-shutdown</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>undeploy</goal>
-							<goal>shutdown</goal>
-						</goals>
-					</execution>
+					<!-- Run wildfly and deploy application for integration tests. <execution> 
+						<id>wildfly-run</id> <phase>pre-integration-test</phase> <goals> <goal>start</goal> 
+						<goal>deploy</goal> </goals> </execution> <execution> <id>wildfly-shutdown</id> 
+						<phase>post-integration-test</phase> <goals> <goal>undeploy</goal> <goal>shutdown</goal> 
+						</goals> </execution> -->
 				</executions>
+
 			</plugin>
 
 		</plugins>
@@ -162,12 +221,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>6.1</version>
-		</dependency>
-		<dependency>
-			<groupId>net.bootsfaces</groupId>
-			<artifactId>bootsfaces</artifactId>
-			<version>1.0.1</version>
+			<version>6.0</version>
 		</dependency>
 
 		<!-- Import the JPA API -->
@@ -182,7 +236,6 @@
 			<version>3.4</version>
 			<scope>test</scope>
 		</dependency>
-
 		<!-- JPA Test Scope -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -190,12 +243,7 @@
 			<version>5.1.0.Final</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.37</version>
-			<scope>test</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -212,6 +260,28 @@
 			<version>5.1.0.Final</version>
 			<scope>provided</scope>
 		</dependency>
-	</dependencies>
 
+		<!-- UI tests -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>3.8.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>3.8.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>htmlunit-driver</artifactId>
+			<version>2.27</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.37</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
