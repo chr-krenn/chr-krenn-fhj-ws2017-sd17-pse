@@ -34,7 +34,7 @@ Copy/paste the following commands to __create the database__:
 source sql/init.sql;
 exit
 </pre>
-Start the Wildfly server with the __standalone.sh__ (use doc/data/SETUP_WILDFLY/standalone/configuration.standalone.xml configuration to use the MySQL datasource).
+Start the Wildfly server with the __standalone.sh__ (use doc/data/SETUP_WILDFLY/standalone/configuration/standalone.xml configuration to use the MySQL datasource).
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
 </pre>
