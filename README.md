@@ -38,25 +38,22 @@ Start the Wildfly server with the __standalone.sh__.
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
 </pre>
-After that run the unit/integration tests or deploy the app.
+After that run the unit/integration tests or deploy the app:
 <pre>
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
 
 # run unit tests
 mvn test
 
-# run unit tests and integration tests
+# run unit tests, dao tests, and integration/UI tests
 mvn verify
-mvn integration-test   # this will not execute post-integration-test
 
-# run unit tests and deploy
+# run unit tests and package application
+mvn clean package
+
+# run unit tests and deploy application
 mvn wildfly:deploy
 
-# insert sample data
-mvn pre-integration-test
-
-# remove sample data
-mvn post-integration-test
 </pre>
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
