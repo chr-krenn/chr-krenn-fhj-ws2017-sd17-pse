@@ -7,7 +7,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
+
 	<properties>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- JBoss dependency versions -->
@@ -38,25 +40,56 @@
 					</execution>
 				</executions>
 				<configuration>
+
+					<!-- execute unit tests in parallel -->
 					<forkCount>4</forkCount>
 					<reuseForks>false</reuseForks>
+
+					<!-- exclude DAO tests -->
+					<excludes>
+						<exclude>**/*DAO*.java</exclude>
+					</excludes>
+
 				</configuration>
 			</plugin>
 
-			<!-- integration tests -->
+
+			<!-- DAO and integration tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.20.1</version>
 				<executions>
+
+					<!-- execute DAO tests in pre-integration-test phase -->
 					<execution>
+						<id>pre-integration-test</id>
+						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>integration-test</goal>
-							<goal>verify</goal>
+						</goals>
+						<!-- include DAO tests -->
+						<configuration>
+							<includes>
+								<include>**/*DAO*.java</include>
+							</includes>
+						</configuration>
+					</execution>
+
+					<!-- execute integration tests -->
+					<execution>
+						<id>integration-test</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>integration-test</goal>
 						</goals>
 					</execution>
+
 				</executions>
+
 			</plugin>
+
+
 
 			<!-- insert sample data before executing integration tests -->
 			<plugin>
