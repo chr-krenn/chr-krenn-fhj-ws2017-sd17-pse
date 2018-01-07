@@ -40,11 +40,11 @@
 					</execution>
 				</executions>
 				<configuration>
-
+				
 					<!-- execute unit tests in parallel -->
 					<forkCount>4</forkCount>
 					<reuseForks>false</reuseForks>
-
+					
 					<!-- exclude DAO tests -->
 					<excludes>
 						<exclude>**/*DAO*.java</exclude>
@@ -68,7 +68,7 @@
 						<goals>
 							<goal>integration-test</goal>
 						</goals>
-						<!-- include DAO tests -->
+						<!-- include only DAO tests in this phase -->
 						<configuration>
 							<includes>
 								<include>**/*DAO*.java</include>
@@ -76,7 +76,7 @@
 						</configuration>
 					</execution>
 
-					<!-- execute integration tests -->
+					<!-- execute integration tests in integration-test phase -->
 					<execution>
 						<id>integration-test</id>
 						<phase>integration-test</phase>
