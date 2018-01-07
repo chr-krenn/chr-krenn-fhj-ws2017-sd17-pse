@@ -24,7 +24,7 @@ Enable and start database service:
 systemctl enable mariadb.service
 systemctl start mariadb.service
 </pre>
-Use MySQL shell to set up the database, grant privileges, and insert test data:
+Use MySQL shell to set up the database, grant privileges, and insert sample data:
 <pre>
 cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
 mysql -u root -p
@@ -34,49 +34,31 @@ Copy/paste the following commands to __create the database__:
 source sql/init.sql;
 exit
 </pre>
-Start the Wildfly server with the __standalone.sh__.
+Start the Wildfly server with the __standalone.sh__ (use doc/data/SETUP_WILDFLY/standalone/configuration.standalone.xml configuration to use the MySQL datasource).
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
 </pre>
-After that run the unit/integration tests or deploy the app.
+After that run the unit/integration tests or deploy the app:
 <pre>
-cd ~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/
-
 # run unit tests
 mvn test
 
-# run unit tests and integration tests
+# run unit tests, dao tests, and integration/UI tests
 mvn verify
-mvn integration-test   # this will not execute post-integration-test
 
-# run unit tests and deploy
+# run unit tests and package application
+mvn clean package
+
+# run unit tests and deploy application
 mvn wildfly:deploy
-
-# insert sample data
-mvn pre-integration-test
-
-# remove sample data
-mvn post-integration-test
 </pre>
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
 mysql -u root -p
 </pre>
-Now run the insert sql script which you can find in __sql directory__ of the app. To add just a few test entries execute
-<pre>
-source sql/insert.sql;
-</pre>
-To add a bigger set of sample data for 200 users including realistic user profiles, contacts, etc. execute
+Now run the insert sql script which you can find in __sql directory__ of the app:
 <pre>
 source sql/insert_sample_data.sql;
-</pre>
-Users 1-20 have the admin role, 21-100 are portal admins, 101-200 are normal users.
-Login credentials for the bigger sample data set:
-<pre>
-id    role        username  password
-  1   ADMIN       bob       pass
- 21   PORTALADMIN frank     pass
-101   USER        alice     pass
 </pre>
 
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
