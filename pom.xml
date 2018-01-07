@@ -250,11 +250,16 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Primefaces -->
+		<!-- Primefaces and Bootsfaces -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.bootsfaces</groupId>
+			<artifactId>bootsfaces</artifactId>
+			<version>1.0.1</version>
 		</dependency>
 
 		<!-- Import the JPA API -->
