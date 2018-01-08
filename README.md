@@ -9,16 +9,15 @@ Students SW-Project
 <br/>
 Please read the contributing rules: https://github.com/chr-krenn/chr-krenn-fhj-ws2017-sd17-pse/blob/master/CONTRIBUTING.md
 <br/><br/>
-Copy the content of 
-<pre>~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/doc/data/SETUP_WILDFLY/</pre>
-into 
-<pre>~/install/wildfly-10.1.0.Final/</pre>
-
 Clone Repository
 <pre>
 cd ~/eclipse-workspace
 git clone https://github.com/chr-krenn/chr-krenn-fhj-ws2017-sd17-pse
 </pre>
+Copy the content of 
+<pre>~/eclipse-workspace/chr-krenn-fhj-ws2017-sd17-pse/doc/data/SETUP_WILDFLY/</pre>
+into 
+<pre>~/install/wildfly-10.1.0.Final/</pre>
 Enable and start database service:
 <pre>
 systemctl enable mariadb.service
@@ -40,17 +39,17 @@ Start the Wildfly server with the __standalone.sh__ (use doc/data/SETUP_WILDFLY/
 </pre>
 After that run the unit/integration tests or deploy the app:
 <pre>
-# run unit tests
-mvn test
-
-# run unit tests, dao tests, and integration/UI tests
-mvn verify
-
 # run unit tests and package application
 mvn clean package
 
 # run unit tests and deploy application
 mvn wildfly:deploy
+
+# run unit tests
+mvn test
+
+# run unit tests, dao tests, and integration/UI tests
+mvn verify
 </pre>
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
