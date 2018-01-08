@@ -124,6 +124,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 	 * helper
 	 */
 	private Community initializeCom(Community c) {
+		if(c == null) return c;
 		Hibernate.initialize(c.getState());
 		Hibernate.initialize(c.getUsers());
 		return c;

@@ -26,33 +26,41 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	Enumeration approved;
 	Enumeration refused;
 	
-	@Before
-	public void setup() {
+	public void createTestData(){
 		cdao.setEntityManager(em);
 		udao.setEntityManager(em);
 		edao.setEntityManager(em);
+		com1 = cdao.createCommunity("TestDAOCommunity1", "Community 1 to test CommunityDAO");
+		com2 = cdao.createCommunity("TestDAOCommunity2", "Community 2 to test CommunityDAO");
+		com3 = cdao.createCommunity("TestDAOCommunity3", "Community 3 to test CommunityDAO");
+		user1 = udao.createUser("TestUser1", "*****");
+		user2 = udao.createUser("TestUser2", "*****");
+		user3 = udao.createUser("TestUser3", "*****");
+		com1.addUsers(user1);
+		com1.addUsers(user3);
+		com2.addUsers(user2);
+		com2.addUsers(user3);
+		com3.addUsers(user3);
+		
+		pending = edao.findById(1);
 	}
-	
 	
 	@Override
 	@Test
 	public void testCreate() {
 		//setup
-		tx.begin();
-		com1 = cdao.createCommunity("TestDAOCommunity1", "Community 1 to test CommunityDAO");
+		createTestData();
+		cdao.insert(com1);
+		cdao.insert(com2);
+		cdao.insert(com3);
+		
 		Assert.assertNotNull(com1);
-		user1 = udao.createUser("TestUser1", "*****");
 		Assert.assertNotNull(com1);
 		Assert.assertNotNull(user1);
-		com1.addUsers(user1);
 		Assert.assertNotNull(user1.getCommunities().get(0));
 		Assert.assertTrue(user1.getCommunities().get(0).getName() == "TestDAOCommunity1");
 		Assert.assertTrue(user1.getCommunities().get(0).getDescription() == "Community 1 to test CommunityDAO");
-		pending = edao.findById(1);
 		Assert.assertTrue(com1.getState().equals(pending));
-		
-		tx.commit();
-		
 		
 		//verify with findByName
 		Community actual = cdao.findByName("TestDAOCommunity1");
@@ -63,22 +71,16 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	@Test
 	public void testModify() {
 		//setup
-		tx.begin();
-		com2 = cdao.createCommunity("TestDAOCommunity2", "Community 2 to test CommunityDAO");
-		com3 = cdao.createCommunity("TestDAOCommunity3", "Community 3 to test CommunityDAO");
-		user2 = udao.createUser("TestUser2", "*****");
-		user3 = udao.createUser("TestUser3", "*****");
-		com2.addUsers(user2);
-		com2.addUsers(user3);
-		com3.addUsers(user3);
-		tx.commit();
+		createTestData();
+		cdao.insert(com1);
+		cdao.insert(com2);
+		cdao.insert(com3);
+		
 		
 		//exercise
-		tx.begin();
 		coms = cdao.findPendingCommunities();
 		coms.get(1).setState(edao.findById(2));
 		cdao.update(coms.get(1));
-		tx.commit();
 		
 		//verify
 		coms = cdao.findAll();
@@ -99,36 +101,19 @@ public class CommunityDAOTest extends AbstractDAOTest{
 	@Test
 	public void testRemove() {
 		//setup
-
-		com1 = cdao.findByName("TestDAOCommunity1");
-		com2 = cdao.findByName("TestDAOCommunity2");
-		com3 = cdao.findByName("TestDAOCommunity3");
+		createTestData();
+		cdao.insert(com1);
+		cdao.insert(com2);
+		cdao.insert(com3);
 		
-		user1 =udao.findByUsername("TestUser1");
-		user2 =udao.findByUsername("TestUser2");
-		user3 =udao.findByUsername("TestUser3");
-		
-		tx.begin();
-		users = udao.findAll();
-		for(User u : users) {
-			udao.delete(u);
-		}
-		tx.commit();
-		
-		tx.begin();
-		coms = cdao.findAll();
-		for(Community c : coms) {
-			cdao.delete(c);
-		}
-		tx.commit();
-		
+		//exercise
+		cdao.delete(cdao.findByName("TestDAOCommunity1"));
+		cdao.delete(cdao.findByName("TestDAOCommunity2"));
+		cdao.delete(cdao.findByName("TestDAOCommunity3"));
 		
 		//verify
-		
 		Assert.assertEquals(0, cdao.findAll().size());
-		Assert.assertEquals(0, udao.findAll().size());
-		
-		
+			
 	}
 
 	

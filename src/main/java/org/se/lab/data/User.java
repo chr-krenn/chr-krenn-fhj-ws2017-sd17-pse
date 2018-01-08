@@ -151,10 +151,7 @@ public class User implements Serializable
 	}
 
 
-	@ManyToMany
-	@JoinTable(name = "user_community", 
-	joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "community_id"))
+	@ManyToMany(mappedBy = "users")
 	private List<Community> communities = new ArrayList<Community>();
 	public void addCommunity(Community community) {
 		if(community == null)
