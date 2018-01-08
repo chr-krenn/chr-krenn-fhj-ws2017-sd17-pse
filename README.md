@@ -37,20 +37,22 @@ Start the Wildfly server with the __standalone.sh__ (use doc/data/SETUP_WILDFLY/
 <pre>
 ~/install/wildfly-10.1.0.Final/bin/standalone.sh
 </pre>
+
 After that run the unit/integration tests or deploy the app:
 <pre>
-# run unit tests and package application
+run unit tests and package application:</br>
 mvn clean package
 
-# run unit tests and deploy application
+run unit tests and deploy application:</br>
 mvn wildfly:deploy
 
-# run unit tests
+run unit tests:</br>
 mvn test
 
-# run unit tests, dao tests, and integration/UI tests
+run unit tests, dao tests, and integration/UI tests:</br>
 mvn verify
 </pre>
+
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
 mysql -u root -p
