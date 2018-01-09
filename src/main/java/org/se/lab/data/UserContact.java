@@ -23,9 +23,10 @@ public class UserContact implements Serializable {
      *        user object
      * @param contact
      *        contact id which gets connected to user object
+     * @throws DatabaseException 
      */
 
-    public UserContact(User user, int contact)
+    public UserContact(User user, int contact) throws DatabaseException
     {
         setUser(user);
         setContactId(contact);
@@ -60,11 +61,15 @@ public class UserContact implements Serializable {
     @JoinColumn(name="user_id")
     private User user;
 
-    public void setUser(User user) {
+    public void setUser(User user) throws DatabaseException {
         if(user == null)
-            throw new IllegalArgumentException();
+            throw new DatabaseException("User must not be null");
         this.user = user;
-        user.addUserContacts(this);
+        try {
+			user.addUserContacts(this);
+		} catch (DatabaseException e) {
+				throw new DatabaseException("setUser() in UserContact: " + user, e);
+		}
     }
 
     public User getUser(){
@@ -82,9 +87,9 @@ public class UserContact implements Serializable {
         return contact;
     }
 
-    public void setContactId(int contact) {
+    public void setContactId(int contact) throws DatabaseException {
         if (contact <= 0 )
-            throw new IllegalArgumentException();
+            throw new DatabaseException("The contact id must not less or equal 0");
         this.contact = contact;
     }
 

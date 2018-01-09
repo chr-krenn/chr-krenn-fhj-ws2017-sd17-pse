@@ -68,7 +68,7 @@ class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
 	 */
 
 	@Override
-	public User createUser(String username, String password) {
+	public User createUser(String username, String password) throws DatabaseException {
 		LOG.info("createArticle(\"" + username + "\"," + "***" + ")");
 
 		User u = new User();

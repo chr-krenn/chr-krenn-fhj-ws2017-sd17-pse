@@ -3,12 +3,13 @@ package org.se.lab.data;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class UserDAOTest extends AbstractDAOTest
 {
-    public User user = new User("Donald Duck", "EnteSuessSauer");
-    public User user2 = new User("Donald Trump", "NurSauer");
+    public User user;
+    public User user2;
 
 
     public static UserDAOImpl udao = new UserDAOImpl();
@@ -16,6 +17,18 @@ public class UserDAOTest extends AbstractDAOTest
     static {
     	udao.setEntityManager(em);
     }
+    
+	@Before
+	public void setup() {
+		tx.begin();
+		try {
+			user2 = new User("Donald Trump", "NurSauer");
+			user = new User("Donald Duck", "EnteSuessSauer");
+		} catch (DatabaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
     @Test
     @Override
@@ -28,7 +41,11 @@ public class UserDAOTest extends AbstractDAOTest
     @Override
     public void testModify() {
         User persisted = udao.insert(user);
-        persisted.setUsername("Test");
+        try {
+			persisted.setUsername("Test");
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
         udao.update(persisted);
         Assert.assertEquals("Test", persisted.getUsername());
     }

@@ -94,20 +94,19 @@ public class UserTest
 			Assert.assertFalse(user.equals(null) && user.equals(new User()));
 		}
 		
-		
-		@Test(expected = IllegalArgumentException.class)
-		public void testIdFail() {
+		@Test(expected = DatabaseException.class)
+		public void testIdFail() throws DatabaseException {
 			user4 = new User("Test User4", "test");
 			user4.setId(0);
 		}
 		
-		@Test(expected = IllegalArgumentException.class)
-		public void testUsernameFail1() {
+		@Test(expected = DatabaseException.class)
+		public void testUsernameFail1() throws DatabaseException {
 			new User ("  ", "test");
 		}
 		
-		@Test(expected = IllegalArgumentException.class)
-		public void testUserNameFail2() {
+		@Test(expected = DatabaseException.class)
+		public void testUserNameFail2() throws DatabaseException {
 			new User (null, "test");
 		}
 }

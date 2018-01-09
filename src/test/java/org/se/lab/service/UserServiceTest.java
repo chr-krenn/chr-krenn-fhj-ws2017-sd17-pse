@@ -104,8 +104,14 @@ public class UserServiceTest {
     @Test
     public void getAllContactsByUser() {
         List<UserContact> userContactList = new ArrayList<>();
-        UserContact contact1 = new UserContact(user1, 3);
-        UserContact contact2 = new UserContact(user2, 2);
+        UserContact contact1 = null;
+        UserContact contact2 = null;
+		try {
+			contact1 = new UserContact(user1, 3);
+	        contact2 = new UserContact(user2, 2);
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 
         userContactList.add(contact1);
         userContactList.add(contact2);

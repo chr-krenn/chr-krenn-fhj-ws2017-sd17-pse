@@ -3,14 +3,15 @@ package org.se.lab.data;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PrivateMessageDAOTest extends AbstractDAOTest
 {
-	public User user = new User("User1", "test");
-	public User user2 = new User("User2", "test");
-	public PrivateMessage pm = new PrivateMessage("Hallo Textmessage Test 1", user, user2);
-    public PrivateMessage pm2 = new PrivateMessage("Hallo Testmessage Test 2", user2, user);
+	public User user;
+	public User user2; 
+	public PrivateMessage pm;
+    public PrivateMessage pm2;
 
 
     public static PrivateMessageDAOImpl pmdao = new PrivateMessageDAOImpl();
@@ -18,10 +19,24 @@ public class PrivateMessageDAOTest extends AbstractDAOTest
     static {
     	pmdao.setEntityManager(em);
     }
+    
+    @Before
+	public void setup(){
+		tx.begin();
+        try {
+        	user = new User("User1", "test");
+        	user2 = new User("User2", "test");
+        	pm = new PrivateMessage("Hallo Textmessage Test 1", user, user2);
+			pm2 = new PrivateMessage("Hallo Testmessage Test 2", user2, user);
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
+	}
 
     @Test
     @Override
     public void testCreate() {
+
     	pmdao.insert(pm);
     }
 

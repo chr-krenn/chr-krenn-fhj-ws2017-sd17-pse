@@ -32,7 +32,7 @@ public class User implements Serializable
 		private static final String PRIVATEMESSAGE_NULL_ERROR = "The given Private Message must not be null";
 	
 
-	public User(String username, String password)
+	public User(String username, String password) throws DatabaseException
 	{
 		LOG.debug("New User");
 		LOG.trace(
@@ -69,13 +69,14 @@ public class User implements Serializable
 	 * Setter for id field of User Should not be negative or zero
 	 * 
 	 * @param id
+	 * @throws DatabaseException 
 	 * 
-	 * @throws IllegalArgumentException.class if given id less than 1
+	 * @throws DatabaseException.class if given id less than 1
 	 */
-	public void setId(int id)
+	public void setId(int id) throws DatabaseException
 	{
 		if (id <= 0)
-			throw new IllegalArgumentException(ID_INVALID_ERROR);
+			throw new DatabaseException(ID_INVALID_ERROR);
 		this.id = id;
 	}
 
@@ -97,13 +98,14 @@ public class User implements Serializable
 	 * Setter for username field of User Should not be null
 	 * 
 	 * @param username
+	 * @throws DatabaseException 
 	 * 
-	 * @throws IllegalArgumentException.class if given user object is null
+	 * @throws DatabaseException.class if given user object is null
 	 */
-	public void setUsername(String username)
+	public void setUsername(String username) throws DatabaseException
 	{
 		if (username == null || username.trim().length() == 0)
-			throw new IllegalArgumentException(USERNAME_NULL_ERROR);
+			throw new DatabaseException(USERNAME_NULL_ERROR);
 		this.username = username;
 	}
 
@@ -125,13 +127,14 @@ public class User implements Serializable
 	 * Setter for password field of User Should not be null
 	 * 
 	 * @param password
+	 * @throws DatabaseException 
 	 * 
-	 * @throws IllegalArgumentException.class if given user object is null
+	 * @throws DatabaseException.class if given user object is null
 	 */
-	public void setPassword(String password)
+	public void setPassword(String password) throws DatabaseException
 	{
 		if (password == null || password.trim().length() == 0)
-			throw new IllegalArgumentException(PASSWORD_NULL_ERROR);
+			throw new DatabaseException(PASSWORD_NULL_ERROR);
 		this.password = password;
 	}
 
@@ -139,9 +142,9 @@ public class User implements Serializable
     @JoinColumn(name="fk_userprofile")
 	private UserProfile userprofile;
 
-	public void setUserProfile(UserProfile userprofile) {
+	public void setUserProfile(UserProfile userprofile) throws DatabaseException {
 		if(userprofile == null)
-			throw new IllegalArgumentException(FK_USERPROFILE_NULL_ERROR);
+			throw new DatabaseException(FK_USERPROFILE_NULL_ERROR);
 		this.userprofile = userprofile;
 		this.userprofile.setUser(this);
 	}
@@ -153,9 +156,9 @@ public class User implements Serializable
 
 	@ManyToMany(mappedBy = "users")
 	private List<Community> communities = new ArrayList<Community>();
-	public void addCommunity(Community community) {
+	public void addCommunity(Community community) throws DatabaseException {
 		if(community == null)
-			throw new IllegalArgumentException(COMMUNITY_NULL_ERROR);
+			throw new DatabaseException(COMMUNITY_NULL_ERROR);
 		communities.add(community);
 	}
 
@@ -167,9 +170,9 @@ public class User implements Serializable
 	@OneToMany(mappedBy="user",fetch = FetchType.EAGER)
 	private List<UserContact> usercontacts = new ArrayList<>();
 
-	public void addUserContacts(UserContact usercontact) {
+	public void addUserContacts(UserContact usercontact) throws DatabaseException {
 		if(usercontact == null)
-			throw new IllegalArgumentException(USERCONTACT_NULL_ERROR);
+			throw new DatabaseException(USERCONTACT_NULL_ERROR);
 		usercontacts.add(usercontact);
 	}
 
@@ -180,9 +183,9 @@ public class User implements Serializable
 	@OneToMany(mappedBy="usersender")
 	private List<PrivateMessage> privateMessagesSender = new ArrayList<>();
 
-	public void addPrivateMessageSender(PrivateMessage privateMessage) {
+	public void addPrivateMessageSender(PrivateMessage privateMessage) throws DatabaseException {
 		if(privateMessage == null)
-			throw new IllegalArgumentException(PRIVATEMESSAGE_NULL_ERROR);
+			throw new DatabaseException(PRIVATEMESSAGE_NULL_ERROR);
 		privateMessagesSender.add(privateMessage);
 	}
 
@@ -194,9 +197,9 @@ public class User implements Serializable
 	@OneToMany(mappedBy="userreceiver")
 	private List<PrivateMessage> privateMessagesReceiver = new ArrayList<>();
 
-	public void addPrivateMessageReceiver(PrivateMessage privateMessage) {
+	public void addPrivateMessageReceiver(PrivateMessage privateMessage) throws DatabaseException {
 		if(privateMessage == null)
-			throw new IllegalArgumentException(PRIVATEMESSAGE_NULL_ERROR);
+			throw new DatabaseException(PRIVATEMESSAGE_NULL_ERROR);
 		privateMessagesReceiver.add(privateMessage);
 	}
 
@@ -212,7 +215,7 @@ public class User implements Serializable
 	
 	public void addRole(Enumeration role) throws DatabaseException {
 		if (role == null)
-			throw new IllegalArgumentException();
+			throw new DatabaseException("User role must not be null: " + role);
 		try {
 			role.setUser(this);
 		} catch (DatabaseException e) {
@@ -233,9 +236,9 @@ public class User implements Serializable
 		return likes;
 	}
 	
-	public void addLike(Enumeration like) {
+	public void addLike(Enumeration like) throws DatabaseException {
 		if (like == null)
-			throw new IllegalArgumentException();
+			throw new DatabaseException("The like must not be null");
 		if (!like.getLikedBy().contains(this))
 			like.addUserToLike(this);
 		this.likes.add(like);

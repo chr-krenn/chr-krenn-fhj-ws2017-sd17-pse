@@ -149,7 +149,12 @@ public class CommunityServiceTest {
 
 	@Test
 	public void join_Successful() {
-		User user = new User("username2", "pwd");
+		User user = null;
+		try {
+			user = new User("username2", "pwd");
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 		communityService.join(community1, user);
 	}
 
