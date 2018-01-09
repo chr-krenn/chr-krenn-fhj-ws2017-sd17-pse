@@ -44,7 +44,6 @@ public class UserServiceTest {
     private User user2;
     private UserProfile userProfile1;
     private UserProfile userProfile2;
-    private UserContact userContact1;
     private UserContact userContact2;
 
 
@@ -60,7 +59,7 @@ public class UserServiceTest {
         user1.setUserProfile(userProfile1);
         user2.setUserProfile(userProfile2);
 
-        userContact1 = new UserContact(user1, 2);
+        new UserContact(user1, 2);
         userContact2 = new UserContact(user2, 1);
     }
 
@@ -159,7 +158,7 @@ public class UserServiceTest {
         replay(userProfileDAO);
 
         List<UserProfile> userProfilesResult = userService.getAllUserProfiles();
-        Assert.assertThat(userProfiles.size(), is(2));
+        Assert.assertThat(userProfilesResult.size(), is(2));
     }
 
     @Test

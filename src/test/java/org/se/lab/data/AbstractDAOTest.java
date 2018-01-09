@@ -24,7 +24,7 @@ public abstract class AbstractDAOTest {
 	
 	
 	@BeforeClass
-	public static void connect() {
+	public static void connect() throws DatabaseException {
 		factory = Persistence.createEntityManagerFactory(persistencUnitName);
 		assertNotNull(factory);
 		em = factory.createEntityManager();

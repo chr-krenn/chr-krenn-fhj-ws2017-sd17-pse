@@ -3,6 +3,7 @@ package org.se.lab.service.dao;
 import java.util.List;
 
 import org.se.lab.data.Community;
+import org.se.lab.data.DatabaseException;
 import org.se.lab.data.Enumeration;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
@@ -33,8 +34,9 @@ public interface EnumerationDAO {
 	/**
 	 * Creates an Enumeration for the given id
 	 * @param id
+	 * @throws DatabaseException 
 	 */	
-	Enumeration createEnumeration(int id);
+	Enumeration createEnumeration(int id) throws DatabaseException;
 	
 	/**
 	 * Gets persisted Enumeration with given id

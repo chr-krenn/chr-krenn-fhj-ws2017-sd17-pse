@@ -27,8 +27,9 @@ public class Enumeration implements Serializable {
 	/**
 	 * Enumeration class constructor
 	 * @param id id of the enumeration entity
+	 * @throws DatabaseException 
 	 */
-	public Enumeration(int id) {
+	public Enumeration(int id) throws DatabaseException {
 		setId(id);
 	}
 
@@ -44,10 +45,9 @@ public class Enumeration implements Serializable {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(int id) throws DatabaseException {
 		if (id < 0)
-			throw new IllegalArgumentException("Invalid parameter id: " + id);
-
+			throw new DatabaseException("Invalid parameter id: " + id);
 		this.id = id;
 	}
 
@@ -61,9 +61,9 @@ public class Enumeration implements Serializable {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name) throws DatabaseException {
 		if (name == null)
-			throw new IllegalArgumentException("Invalid parameter name!");
+			throw new DatabaseException("Invalid parameter name!");
 
 		this.name = name;
 	}
@@ -82,7 +82,9 @@ public class Enumeration implements Serializable {
 		return userroles;
 	}
 
-	public void setUser(User user) {
+	public void setUser(User user) throws DatabaseException {
+		if(user == null)
+			throw new DatabaseException("User should not be null! setUser("+user+")");
 		if(!this.userroles.contains(user))
 			this.userroles.add(user);
 		
@@ -100,9 +102,9 @@ public class Enumeration implements Serializable {
 		return coms;
 	}
 
-	public void setCom(Community com) {
+	public void setCom(Community com) throws DatabaseException {
 		if(com == null)
-			throw new IllegalArgumentException();
+			throw new DatabaseException("Community should not be null! setCom("+com+")");
 		
 		if(!this.coms.contains(com))
 			this.coms.add(com);

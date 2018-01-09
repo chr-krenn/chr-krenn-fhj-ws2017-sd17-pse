@@ -210,10 +210,15 @@ public class User implements Serializable
 		return roles;
 	}
 	
-	public void addRole(Enumeration role) {
+	public void addRole(Enumeration role) throws DatabaseException {
 		if (role == null)
 			throw new IllegalArgumentException();
-		role.setUser(this);
+		try {
+			role.setUser(this);
+		} catch (DatabaseException e) {
+			LOG.error("Could not set Role "+ role +" in " + this.toString());
+			throw new DatabaseException("Could not set Role "+ role +" in " + this.toString(), e);
+		}
 		this.roles.add(role);
 		
 	}

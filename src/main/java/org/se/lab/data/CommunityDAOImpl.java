@@ -13,6 +13,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 
 public class CommunityDAOImpl extends DAOImplTemplate<Community> implements CommunityDAO{
+	
+	/*
+	 * logger
+	 */
 	private final Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
 	
 	/*
@@ -21,6 +25,24 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 	
 	public CommunityDAOImpl() {}
 	
+	@Override
+	public Community insert(Community entity) {
+		LOG.debug("insert(" + entity + ")");
+		return super.insert(entity);
+	}
+
+	@Override
+	public Community update(Community entity) {
+		LOG.debug("update(" + entity + ")");
+		return super.update(entity);
+	}
+
+	@Override
+	public void delete(Community entity) {
+		LOG.debug("delete(" + entity + ")");
+		super.delete(entity);
+	}
+
 	@Override
 	protected Class<Community> getEntityClass() {
 		return Community.class;
@@ -57,7 +79,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 			Community c = query.getSingleResult();
 			return initializeCom(c);
 		} catch (NoResultException e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 			return null;
 		}
 	}	
@@ -68,7 +90,11 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
-		criteria.where(builder.equal(community.get("state"), new Enumeration(1)));
+		try {
+			criteria.where(builder.equal(community.get("state"), new Enumeration(1)));
+		} catch (DatabaseException e1) {
+			LOG.error("Enumeration().PENDING konnte nicht erstellt werden!");
+		}
 		TypedQuery<Community> query = em.createQuery(criteria);
 		try {
 			List <Community> coms = query.getResultList();
@@ -77,7 +103,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 			}
 			return coms;
 		} catch (NoResultException e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 			return null;
 		}
 	}
@@ -88,7 +114,11 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
 		Root<Community> community = criteria.from(Community.class);
-		criteria.where(builder.equal(community.get("state"), new Enumeration(2)));
+		try {
+			criteria.where(builder.equal(community.get("state"), new Enumeration(2)));
+		} catch (DatabaseException e1) {
+			LOG.error("Enumeration(2).APPROVED konnte nicht erstellt werden!");
+		}
 		TypedQuery<Community> query = em.createQuery(criteria);
 		try {
 			List <Community> coms = query.getResultList();
@@ -97,7 +127,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 			}
 			return coms;
 		} catch (NoResultException e) {
-			LOG.error(e.getMessage());
+			LOG.error(e.toString());
 			return null;
 		}
 	}
@@ -113,19 +143,24 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 			c.setState(e);
 			insert(c);
 		} catch (DatabaseException e) {
-			throw new DatabaseException("Community konnte nicht erstellt werden");
+			throw new DatabaseException("Community konnte nicht erstellt werden", e);
 		}
 		
 		return c;
 	}
 	
 	
-	private Enumeration getValidEnumeration(Enumeration find) {
+	private Enumeration getValidEnumeration(Enumeration find) throws DatabaseException {
 		if (find != null )
 			return find;
 		EnumerationDAOImpl edao = new EnumerationDAOImpl();
 		edao.setEntityManager(em);
-		return edao.insert(edao.createEnumeration(1));
+		try {
+			find = edao.insert(edao.createEnumeration(1));
+		} catch (DatabaseException e) {
+			throw new DatabaseException("No wright Enumeration found", e);
+		}
+		return find;
 	}
 	
 	/*

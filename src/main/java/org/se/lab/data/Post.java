@@ -56,7 +56,7 @@ public class Post implements Serializable {
 	protected Post() {
 	};
 
-	public Post(Post parentpost, Community community, User user, String text, Date created) {
+	public Post(Post parentpost, Community community, User user, String text, Date created) throws DatabaseException {
 		LOG.debug("New Post");
 		LOG.trace(
 				String.format("\t{\n\tparentpost: %s,\n\tcommunity: %s\n\tuser: %s\n\ttext: %s\n\tcreated: %s",
@@ -96,13 +96,12 @@ public class Post implements Serializable {
 	 * Setter for id field of post Should not be negative or zero
 	 * 
 	 * @param id
-	 * 
-	 * @throws IllegalArgumentException.class if given id less than 1
+	 * @throws DatabaseException if given id less than 1
 	 */
-	public void setId(int id) {
+	public void setId(int id) throws DatabaseException {
 		LOG.debug("setId(" + id + ")");
 		if (id < 1)
-			throw new IllegalArgumentException(ID_INVALID_ERROR);
+			throw new DatabaseException(ID_INVALID_ERROR);
 		this.id = id;
 	}
 
@@ -125,14 +124,15 @@ public class Post implements Serializable {
 	 * Setter for parent post of post
 	 * 
 	 * @param parentpost
+	 * @throws DatabaseException 
 	 * 
-	 * @throws IllegalArgumentException.class if Post is reply to itself
+	 * @throws DatabaseException.class if Post is reply to itself
 	 */
-	public void setParentpost(Post parentpost) {
+	public void setParentpost(Post parentpost) throws DatabaseException {
 		LOG.debug("setParentpost(" + parentpost + ")");
 		// Parent post can be null
 		if (parentpost != null && this.id != 0 && parentpost.getId() == this.id)
-			throw new IllegalArgumentException(SELF_REFERENTIAL_ERROR);
+			throw new DatabaseException(SELF_REFERENTIAL_ERROR);
 		this.parentpost = parentpost;
 		if (parentpost != null && !parentpost.getChildPosts().contains(this))
 			parentpost.addChildPost(this);
@@ -157,13 +157,14 @@ public class Post implements Serializable {
 	 * post
 	 * 
 	 * @param post
+	 * @throws DatabaseException 
 	 * 
-	 * @throws IllegalArgumentException.class if given post is null
+	 * @throws DatabaseException.class if given post is null
 	 */
-	public void addChildPost(Post post) {
+	public void addChildPost(Post post) throws DatabaseException {
 		LOG.debug("addChildPost(" + post + ")");
 		if (post == null)
-			throw new IllegalArgumentException(POST_NULL_ERROR);
+			throw new DatabaseException(POST_NULL_ERROR);
 		if (children.contains(post))
 			return;
 		children.add(post);
@@ -189,10 +190,10 @@ public class Post implements Serializable {
 	 * Setter for the Community this post was posted in
 	 * 
 	 * @param community
+	 * @throws DatabaseException 
 	 * 
-	 * @throws IllegalArgumentException.class if given community is null
 	 */
-	public void setCommunity(Community community) {
+	public void setCommunity(Community community){
 		LOG.debug("setCommunity(" + community + ")");
 		this.community = community;
 	}
@@ -217,12 +218,12 @@ public class Post implements Serializable {
 	 * 
 	 * @param user
 	 * 
-	 * @throws IllegalArgumentException.class if given user is null
+	 * @throws DatabaseException.class if given user is null
 	 */
-	public void setUser(User user) {
+	public void setUser(User user) throws DatabaseException {
 		LOG.debug("setUser(" + user + ")");
 		if (user == null)
-			throw new IllegalArgumentException(USER_NULL_ERROR);
+			throw new DatabaseException(USER_NULL_ERROR);
 		this.user = user;
 	}
 
@@ -245,13 +246,12 @@ public class Post implements Serializable {
 	 * EnumeratioItem that allows for e.g. Dislikes etc.
 	 * 
 	 * @param like
-	 * 
-	 * @throws IllegalArgumentException.class if given Enumeration is null
+	 * @throws DatabaseException if given Enumeration is null
 	 */
-	public void addLike(Enumeration like) {
+	public void addLike(Enumeration like) throws DatabaseException {
 		LOG.debug("addLikeToPost(" + like + ")");
 		if (like == null)
-			throw new IllegalArgumentException(LIKE_NULL_ERROR);
+			throw new DatabaseException(LIKE_NULL_ERROR);
 		if (!like.getLikedPosts().contains(this))
 			like.addLikedPost(this);
 		if (!this.likes.contains(like))
@@ -278,15 +278,15 @@ public class Post implements Serializable {
 	 * 
 	 * @param text
 	 * 
-	 * @throws IllegalArgumentException.class if given text is null or exceeds the
+	 * @throws DatabaseException.class if given text is null or exceeds the
 	 * character limit of 1024 characters
 	 */
-	public void setText(String text) {
+	public void setText(String text) throws DatabaseException {
 		LOG.debug("setText(" + text + ")");
 		if (text == null)
-			throw new IllegalArgumentException(TEXT_NULL_ERROR);
+			throw new DatabaseException(TEXT_NULL_ERROR);
 		if (text.length() > MAX_TEXT_LENGTH)
-			throw new IllegalArgumentException(TEXT_INVALID_ERROR);
+			throw new DatabaseException(TEXT_INVALID_ERROR);
 		this.text = text;
 	}
 	
@@ -310,12 +310,12 @@ public class Post implements Serializable {
 	 * 
 	 * @param created
 	 * 
-	 * @throws IllegalArgumentException.class if given created is null
+	 * @throws DatabaseException.class if given created is null
 	 */
-	public void setCreated(Date created) {
+	public void setCreated(Date created) throws DatabaseException {
 		LOG.debug("setCreated(" + created + ")");
 		if (created == null)
-			throw new IllegalArgumentException(CREATED_NULL_ERROR);
+			throw new DatabaseException(CREATED_NULL_ERROR);
 		this.created = created;
 	}
 
