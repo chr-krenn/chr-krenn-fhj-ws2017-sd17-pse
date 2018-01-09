@@ -3,6 +3,7 @@ package org.se.lab.service.dao;
 import java.util.List;
 
 import org.se.lab.data.Community;
+import org.se.lab.data.DatabaseException;
 
 public interface CommunityDAO extends DAOTemplate<Community> {
 	
@@ -33,7 +34,8 @@ public interface CommunityDAO extends DAOTemplate<Community> {
 	 * @param name the name of the new community
 	 * @param description a small text what about the community is
 	 * @return returned the new created and also stored community for further useage
+	 * @throws DatabaseException 
 	 */
-	Community createCommunity(String name, String description);
+	Community createCommunity(String name, String description) throws DatabaseException;
 
 }

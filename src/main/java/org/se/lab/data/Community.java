@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,8 +43,10 @@ public class Community implements Serializable {
 	 *            name of the community
 	 * @param description
 	 *            small description of the community
+	 * @throws DatabaseException 
+	 *			  throws own DatabaseException, message gives an explanation of the problem
 	 */
-	public Community(String name, String description) {
+	public Community(String name, String description) throws DatabaseException {
 		setName(name);
 		setDescription(description);
 	}
@@ -68,9 +69,9 @@ public class Community implements Serializable {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(int id) throws DatabaseException {
 		if (id <= 0)
-			throw new IllegalArgumentException();
+			throw new DatabaseException("ID darf nicht kleiner gleich 0 sein");
 		this.id = id;
 	}
 
@@ -81,9 +82,9 @@ public class Community implements Serializable {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name) throws DatabaseException {
 		if (name == null || name.trim().length() == 0)
-			throw new IllegalArgumentException();
+			throw new DatabaseException("Name darf nicht null sein");
 		this.name = name;
 	}
 
@@ -95,11 +96,11 @@ public class Community implements Serializable {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description) throws DatabaseException {
 		if (description == null || description.trim().length() == 0)
-			throw new IllegalArgumentException();
+			throw new DatabaseException("Description darf nicht null sein");
 		if (description.length() > MAX_TEXT_LENGTH)
-			throw new IllegalArgumentException(MAX_TEXT_LENGTH_ERROR);
+			throw new DatabaseException("Description darf nicht länger als " + MAX_TEXT_LENGTH_ERROR);
 		this.description = description;
 	}
 
@@ -119,9 +120,7 @@ public class Community implements Serializable {
 	 */
 
 	@ManyToMany
-	@JoinTable(name = "user_community", 
-	joinColumns = @JoinColumn(name = "community_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "users_id"))
+	@JoinTable(name = "user_community", joinColumns = @JoinColumn(name = "community_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "users_id"))
 	private List<User> users = new ArrayList<User>();
 
 	public List<User> getUsers() {
@@ -134,10 +133,11 @@ public class Community implements Serializable {
 	 * 
 	 * @param user
 	 *            the user which is added
+	 * @throws DatabaseException 
 	 */
-	public void addUsers(User user) {
+	public void addUsers(User user) throws DatabaseException {
 		if (user == null)
-			throw new IllegalArgumentException();
+			throw new DatabaseException("User darf nicht null sein");
 		users.add(user);
 		user.addCommunity(this);
 	}
@@ -155,10 +155,11 @@ public class Community implements Serializable {
 	 * other state as specified in Enumerataion is used.
 	 * 
 	 * @param state
+	 * @throws DatabaseException 
 	 */
-	public void setState(Enumeration state) {
+	public void setState(Enumeration state) throws DatabaseException {
 		if (state == null)
-			throw new IllegalArgumentException();
+			throw new DatabaseException("Der Status darf nicht null sein");
 
 		state.setCom(this);
 		this.state = state;
@@ -194,6 +195,6 @@ public class Community implements Serializable {
 	public String toString() {
 		return "Community [id=" + id + ", name=" + name + ", description=" + description + "]";
 	}
-	//+", state="+ state.toString()
+
 
 }

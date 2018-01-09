@@ -70,19 +70,12 @@ public class CommunityOverviewBean {
 	public String createNewCommunity(){
 		Community newCommunity;
 		if(!newCommunityName.isEmpty()){
-
 			if(newCommunityDescription.isEmpty()) {
 				newCommunityDescription = "<Edit me ...>";
 			}
-			newCommunity = new Community(newCommunityName, newCommunityDescription);
-			service.request(newCommunity);
-			List<Community> communityList = new ArrayList<Community>();
-			communityList = service.findAll();
-			for(Community community: communityList) {
-				if(community.getName() == newCommunity.getName()) {
-					newCommunity.setId(community.getId());
-				}
-			}
+			newCommunity = service.request(newCommunityName, newCommunityDescription);
+			newCommunity = service.findByName(newCommunityName);
+
 			
 			FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());

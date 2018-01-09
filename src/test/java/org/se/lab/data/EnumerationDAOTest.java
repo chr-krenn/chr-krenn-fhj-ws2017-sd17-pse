@@ -158,7 +158,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	}
 	
 	@Test
-	public void testCommunity() {
+	public void testCommunity() throws DatabaseException {
 		String name = "testCommunity";
 		String description = "Test";
 		

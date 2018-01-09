@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.se.lab.data.Community;
+import org.se.lab.data.DatabaseException;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
 import org.se.lab.service.dao.PostDAO;
@@ -44,7 +45,7 @@ public class ActivityStreamServiceTest {
     private User user;
 
     @Before
-    public void setup() {
+    public void setup() throws DatabaseException {
         community = new Community(NAME, DESCRIPTION);
         user = new User("username", "password");
         post1 = new Post(null, community, user, "msg1", new Date());

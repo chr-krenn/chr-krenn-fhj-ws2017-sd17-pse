@@ -30,17 +30,22 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		cdao.setEntityManager(em);
 		udao.setEntityManager(em);
 		edao.setEntityManager(em);
-		com1 = cdao.createCommunity("TestDAOCommunity1", "Community 1 to test CommunityDAO");
-		com2 = cdao.createCommunity("TestDAOCommunity2", "Community 2 to test CommunityDAO");
-		com3 = cdao.createCommunity("TestDAOCommunity3", "Community 3 to test CommunityDAO");
-		user1 = udao.createUser("TestUser1", "*****");
-		user2 = udao.createUser("TestUser2", "*****");
-		user3 = udao.createUser("TestUser3", "*****");
-		com1.addUsers(user1);
-		com1.addUsers(user3);
-		com2.addUsers(user2);
-		com2.addUsers(user3);
-		com3.addUsers(user3);
+		try {
+			com1 = cdao.createCommunity("TestDAOCommunity1", "Community 1 to test CommunityDAO");
+			com2 = cdao.createCommunity("TestDAOCommunity2", "Community 2 to test CommunityDAO");
+			com3 = cdao.createCommunity("TestDAOCommunity3", "Community 3 to test CommunityDAO");
+			user1 = udao.createUser("TestUser1", "*****");
+			user2 = udao.createUser("TestUser2", "*****");
+			user3 = udao.createUser("TestUser3", "*****");
+			com1.addUsers(user1);
+			com1.addUsers(user3);
+			com2.addUsers(user2);
+			com2.addUsers(user3);
+			com3.addUsers(user3);
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
+		
 		
 		pending = edao.findById(1);
 	}
@@ -79,7 +84,11 @@ public class CommunityDAOTest extends AbstractDAOTest{
 		
 		//exercise
 		coms = cdao.findPendingCommunities();
-		coms.get(1).setState(edao.findById(2));
+		try {
+			coms.get(1).setState(edao.findById(2));
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 		cdao.update(coms.get(1));
 		
 		//verify

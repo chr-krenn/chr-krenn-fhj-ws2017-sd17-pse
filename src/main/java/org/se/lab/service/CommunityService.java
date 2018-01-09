@@ -19,12 +19,14 @@ public interface CommunityService {
 
 	void join(Community community, User user);
 
-	void request(Community community);
+	Community request(String name, String description);
 
 	void approve(Community community);
 
 	Community findById(int id);
 
 	void refuse(Community community);
+
+	Community findByName(String name);
 
 }

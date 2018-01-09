@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class PostDAOTest extends AbstractDAOTest {
 
-	private Community community1 = new Community("testPost", "test community");
+	private Community community1;
 	private User user1 = new User("testuserpost", "*****");
 	private Post post1 = new Post(null, community1, user1, "Happy Path Test", new Date(180L));
 	private Post post2;
@@ -23,7 +23,8 @@ public class PostDAOTest extends AbstractDAOTest {
 	private PostDAOImpl dao = new PostDAOImpl();
 	
 	@Before
-	public void setupPost() {
+	public void setupPost() throws DatabaseException {
+		community1 = new Community("testPost", "test community");
 		dao.setEntityManager(em);
 		edao.setEntityManager(em);
 	}

@@ -57,6 +57,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 			Community c = query.getSingleResult();
 			return initializeCom(c);
 		} catch (NoResultException e) {
+			LOG.error(e.getMessage());
 			return null;
 		}
 	}	
@@ -76,6 +77,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 			}
 			return coms;
 		} catch (NoResultException e) {
+			LOG.error(e.getMessage());
 			return null;
 		}
 	}
@@ -95,19 +97,25 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 			}
 			return coms;
 		} catch (NoResultException e) {
+			LOG.error(e.getMessage());
 			return null;
 		}
 	}
 
 	@Override
-	public Community createCommunity(String name, String description) {
+	public Community createCommunity(String name, String description) throws DatabaseException {
 		LOG.info("createCommunity(name = "+ name +", description = "+ description + ")");
 		Community c = new Community();
-		c.setName(name);
-		c.setDescription(description);
-		Enumeration e = getValidEnumeration(em.find(Enumeration.class, 1));
-		c.setState(e);
-		insert(c);
+		try {
+			c.setName(name);
+			c.setDescription(description);
+			Enumeration e = getValidEnumeration(em.find(Enumeration.class, 1));
+			c.setState(e);
+			insert(c);
+		} catch (DatabaseException e) {
+			throw new DatabaseException("Community konnte nicht erstellt werden");
+		}
+		
 		return c;
 	}
 	
