@@ -110,8 +110,8 @@
 				<configuration>
 					<driver>org.gjt.mm.mysql.Driver</driver>
 					<url>jdbc:mysql://localhost:3306/pse</url>
-					<username>root</username>
-					<password>root66</password>
+					<username>student</username>
+					<password>student</password>
 					<!-- The value of settingsKey should be a server id in ~/.m2/settings.xml -->
 					<settingsKey>mysql-db-dev</settingsKey>
 					<!--all executions are ignored if -Dmaven.test.skip=true -->
