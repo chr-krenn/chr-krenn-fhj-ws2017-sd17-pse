@@ -12,11 +12,11 @@ public class LoginPage extends PageObject {
 
 	public ActivityStreamPage login(String username, String password) {
 		driver.get(baseUrl + url);
-		driver.findElement(By.id("j_idt4:nameUser")).clear();
-		driver.findElement(By.id("j_idt4:nameUser")).sendKeys(username);
-		driver.findElement(By.id("j_idt4:password")).clear();
-		driver.findElement(By.id("j_idt4:password")).sendKeys(password);
-		driver.findElement(By.id("j_idt4:j_idt8")).click();
+		driver.findElement(By.id("input_loginForm:username")).clear();
+		driver.findElement(By.id("input_loginForm:username")).sendKeys(username);
+		driver.findElement(By.id("input_loginForm:password")).clear();
+		driver.findElement(By.id("input_loginForm:password")).sendKeys(password);
+		driver.findElement(By.id("loginForm:j_idt11")).click();
 		
 		return new ActivityStreamPage(driver);
 	}

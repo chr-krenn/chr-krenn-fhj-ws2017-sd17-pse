@@ -9,11 +9,7 @@ public class UserOverviewPage extends PageObject {
 	}
 
 	public String getAvailableUsers() {
-		return driver.findElement(By.id("j_idt4:prof_content")).getText();
+		return driver.findElement(By.id("j_idt25:j_idt26")).getText();
 	}
 	
-	public ProfilePage getFirstUserProfilePage() {
-		driver.findElement(By.cssSelector("span.ui-icon.ui-icon-search")).click();
-		return new ProfilePage(driver);
-	}
 }
