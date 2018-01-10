@@ -13,7 +13,7 @@ public class CommunityTest {
 	
 	@Before
 	public void setUp() throws Exception{
-		com = new Community("test", "test community");
+		com = new Community("test", "test community",1);
 		com.setId(1);
 		Enumeration state = new Enumeration(1);
 		state.setName("pending");
@@ -66,7 +66,7 @@ public class CommunityTest {
 	public void testHash() {
 		Community com2 = null;
 		try {
-			com2 = new Community("test", "test community");
+			com2 = new Community("test", "test community",1);
 			com2.setId(1);
 		} catch (DatabaseException e) {
 			e.printStackTrace();
@@ -78,7 +78,7 @@ public class CommunityTest {
 	public void testEquals() {
 		Community com2 = null;
 		try {
-			com2 = new Community("test", "test community");
+			com2 = new Community("test", "test community",1);
 			com2.setId(1);
 		} catch (DatabaseException e) {
 			// TODO Auto-generated catch block
@@ -105,13 +105,13 @@ public class CommunityTest {
 	
 	@Test(expected = DatabaseException.class)
 	public void testIdFail() throws DatabaseException {
-		com = new Community ("test", "test community");
+		com = new Community ("test", "test community",1);
 		com.setId(0);
 	}
 	
 	@Test(expected = DatabaseException.class)
 	public void testNameFail1() throws DatabaseException {
-		com = new Community ("  ", "test community");
+		com = new Community ("  ", "test community",1);
 	}
 	
 	@Test(expected = DatabaseException.class)
@@ -124,17 +124,17 @@ public class CommunityTest {
 	
 	@Test(expected = DatabaseException.class)
 	public void testNameFail2() throws DatabaseException {
-		com = new Community (null, "test community");
+		com = new Community (null, "test community",1);
 	}
 	
 	@Test(expected = DatabaseException.class)
 	public void testDescriptionFail1() throws DatabaseException{
-		com = new Community ("test", "  ");
+		com = new Community ("test", "  ",1);
 	}
 	
 	@Test(expected = DatabaseException.class)
 	public void testDescriptionFail2() throws DatabaseException{
-		com = new Community ("test", null);
+		com = new Community ("test", null,1);
 	}
 	
 	

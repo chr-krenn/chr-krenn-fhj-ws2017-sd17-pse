@@ -108,6 +108,14 @@ public class ActivityStreamBean implements Serializable {
 		service.insert(post);
 	}
 
+	public void deletePost(Post p) {
+		if(p != null){
+			service.delete(p, getLoggedInUser());
+		}
+	}
+
+
+
 	public User getLoggedInUser() {
 		return uservice.findById(id);
 	}

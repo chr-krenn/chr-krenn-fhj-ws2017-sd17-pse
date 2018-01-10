@@ -50,8 +50,25 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
 	 * @see org.se.lab.service.ActivityStreamService#delete(org.se.lab.data.Post)
 	 */
     @Override
-	public void delete(Post post) {
+	public void delete(Post post,User user) {
+        //ToDo checken wegen Like DAO -> stellt ihn auf wenn der Post likes hat. Wegen der beziehnung. Like gehört auch gelöscht
         LOG.debug("delete " + post);
+        if (post.getCommunity().getPortaladminId() == post.getUser().getId() ){
+            Post postToDelete;
+
+            // delete childposts
+            for (Post childPost : post.getChildPosts()) {
+                postToDelete = dao.findById(childPost.getId());
+                deleteExecuter(postToDelete);
+            }
+
+            // delete mainpost
+            postToDelete = dao.findById(post.getId());
+            deleteExecuter(postToDelete);
+        }
+    }
+
+    public void deleteExecuter(Post post){
         try {
             dao.delete(post);
         } catch (Exception e) {

@@ -69,6 +69,8 @@
 									<b:column span="6">
 										<h:outputText value="#{posts.text}" />
 									</b:column>
+									<p:commandButton value="DELETE Post!"
+													 actionListener="#{activityStreamBean.deletePost(posts)}" />
 								</b:row>
 							</b:panel>
 						</b:column>
@@ -85,6 +87,8 @@
 										<b:column span="6">
 											<h:outputText value="#{children.text}" />
 										</b:column>
+										<p:commandButton value="DELETE Comment!"
+														 actionListener="#{activityStreamBean.deletePost(children)}" />
 									</b:row>
 								</b:panel>
 							</p:repeat>

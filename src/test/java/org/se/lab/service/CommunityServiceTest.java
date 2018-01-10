@@ -56,11 +56,11 @@ public class CommunityServiceTest {
 
 		replay(enumerationService);
 
-		community1 = new Community("name1", "description1");
+		community1 = new Community("name1", "description1",1);
 		community1.setState(enumerationService.getApproved());
-		community2 = new Community("name2", "description2");
+		community2 = new Community("name2", "description2",1);
 		community2.setState(enumerationService.getPending());
-		community3 = new Community("name3", "description3");
+		community3 = new Community("name3", "description3",1);
 		community3.setState(enumerationService.getRefused());
 
 		communities = new ArrayList<>();
@@ -75,9 +75,9 @@ public class CommunityServiceTest {
 
 	@Test
 	public void approve() throws DatabaseException {
-		Community community = new Community(NAME, DESCRIPTION);
+		Community community = new Community(NAME, DESCRIPTION,1);
 
-		Community communityResult = new Community(NAME, DESCRIPTION);
+		Community communityResult = new Community(NAME, DESCRIPTION,1);
 		community.setState(enumerationService.getPending());
 
 		Capture<Community> communityCapture = EasyMock.newCapture();
@@ -91,9 +91,9 @@ public class CommunityServiceTest {
 	@Ignore
 	@Test
 	public void request() throws DatabaseException {
-		Community community = new Community(NAME, DESCRIPTION);
+		Community community = new Community(NAME, DESCRIPTION,1);
 
-        Community communityResult = new Community(NAME, DESCRIPTION);
+        Community communityResult = new Community(NAME, DESCRIPTION,1);
         community.setState(enumerationService.getPending());
 
         Capture<Community> communityCapture = EasyMock.newCapture();

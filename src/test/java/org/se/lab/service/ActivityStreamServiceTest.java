@@ -46,7 +46,7 @@ public class ActivityStreamServiceTest {
 
     @Before
     public void setup() throws DatabaseException {
-        community = new Community(NAME, DESCRIPTION);
+        community = new Community(NAME, DESCRIPTION,1);
         user = new User("username", "password");
         post1 = new Post(null, community, user, "msg1", new Date());
         post2 = new Post(null, community, user, "msg2", new Date());
@@ -77,7 +77,7 @@ public class ActivityStreamServiceTest {
         postDAO.delete(post1);
         expectLastCall();
 
-        activityStreamService.delete(post1);
+        activityStreamService.delete(post1,user);
     }
 
     @Test
