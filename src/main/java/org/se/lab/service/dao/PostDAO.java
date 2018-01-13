@@ -46,6 +46,8 @@ public interface PostDAO{
 	 */
 	List<Post> getPostsForUser(User user);
 	
+	List<Post> getPostsForUserAndContacts(User user, List<Integer> contactIds);
+	
 	/**
 	 * Gets all Posts as List<Post> for given Community
 	 * @param community

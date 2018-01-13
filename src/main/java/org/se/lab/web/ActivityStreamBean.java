@@ -29,6 +29,8 @@ public class ActivityStreamBean implements Serializable {
 	private String inputText;
 	private String inputTextChild;
 
+	private List<Integer> contactIds;
+	private List<User> userContactList;
 	private List<Post> posts;
 	private int likecount = 0;
 	private Post post;
@@ -58,7 +60,23 @@ public class ActivityStreamBean implements Serializable {
 
 			flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 			flash.put("uid", id);
+	userContactList = uservice.getContactsOfUser(getLoggedInUser());
+			
+			
+			if(userContactList.size() >0)
+			{
+				contactIds = new ArrayList<Integer>();
+				contactIds.add(getLoggedInUser().getId());
+				for(User c : userContactList)
+				{
+					contactIds.add(c.getId());
+				}
+				loadPostsForUserAndContacts();
+			}
+			else
+			{
 			loadPostsForUser();
+			}
 
 		} else {
 			try {
@@ -117,7 +135,7 @@ public class ActivityStreamBean implements Serializable {
 	}
 
 	public boolean showDeleteButton(Post p) {
-		return p != null && p.getCommunity() !=null && p.getCommunity().getPortaladminId() == p.getUser().getId();
+		return p != null && p.getCommunity() !=null && p.getCommunity().getPortaladminId() == getLoggedInUser().getId();
 	}
 
 	private void refreshPage() {
@@ -136,7 +154,10 @@ public class ActivityStreamBean implements Serializable {
 		List<Post>uposts = service.getPostsForUser(getLoggedInUser());
 		setPosts(uposts);
 	}
-
+	public void loadPostsForUserAndContacts() {
+		List<Post>uposts = service.getPostsForUserAndContacts(getLoggedInUser(),contactIds);
+		setPosts(uposts);
+	}
 
 
 

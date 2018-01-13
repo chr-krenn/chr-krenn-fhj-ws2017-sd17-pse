@@ -116,4 +116,10 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
         LOG.debug("getting posts relevant for " + community);
         return dao.getPostsForCommunity(community);
     }
+
+    @Override
+   	public List<Post> getPostsForUserAndContacts(User user,List<Integer> contactIds) {
+           LOG.debug("getting posts relevant for " + user);
+           return dao.getPostsForUserAndContacts(user,contactIds);
+       }
 }

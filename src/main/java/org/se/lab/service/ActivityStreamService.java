@@ -17,6 +17,8 @@ public interface ActivityStreamService {
 	void update(Post post);
 
 	List<Post> getPostsForUser(User user);
+	
+	List<Post> getPostsForUserAndContacts(User user,List<Integer> contactIds);
 
 	List<Post> getPostsForCommunity(Community community);
 
