@@ -106,6 +106,7 @@ public class ActivityStreamBean implements Serializable {
 		LOG.info("Flash: " + flash.toString());
 
 		service.insert(post);
+		refreshPage();
 	}
 
 	public void deletePost(Post p) {
