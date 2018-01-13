@@ -111,10 +111,27 @@ public class ActivityStreamBean implements Serializable {
 	public void deletePost(Post p) {
 		if(p != null){
 			service.delete(p, getLoggedInUser());
+			refreshPage();
 		}
 	}
 
+	public boolean showDeleteButton(Post p) {
 
+		if (p != null && p.getCommunity().getPortaladminId() == p.getUser().getId()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private void refreshPage() {
+		try {
+			context.getExternalContext().redirect("/pse/activityStream.xhtml");
+		} catch (IOException e) {
+			LOG.error("Can't redirect to /pse/activityStream.xhtml");
+			//e.printStackTrace();
+		}
+	}
 
 	public User getLoggedInUser() {
 		return uservice.findById(id);
