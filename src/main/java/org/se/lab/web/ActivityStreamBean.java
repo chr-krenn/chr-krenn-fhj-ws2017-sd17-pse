@@ -116,12 +116,7 @@ public class ActivityStreamBean implements Serializable {
 	}
 
 	public boolean showDeleteButton(Post p) {
-
-		if (p != null && p.getCommunity().getPortaladminId() == p.getUser().getId()) {
-			return true;
-		}
-
-		return false;
+		return p != null && p.getCommunity() !=null && p.getCommunity().getPortaladminId() == p.getUser().getId();
 	}
 
 	private void refreshPage() {
