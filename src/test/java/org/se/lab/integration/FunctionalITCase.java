@@ -33,12 +33,12 @@ public class FunctionalITCase {
 		assertEquals("Activity Stream", activityStreamPage.getHeader());
 	}
 	
-	@Test(expected=org.openqa.selenium.NoSuchElementException.class)
+	@Test
 	public void testLogout() {
 		activityStreamPage.logout();
 		activityStreamPage.refresh();
 		
-		activityStreamPage.getHeader();
+		assertEquals("Login", activityStreamPage.getHeader());
 	}
 
 	@Test
@@ -46,8 +46,8 @@ public class FunctionalITCase {
 		userOverViewPage = activityStreamPage.getUserOverviewPage();
 
 		assertEquals(true, userOverViewPage.getAvailableUsers().contains("Baar"));
-		assertEquals(true, userOverViewPage.getAvailableUsers().contains("Berdiev"));
-		assertEquals(true, userOverViewPage.getAvailableUsers().contains("Mujic"));
+		assertEquals(true, userOverViewPage.getAvailableUsers().contains("Gumhold"));
+		assertEquals(true, userOverViewPage.getAvailableUsers().contains("Ionescu"));
 	}
 
 	@Test
@@ -69,15 +69,6 @@ public class FunctionalITCase {
 		assertEquals(true, communityOverviewPage.getAvailableCommunities().contains("Bachelorarbeit 1"));
 	}
 	
-	@Test
-	public void testProfilePageReachable() {
-		userOverViewPage = activityStreamPage.getUserOverviewPage();
-		profilePage = userOverViewPage.getFirstUserProfilePage();
-		
-		assertEquals("Alexander", profilePage.getFirstName());
-		assertEquals("Baar", profilePage.getLastName());
-		assertEquals("alexander.baar@edu.fh-joanneum.at", profilePage.getMailAddress());
-	}
 
 	@After
 	public void tearDown() throws Exception {

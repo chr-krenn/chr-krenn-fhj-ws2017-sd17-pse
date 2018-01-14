@@ -46,9 +46,10 @@ public class Community implements Serializable {
 	 * @throws DatabaseException 
 	 *			  throws own DatabaseException, message gives an explanation of the problem
 	 */
-	public Community(String name, String description) throws DatabaseException {
+	public Community(String name, String description,int portaladminId) throws DatabaseException {
 		setName(name);
 		setDescription(description);
+		setPortaladminId(portaladminId);
 	}
 
 	/**
@@ -102,6 +103,18 @@ public class Community implements Serializable {
 		if (description.length() > MAX_TEXT_LENGTH)
 			throw new DatabaseException("Description darf nicht länger als " + MAX_TEXT_LENGTH_ERROR);
 		this.description = description;
+	}
+
+
+	@Column(name="portaladmin_id", unique = false)
+	private int portaladminId;
+
+	public int getPortaladminId() {
+		return portaladminId;
+	}
+
+	public void setPortaladminId(int portaladminId) {
+		this.portaladminId = portaladminId;
 	}
 
 	@Column(name = "picture")

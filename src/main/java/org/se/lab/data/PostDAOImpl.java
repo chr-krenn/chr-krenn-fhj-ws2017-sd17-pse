@@ -71,6 +71,12 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
 		LOG.debug("findPostsForUser(" + user + ")");
 		return super.em.createQuery(POST_FOR_USER_QUERY, Post.class).setParameter("id", user.getId()) .getResultList();
 	}
+	
+	@Override
+	public List<Post> getPostsForUserAndContacts(User user, List<Integer> contactIds) {
+		LOG.debug("findPostsForUser(" + user + ")");
+		return super.em.createQuery(POST_FOR_USER_AND_CONTACT_QUERY, Post.class).setParameter("idlist", contactIds) .getResultList();
+	}
 
 	@Override
 	public List<Post> getPostsForCommunity(Community community) {
@@ -132,6 +138,8 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
 	 */
 	private static final String POST_FOR_USER_QUERY = "SELECT p FROM Post p WHERE p.user.id = :id";
 	private static final String POST_FOR_COMMUNITY_QUERY = "SELECT p FROM Post p WHERE p.community.id = :id";
+
+	private static final String POST_FOR_USER_AND_CONTACT_QUERY = "SELECT p FROM Post p WHERE p.user.id IN :idlist";
 	// private static final String ALL_POST_QUERY = "SELECT p FROM Post p";
 
 

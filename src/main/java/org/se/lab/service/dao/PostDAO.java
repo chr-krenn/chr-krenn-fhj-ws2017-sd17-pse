@@ -1,12 +1,12 @@
 package org.se.lab.service.dao;
 
-import java.util.Date;
-import java.util.List;
-
 import org.se.lab.data.Community;
 import org.se.lab.data.DatabaseException;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
+
+import java.util.Date;
+import java.util.List;
 
 public interface PostDAO{
 
@@ -48,6 +48,8 @@ public interface PostDAO{
 	 */
 	List<Post> getPostsForUser(User user);
 	
+	List<Post> getPostsForUserAndContacts(User user, List<Integer> contactIds);
+	
 	/**
 	 * Gets all Posts as List<Post> for given Community
 	 * @param community
@@ -60,7 +62,7 @@ public interface PostDAO{
 	 * @return (List<Post>) posts
 	 */
 	List<Post> findAll();
-	
+	Post findById(int id);
 	/**
 	 * Clones given Post and returns cloned Post
 	 * @param post

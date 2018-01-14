@@ -1,11 +1,10 @@
 package org.se.lab.data;
 
-import java.util.Date;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.se.lab.data.PostDAOImpl;
+
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +26,7 @@ public class PostDAOTest extends AbstractDAOTest {
 		community1 = new Community("testPost", "test community");
 		user1 = new User("testuserpost", "*****");
 		post1 = new Post(null, community1, user1, "Happy Path Test", new Date(180L));
+		community1 = new Community("testPost", "test community",1);
 		dao.setEntityManager(em);
 		edao.setEntityManager(em);
 	}

@@ -1,10 +1,10 @@
 package org.se.lab.service;
 
-import java.util.List;
-
 import org.se.lab.data.Community;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
+
+import java.util.List;
 
 public interface ActivityStreamService {
 
@@ -12,11 +12,13 @@ public interface ActivityStreamService {
 
 	void insert(Post post, Community community);
 
-	void delete(Post post);
+	void delete(Post post,User user);
 
 	void update(Post post);
 
 	List<Post> getPostsForUser(User user);
+	
+	List<Post> getPostsForUserAndContacts(User user,List<Integer> contactIds);
 
 	List<Post> getPostsForCommunity(Community community);
 

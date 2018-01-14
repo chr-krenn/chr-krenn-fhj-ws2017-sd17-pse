@@ -2,10 +2,12 @@ package org.se.lab.service.impl;
 
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
+import org.se.lab.data.Enumeration;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
 import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.ServiceException;
+import org.se.lab.service.dao.EnumerationDAO;
 import org.se.lab.service.dao.PostDAO;
 
 import javax.ejb.Stateless;
@@ -18,6 +20,9 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
 
     @Inject
     private PostDAO dao;
+
+    @Inject
+    private EnumerationDAO enumerationDAO;
 
     /* (non-Javadoc)
 	 * @see org.se.lab.service.ActivityStreamService#insert(org.se.lab.data.Post)
@@ -50,9 +55,29 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
 	 * @see org.se.lab.service.ActivityStreamService#delete(org.se.lab.data.Post)
 	 */
     @Override
-	public void delete(Post post) {
+	public void delete(Post post,User user) {
         LOG.debug("delete " + post);
+        Post postToDelete;
+
+        // delete childposts
+        for (Post childPost : post.getChildPosts()) {
+            postToDelete = dao.findById(childPost.getId());
+            deleteExecuter(postToDelete);
+        }
+
+        // delete mainpost
+        postToDelete = dao.findById(post.getId());
+        deleteExecuter(postToDelete);
+    }
+
+    public void deleteExecuter(Post post){
         try {
+            // delete likes from post
+            List<Enumeration> likes = post.getLikes();
+            for(Enumeration like: likes){
+                enumerationDAO.delete(like);
+            }
+
             dao.delete(post);
         } catch (Exception e) {
             LOG.error("Can't delete post " + post, e);
@@ -91,4 +116,10 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
         LOG.debug("getting posts relevant for " + community);
         return dao.getPostsForCommunity(community);
     }
+
+    @Override
+   	public List<Post> getPostsForUserAndContacts(User user,List<Integer> contactIds) {
+           LOG.debug("getting posts relevant for " + user);
+           return dao.getPostsForUserAndContacts(user,contactIds);
+       }
 }
