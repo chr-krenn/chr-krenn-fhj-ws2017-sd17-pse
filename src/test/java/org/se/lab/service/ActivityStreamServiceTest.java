@@ -65,7 +65,7 @@ public class ActivityStreamServiceTest {
     }
 
     @Test
-    public void insert_withCommunity() {
+    public void insert_withCommunity() throws DatabaseException {
         expect(postDAO.insert(post1,community)).andReturn(post1);
         replay(postDAO);
 

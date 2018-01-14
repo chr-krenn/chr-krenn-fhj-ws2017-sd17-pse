@@ -42,7 +42,7 @@ public class PrivateMessage implements Serializable
 				+ " characters";
 		private static final String TEXT_WHITESPACE_ERROR = "The given text must have charakters not only whitespaces";
 	
-	public PrivateMessage(String text, User sender, User receiver )
+	public PrivateMessage(String text, User sender, User receiver ) throws DatabaseException
 	{
 		LOG.debug("New Private Message");
 		LOG.trace(
@@ -78,12 +78,13 @@ public class PrivateMessage implements Serializable
 	 * Setter for id field of PrivateMessage Should not be negative or zero
 	 * 
 	 * @param id
+	 * @throws DatabaseException 
 	 * 
-	 * @throws IllegalArgumentException.class if given id less than 1
+	 * @throws DatabaseException.class if given id less than 1
 	 */
-	public void setID(int id) {
+	public void setID(int id) throws DatabaseException {
 		if (id <= 0)
-			throw new IllegalArgumentException(ID_INVALID_ERROR);
+			throw new DatabaseException(ID_INVALID_ERROR);
 		ID = id;
 	}
 	
@@ -99,16 +100,16 @@ public class PrivateMessage implements Serializable
 		return text;
 	}
 
-	public void setText(String text) {
+	public void setText(String text) throws DatabaseException {
 		LOG.debug("setText(" + text + ")");
 		if (text == null)
-			throw new IllegalArgumentException(TEXT_NULL_ERROR);
+			throw new DatabaseException(TEXT_NULL_ERROR);
 		if (text.length() > MAX_TEXT_LENGTH)
-			throw new IllegalArgumentException(TEXT_INVALID_ERROR);
+			throw new DatabaseException(TEXT_INVALID_ERROR);
 		
 		if (text.trim().length() == 0)
 		{
-			throw new IllegalArgumentException(TEXT_WHITESPACE_ERROR);
+			throw new DatabaseException(TEXT_WHITESPACE_ERROR);
 		}
 		this.text = text;
 	}
@@ -118,15 +119,15 @@ public class PrivateMessage implements Serializable
 	 * 
 	 * @param usersender
 	 * 
-	 * @throws IllegalArgumentException.class if given user object is null
+	 * @throws DatabaseException.class if given user object is null
 	 */
 	@ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="fk_user_id_sender")
     private User usersender;
 
-    public void setUserSender(User usersender) {
+    public void setUserSender(User usersender) throws DatabaseException {
         if(usersender == null)
-            throw new IllegalArgumentException(USERSENDER_NULL_ERROR);
+            throw new DatabaseException(USERSENDER_NULL_ERROR);
         this.usersender = usersender;
         usersender.addPrivateMessageSender(this);
     }
@@ -146,15 +147,15 @@ public class PrivateMessage implements Serializable
 	 * 
 	 * @param userreceiver
 	 * 
-	 * @throws IllegalArgumentException.class if given user object is null
+	 * @throws DatabaseException.class if given user object is null
 	 */
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="fk_user_id_receiver")
     private User userreceiver;
 
-    public void setUserReceiver(User userreceiver) {
+    public void setUserReceiver(User userreceiver) throws DatabaseException {
         if(userreceiver == null)
-            throw new IllegalArgumentException(USERRECEIVER_NULL_ERROR);
+            throw new DatabaseException(USERRECEIVER_NULL_ERROR);
         this.userreceiver = userreceiver;
         userreceiver.addPrivateMessageReceiver(this);
     }

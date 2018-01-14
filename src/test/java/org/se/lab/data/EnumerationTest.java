@@ -33,19 +33,19 @@ public class EnumerationTest {
 	}	
 	
 	@Test
-	public void testName(){
+	public void testName() throws DatabaseException{
 		enumeration.setName("Test");
 		Assert.assertEquals("Test", enumeration.getName());
 	}	
 	
 	@Test
-	public void testId(){
+	public void testId() throws DatabaseException{
 		enumeration.setId(2);
 		Assert.assertEquals(2, enumeration.getId());
 	}
 	
 	@Test
-	public void testEquals(){
+	public void testEquals() throws DatabaseException{
 		Assert.assertTrue(enumeration.equals(enumeration));
 		Assert.assertTrue(!enumeration.equals(null));
 		Assert.assertTrue(!enumeration.equals(new Object()));
@@ -57,8 +57,8 @@ public class EnumerationTest {
 		Assert.assertTrue(!enumeration.equals(actual));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testInvalidId(){
+	@Test(expected=DatabaseException.class)
+	public void testInvalidId() throws DatabaseException{
 		enumeration.setId(-1);
 	}
 }

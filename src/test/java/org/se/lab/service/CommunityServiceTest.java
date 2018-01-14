@@ -88,7 +88,7 @@ public class CommunityServiceTest {
 		Assert.assertThat(communityCapture.getValue().getState(), is(enumerationService.getApproved()));
 	}
 
-	@Ignore
+	@Ignore("something wrong with mock configuration for new method request")
 	@Test
 	public void request() throws DatabaseException {
 		Community community = new Community(NAME, DESCRIPTION,1);
@@ -149,7 +149,12 @@ public class CommunityServiceTest {
 
 	@Test
 	public void join_Successful() {
-		User user = new User("username2", "pwd");
+		User user = null;
+		try {
+			user = new User("username2", "pwd");
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 		communityService.join(community1, user);
 	}
 

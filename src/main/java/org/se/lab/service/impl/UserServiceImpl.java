@@ -107,7 +107,12 @@ public class UserServiceImpl implements UserService {
         User userToAdd = userDAO.findByUsername(contactName);
         if (!userContactDAO.doesContactExistForUserId(userToAdd.getId(), user.getId())) {
 
-            UserContact userContact = new UserContact(user, userToAdd.getId());
+            UserContact userContact;
+			try {
+				userContact = new UserContact(user, userToAdd.getId());
+			} catch (DatabaseException e) {
+				throw new ServiceException("A new contact could'n initialize with user: "+ user + " and: "+ userToAdd);
+			}
             userContactDAO.insert(userContact);
         } else {
             LOG.error("Contact " + userToAdd.getUsername() + " already exist ");

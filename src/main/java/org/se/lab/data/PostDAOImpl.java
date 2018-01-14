@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.se.lab.service.dao.PostDAO;
 
 public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
-
 	
 	/*
 	 * CRUD from DAOImplTemplate
@@ -61,7 +60,7 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
 	 * None DAOImplTemplate methods 
 	 */
 	@Override
-	public Post insert(Post post, Community community) {
+	public Post insert(Post post, Community community){
 		LOG.debug("insert(" + post + ", " + community + ")");
 		post.setCommunity(community);
 		return insert(post);
@@ -91,18 +90,40 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
 	 */
 	
 	@Override
-	public Post clonePost(Post post) {
-		return insert(new Post(post.getParentpost(), post.getCommunity(), post.getUser(), post.getText(), post.getCreated()));
+	public Post clonePost(Post post) throws DatabaseException {
+		Post p = null;
+		try {
+			p =  insert(new Post(post.getParentpost(), post.getCommunity(), post.getUser(), post.getText(), post.getCreated()));
+		} catch (DatabaseException e) {
+			LOG.error("not able to clone post: ", e);
+			throw new DatabaseException("not able to clone post", e);
+		}
+		return p;
 	}
 
 	@Override
-	public Post createPost(User user, String text, Date created) {
-		return insert(new Post(null, null, user, text, created));
+	public Post createPost(User user, String text, Date created) throws DatabaseException {
+		Post p = null;
+		try {
+			p =  insert(new Post(null, null, user, text, created));
+		} catch (DatabaseException e) {
+			LOG.error("could not create post: ", e);
+			throw new DatabaseException("Could not create post: ", e);
+			
+		}
+		return p;
 	}
 
 	@Override
-	public Post createPost(Post parentpost, Community community, User user, String text, Date created) {
-		return insert(new Post(parentpost, community, user, text, created));
+	public Post createPost(Post parentpost, Community community, User user, String text, Date created) throws DatabaseException {
+		Post p = null;
+		try {
+			p = insert(new Post(parentpost, community, user, text, created));
+		} catch (DatabaseException e) {
+			LOG.error("could not create post: ", e);
+			throw new DatabaseException("Could not create post: ", e);
+		}
+		return p;
 	}
 	
 	

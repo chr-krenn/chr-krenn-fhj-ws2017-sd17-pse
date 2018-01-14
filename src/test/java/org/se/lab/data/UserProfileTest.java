@@ -56,14 +56,14 @@ public class UserProfileTest {
     }
 
     @Test
-    public void testHash() {
+    public void testHash() throws DatabaseException {
         UserProfile  up2 = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43",  "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
         u.setUserProfile(up2);
         Assert.assertTrue(up.hashCode() == up2.hashCode());
     }
 
     @Test
-    public void testEquals() {
+    public void testEquals() throws DatabaseException {
         UserProfile  up2 = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43",  "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
         u.setUserProfile(up2);
         Assert.assertTrue(up.equals(up2));

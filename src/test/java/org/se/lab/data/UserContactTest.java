@@ -7,73 +7,82 @@ import org.junit.Test;
 
 public class UserContactTest {
 
-    private User u;
-    private UserContact uc;
+	private User u;
+	private UserContact uc;
 
-    @Before
-    public void setUp() throws Exception{
-        u = new User("testuser", "*****");
-        uc = new UserContact(u,2);
-    }
+	@Before
+	public void setUp() throws Exception {
+		u = new User("testuser", "*****");
+		uc = new UserContact(u, 2);
+	}
 
-    @After
-    public void tearDown() throws Exception{
+	@After
+	public void tearDown() throws Exception {
 
-    }
+	}
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegalContactId() {
-        uc.setContactId(0);
-    }
+	@Test(expected = DatabaseException.class)
+	public void testIllegalContactId() throws DatabaseException {
+		uc.setContactId(0);
+	}
 
+	@Test
+	public void testContactId() {
+		Assert.assertEquals(uc.getContactId(), uc.getUser().getUserContacts().get(0).getContactId());
+	}
 
-    @Test
-    public void testContactId() {
-        Assert.assertEquals( uc.getContactId(), uc.getUser().getUserContacts().get(0).getContactId());
-    }
+	@Test
+	public void testUserId() {
+		Assert.assertNotNull(uc.getId());
+	}
 
-    @Test
-    public void testUserId() {
-        Assert.assertNotNull(uc.getId());
-    }
+	@Test
+	public void testUser() {
+		UserContact uc2 = new UserContact();
+		Assert.assertNotNull(uc2);
+	}
 
-    @Test
-    public void testUser() {
-        UserContact uc2 = new UserContact();
-        Assert.assertNotNull(uc2);
-    }
+	@Test
+	public void testHash() {
+		UserContact uc = null;
+		try {
+			uc = new UserContact(u, 2);
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
+		Assert.assertTrue(uc.hashCode() == uc.hashCode());
+	}
 
-    @Test
-    public void testHash() {
-        UserContact uc = new UserContact(u, 2);
-        Assert.assertTrue(uc.hashCode() == uc.hashCode());
-    }
+	@Test
+	public void testEqualsObjtrue() {
+		UserContact uc = null;
+		try {
+			uc = new UserContact(u, 2);
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
+		Assert.assertTrue(uc.equals(uc));
+	}
 
-    @Test
-    public void testEqualsObjtrue() {
-        UserContact uc = new UserContact(u, 2);
-        Assert.assertTrue(uc.equals(uc));
-    }
+	@Test
+	public void testEqualsObjnull() {
+		Assert.assertFalse(uc.equals(null));
+	}
 
-    @Test
-    public void testEqualsObjnull() {
-        Assert.assertFalse(uc.equals(null));
-    }
+	@Test
+	public void testEqualsgetClassfalse() {
+		Assert.assertFalse(uc.equals(u));
 
-    @Test
-    public void testEqualsgetClassfalse() {
-        Assert.assertFalse(uc.equals(u));
+	}
 
-    }
+	@Test
+	public void testToString() {
+		String s = "UserContacts [userId=0, contactId=2]";
+		Assert.assertTrue(uc.toString().equals(s));
+	}
 
-    @Test
-    public void testToString() {
-        String s = "UserContacts [userId=0, contactId=2]";
-        Assert.assertTrue(uc.toString().equals(s));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddUserFail() {
-        uc.setUser(null);
-    }
+	@Test(expected = DatabaseException.class)
+	public void testAddUserFail() throws DatabaseException {
+		uc.setUser(null);
+	}
 }

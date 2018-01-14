@@ -28,7 +28,7 @@ public class EnumerationDAOImpl extends DAOImplTemplate<Enumeration> implements 
 	}
 	
 	@Override
-	public Enumeration createEnumeration(int id) {
+	public Enumeration createEnumeration(int id) throws DatabaseException {
 		Enumeration e = new Enumeration();
 		
 		switch (id) {
@@ -54,7 +54,7 @@ public class EnumerationDAOImpl extends DAOImplTemplate<Enumeration> implements 
 				e.setName("LIKE");
 				break;
 			default:
-				throw new IllegalArgumentException();
+				throw new DatabaseException("unknown id for new Enumeration! id = " + id);
 		}
 		
 		insert(e);

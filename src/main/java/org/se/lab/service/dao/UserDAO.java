@@ -5,6 +5,7 @@
 
 package org.se.lab.service.dao;
 
+import org.se.lab.data.DatabaseException;
 import org.se.lab.data.User;
 
 public interface UserDAO extends DAOTemplate<User> {
@@ -14,5 +15,5 @@ public interface UserDAO extends DAOTemplate<User> {
 	 */
 	User findByUsername(String username);
 
-	User createUser(String username, String password);
+	User createUser(String username, String password) throws DatabaseException;
 }

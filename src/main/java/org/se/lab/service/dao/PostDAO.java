@@ -1,6 +1,7 @@
 package org.se.lab.service.dao;
 
 import org.se.lab.data.Community;
+import org.se.lab.data.DatabaseException;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
 
@@ -23,6 +24,7 @@ public interface PostDAO{
 	 * @param post
 	 * @param community
 	 * @return (Post) post
+	 * @throws DatabaseException 
 	 */
 	Post insert(Post post, Community community);
 	
@@ -65,8 +67,9 @@ public interface PostDAO{
 	 * Clones given Post and returns cloned Post
 	 * @param post
 	 * @return (Post) post
+	 * @throws DatabaseException 
 	 */
-	Post clonePost(Post post);
+	Post clonePost(Post post) throws DatabaseException;
 	
 	/**
 	 * Creates a simple Post for given User with Text and creation time
@@ -74,8 +77,9 @@ public interface PostDAO{
 	 * @param text
 	 * @param created (java.util.Data)
 	 * @return (Post) new post
+	 * @throws DatabaseException 
 	 */
-	Post createPost(User user, String text, Date created);
+	Post createPost(User user, String text, Date created) throws DatabaseException;
 	
 	
 	/**
@@ -89,7 +93,8 @@ public interface PostDAO{
 	 * @param text
 	 * @param created (java.util.Data)
 	 * @return (Post) new post
+	 * @throws DatabaseException 
 	 */
-	Post createPost(Post parentpost, Community community, User user, String text, Date created);
+	Post createPost(Post parentpost, Community community, User user, String text, Date created) throws DatabaseException;
 	
 }

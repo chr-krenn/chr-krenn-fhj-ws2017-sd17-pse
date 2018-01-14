@@ -3,7 +3,6 @@ package org.se.lab.data;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.se.lab.data.CommunityDAOImpl;
 import org.se.lab.data.UserDAOImpl;

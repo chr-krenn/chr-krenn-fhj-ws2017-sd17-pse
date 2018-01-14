@@ -34,7 +34,11 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 		
 		name = "testModifyUpdated";
 
-		enumeration.setName(name);
+		try {
+			enumeration.setName(name);
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 		dao.update(enumeration);
 		Assert.assertEquals(name, enumeration.getName());
 		
@@ -70,7 +74,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	}
 	
 	@Test
-	public void testUser() {
+	public void testUser() throws DatabaseException {
 		String name = "testUser";
 		String username = "test";
 		String pass = "pass";
@@ -100,7 +104,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	}
 	
 	@Test
-	public void testLikedUser() {
+	public void testLikedUser() throws DatabaseException {
 		String name = "testLikedUser";
 		String username = "test";
 		String pass = "pass";
@@ -130,7 +134,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 	}
 	
 	@Test
-	public void testPost() {
+	public void testPost() throws DatabaseException {
 		String name = "testPost";
 		String text = "Test";
 		
@@ -191,7 +195,11 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 		
 	private Enumeration CreateAndInsertEnumeration(String name) {
 		Enumeration e = new Enumeration();
-		e.setName(name);
+		try {
+			e.setName(name);
+		} catch (DatabaseException e1) {
+			e1.printStackTrace();
+		}
 		
 		dao.insert(e);
 		

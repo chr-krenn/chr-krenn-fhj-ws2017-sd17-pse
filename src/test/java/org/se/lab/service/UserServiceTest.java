@@ -44,7 +44,6 @@ public class UserServiceTest {
     private User user2;
     private UserProfile userProfile1;
     private UserProfile userProfile2;
-    private UserContact userContact1;
     private UserContact userContact2;
 
 
@@ -60,7 +59,7 @@ public class UserServiceTest {
         user1.setUserProfile(userProfile1);
         user2.setUserProfile(userProfile2);
 
-        userContact1 = new UserContact(user1, 2);
+        new UserContact(user1, 2);
         userContact2 = new UserContact(user2, 1);
     }
 
@@ -105,8 +104,14 @@ public class UserServiceTest {
     @Test
     public void getAllContactsByUser() {
         List<UserContact> userContactList = new ArrayList<>();
-        UserContact contact1 = new UserContact(user1, 3);
-        UserContact contact2 = new UserContact(user2, 2);
+        UserContact contact1 = null;
+        UserContact contact2 = null;
+		try {
+			contact1 = new UserContact(user1, 3);
+	        contact2 = new UserContact(user2, 2);
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 
         userContactList.add(contact1);
         userContactList.add(contact2);
@@ -159,7 +164,7 @@ public class UserServiceTest {
         replay(userProfileDAO);
 
         List<UserProfile> userProfilesResult = userService.getAllUserProfiles();
-        Assert.assertThat(userProfiles.size(), is(2));
+        Assert.assertThat(userProfilesResult.size(), is(2));
     }
 
     @Test

@@ -11,8 +11,8 @@ import static org.junit.Assert.*;
 public class PostDAOTest extends AbstractDAOTest {
 
 	private Community community1;
-	private User user1 = new User("testuserpost", "*****");
-	private Post post1 = new Post(null, community1, user1, "Happy Path Test", new Date(180L));
+	private User user1;
+	private Post post1;
 	private Post post2;
 	private Post post3;
 	private Date created1 = new Date(244L);
@@ -23,6 +23,9 @@ public class PostDAOTest extends AbstractDAOTest {
 	
 	@Before
 	public void setupPost() throws DatabaseException {
+		community1 = new Community("testPost", "test community");
+		user1 = new User("testuserpost", "*****");
+		post1 = new Post(null, community1, user1, "Happy Path Test", new Date(180L));
 		community1 = new Community("testPost", "test community",1);
 		dao.setEntityManager(em);
 		edao.setEntityManager(em);
@@ -38,33 +41,41 @@ public class PostDAOTest extends AbstractDAOTest {
 		assertNotNull(dao.insert(post1, community1));
 		assertTrue(post1.getUser().equals(user1));
 		
+		
 		// Test post cloning
-		post2 = dao.createPost(user1, text1, created1);
-		post2 = dao.insert(post1);
-		assertNotNull(post2);
-		post3 = dao.clonePost(post2);
-		post3 = dao.insert(post3);
-		assertNotNull(post3);
-		assertTrue(post2.getUser().equals(post3.getUser()));
-		assertTrue(post2.getCreated().equals(post3.getCreated()));
-		assertTrue(post2.getText().equals(post3.getText()));
-		assertFalse(post2.getId() == post3.getId());
+		try {
+			post2 = dao.createPost(user1, text1, created1);
+			post2 = dao.insert(post1);
+			assertNotNull(post2);
+			post3 = dao.clonePost(post2);
+			post3 = dao.insert(post3);
+			assertNotNull(post3);
+			assertTrue(post2.getUser().equals(post3.getUser()));
+			assertTrue(post2.getCreated().equals(post3.getCreated()));
+			assertTrue(post2.getText().equals(post3.getText()));
+			assertFalse(post2.getId() == post3.getId());
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 		
 		// full create method
-		post1 = dao.createPost(post2, community1, user1, "A I am the parent Post, wait no", created1);
-		post1 = dao.insert(post1);
-		assertNotNull(post1);
-		List<Post> posts = dao.findAll();
-		assertTrue(posts.contains(post1));
-		assertTrue(posts.contains(post2));
-		assertTrue(posts.contains(post3));
-		assertTrue(posts.get(posts.size()-1).getUser().equals(user1));
-		assertTrue(post2.getChildPosts().contains(post1));
-		assertTrue(
-				dao.findById(post1.getId()) // circle ( post1
-				.getParentpost().getUser() // -> parentpost -> user
-				.equals(post1.getUser())); // == post1 -> user ) 
-		
+		try {
+			post1 = dao.createPost(post2, community1, user1, "A I am the parent Post, wait no", created1);
+			post1 = dao.insert(post1);
+			assertNotNull(post1);
+			List<Post> posts = dao.findAll();
+			assertTrue(posts.contains(post1));
+			assertTrue(posts.contains(post2));
+			assertTrue(posts.contains(post3));
+			assertTrue(posts.get(posts.size()-1).getUser().equals(user1));
+			assertTrue(post2.getChildPosts().contains(post1));
+			assertTrue(
+					dao.findById(post1.getId()) // circle ( post1
+					.getParentpost().getUser() // -> parentpost -> user
+					.equals(post1.getUser())); // == post1 -> user ) 
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -80,33 +91,38 @@ public class PostDAOTest extends AbstractDAOTest {
 	@Override
 	public void testModify() {
 
-		em.persist(user1);
-		em.persist(community1);
-
-		// create again
-		Post persisted = dao.insert(post1, community1);
-		List<Post> posts = dao.getPostsForUser(user1);
-		List<Post> postscom = dao.getPostsForCommunity(community1);
-		assertTrue(posts.contains(persisted));
-		assertTrue(postscom.contains(persisted));
-		assertTrue(persisted.getText().equals(post1.getText()));
-
-		// test modify
-		persisted.setText("Modified");
-		dao.update(persisted);
-		assertTrue(persisted.getText().equals("Modified"));
 		
-		// add Like To Post
-		like1 = edao.findById(7);
-		assertNotNull(like1);
-		like1.addUserToLike(user1);
-		persisted.addLike(like1);
-		dao.update(persisted);
-		assertTrue(persisted.getLikes().contains(like1));
-		assertTrue(persisted.getLikes()
-				.get(persisted.getLikes().size()-1) // last like
-				.getLikedBy().contains(user1));
-		
+		try {
+			em.persist(user1);
+			em.persist(community1);
+
+			// create again
+			Post persisted;
+			persisted = dao.insert(post1, community1);
+			List<Post> posts = dao.getPostsForUser(user1);
+			List<Post> postscom = dao.getPostsForCommunity(community1);
+			assertTrue(posts.contains(persisted));
+			assertTrue(postscom.contains(persisted));
+			assertTrue(persisted.getText().equals(post1.getText()));
+			// test modify
+			persisted.setText("Modified");
+			dao.update(persisted);
+			assertTrue(persisted.getText().equals("Modified"));
+			
+			// add Like To Post
+			like1 = edao.findById(7);
+			assertNotNull(like1);
+			like1.addUserToLike(user1);
+			persisted.addLike(like1);
+			dao.update(persisted);
+			assertTrue(persisted.getLikes().contains(like1));
+			assertTrue(persisted.getLikes()
+					.get(persisted.getLikes().size()-1) // last like
+					.getLikedBy().contains(user1));
+			
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
