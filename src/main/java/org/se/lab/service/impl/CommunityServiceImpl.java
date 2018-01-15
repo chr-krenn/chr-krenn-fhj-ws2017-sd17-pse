@@ -137,7 +137,7 @@ public class CommunityServiceImpl implements CommunityService {
 		LOG.debug("request community with name: " + name + " and description: " + description);
 		Community com;
 		try {
-			com = communityDAO.createCommunity(name, description);
+			com = communityDAO.createCommunity(name, description, 1);
 			if(com == null)
 				throw new ServiceException("Can't insert community " + name);
 		} catch (DatabaseException e) {

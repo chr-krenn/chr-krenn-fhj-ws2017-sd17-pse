@@ -1,9 +1,9 @@
 package org.se.lab.data;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 public class EnumerationDAOTest extends AbstractDAOTest {
 	
@@ -166,7 +166,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 		String name = "testCommunity";
 		String description = "Test";
 		
-		Community com = commDao.createCommunity(name, description);
+		Community com = commDao.createCommunity(name, description,1);
 
 		Enumeration e = new Enumeration();
 		e.setName(name);

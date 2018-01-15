@@ -1,7 +1,6 @@
 package org.se.lab.data;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Date;
@@ -24,10 +23,9 @@ public class PostDAOTest extends AbstractDAOTest {
 	
 	@Before
 	public void setupPost() throws DatabaseException {
-		community1 = new Community("testPost", "test community", 1);
 		user1 = new User("testuserpost", "*****");
+		community1 = new Community("testPost", "test community",user1.getId());
 		post1 = new Post(null, community1, user1, "Happy Path Test", new Date(180L));
-		community1 = new Community("testPost", "test community",1);
 		dao.setEntityManager(em);
 		edao.setEntityManager(em);
 	}
@@ -80,7 +78,6 @@ public class PostDAOTest extends AbstractDAOTest {
 	}
 	
 	@Test
-	@Ignore
 	public void testFindAll() {
 		int currentcount = dao.findAll().size();
 		em.persist(user1);

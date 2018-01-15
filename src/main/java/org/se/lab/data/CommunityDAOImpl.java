@@ -1,16 +1,15 @@
 package org.se.lab.data;
 
-import java.util.List;
+import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
+import org.se.lab.service.dao.CommunityDAO;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.se.lab.service.dao.CommunityDAO;
-import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
+import java.util.List;
 
 public class CommunityDAOImpl extends DAOImplTemplate<Community> implements CommunityDAO{
 	
@@ -133,12 +132,13 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 	}
 
 	@Override
-	public Community createCommunity(String name, String description) throws DatabaseException {
+	public Community createCommunity(String name, String description, int portaladminId) throws DatabaseException {
 		LOG.info("createCommunity(name = "+ name +", description = "+ description + ")");
 		Community c = new Community();
 		try {
 			c.setName(name);
 			c.setDescription(description);
+			c.setPortaladminId(portaladminId);
 			Enumeration e = getValidEnumeration(em.find(Enumeration.class, 1));
 			c.setState(e);
 			insert(c);

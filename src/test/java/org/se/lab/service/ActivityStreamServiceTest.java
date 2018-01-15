@@ -4,9 +4,7 @@ import org.easymock.EasyMockRule;
 import org.easymock.EasyMockRunner;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +20,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 
 @RunWith(EasyMockRunner.class)
@@ -75,11 +72,10 @@ public class ActivityStreamServiceTest {
     }
 
     @Test
-    @Ignore
     public void delete_Successful(){
-    	System.out.print(post1);
+        expect(postDAO.findById(post1.getId())).andReturn(post1);
         postDAO.delete(post1);
-        expectLastCall();
+        replay(postDAO);
 
         activityStreamService.delete(post1,user);
     }
