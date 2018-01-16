@@ -30,11 +30,11 @@ import java.util.Map;
 public class AdminDataBean implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private final Logger LOG = Logger.getLogger(AdminDataBean.class);
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    private final Logger LOG = Logger.getLogger(AdminDataBean.class);
     List<Community> requestedCommunityList;
     List<Community> approvedCommunityList;
     /*
@@ -74,17 +74,12 @@ public class AdminDataBean implements Serializable {
     public void init() {
         context = FacesContext.getCurrentInstance();
 
-		/*
+        /**
          * FG Info Flash: We need flash to make the param survive one redirect request
-		 * otherwise param will be null
-		 */
+         * otherwise param will be null
+         **/
         flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-
-		/*
-         * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
-		 *
-		 */
-
+        //Get UserId of user, who owns session
         Map<String, Object> session = context.getExternalContext().getSessionMap();
 
 
@@ -103,15 +98,11 @@ public class AdminDataBean implements Serializable {
             userId = (int) session.get("user");
             LOG.info("SESSIOn UID: " + userId);
         } else {
-            /*
-             * If session is null - redirect to login page!
-			 *
-			 */
             try {
                 context.getExternalContext().redirect("/pse/login.xhtml");
             } catch (IOException e) {
                 LOG.error("Can't redirect to /pse/login.xhtml");
-                //e.printStackTrace();
+
             }
         }
         requestedCommunityList = new ArrayList<>();
@@ -127,7 +118,6 @@ public class AdminDataBean implements Serializable {
     public void declineRequestedCommunity(Community community) {
         LOG.info("Community declined >" + community);
 
-        //TODO evaluate why catch block isn't entered
         try {
             service.refuse(community);
             reactionOnPendingRequest = "Sucessfully declined";
@@ -159,7 +149,7 @@ public class AdminDataBean implements Serializable {
             context.getExternalContext().redirect("/pse/adminPortal.xhtml");
         } catch (IOException e) {
             LOG.error("Can't redirect to /pse/adminPortal.xhtml");
-            //e.printStackTrace();
+
         }
     }
 

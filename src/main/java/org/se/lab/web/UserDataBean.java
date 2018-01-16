@@ -40,9 +40,9 @@ public class UserDataBean implements Serializable {
     private UserProfile userProfile;
     private List<User> contacts = new ArrayList<User>();
     private String errorMsg = "";
-    
+
     private List<Community> communities = new ArrayList<Community>();
-    
+
     private String id = "";
     private String hideAddRemove = "";
     private String fromHeader = "";
@@ -61,79 +61,76 @@ public class UserDataBean implements Serializable {
             flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
             id = context.getExternalContext().getRequestParameterMap().get("userid");
             handleButton(session);
-            
+
             userId = (int) session.get("user");
             String userProfId = String.valueOf(context.getExternalContext().getFlash().get("uid"));
             String fromHeaderCheck = String.valueOf(context.getExternalContext().getFlash().get("fromHeader"));
             if (fromHeaderCheck != null && fromHeaderCheck.equals("1")) {
                 userProfId = null;
             }
-            //Wr befinden uns auf einem Profil eines anderen Users
+            //In case a user is on a different users profile page
             if (userProfId != null && !userProfId.equals("null")) {
                 setContactAddable(true);
                 /* TODO userProfId might be "null" or NaN */
                 user = getUser(Integer.parseInt(userProfId));
 
-                //Holen des eingeloggten Users
+
                 try {
-                loggedInUser = service.findById(userId);
-            
-                List<User> usersList= service.getContactsOfUser(loggedInUser);
-                
-                for (User u : usersList) {
-                    //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
-                    if (u.getId() == user.getId()) {
-                        setContactAddable(false);
+                    //Get user object of user, who's logged in
+                    loggedInUser = service.findById(userId);
+
+                    List<User> usersList = service.getContactsOfUser(loggedInUser);
+
+                    for (User u : usersList) {
+
+                        if (u.getId() == user.getId()) {
+                            setContactAddable(false);
+                        }
                     }
-                }
-                
-                }    
-                catch (Exception e) {
-                    errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";     
+
+                } catch (Exception e) {
+                    errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
                     LOG.error(errorMsg);
                     setErrorMsg(errorMsg);
-                }    
+                }
             } else {
                 user = getUser(userId);
                 loggedInUser = user;
             }
 
             try {
-            loadContactsCommunitiesAndUserprofile();
-            validateUserPriviles(loggedInUser);
-            
-        } catch (Exception e) {
-            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
-            LOG.error(errorMsg);
-            setErrorMsg(errorMsg);
-        }
-            
+                loadContactsCommunitiesAndUserprofile();
+                validateUserPriviles(loggedInUser);
+
+            } catch (Exception e) {
+                errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+                LOG.error(errorMsg);
+                setErrorMsg(errorMsg);
+            }
+
         } else {
-            /*
-             * If session is null - redirect to login page!
-			 *
-			 */
+
             try {
                 context.getExternalContext().redirect("/pse/login.xhtml");
             } catch (IOException e) {
                 LOG.error("Can't redirect to /pse/login.xhtml");
-                //e.printStackTrace();
+
             }
         }
         setErrorMsg("");
     }
 
     private void loadContactsCommunitiesAndUserprofile() {
-     try {
-    	contacts = service.getContactsOfUser(user);
-        communities = user.getCommunities();
-        userProfile = service.getUserProfilById(user.getId());
-        
-    } catch (Exception e) {
-        errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
-        LOG.error(errorMsg);
-        setErrorMsg(errorMsg);
-    }
+        try {
+            contacts = service.getContactsOfUser(user);
+            communities = user.getCommunities();
+            userProfile = service.getUserProfilById(user.getId());
+
+        } catch (Exception e) {
+            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
     }
 
     private void handleButton(Map<String, Object> session) {
@@ -158,6 +155,7 @@ public class UserDataBean implements Serializable {
         flash.put("fromHeader", fromHeader);
 
         String hideAddRemoveCheck = String.valueOf(context.getExternalContext().getFlash().get("hideAddRemove"));
+
         //Hide Buttons for own profile
         if ("1".equals(hideAddRemoveCheck)) {
             setOwnProfile(true);
@@ -189,7 +187,7 @@ public class UserDataBean implements Serializable {
         LOG.info("contactName " + contactName);
         LOG.info("u " + loggedInUser.getId());
         LOG.info("userid " + userId);
-        //todo if works from dao
+
         service.removeContact(loggedInUser, contactName);
 
         setContactAddable(true);
@@ -236,18 +234,18 @@ public class UserDataBean implements Serializable {
     }
 
     public boolean isImageExists() {
-    	
-    	boolean imageExists = false;
-    	
-    	try {
-    		 user.getUserProfile().getPicture();
-    		imageExists = true;
-    		
-    } catch (Exception e) {
-         errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
-        LOG.error(errorMsg);
-        setErrorMsg(errorMsg);
-    }
+
+        boolean imageExists = false;
+
+        try {
+            user.getUserProfile().getPicture();
+            imageExists = true;
+
+        } catch (Exception e) {
+            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
         return imageExists;
     }
 
@@ -289,29 +287,27 @@ public class UserDataBean implements Serializable {
     }
 
     private void validateUserPriviles(User u) {
-    try {
-    	this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
-    	
-    } catch (Exception e) {
-        errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
-       LOG.error(errorMsg);
-       setErrorMsg(errorMsg);
-   }
+        try {
+            this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
+
+        } catch (Exception e) {
+            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
     }
 
     public boolean isAdmin() {
         return isAdmin;
-    }
-    
-
-    public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
     }
 
     public String getErrorMsg() {
         return errorMsg;
     }
 
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
 
     public boolean isOwnProfile() {
         return ownProfile;

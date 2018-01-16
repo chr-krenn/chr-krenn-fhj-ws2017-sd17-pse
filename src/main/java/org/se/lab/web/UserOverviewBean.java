@@ -23,16 +23,13 @@ public class UserOverviewBean {
 
     @Inject
     UserService service;
-
-
-    private List<UserProfile> profiles;
-    private UserProfile selectedProfile;
-
     /*
      * Properties for Session
      */
     Flash flash;
     FacesContext context;
+    private List<UserProfile> profiles;
+    private UserProfile selectedProfile;
     private String id = "";
     private int userId = 0;
 
@@ -43,16 +40,7 @@ public class UserOverviewBean {
         //TODO Check if Session exists
         context = FacesContext.getCurrentInstance();
 
-		/*
-         * FG Info Flash: We need flash to make the param survive one redirect request
-		 * otherwise param will be null
-		 */
         flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-
-		/*
-         * Holen der UserId vom User welcher aktuell eingeloggt ist(Session)
-		 *
-		 */
 
         Map<String, Object> session = context.getExternalContext().getSessionMap();
 
@@ -65,22 +53,21 @@ public class UserOverviewBean {
         String userProfId = String.valueOf(context.getExternalContext().getFlash().get("uid"));
 
 
-		LOG.info("userProfId: " + userProfId);
+        LOG.info("userProfId: " + userProfId);
 
-		if (session.size() != 0 && session.get("user") != null) {
+        if (session.size() != 0 && session.get("user") != null) {
 
-			userId = (int) session.get("user");
-			LOG.info("SESSIOn UID: " + userId);
-		} else {
-			try {
-				context.getExternalContext().redirect("/pse/login.xhtml");
-			} catch (IOException e) {
-				LOG.error("Can't redirect to /pse/login.xhtml");
-				//e.printStackTrace();
-			}
-		}
+            userId = (int) session.get("user");
+            LOG.info("SESSIOn UID: " + userId);
+        } else {
+            try {
+                context.getExternalContext().redirect("/pse/login.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/login.xhtml");
+                //e.printStackTrace();
+            }
+        }
 
-        // Activate if DAO works
         profiles = service.getAllUserProfiles();
 
 

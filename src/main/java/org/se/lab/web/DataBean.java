@@ -13,40 +13,26 @@ import org.se.lab.service.UserService;
 
 @Named
 @RequestScoped
-public class DataBean implements Serializable
-{
-	private static final long serialVersionUID = 1L;
+public class DataBean implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-	private final Logger LOG = Logger.getLogger(DataBean.class);
-	
-	@Inject
-	private UserService service;
-	
-	
-	/*
-	 * Property: users
-	 */
-	private List<User> users;
-	public List<User> getUsers()
-	{
-		return users;
-	}
-	public void setUsers(List<User> users)
-	{
-		this.users = users;
-	}
+    private final Logger LOG = Logger.getLogger(DataBean.class);
+
+    @Inject
+    private UserService service;
 
 
-	/*
-	 * Actions
-	 */
-	
-	public String refresh()
-	{
-		LOG.info("update");		
-		users = service.findAll();
-		LOG.info(users);
-		
-		return "";
-	}
+    /*
+     * Property: users
+     */
+    private List<User> users;
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
 }

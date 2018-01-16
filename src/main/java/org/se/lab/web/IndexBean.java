@@ -19,7 +19,6 @@ public class IndexBean {
             context.getExternalContext().redirect("/pse/activityStream.xhtml");
         } catch (IOException e) {
             LOG.error("Can't redirect to /pse/activityStream.xhtml");
-            //e.printStackTrace();
         }
     }
 }
