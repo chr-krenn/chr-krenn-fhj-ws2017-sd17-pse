@@ -81,7 +81,6 @@ public class CommunityTest {
 			com2 = new Community("test", "test community",1);
 			com2.setId(1);
 		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

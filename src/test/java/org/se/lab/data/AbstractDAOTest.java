@@ -31,9 +31,8 @@ public abstract class AbstractDAOTest {
 		assertNotNull(em);
 		tx = em.getTransaction();
 		assertNotNull(tx);
-		
-		// Everyone needs Enumeration anyways
-		edao.setEntityManager(em);
+
+        edao.setEntityManager(em);
 		tx.begin();
 		for (int i = 1; i <= 7; i++) { 
 			if (edao.findById(i) == null)
@@ -45,16 +44,8 @@ public abstract class AbstractDAOTest {
 	
 	@AfterClass
 	public static void disconnect() {
-		/*//Destroy Enums -- Messes with Tests, rather truncate before deploy
-		tx.begin();
-		List<Enumeration> enums = edao.findAll();
-		for (int i = enums.size() - 1; i >= 0; i--) { 
-			edao.delete(enums.get(i));
-		}
-		tx.commit();
-		*/
-		
-		if(em == null) return;
+
+        if(em == null) return;
 		em.close();
 		factory.close();
 	}

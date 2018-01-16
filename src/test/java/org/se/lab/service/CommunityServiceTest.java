@@ -22,24 +22,18 @@ public class CommunityServiceTest {
 	public static final int ID = 1;
 	public static final String NAME = "testcommunity";
 	public static final String DESCRIPTION = "testcommunity description";
-
-	@TestSubject
-	private CommunityService communityService = new CommunityServiceImpl();
-
 	@Rule
 	public EasyMockRule mocks = new EasyMockRule(this);
-
+	List<Community> communities;
+	@TestSubject
+	private CommunityService communityService = new CommunityServiceImpl();
 	@Mock
 	private EnumerationService enumerationService;
-
 	@Mock
 	private CommunityDAO communityDAO;
-
 	private Community community1;
 	private Community community2;
 	private Community community3;
-
-	List<Community> communities;
 
 	@Before
 	public void setUp() throws Exception {
@@ -100,7 +94,6 @@ public class CommunityServiceTest {
         expect(communityDAO.insert(capture(communityCapture))).andReturn(communityResult);
         replay(communityDAO);
 
-        //communityService.request(community);
         Assert.assertThat(communityCapture.getValue().getState(), is(enumerationService.getPending()));
 	}
 

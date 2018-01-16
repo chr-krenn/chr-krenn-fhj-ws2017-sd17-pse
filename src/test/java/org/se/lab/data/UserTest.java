@@ -39,11 +39,6 @@ public class UserTest
 			Assert.assertEquals("Test User", user.getUsername());
 			Assert.assertEquals("test", user.getPassword());
 			
-			/*Assert.assertEquals("Test User", user.getCommunities());
-			Assert.assertEquals("test", user.getPrivateMessagesReceiver());
-			Assert.assertEquals("test", user.getPrivateMessagesSender());
-			Assert.assertEquals("test", user.getUserContacts());
-			Assert.assertEquals("test", user.getUserProfile());*/
 		}
 		
 		@Test
@@ -51,28 +46,8 @@ public class UserTest
 			User actual = new User();
 			Assert.assertTrue(actual instanceof User );
 		}
-		
-		/*@Test
-		public void testUsers() {
-			//setup
-			user.addPrivateMessageReceiver(pm);
-			user.addPrivateMessageSender(pm2);
-			
-			ArrayList<User> users = (ArrayList<User>) pm.getUsers();
-			Assert.assertTrue(users.size() == 2);
-			
-			User user1 = users.get(0);
-			User user2 = users.get(1);
-			
-			Assert.assertTrue(pm.getUserReceiver() == user.getPrivateMessagesReceiver());
-			Assert.assertTrue(user1.getPassword() == "*****");
-			
-			Assert.assertTrue(user1.getCommunities().get(0).equals(pm));
-			Assert.assertTrue(user2.getCommunities().get(0).equals(pm));
-			
-		}*/
-		
-		@Test
+
+	@Test
 		public void testHash() {
 			Assert.assertTrue(user.hashCode() == user3.hashCode());
 		}

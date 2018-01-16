@@ -154,12 +154,6 @@ public class PostTest {
 		post.setId(0);
 	}
 	
-	/* Community can be null
-	@Test(expected=IllegalArgumentException.class)
-	public void testInvalidCommunityIsNull() {
-		post.setCommunity(null);
-	}*/
-	
 	@Test(expected=DatabaseException.class)
 	public void testInvalidUserIsNull() throws DatabaseException {
 		post.setUser(null);

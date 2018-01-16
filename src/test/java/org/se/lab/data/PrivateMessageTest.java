@@ -43,24 +43,6 @@ public class PrivateMessageTest {
 		Assert.assertTrue(actual instanceof PrivateMessage);
 	}
 
-	/*
-	 * @Test public void testUsers() { //setup user.addPrivateMessageReceiver(pm);
-	 * user.addPrivateMessageSender(pm2);
-	 * 
-	 * ArrayList<User> users = (ArrayList<User>) pm.getUsers();
-	 * Assert.assertTrue(users.size() == 2);
-	 * 
-	 * User user1 = users.get(0); User user2 = users.get(1);
-	 * 
-	 * Assert.assertTrue(pm.getUserReceiver() == user.getPrivateMessagesReceiver());
-	 * Assert.assertTrue(user1.getPassword() == "*****");
-	 * 
-	 * Assert.assertTrue(user1.getCommunities().get(0).equals(pm));
-	 * Assert.assertTrue(user2.getCommunities().get(0).equals(pm));
-	 * 
-	 * }
-	 */
-
 	@Test
 	public void testHash() throws DatabaseException {
 		PrivateMessage pm3 = new PrivateMessage("test private message", user1, user1);

@@ -8,15 +8,14 @@ import org.junit.Test;
 
 public class UserDAOTest extends AbstractDAOTest
 {
-    public User user;
-    public User user2;
-
-
     public static UserDAOImpl udao = new UserDAOImpl();
 
     static {
     	udao.setEntityManager(em);
     }
+
+    public User user;
+    public User user2;
     
 	@Before
 	public void setup() {
@@ -25,7 +24,6 @@ public class UserDAOTest extends AbstractDAOTest
 			user2 = new User("Donald Trump", "NurSauer");
 			user = new User("Donald Duck", "EnteSuessSauer");
 		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
