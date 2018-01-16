@@ -4,11 +4,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- *
- *  @author Christopher Wegl
- *
- *          UserContact junction object with user and contact
- *
+ * @author Christopher Wegl
+ *         <p>
+ *         UserContact junction object with user and contact
  */
 
 @Entity
@@ -16,18 +14,35 @@ import java.io.Serializable;
 public class UserContact implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     /**
-     *
-     * @param user
-     *        user object
-     * @param contact
-     *        contact id which gets connected to user object
-     * @throws DatabaseException 
+     * id unique identifier for the usercontact. Auto genereted by DB.
      */
 
-    public UserContact(User user, int contact) throws DatabaseException
-    {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    /**
+     * user mapping of object of user
+     */
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+    /**
+     * usercontact mapping with id of contact
+     */
+
+    @Column(name = "fk_contact_id")
+    private int contact;
+
+    /**
+     * @param user    user object
+     * @param contact contact id which gets connected to user object
+     * @throws DatabaseException
+     */
+
+    public UserContact(User user, int contact) throws DatabaseException {
         setUser(user);
         setContactId(contact);
     }
@@ -36,59 +51,34 @@ public class UserContact implements Serializable {
      * Constructor for Hibernate
      */
 
-    protected UserContact()
-    {
+    protected UserContact() {
     }
-
-    /**
-     * id unique identifier for the usercontact. Auto genereted by DB.
-     */
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
 
     public int getId() {
         return id;
     }
 
-    /**
-     * user mapping of object of user
-     */
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id")
-    private User user;
-
-    public void setUser(User user) throws DatabaseException {
-        if(user == null)
-            throw new DatabaseException("User must not be null");
-        this.user = user;
-        try {
-			user.addUserContacts(this);
-		} catch (DatabaseException e) {
-				throw new DatabaseException("setUser() in UserContact: " + user, e);
-		}
-    }
-
-    public User getUser(){
+    public User getUser() {
         return user;
     }
 
-    /**
-     * usercontact mapping with id of contact
-     */
-
-    @Column(name = "fk_contact_id")
-    private int contact;
+    public void setUser(User user) throws DatabaseException {
+        if (user == null)
+            throw new DatabaseException("User must not be null");
+        this.user = user;
+        try {
+            user.addUserContacts(this);
+        } catch (DatabaseException e) {
+            throw new DatabaseException("setUser() in UserContact: " + user, e);
+        }
+    }
 
     public int getContactId() {
         return contact;
     }
 
     public void setContactId(int contact) throws DatabaseException {
-        if (contact <= 0 )
+        if (contact <= 0)
             throw new DatabaseException("The contact id must not less or equal 0");
         this.contact = contact;
     }

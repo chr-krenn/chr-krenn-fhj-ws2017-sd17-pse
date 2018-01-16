@@ -14,7 +14,11 @@ public abstract class DAOImplTemplate<E> implements DAOTemplate<E> {
 	protected EntityManager em;
 
 	public DAOImplTemplate() {}
-	
+
+	public EntityManager getEntityManager() {
+		return em;
+	}
+
 	/**
 	 * Set the EntityManager for DAO
 	 * @param em
@@ -23,16 +27,11 @@ public abstract class DAOImplTemplate<E> implements DAOTemplate<E> {
 		this.em = em;
 	}
 
-	public EntityManager getEntityManager() {
-		return em;
-	}
-
 	protected abstract Class<E> getEntityClass();
 
-	/*
+	/**
 	 * CRUD methods
-	 */
-
+	 **/
 	@Override
 	public E insert(E entity) {
 		em.persist(entity);

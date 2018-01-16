@@ -40,17 +40,17 @@ public class UserContactDAOImpl extends DAOImplTemplate<UserContact> implements 
     }
 
     /**
-     *  find all contact objects in DB.
+     * find all contact objects in DB.
      */
 
-	@Override
+    @Override
     public List<UserContact> findAll() {
         LOG.info("findAll()");
         return super.findAll();
     }
 
     /**
-     *  find contact objects by ID in DB.
+     * find contact objects by ID in DB.
      */
 
     @Override
@@ -60,45 +60,37 @@ public class UserContactDAOImpl extends DAOImplTemplate<UserContact> implements 
     }
 
     /**
-     *
      * @param contactId
-     * @param userId
-     *
-     * checks if user exists in DB.
-     *
+     * @param userId    checks if user exists in DB.
      */
 
     @Override
-    public boolean doesContactExistForUserId(int contactId,int userId){
+    public boolean doesContactExistForUserId(int contactId, int userId) {
         final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc WHERE uc.user = " + userId + " AND uc.contact = " + contactId;
         return em.createQuery(hql).getResultList().isEmpty() ? false : true;
     }
 
     /**
-     *
      * @param contactId
-     * @param userId
-     *
-     * deletes contact where user id and contact id matches
-     *
+     * @param userId    deletes contact where user id and contact id matches
      */
 
     @Override
-    public void deleteContactForUserIdAndContactId(int contactId,int userId){
+    public void deleteContactForUserIdAndContactId(int contactId, int userId) {
         final String hql = "DELETE FROM " + UserContact.class.getName() + " AS uc WHERE uc.user = " + userId + " AND uc.contact = " + contactId;
         em.createQuery(hql).executeUpdate();
     }
 
-	@Override
-    public List<UserContact> findContactsbyUser(User user){
+    @Override
+    public List<UserContact> findContactsbyUser(User user) {
         final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc WHERE uc.user = " + user.getId();
         return em.createQuery(hql, UserContact.class).getResultList();
     }
 
-	@Override
-	protected Class<UserContact> getEntityClass() {
-		return UserContact.class;
-	}
+    @Override
+    protected Class<UserContact> getEntityClass() {
+        return UserContact.class;
+    }
 
 
 }

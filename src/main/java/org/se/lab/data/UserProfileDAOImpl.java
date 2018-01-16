@@ -10,7 +10,6 @@ public class UserProfileDAOImpl extends DAOImplTemplate<UserProfile> implements 
     private final Logger LOG = Logger.getLogger(UserProfileDAOImpl.class);
 
 
-
     /**
      * insert method to add userprofile
      */
@@ -55,15 +54,15 @@ public class UserProfileDAOImpl extends DAOImplTemplate<UserProfile> implements 
      * find all method to find all existing userprofile in DB.
      */
 
-	@Override
+    @Override
     public List<UserProfile> findAll() {
         LOG.info("findAll()");
         return super.findAll();
     }
 
-	@Override
-	protected Class<UserProfile> getEntityClass() {
-		return UserProfile.class;
-	}
+    @Override
+    protected Class<UserProfile> getEntityClass() {
+        return UserProfile.class;
+    }
 
 }

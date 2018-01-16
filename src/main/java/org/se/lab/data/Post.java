@@ -27,34 +27,55 @@ import javax.persistence.ManyToMany;
 @Table(name = "post")
 public class Post implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Transient
-	private Logger LOG = Logger.getLogger(Post.class);
-
-	// Constants
 	public static final int MAX_TEXT_LENGTH = 1024;
+	private static final long serialVersionUID = 1L;
 	private static final String TOSTRING_MSG = "Post: {id: %d, text: %s, created: %s, by: %s, in: %s, replyto: %s}";
-
 	// Exception messages
 	private static final String ID_INVALID_ERROR = "The given id is less than 1";
 	private static final String POST_NULL_ERROR = "The given post must not be null";
 	private static final String USER_NULL_ERROR = "The given user must not be null";
 	private static final String TEXT_NULL_ERROR = "The given text must not be null";
-	private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds " 
+	private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds "
 			+ MAX_TEXT_LENGTH
 			+ " characters";
 	private static final String CREATED_NULL_ERROR = "The given created timestamp must not be null";
 	private static final String SELF_REFERENTIAL_ERROR = "The given parent post must not be the same as this post";
-	private static final String LIKE_NULL_ERROR = "The given Like (EnumerationItem) must not be null";	
-	
-	
-	/*
-	 * Constructor
-	 */
+	private static final String LIKE_NULL_ERROR = "The given Like (EnumerationItem) must not be null";
+	@Transient
+	private Logger LOG = Logger.getLogger(Post.class);
+	// id
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
+	;
+	// parent_post_id
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "parent_post_id")
+	private Post parentpost;
+	// unmapped child_post
+	@OneToMany(mappedBy = "parentpost", fetch = FetchType.EAGER)
+	private List<Post> children = new ArrayList<Post>();
+	// fk_community_id
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_community_id")
+	private Community community;
+	// fk_user_id
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_user_id")
+	private User user;
+	// Likes
+	@ManyToMany(mappedBy = "liked")
+	private List<Enumeration> likes = new ArrayList<Enumeration>();
+	@Column(name = "text", length = MAX_TEXT_LENGTH)
+	private String text;
+	// created (Timestamp)
+	@Column(name = "created")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date created;
 
 	protected Post() {
-	};
+	}
 
 	public Post(Post parentpost, Community community, User user, String text, Date created) throws DatabaseException {
 		LOG.debug("New Post");
@@ -72,19 +93,9 @@ public class Post implements Serializable {
 		setCreated(created);
 	}
 
-	/*
-	 * Columns: id, parent_post_id, fk_community_id, fk_user_id, text, created
-	 */
-
-	// id
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
-
 	/**
 	 * Getter for id field of post
-	 * 
+	 *
 	 * @return: (int) id
 	 */
 	public int getId() {
@@ -94,7 +105,7 @@ public class Post implements Serializable {
 
 	/**
 	 * Setter for id field of post Should not be negative or zero
-	 * 
+	 *
 	 * @param id
 	 * @throws DatabaseException if given id less than 1
 	 */
@@ -105,14 +116,9 @@ public class Post implements Serializable {
 		this.id = id;
 	}
 
-	// parent_post_id
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "parent_post_id")
-	private Post parentpost;
-
 	/**
 	 * Getter to get parent post of post
-	 * 
+	 *
 	 * @return (Post) parentpost
 	 */
 	public Post getParentpost() {
@@ -122,10 +128,10 @@ public class Post implements Serializable {
 
 	/**
 	 * Setter for parent post of post
-	 * 
+	 *
 	 * @param parentpost
-	 * @throws DatabaseException 
-	 * 
+	 * @throws DatabaseException
+	 *
 	 * @throws DatabaseException.class if Post is reply to itself
 	 */
 	public void setParentpost(Post parentpost) throws DatabaseException {
@@ -138,13 +144,9 @@ public class Post implements Serializable {
 			parentpost.addChildPost(this);
 	}
 
-	// unmapped child_post
-	@OneToMany(mappedBy = "parentpost", fetch = FetchType.EAGER)
-	private List<Post> children = new ArrayList<Post>();
-
 	/**
 	 * Getter for childposts to this post
-	 * 
+	 *
 	 * @return (List<Post>) children
 	 */
 	public List<Post> getChildPosts() {
@@ -155,10 +157,10 @@ public class Post implements Serializable {
 	/**
 	 * Add given post as child to this post and sets parent of given post to this
 	 * post
-	 * 
+	 *
 	 * @param post
-	 * @throws DatabaseException 
-	 * 
+	 * @throws DatabaseException
+	 *
 	 * @throws DatabaseException.class if given post is null
 	 */
 	public void addChildPost(Post post) throws DatabaseException {
@@ -171,14 +173,9 @@ public class Post implements Serializable {
 		post.setParentpost(this);
 	}
 
-	// fk_community_id 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_community_id")
-	private Community community;
-
 	/**
 	 * Getter for the community this post was posted in
-	 * 
+	 *
 	 * @return (Community) community
 	 */
 	public Community getCommunity() {
@@ -188,24 +185,19 @@ public class Post implements Serializable {
 
 	/**
 	 * Setter for the Community this post was posted in
-	 * 
+	 *
 	 * @param community
-	 * @throws DatabaseException 
-	 * 
+	 * @throws DatabaseException
+	 *
 	 */
 	public void setCommunity(Community community){
 		LOG.debug("setCommunity(" + community + ")");
 		this.community = community;
 	}
 
-	// fk_user_id 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fk_user_id")
-	private User user;
-
 	/**
 	 * Getter for the user that posted this post
-	 * 
+	 *
 	 * @return (User) user
 	 */
 	public User getUser() {
@@ -215,9 +207,9 @@ public class Post implements Serializable {
 
 	/**
 	 * Setter for the user that posted this post
-	 * 
+	 *
 	 * @param user
-	 * 
+	 *
 	 * @throws DatabaseException.class if given user is null
 	 */
 	public void setUser(User user) throws DatabaseException {
@@ -227,13 +219,9 @@ public class Post implements Serializable {
 		this.user = user;
 	}
 
-	// Likes
-	@ManyToMany(mappedBy = "liked")
-	private List<Enumeration> likes = new ArrayList<Enumeration>();
-
 	/**
 	 * Gets Likes as EnumeratioItem for post
-	 * 
+	 *
 	 * @return (EnumerationItem) likes
 	 */
 	public List<Enumeration> getLikes() {
@@ -244,7 +232,7 @@ public class Post implements Serializable {
 	/**
 	 * Add a Like to a Post This EnumertionItem must not be null Takes
 	 * EnumeratioItem that allows for e.g. Dislikes etc.
-	 * 
+	 *
 	 * @param like
 	 * @throws DatabaseException if given Enumeration is null
 	 */
@@ -257,15 +245,10 @@ public class Post implements Serializable {
 		if (!this.likes.contains(like))
 			this.likes.add(like);
 	}
-	
-
-	// text
-	@Column(name = "text", length=MAX_TEXT_LENGTH)
-	private String text;
 
 	/**
 	 * Getter for the text message of this post
-	 * 
+	 *
 	 * @return (String) text
 	 */
 	public String getText() {
@@ -275,9 +258,9 @@ public class Post implements Serializable {
 
 	/**
 	 * Setter for the text message of this post
-	 * 
+	 *
 	 * @param text
-	 * 
+	 *
 	 * @throws DatabaseException.class if given text is null or exceeds the
 	 * character limit of 1024 characters
 	 */
@@ -289,11 +272,6 @@ public class Post implements Serializable {
 			throw new DatabaseException(TEXT_INVALID_ERROR);
 		this.text = text;
 	}
-	
-	// created (Timestamp)
-	@Column(name = "created")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
 
 	/**
 	 * Getter for "created" timestamp of this post
@@ -349,6 +327,4 @@ public class Post implements Serializable {
 		return String.format(TOSTRING_MSG, this.id, this.text, this.created, this.user, this.community,
 				this.parentpost);
 	}
-
-	// end
 }

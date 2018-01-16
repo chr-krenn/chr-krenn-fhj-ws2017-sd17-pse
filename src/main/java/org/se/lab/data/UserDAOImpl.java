@@ -13,82 +13,79 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
-	private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
+    private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
+
+    public UserDAOImpl() {
+    }
+
+    @Override
+    protected Class<User> getEntityClass() {
+        return User.class;
+    }
+
+    @Override
+    public User findById(int id) {
+        LOG.info("findById(" + id + ")");
+        User u = em.find(User.class, id);
+        if (u != null) {
+            return initializeUser(u);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> findAll() {
+        LOG.info("findAll()");
+        final String hql = "SELECT u FROM " + User.class.getName() + " AS u";
+        List<User> users = em.createQuery(hql).getResultList();
+        for (User u : users) {
+            initializeUser(u);
+        }
+        return users;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<User> criteria = builder.createQuery(User.class);
+        Root<User> user = criteria.from(User.class);
+        criteria.where(builder.equal(user.get("username"), username));
+        TypedQuery<User> query = em.createQuery(criteria);
+        try {
+            User u = query.getSingleResult();
+            return initializeUser(u);
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
 	/*
-	 * class constructor
-	 */
-	
-	public UserDAOImpl() {}
-	
-	@Override
-	protected Class<User> getEntityClass() {
-		return User.class;
-	}
-
-	@Override
-	public User findById(int id) {
-		LOG.info("findById(" + id + ")");
-		User u = em.find(User.class, id);
-		if (u != null) {
-			return initializeUser(u);
-		}
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<User> findAll() {
-		LOG.info("findAll()");
-		final String hql = "SELECT u FROM " + User.class.getName() + " AS u";
-		List<User> users = em.createQuery(hql).getResultList();
-		for (User u : users) {
-			initializeUser(u);
-		}
-		return users;
-	}
-
-	@Override
-	public User findByUsername(String username) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<User> criteria = builder.createQuery(User.class);
-		Root<User> user = criteria.from(User.class);
-		criteria.where(builder.equal(user.get("username"), username));
-		TypedQuery<User> query = em.createQuery(criteria);
-		try {
-			User u = query.getSingleResult();
-			return initializeUser(u);
-		} catch (NoResultException e) {
-			return null;
-		}
-	}
-
-	/*
-	 * Factory methods
+     * Factory methods
 	 */
 
-	@Override
-	public User createUser(String username, String password) throws DatabaseException {
-		LOG.info("createArticle(\"" + username + "\"," + "***" + ")");
+    @Override
+    public User createUser(String username, String password) throws DatabaseException {
+        LOG.info("createArticle(\"" + username + "\"," + "***" + ")");
 
-		User u = new User();
-		u.setUsername(username);
-		u.setPassword(password);
-		insert(u);
-		return u;
-	}
+        User u = new User();
+        u.setUsername(username);
+        u.setPassword(password);
+        insert(u);
+        return u;
+    }
 
 	/*
 	 * Helper
 	 */
 
-	private User initializeUser(User u){
-		Hibernate.initialize(u.getLikes());
-		Hibernate.initialize(u.getCommunities());
-		Hibernate.initialize(u.getRoles());
-		Hibernate.initialize(u.getUserContacts());
-		Hibernate.initialize(u.getPrivateMessagesReceiver());
-		Hibernate.initialize(u.getPrivateMessagesSender());
-		return u;
-	}
+    private User initializeUser(User u) {
+        Hibernate.initialize(u.getLikes());
+        Hibernate.initialize(u.getCommunities());
+        Hibernate.initialize(u.getRoles());
+        Hibernate.initialize(u.getUserContacts());
+        Hibernate.initialize(u.getPrivateMessagesReceiver());
+        Hibernate.initialize(u.getPrivateMessagesSender());
+        return u;
+    }
 }

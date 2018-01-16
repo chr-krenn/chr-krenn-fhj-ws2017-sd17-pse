@@ -29,10 +29,6 @@ public class UserServiceImpl implements UserService {
     private UserProfileDAO userProfileDAO;
     @Inject
     private CommunityDAO communityDAO;
-    /*
-     * API Operations
-	 */
-
 
     /* (non-Javadoc)
      * @see org.se.lab.service.UserService#insert(org.se.lab.data.User)

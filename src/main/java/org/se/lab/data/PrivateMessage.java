@@ -20,28 +20,58 @@ import org.apache.log4j.Logger;
 @Table(name="private_message")
 public class PrivateMessage implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
-	@Transient
-	private Logger LOG = Logger.getLogger(Post.class);
-	
 	/**
 	 * Private Message Constants
 	 */
-	
-		public static final int MAX_TEXT_LENGTH = 1024;
-		private static final String TOSTRING_MSG = "PrivateMessage: {id: %d, text: %s, FK_User_Sender: %s, FK_User_Receiver: %s}";
 
-		// Exception messages
+		public static final int MAX_TEXT_LENGTH = 1024;
+	private static final long serialVersionUID = 1L;
+		private static final String TOSTRING_MSG = "PrivateMessage: {id: %d, text: %s, FK_User_Sender: %s, FK_User_Receiver: %s}";
 		private static final String ID_INVALID_ERROR = "The given id is less than 1";
 		private static final String USERSENDER_NULL_ERROR = "The given user must not be null";
 		private static final String USERRECEIVER_NULL_ERROR = "The given post must not be null";
 		private static final String TEXT_NULL_ERROR = "The given text must not be null";
-		private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds " 
+	private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds "
 				+ MAX_TEXT_LENGTH
 				+ " characters";
 		private static final String TEXT_WHITESPACE_ERROR = "The given text must have charakters not only whitespaces";
-	
+	@Transient
+	private Logger LOG = Logger.getLogger(Post.class);
+	/**
+	 * Getter for id field of PrivateMessage
+	 *
+	 * @return: (int) id
+	 */
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int ID;
+	/**
+	 * Getter to get Text of PrivateMessage
+	 *
+	 * @return (String) text
+	 */
+	@Column(name = "text")
+	private String text;
+	/**
+	 * Setter for UserSender field of PrivateMessage Should not be null
+	 *
+	 * @param usersender
+	 * @throws DatabaseException.class if given user object is null
+	 */
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name = "fk_user_id_sender")
+	private User usersender;
+	/**
+	 * Setter for UserReceiver field of PrivateMessage Should not be null
+	 *
+	 * @param userreceiver
+	 * @throws DatabaseException.class if given user object is null
+	 */
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name = "fk_user_id_receiver")
+	private User userreceiver;
+
 	public PrivateMessage(String text, User sender, User receiver ) throws DatabaseException
 	{
 		LOG.debug("New Private Message");
@@ -57,29 +87,19 @@ public class PrivateMessage implements Serializable
 	
 	protected PrivateMessage()
 	{
-		
+
 	}
-	
-	
-	/**
-	 * Getter for id field of PrivateMessage
-	 * 
-	 * @return: (int) id
-	 */
-	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int ID;
+
 	public int getID() {
 		return ID;
 	}
 
 	/**
 	 * Setter for id field of PrivateMessage Should not be negative or zero
-	 * 
+	 *
 	 * @param id
-	 * @throws DatabaseException 
-	 * 
+	 * @throws DatabaseException
+	 *
 	 * @throws DatabaseException.class if given id less than 1
 	 */
 	public void setID(int id) throws DatabaseException {
@@ -88,13 +108,6 @@ public class PrivateMessage implements Serializable
 		ID = id;
 	}
 	
-	/**
-	 * Getter to get Text of PrivateMessage
-	 * 
-	 * @return (String) text
-	 */
-	@Column(name="text")
-	private String text;
 	public String getText() {
 		LOG.debug("getText -> " + text);
 		return text;
@@ -106,71 +119,46 @@ public class PrivateMessage implements Serializable
 			throw new DatabaseException(TEXT_NULL_ERROR);
 		if (text.length() > MAX_TEXT_LENGTH)
 			throw new DatabaseException(TEXT_INVALID_ERROR);
-		
+
 		if (text.trim().length() == 0)
 		{
 			throw new DatabaseException(TEXT_WHITESPACE_ERROR);
 		}
 		this.text = text;
 	}
-	
-	/**
-	 * Setter for UserSender field of PrivateMessage Should not be null
-	 * 
-	 * @param usersender
-	 * 
-	 * @throws DatabaseException.class if given user object is null
-	 */
-	@ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name="fk_user_id_sender")
-    private User usersender;
 
-    public void setUserSender(User usersender) throws DatabaseException {
+	/**
+	 * Getter to get UserSender of PrivateMessage
+	 *
+	 * @return (User) usersender
+	 */
+	public User getUserSender() {
+		return usersender;
+	}
+
+	public void setUserSender(User usersender) throws DatabaseException {
         if(usersender == null)
             throw new DatabaseException(USERSENDER_NULL_ERROR);
         this.usersender = usersender;
         usersender.addPrivateMessageSender(this);
-    }
+	}
 
-    /**
-	 * Getter to get UserSender of PrivateMessage
-	 * 
-	 * @return (User) usersender
+	/**
+	 * Getter to get UserReceiver of PrivateMessage
+	 *
+	 * @return (User) userreceiver
 	 */
-    public User getUserSender(){
-        return usersender;
-    }
-    
-    
-    /**
-	 * Setter for UserReceiver field of PrivateMessage Should not be null
-	 * 
-	 * @param userreceiver
-	 * 
-	 * @throws DatabaseException.class if given user object is null
-	 */
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name="fk_user_id_receiver")
-    private User userreceiver;
+	public User getUserReceiver() {
+		return userreceiver;
+	}
 
-    public void setUserReceiver(User userreceiver) throws DatabaseException {
+	public void setUserReceiver(User userreceiver) throws DatabaseException {
         if(userreceiver == null)
             throw new DatabaseException(USERRECEIVER_NULL_ERROR);
         this.userreceiver = userreceiver;
         userreceiver.addPrivateMessageReceiver(this);
     }
-
-    /**
-	 * Getter to get UserReceiver of PrivateMessage
-	 * 
-	 * @return (User) userreceiver
-	 */
-    public User getUserReceiver(){
-        return userreceiver;
-    }
 	
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

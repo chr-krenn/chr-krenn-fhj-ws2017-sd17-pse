@@ -4,11 +4,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- *
  * @author Christopher Wegl
- *
+ *         <p>
  *         Userprofile is a user specific entity which keeps personal attributes.
- *
  */
 
 @Entity
@@ -16,34 +14,68 @@ import java.io.Serializable;
 public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    /**
+     * id unique identifier for the userprofile. Auto genereted by DB.
+     */
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "firstname")
+    private String firstname;
+    @Column(name = "lastname")
+    private String lastname;
+    /**
+     * @param picture
+     * userprofile picture
+     */
+
+
+    @Column(name = "picture", columnDefinition = "mediumblob")
+    private byte[] picture;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "plz")
+    private String plz;
+    @Column(name = "city")
+    private String city;
+    @Column(name = "country")
+    private String country;
+    @Column(name = "room")
+    private String room;
+    @Column(name = "team")
+    private String team;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "mobile")
+    private String mobile;
+    @Column(name = "description")
+    private String description;
+    /**
+     * user mapping of object of user
+     */
+
+    @OneToOne(mappedBy = "userprofile")
+    private User user;
 
     /**
      * UserProfile Class Constructor
      *
-     * @param firstname
-     *          firstname of the user
-     * @param lastname
-     *          lastname  of the user
-     * @param address
-     *          address of user
-     * @param plz
-     *          plz of user
-     * @param city
-     *          city of user
-     * @param country
-     *          country of user
-     * @param room
-     *          room of user's company
-     * @param team
-     *          team which user participate in
-     * @param email
-     *          email address of user
-     * @param phone
-     *          phone number of user
-     * @param mobile
-     *          mobile phone number of user
-     * @param description
-     *          description added by user
+     * @param firstname   firstname of the user
+     * @param lastname    lastname  of the user
+     * @param address     address of user
+     * @param plz         plz of user
+     * @param city        city of user
+     * @param country     country of user
+     * @param room        room of user's company
+     * @param team        team which user participate in
+     * @param email       email address of user
+     * @param phone       phone number of user
+     * @param mobile      mobile phone number of user
+     * @param description description added by user
      */
 
     public UserProfile(String firstname, String lastname, String address, String plz, String city, String country, String room, String team, String email, String phone, String mobile, String description) {
@@ -61,6 +93,7 @@ public class UserProfile implements Serializable {
         setDescription(description);
     }
 
+
     /**
      * Constructor for Hibernate
      */
@@ -68,56 +101,29 @@ public class UserProfile implements Serializable {
     protected UserProfile() {
     }
 
-    /**
-     * id unique identifier for the userprofile. Auto genereted by DB.
-     */
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
-
     public int getId() {
         return id;
     }
-
-
-    @Column(name = "firstname")
-    private String firstname;
 
     public String getFirstname() {
         return firstname;
     }
 
     public void setFirstname(String firstname) {
-        if(firstname == null)
+        if (firstname == null)
             throw new IllegalArgumentException();
         this.firstname = firstname;
     }
-
-
-    @Column(name = "lastname")
-    private String lastname;
 
     public String getLastname() {
         return lastname;
     }
 
     public void setLastname(String lastname) {
-        if(lastname == null)
+        if (lastname == null)
             throw new IllegalArgumentException();
         this.lastname = lastname;
     }
-
-    /**
-     *
-     * @param picture
-     *          userprofile picture
-     */
-
-
-    @Column(name = "picture", columnDefinition="mediumblob")
-    private byte[] picture;
 
     public byte[] getPicture() {
         return picture;
@@ -127,23 +133,15 @@ public class UserProfile implements Serializable {
         this.picture = picture;
     }
 
-
-    @Column(name = "address")
-    private String address;
-
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
-        if(address == null)
+        if (address == null)
             throw new IllegalArgumentException();
         this.address = address;
     }
-
-
-    @Column(name = "plz")
-    private String plz;
 
     public String getPlz() {
         return plz;
@@ -153,10 +151,6 @@ public class UserProfile implements Serializable {
         this.plz = plz;
     }
 
-
-    @Column(name = "city")
-    private String city;
-
     public String getCity() {
         return city;
     }
@@ -164,10 +158,6 @@ public class UserProfile implements Serializable {
     public void setCity(String city) {
         this.city = city;
     }
-
-
-    @Column(name = "country")
-    private String country;
 
     public String getCountry() {
         return country;
@@ -177,10 +167,6 @@ public class UserProfile implements Serializable {
         this.country = country;
     }
 
-
-    @Column(name = "room")
-    private String room;
-
     public String getRoom() {
         return room;
     }
@@ -188,10 +174,6 @@ public class UserProfile implements Serializable {
     public void setRoom(String room) {
         this.room = room;
     }
-
-
-    @Column(name = "team")
-    private String team;
 
     public String getTeam() {
         return team;
@@ -201,10 +183,6 @@ public class UserProfile implements Serializable {
         this.team = team;
     }
 
-
-    @Column(name = "email")
-    private String email;
-
     public String getEmail() {
         return email;
     }
@@ -212,10 +190,6 @@ public class UserProfile implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
-    @Column(name = "phone")
-    private String phone;
 
     public String getPhone() {
         return phone;
@@ -225,10 +199,6 @@ public class UserProfile implements Serializable {
         this.phone = phone;
     }
 
-
-    @Column(name = "mobile")
-    private String mobile;
-
     public String getMobile() {
         return mobile;
     }
@@ -236,10 +206,6 @@ public class UserProfile implements Serializable {
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
-
-
-    @Column(name = "description")
-    private String description;
 
     public String getDescription() {
         return description;
@@ -249,17 +215,12 @@ public class UserProfile implements Serializable {
         this.description = description;
     }
 
-    /**
-     * user mapping of object of user
-     */
-
-    @OneToOne (mappedBy="userprofile")
-    private User user;
-
-    public User getUser() {return user;}
+    public User getUser() {
+        return user;
+    }
 
     public void setUser(User user) {
-        if(user == null)
+        if (user == null)
             throw new IllegalArgumentException();
         this.user = user;
     }

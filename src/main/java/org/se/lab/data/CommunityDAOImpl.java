@@ -12,15 +12,8 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class CommunityDAOImpl extends DAOImplTemplate<Community> implements CommunityDAO{
-	
-	/*
-	 * logger
-	 */
-	private final Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
-	
-	/*
-	 * class constructor
-	 */
+
+    private final Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
 	
 	public CommunityDAOImpl() {}
 	
