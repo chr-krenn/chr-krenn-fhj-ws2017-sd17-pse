@@ -134,7 +134,7 @@
 							<fileset>
 								<basedir>sql</basedir>
 								<includes>
-									<include>insert_sample_data.sql</include>
+									<include>insert.sql</include>
 								</includes>
 							</fileset>
 						</configuration>
