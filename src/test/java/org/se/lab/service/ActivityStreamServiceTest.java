@@ -8,10 +8,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.se.lab.data.Community;
-import org.se.lab.data.DatabaseException;
-import org.se.lab.data.Post;
-import org.se.lab.data.User;
+import org.se.lab.data.*;
+import org.se.lab.service.dao.EnumerationDAO;
 import org.se.lab.service.dao.PostDAO;
 import org.se.lab.service.impl.ActivityStreamServiceImpl;
 
@@ -37,17 +35,28 @@ public class ActivityStreamServiceTest {
     @Mock
     private PostDAO postDAO;
 
+    @Mock
+    private EnumerationDAO enumerationDAO;
+
     private Community community;
     private List<Post> postList;
     private Post post1;
     private Post post2;
+    private Post childPost;
     private User user;
+    private Enumeration alike;
 
     @Before
     public void setup() throws DatabaseException {
+        alike = new Enumeration(7);
+
         community = new Community(NAME, DESCRIPTION,1);
         user = new User("username", "password");
         post1 = new Post(null, community, user, "msg1", new Date());
+        childPost = new Post(post1, community, user, "msg1", new Date());
+        post1.addChildPost(childPost);
+        childPost.addLike(alike);
+
         post2 = new Post(null, community, user, "msg2", new Date());
 
         postList = new ArrayList<>();
@@ -73,9 +82,15 @@ public class ActivityStreamServiceTest {
 
     @Test
     public void delete_Successful(){
+
+        // delete childpost
+        expect(postDAO.findById(childPost.getId())).andReturn(childPost);
+        enumerationDAO.delete(alike);
+        postDAO.delete(childPost);
+        // delete mainpost
         expect(postDAO.findById(post1.getId())).andReturn(post1);
         postDAO.delete(post1);
-        replay(postDAO);
+        replay(postDAO, enumerationDAO);
 
         activityStreamService.delete(post1,user);
     }
