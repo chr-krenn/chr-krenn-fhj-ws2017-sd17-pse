@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 import java.util.UUID;
 
-@Ignore("not running yet")
+
 public class FunctionalITCase {
 	private LoginPage loginPage;
 	private CommunityOverviewPage communityOverviewPage;
@@ -51,6 +51,7 @@ public class FunctionalITCase {
 	}
 
 	@Test
+	@Ignore("does not work")
 	public void testCreateCommunity() throws Exception {
 		String cname = UUID.randomUUID().toString();
 		String cdesc = "Community description created by functional test.";

@@ -42,8 +42,11 @@
 				<configuration>
 				
 					<!-- execute unit tests in parallel -->
+					<!-- disabled, may crash on occasion..
 					<forkCount>4</forkCount>
 					<reuseForks>false</reuseForks>
+					-->
+					
 					
 					<!-- exclude DAO tests -->
 					<excludes>
