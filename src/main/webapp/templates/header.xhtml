@@ -25,7 +25,7 @@
 					href="useroverview.xhtml?faces-redirect=true"></b:navLink>
 			</b:navbarLinks>
 			<b:navbarLinks pull="right">
-				<b:dropMenu icon="user" value="#{userDataBean.user.username}">
+				<b:dropMenu icon="user" value="#{userDataBean.loggedInUser.username}">
 					<b:navCommandLink value="Profil" action="#{userDataBean.redirect}"></b:navCommandLink>
 					<b:navCommandLink value="Admin Area" action="adminPortal.xhtml?faces-redirect=true" rendered="#{userDataBean.admin}"></b:navCommandLink>	
 					<b:navCommandLink value="Logout" action="#{loginBean.logout}"></b:navCommandLink>
