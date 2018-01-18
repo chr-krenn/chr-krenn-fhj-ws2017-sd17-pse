@@ -123,7 +123,6 @@ public class ActivityStreamBean implements Serializable {
         flash.put("post", post);
         LOG.info("Flash: " + flash.toString());
 
-        service.insert(post);
         refreshPage();
     }
 

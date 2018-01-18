@@ -39,6 +39,10 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
 	public void insert(Post post, Community community) {
         LOG.debug("insert " + post);
 
+        if(post == null) {
+        	throw new ServiceException("Post must not be null");
+        }
+        
         try {
             if (community == null) {
                 dao.insert(post);
@@ -47,7 +51,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
             }
         } catch (Exception e) {
             LOG.error("Can't insert post " + post, e);
-            throw new ServiceException("Can't insert post " + post);
+            throw new ServiceException("Can't insert post " + post, e);
         }
     }
 
