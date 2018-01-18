@@ -2,213 +2,240 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head></h:head>
 <h:body>
-	<ui:insert name="header">
-		<ui:include src="templates/header.xhtml" />
-	</ui:insert>
-	<b:jumbotron>
-		<b:container>
-			<h2><h:outputText value="#{userDataBean.user.username}" />'s Profile</h2>
-			<b:panel collapsible="false" rendered="#{not userDataBean.ownProfile}">
-				<f:facet name="heading">Actions</f:facet>
-				<h:form>
-					<b:commandButton value="Add Contact" look="primary"
-						action="#{userDataBean.addContact()}"
-						rendered="#{userDataBean.contactAddable and not userDataBean.ownProfile}" ajax="false">
-						<f:param name="contactName" value="#{userDataBean.user.username}" />
-					</b:commandButton>
+    <ui:insert name="header">
+        <ui:include src="templates/header.xhtml"/>
+    </ui:insert>
+    <b:jumbotron>
+        <b:container>
+            <h2><h:outputText value="#{userDataBean.user.username}"/>'s Profile</h2>
+            <b:panel collapsible="false" rendered="#{not userDataBean.ownProfile}">
+                <f:facet name="heading">Actions</f:facet>
+                <h:form>
+                    <b:commandButton value="Add Contact" look="primary"
+                                     action="#{userDataBean.addContact()}"
+                                     rendered="#{userDataBean.contactAddable and not userDataBean.ownProfile}"
+                                     ajax="false">
+                        <f:param name="contactName" value="#{userDataBean.user.username}"/>
+                    </b:commandButton>
 
-					<b:commandButton value="Remove Contact" look="danger"
-						action="#{userDataBean.removeContact()}"
-						rendered="#{not userDataBean.contactAddable and not userDataBean.ownProfile}" ajax="false">
-						<f:param name="contactName" value="#{userDataBean.user.username}" />
-					</b:commandButton>
-				</h:form>
-			</b:panel>
-			<b:panel title="User" look="success" collapsible="false">
-				<b:row>
-					<b:column span="2">
-						Id: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.user.id}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						Username: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.user.username}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-			</b:panel>
-			<b:panel title="Profile" look="success" collapsible="false">
-				<b:row>
-					<b:column span="2">
-						Firstname: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.firstname}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						Lastname: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.lastname}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						E-Mail: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.email}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						Phone: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.phone}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						Address: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.address}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						Zip: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.plz}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						City: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.city}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						Country: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.country}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						Room: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.room}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						Team: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.team}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-				<b:row>
-					<b:column span="2">
-						Additional Information: 
-					</b:column>
-					<b:column span="6">
-						<h:outputText value="#{userDataBean.userProfile.description}"
-							style="font-weight: bold" />
-					</b:column>
-				</b:row>
-			</b:panel>
-			<b:panel title="Picture" look="success" collapsible="false">
-				<h:graphicImage library="images" name="no_picture.png"
-					rendered="#{not userDataBean.imageExists}" style="width:300px" />
+                    <b:commandButton value="Remove Contact" look="danger"
+                                     action="#{userDataBean.removeContact()}"
+                                     rendered="#{not userDataBean.contactAddable and not userDataBean.ownProfile}"
+                                     ajax="false">
+                        <f:param name="contactName" value="#{userDataBean.user.username}"/>
+                    </b:commandButton>
+                </h:form>
+            </b:panel>
+            <b:panel title="User" look="success" collapsible="false">
+                <b:row>
+                    <b:column span="2">
+                        Id:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.user.id}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        Username:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.user.username}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+            </b:panel>
+            <b:panel title="Profile" look="success" collapsible="false">
+                <b:row>
+                    <b:column span="2">
+                        Firstname:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.firstname}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        Lastname:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.lastname}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        E-Mail:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.email}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        Phone:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.phone}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        Address:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.address}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        Zip:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.plz}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        City:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.city}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        Country:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.country}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        Room:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.room}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        Team:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.team}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column span="2">
+                        Additional Information:
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputText value="#{userDataBean.userProfile.description}"
+                                      style="font-weight: bold"/>
+                    </b:column>
+                </b:row>
+            </b:panel>
+            <b:panel title="Picture" look="success" collapsible="false">
+                <h:graphicImage library="images" name="no_picture.png"
+                                rendered="#{not userDataBean.imageExists}" style="width:300px"/>
 
-				<h:graphicImage value="#{userDataBean.image}" rendered="false"
-					style="width:300px" />
-				<h:outputText value="Change Profile Picture ?"
-					rendered="#{userDataBean.imageExists}" />
-				<h:form id="form" enctype="multipart/form-data">
-					<p:fileUpload id="file" fileUploadListener="#{userDataBean.upload}"
-						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="500000"
-						mode="advanced" fileLimit="1" label="Choose (gif, jpeg or png" />
+                <h:graphicImage value="#{userDataBean.image}" rendered="false"
+                                style="width:300px"/>
+                <h:outputText value="Change Profile Picture ?"
+                              rendered="#{userDataBean.imageExists}"/>
+                <h:form id="form" enctype="multipart/form-data">
+                    <p:fileUpload id="file" fileUploadListener="#{userDataBean.uploadPicture}"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="500000"
+                                  mode="advanced" fileLimit="1" label="Choose (gif, jpeg or png"/>
 
-				</h:form>
-			</b:panel>
-			<b:panel title="Contacts" look="success" collapsible="false">
-				<h:form>
-					<b:dataTable value="#{userDataBean.contacts}" var="contact">
-						<b:dataTableColumn value="#{contact.id}" label="Id" order="asc" />
-						<b:dataTableColumn value="#{contact.username}" label="Username" />
-						<b:dataTableColumn value="#{contact.userProfile.firstname}"
-							label="Firstname" />
-						<b:dataTableColumn value="#{contact.userProfile.lastname}"
-							label="Lastname" />
-						<b:dataTableColumn label="Details">
-							<p:commandLink action="#{userDataBean.redirect()}"
-								title="View Detail">
-								<h:outputText styleClass="ui-icon ui-icon-search"
-									style="margin:0 auto;" />
-								<f:param name="userid" value="#{contact.id}" />
-							</p:commandLink>
-						</b:dataTableColumn>
-					</b:dataTable>
-				</h:form>
-			</b:panel>
-			<b:panel title="Communities" look="success" collapsible="false">
-				<h:form>
-					<b:dataTable value="#{userDataBean.communities}" var="community">
-						<b:dataTableColumn value="#{community.id}" label="Id" order="asc" />
-						<b:dataTableColumn value="#{community.name}" label="Name" />
-						<b:dataTableColumn value="#{community.description}"
-							label="Description" />
-						<b:dataTableColumn label="Details">
-							<p:commandLink action="#{communityOverviewBean.gotoCom()}"
-								title="View Detail">
-								<h:outputText styleClass="ui-icon ui-icon-search"
-									style="margin:0 auto;" />
-								<f:setPropertyActionListener value="#{community}"
-									target="#{communityOverviewBean.selectedCommunity}" />
-							</p:commandLink>
-						</b:dataTableColumn>
-					</b:dataTable>
-				</h:form>
-			</b:panel>
-		</b:container>
-	</b:jumbotron>
-	<ui:insert name="footer">
-		<ui:include src="templates/footer.xhtml" />
-	</ui:insert>
+                </h:form>
+            </b:panel>
+
+
+            <b:panel title="File Upload" look="success" rendered="#{userDataBean.portalAdmin}" collapsible="false">
+                <h:form id="form2" enctype="multipart/form-data">
+                    <p:fileUpload id="file2" fileUploadListener="#{userDataBean.uploadFile}"
+                                  allowTypes="/(\.|\/)(pdf|jpe?g|doc)$/" sizeLimit="500000"
+                                  mode="advanced" fileLimit="1" label="Choose (pdf, jpeg or doc"/>
+                </h:form>
+            </b:panel>
+
+            <b:panel title="File Download Bereich" look="success" rendered="#{not empty userDataBean.files}" collapsible="false">
+            <c:forEach var="file" items="#{userDataBean.files}" varStatus="loop">
+                <h:form>
+                    <p:commandButton value="#{file.filename}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                            <p:fileDownload value="#{userDataBean.getFile(file.id)}"/>
+                    </p:commandButton>
+                    <p:commandButton title="delFile" value="#{userDataBean.deleteFile(file.id)}" styleClass="ui-confirmdialog-yes"/>
+                </h:form>
+
+            </c:forEach>
+            </b:panel>
+
+
+
+
+            <b:panel title="Contacts" look="success" collapsible="false">
+                <h:form>
+                    <b:dataTable value="#{userDataBean.contacts}" var="contact">
+                        <b:dataTableColumn value="#{contact.id}" label="Id" order="asc"/>
+                        <b:dataTableColumn value="#{contact.username}" label="Username"/>
+                        <b:dataTableColumn value="#{contact.userProfile.firstname}"
+                                           label="Firstname"/>
+                        <b:dataTableColumn value="#{contact.userProfile.lastname}"
+                                           label="Lastname"/>
+                        <b:dataTableColumn label="Details">
+                            <p:commandLink action="#{userDataBean.redirect()}"
+                                           title="View Detail">
+                                <h:outputText styleClass="ui-icon ui-icon-search"
+                                              style="margin:0 auto;"/>
+                                <f:param name="userid" value="#{contact.id}"/>
+                            </p:commandLink>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                </h:form>
+            </b:panel>
+            <b:panel title="Communities" look="success" collapsible="false">
+                <h:form>
+                    <b:dataTable value="#{userDataBean.communities}" var="community">
+                        <b:dataTableColumn value="#{community.id}" label="Id" order="asc"/>
+                        <b:dataTableColumn value="#{community.name}" label="Name"/>
+                        <b:dataTableColumn value="#{community.description}"
+                                           label="Description"/>
+                        <b:dataTableColumn label="Details">
+                            <p:commandLink action="#{communityOverviewBean.gotoCom()}"
+                                           title="View Detail">
+                                <h:outputText styleClass="ui-icon ui-icon-search"
+                                              style="margin:0 auto;"/>
+                                <f:setPropertyActionListener value="#{community}"
+                                                             target="#{communityOverviewBean.selectedCommunity}"/>
+                            </p:commandLink>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                </h:form>
+            </b:panel>
+        </b:container>
+    </b:jumbotron>
+    <ui:insert name="footer">
+        <ui:include src="templates/footer.xhtml"/>
+    </ui:insert>
 </h:body>
 </html>

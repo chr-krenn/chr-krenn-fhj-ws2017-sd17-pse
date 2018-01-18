@@ -19,5 +19,6 @@
   <mapping class="org.se.lab.data.Enumeration"/>
   <mapping class="org.se.lab.data.UserContact"/>
   <mapping class="org.se.lab.data.PrivateMessage"/>
+  <mapping class="org.se.lab.data.File"/>
  </session-factory>
 </hibernate-configuration>

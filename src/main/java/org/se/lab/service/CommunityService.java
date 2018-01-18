@@ -1,9 +1,11 @@
 package org.se.lab.service;
 
-import java.util.List;
-
+import org.primefaces.model.UploadedFile;
 import org.se.lab.data.Community;
+import org.se.lab.data.File;
 import org.se.lab.data.User;
+
+import java.util.List;
 
 public interface CommunityService {	
 	
@@ -28,5 +30,11 @@ public interface CommunityService {
 	void refuse(Community community);
 
 	Community findByName(String name);
+
+	void uploadFile(User user,UploadedFile uploadedFile);
+
+	List<File> getFilesFromUser(User user);
+
+	void deleteFile(File file);
 
 }

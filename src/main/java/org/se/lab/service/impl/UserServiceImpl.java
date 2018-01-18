@@ -5,10 +5,7 @@ import org.apache.log4j.Logger;
 import org.se.lab.data.*;
 import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
-import org.se.lab.service.dao.CommunityDAO;
-import org.se.lab.service.dao.UserContactDAO;
-import org.se.lab.service.dao.UserDAO;
-import org.se.lab.service.dao.UserProfileDAO;
+import org.se.lab.service.dao.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

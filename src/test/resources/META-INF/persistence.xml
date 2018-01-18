@@ -12,6 +12,7 @@
 		<class>org.se.lab.data.UserContact</class>
 		<class>org.se.lab.data.UserProfile</class>
 		<class>org.se.lab.data.PrivateMessage</class>
+		<class>org.se.lab.data.File</class>
 
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pse" />

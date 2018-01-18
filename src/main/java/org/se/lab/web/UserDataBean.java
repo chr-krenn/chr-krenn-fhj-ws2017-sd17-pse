@@ -6,8 +6,10 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.se.lab.data.Community;
+import org.se.lab.data.File;
 import org.se.lab.data.User;
 import org.se.lab.data.UserProfile;
+import org.se.lab.service.CommunityService;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -20,8 +22,11 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Named
 @RequestScoped
@@ -35,11 +40,15 @@ public class UserDataBean implements Serializable {
     private StreamedContent photo;
     @Inject
     private UserService service;
+    @Inject
+    private CommunityService communityService;
+
     private User user;
     private User loggedInUser;
     private UserProfile userProfile;
     private List<User> contacts = new ArrayList<User>();
     private String errorMsg = "";
+    private List<File> files = new ArrayList<>();
 
     private List<Community> communities = new ArrayList<Community>();
 
@@ -50,6 +59,7 @@ public class UserDataBean implements Serializable {
     private boolean isContactAddable = false;
     private boolean ownProfile = false;
     private boolean isAdmin = false;
+    private boolean isPortalAdmin = false;
 
 
     @PostConstruct
@@ -68,21 +78,20 @@ public class UserDataBean implements Serializable {
             if (fromHeaderCheck != null && fromHeaderCheck.equals("1")) {
                 userProfId = null;
             }
-            //In case a user is on a different users profile page
+            //Wr befinden uns auf einem Profil eines anderen Users
             if (userProfId != null && !userProfId.equals("null")) {
                 setContactAddable(true);
                 /* TODO userProfId might be "null" or NaN */
                 user = getUser(Integer.parseInt(userProfId));
 
-
+                //Holen des eingeloggten Users
                 try {
-                    //Get user object of user, who's logged in
                     loggedInUser = service.findById(userId);
 
                     List<User> usersList = service.getContactsOfUser(loggedInUser);
 
                     for (User u : usersList) {
-
+                        //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
                         if (u.getId() == user.getId()) {
                             setContactAddable(false);
                         }
@@ -109,14 +118,19 @@ public class UserDataBean implements Serializable {
             }
 
         } else {
-
+            /*
+             * If session is null - redirect to login page!
+			 *
+			 */
             try {
                 context.getExternalContext().redirect("/pse/login.xhtml");
             } catch (IOException e) {
                 LOG.error("Can't redirect to /pse/login.xhtml");
-
+                //e.printStackTrace();
             }
         }
+        setPortalAdmin();
+        getFiles();
         setErrorMsg("");
     }
 
@@ -155,7 +169,6 @@ public class UserDataBean implements Serializable {
         flash.put("fromHeader", fromHeader);
 
         String hideAddRemoveCheck = String.valueOf(context.getExternalContext().getFlash().get("hideAddRemove"));
-
         //Hide Buttons for own profile
         if ("1".equals(hideAddRemoveCheck)) {
             setOwnProfile(true);
@@ -187,7 +200,6 @@ public class UserDataBean implements Serializable {
         LOG.info("contactName " + contactName);
         LOG.info("u " + loggedInUser.getId());
         LOG.info("userid " + userId);
-
         service.removeContact(loggedInUser, contactName);
 
         setContactAddable(true);
@@ -205,13 +217,95 @@ public class UserDataBean implements Serializable {
         return null;
     }
 
-    public void upload(FileUploadEvent event) {
+    public void deleteFile(File file) {
+        //TODO Impl @Wegl
+    }
+
+    public void uploadPicture(FileUploadEvent event) {
 
         UploadedFile uploadedFile = event.getFile();
         UserProfile userProfile = user.getUserProfile();
         userProfile.setPicture(uploadedFile.getContents());
         service.addPictureToProfile(userProfile);
     }
+
+    public void uploadFile(FileUploadEvent event) {
+        UploadedFile uploadedFile = event.getFile();
+
+        try {
+            communityService.uploadFile(user, uploadedFile);
+        } catch (Exception e) {
+            errorMsg = "Can't upload file without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
+    }
+
+    public List<File> getFiles() {
+
+        if (user != null && hasUserPrivilege(UserService.ROLE.PORTALADMIN)) {
+            setFiles(communityService.getFilesFromUser(user));
+            return files;
+        }
+        return Collections.emptyList();
+    }
+
+    public boolean isImageExists() {
+
+        boolean imageExists = false;
+
+        try {
+            user.getUserProfile().getPicture();
+            imageExists = true;
+
+        } catch (Exception e) {
+            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
+        return imageExists;
+    }
+
+    private void validateUserPriviles(User u) {
+        try {
+            this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
+
+        } catch (Exception e) {
+            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
+    }
+
+    private boolean hasUserPrivilege(UserService.ROLE role) {
+        try {
+            return service.hasUserTheRole(role, user);
+        } catch (Exception e) {
+            errorMsg = String.format("Can't check privilege of user: %s", user.getUsername());
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+            return false;
+        }
+    }
+
+    public StreamedContent getFile(int id) {
+
+        List<File> files = this.files.stream().filter(file -> file.getId() == id).collect(Collectors.toList());
+
+        if (files.size() != 1) {
+            return null;
+        }
+
+        DefaultStreamedContent defaultStreamedContent = new DefaultStreamedContent(new ByteArrayInputStream(files.get(0).getData()));
+        defaultStreamedContent.setName(files.get(0).getFilename());
+
+        return defaultStreamedContent;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
+
 
     public User getUser(int id) {
         return service.findById(id);
@@ -232,23 +326,6 @@ public class UserDataBean implements Serializable {
     public void setPhoto(StreamedContent photo) {
         this.photo = photo;
     }
-
-    public boolean isImageExists() {
-
-        boolean imageExists = false;
-
-        try {
-            user.getUserProfile().getPicture();
-            imageExists = true;
-
-        } catch (Exception e) {
-            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
-            LOG.error(errorMsg);
-            setErrorMsg(errorMsg);
-        }
-        return imageExists;
-    }
-
 
     public List<User> getContacts() {
         return contacts;
@@ -286,20 +363,11 @@ public class UserDataBean implements Serializable {
         this.isContactAddable = contactAddable;
     }
 
-    private void validateUserPriviles(User u) {
-        try {
-            this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
-
-        } catch (Exception e) {
-            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
-            LOG.error(errorMsg);
-            setErrorMsg(errorMsg);
-        }
-    }
 
     public boolean isAdmin() {
         return isAdmin;
     }
+
 
     public String getErrorMsg() {
         return errorMsg;
@@ -315,5 +383,15 @@ public class UserDataBean implements Serializable {
 
     public void setOwnProfile(boolean ownProfile) {
         this.ownProfile = ownProfile;
+    }
+
+    public boolean isPortalAdmin() {
+        return isPortalAdmin;
+    }
+
+    public void setPortalAdmin() {
+        if (user != null) {
+            isPortalAdmin = hasUserPrivilege(UserService.ROLE.PORTALADMIN);
+        }
     }
 }
