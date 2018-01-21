@@ -6,10 +6,13 @@ import org.primefaces.model.UploadedFile;
 import org.se.lab.data.Community;
 import org.se.lab.data.DatabaseException;
 import org.se.lab.data.File;
+import org.se.lab.data.PrivateMessage;
 import org.se.lab.data.User;
 import org.se.lab.service.CommunityService;
 import org.se.lab.service.EnumerationService;
+import org.se.lab.service.PrivateMessageService;
 import org.se.lab.service.ServiceException;
+import org.se.lab.service.UserService;
 import org.se.lab.service.dao.CommunityDAO;
 import org.se.lab.service.dao.FileDao;
 
@@ -29,6 +32,12 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Inject
     private FileDao fileDao;
+    
+    @Inject
+    private PrivateMessageService pmService;
+    
+    @Inject
+    private UserService userServcie;
 
 
     /*
@@ -148,6 +157,9 @@ public class CommunityServiceImpl implements CommunityService {
 			com = communityDAO.createCommunity(name, description, 1);
 			if(com == null)
 				throw new ServiceException("Can't insert community " + name);
+			
+			notifyAdmins();
+
 		} catch (DatabaseException e) {
 			LOG.error("Can't insert community " + name, e);
 			throw new ServiceException("Can't insert community " + name);
@@ -255,6 +267,12 @@ public class CommunityServiceImpl implements CommunityService {
             LOG.error(error);
             throw new ServiceException(error);
         }
+    }
+    
+    private void notifyAdmins() throws DatabaseException{
+		User u = userServcie.getUserProfilById(1).getUser();
+		PrivateMessage message = new PrivateMessage(u+" created new community", u, u);
+		pmService.sendMessage(message);
     }
 
     @Override
