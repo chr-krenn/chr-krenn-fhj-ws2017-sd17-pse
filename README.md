@@ -44,23 +44,19 @@ After that run the unit/integration tests or deploy the app:
 ### run unit tests and package application:
 mvn clean package
 
-### run unit tests and deploy application:
-mvn wildfly:deploy
+### run unit tests and deploy application
+mvn wildfly:deploy   # (app is now running at http://localhost:8080/pse/)
 
 ### run unit tests:
 mvn test
 
-### run unit tests, dao tests, and integration/UI tests:
+### run unit tests, DAO tests, and UI tests (sample data is kept in database now!):
 mvn verify
 </pre>
 
-To run the Application correctly __insert some sample data__. Without them no login will be possible.
+To run the Application correctly __insert some sample data__ (or just run mvn verify). Without them no login will be possible.
 <pre>
-mysql -u root -p
-</pre>
-Now run the insert sql script which you can find in __sql directory__ of the app:
-<pre>
-source sql/insert_sample_data.sql;
+mysql -p pse < sql/insert_sample_data.sql;
 </pre>
 
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
