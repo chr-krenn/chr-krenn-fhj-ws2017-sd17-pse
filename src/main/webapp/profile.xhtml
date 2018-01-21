@@ -229,9 +229,7 @@
 							icon="ui-icon-arrowthick-1-s">
 							<p:fileDownload value="#{userDataBean.getFile(file.id)}" />
 						</p:commandButton>
-						<p:commandButton title="delFile"
-							value="#{userDataBean.deleteFile(file.id)}"
-							styleClass="ui-confirmdialog-yes" />
+						<p:commandButton value="Delete!" actionListener="#{userDataBean.deleteFile(file)}" />
 					</h:form>
 
 				</c:forEach>
