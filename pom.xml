@@ -4,7 +4,7 @@
 
 	<groupId>org.se.lab</groupId>
 	<artifactId>pse</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 
@@ -32,46 +32,27 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.20.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
-				
-					<!-- execute unit tests in parallel -->
-					<!-- disabled, may crash on occasion..
-					<forkCount>4</forkCount>
-					<reuseForks>false</reuseForks>
-					-->
-					
-					
 					<!-- exclude DAO tests -->
 					<excludes>
 						<exclude>**/*DAO*.java</exclude>
 					</excludes>
-
 				</configuration>
 			</plugin>
 
-
-			<!-- DAO and integration tests -->
+			<!-- DAO and UI tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.20.1</version>
 				<executions>
-
-					<!-- execute DAO tests in pre-integration-test phase -->
 					<execution>
-						<id>pre-integration-test</id>
-						<phase>pre-integration-test</phase>
+						<id>DAO-tests</id>
+						<phase>integration-test</phase>
 						<goals>
 							<goal>integration-test</goal>
 						</goals>
-						<!-- include only DAO tests in this phase -->
+						<!-- include only DAO tests in integration-test phase -->
 						<configuration>
 							<includes>
 								<include>**/*DAO*.java</include>
@@ -79,19 +60,16 @@
 						</configuration>
 					</execution>
 
-					<!-- execute integration tests in integration-test phase -->
+					<!-- execute UI-tests after integration-test phase -->
 					<execution>
 						<id>integration-test</id>
-						<phase>integration-test</phase>
+						<phase>post-integration-test</phase>
 						<goals>
 							<goal>integration-test</goal>
 						</goals>
 					</execution>
-
 				</executions>
-
 			</plugin>
-
 
 
 			<!-- insert sample data before executing integration tests -->
@@ -122,10 +100,28 @@
 				</configuration>
 
 				<executions>
-					<!-- insert integration test data -->
+
 					<execution>
-						<id>create-integration-test-data</id>
+						<id>truncate-before-DAO-tests</id>
 						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<orderFile>ascending</orderFile>
+							<fileset>
+								<basedir>sql</basedir>
+								<includes>
+									<include>truncate.sql</include>
+								</includes>
+							</fileset>
+						</configuration>
+					</execution>
+
+					<!-- insert sample data for UI-tests -->
+					<execution>
+						<id>insert-UI-test-data</id>
+						<phase>integration-test</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
@@ -140,22 +136,13 @@
 						</configuration>
 					</execution>
 
-					<execution>
-						<id>remove-integration-test-data</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<orderFile>ascending</orderFile>
-							<fileset>
-								<basedir>sql</basedir>
-								<includes>
-									<include>truncate.sql</include>
-								</includes>
-							</fileset>
-						</configuration>
-					</execution>
+
+					<!-- keep the sample data after UI-tests because we would have to insert it anyway -->
+					<!-- <execution> <id>remove-UI-test-data</id> <phase>post-integration-test</phase> 
+						<goals> <goal>execute</goal> </goals> <configuration> <orderFile>ascending</orderFile> 
+						<fileset> <basedir>sql</basedir> <includes> <include>truncate.sql</include> 
+						</includes> </fileset> </configuration> </execution> -->
+
 				</executions>
 			</plugin>
 
@@ -180,11 +167,23 @@
 				</configuration>
 
 				<executions>
-					<!-- Run wildfly and deploy application for integration tests. <execution> 
-						<id>wildfly-run</id> <phase>pre-integration-test</phase> <goals> <goal>start</goal> 
-						<goal>deploy</goal> </goals> </execution> <execution> <id>wildfly-shutdown</id> 
-						<phase>post-integration-test</phase> <goals> <goal>undeploy</goal> <goal>shutdown</goal> 
-						</goals> </execution> -->
+					<!-- Run wildfly and deploy application for integration tests. -->
+					<execution>
+						<id>wildfly-run</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>wildfly-shutdown</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>undeploy</goal>
+							<goal>shutdown</goal>
+						</goals>
+					</execution>
 				</executions>
 
 			</plugin>
