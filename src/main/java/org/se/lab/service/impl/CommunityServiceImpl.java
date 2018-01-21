@@ -150,15 +150,15 @@ public class CommunityServiceImpl implements CommunityService {
 	 * @see org.se.lab.service.CommunityService#request(org.se.lab.data.Community)
 	 */
 	@Override
-	public Community request(String name, String description) {
+	public Community request(String name, String description, int portalAdmin) {
 		LOG.debug("request community with name: " + name + " and description: " + description);
 		Community com;
 		try {
-			com = communityDAO.createCommunity(name, description, 1);
+			com = communityDAO.createCommunity(name, description, portalAdmin);
 			if(com == null)
 				throw new ServiceException("Can't insert community " + name);
 			
-			notifyAdmins();
+			notifyAdmins(com);
 
 		} catch (DatabaseException e) {
 			LOG.error("Can't insert community " + name, e);
@@ -269,8 +269,9 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
     
-    private void notifyAdmins() throws DatabaseException{
-		User u = userServcie.getUserProfilById(1).getUser();
+    private void notifyAdmins(Community com) throws DatabaseException{
+    	
+		User u = userServcie.findById(com.getPortaladminId());
 		PrivateMessage message = new PrivateMessage(u+" created new community", u, u);
 		pmService.sendMessage(message);
     }

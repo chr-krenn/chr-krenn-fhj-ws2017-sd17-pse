@@ -21,7 +21,7 @@ public interface CommunityService {
 
 	void join(Community community, User user);
 
-	Community request(String name, String description);
+	Community request(String name, String description, int portalAdminId);
 
 	void approve(Community community);
 

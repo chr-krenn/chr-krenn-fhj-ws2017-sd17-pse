@@ -99,7 +99,7 @@ public class CommunityDataBean implements Serializable {
 
         if (actualCommunity == null) {
             LOG.error("no community with this id: " + communityId);
-            dummyCommunity = communityService.request("Dummy Community", "A dummy community, needed for prototype");
+            dummyCommunity = communityService.request("Dummy Community", "A dummy community, needed for prototype", 0);
             return dummyCommunity;
         }
 
