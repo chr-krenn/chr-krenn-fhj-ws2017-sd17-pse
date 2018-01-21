@@ -222,7 +222,8 @@ public class UserDataBean implements Serializable {
     }
 
     public void deleteFile(File file) {
-        //TODO Impl @Wegl
+        LOG.info("deleteFile " + file);
+        communityService.deleteFile(file);
     }
 
     public void uploadPicture(FileUploadEvent event) {

@@ -23,7 +23,7 @@ public class FileDaoImpl extends DAOImplTemplate<File> implements FileDao {
 
     @Override
     public void delete(File entity) {
-        super.delete(entity);
+        em.remove(em.contains(entity) ? entity : em.merge(entity));
     }
 
     @Override

@@ -36,5 +36,4 @@ public interface CommunityService {
 	List<File> getFilesFromUser(User user);
 
 	void deleteFile(File file);
-
 }

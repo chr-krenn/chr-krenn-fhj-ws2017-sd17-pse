@@ -288,4 +288,5 @@ public class CommunityServiceImpl implements CommunityService {
     public void deleteFile(File file) {
         fileDao.delete(file);
     }
+
 }
