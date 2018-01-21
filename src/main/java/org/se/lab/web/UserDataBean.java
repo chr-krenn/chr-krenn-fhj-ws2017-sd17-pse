@@ -63,6 +63,8 @@ public class UserDataBean implements Serializable {
     private boolean isAdmin = false;
     private boolean isPortalAdmin = false;
 
+	private String visibility;
+
 
     @PostConstruct
     public void init() {
@@ -400,4 +402,18 @@ public class UserDataBean implements Serializable {
     public User getLoggedInUser() {
         return loggedInUser;
     }
+    
+    public String setMessageVisibility(String visibility) {
+    	return visibility;
+    }
+
+	public String getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(String visibility) {
+		if(visibility==null)
+			this.visibility = "default";
+		this.visibility = visibility;
+	}
 }
