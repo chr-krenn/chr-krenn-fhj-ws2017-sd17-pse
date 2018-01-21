@@ -26,6 +26,8 @@ public class UserServiceImpl implements UserService {
     private UserProfileDAO userProfileDAO;
     @Inject
     private CommunityDAO communityDAO;
+    @Inject
+    private EnumerationDAO enumDAO;
 
     /* (non-Javadoc)
      * @see org.se.lab.service.UserService#insert(org.se.lab.data.User)
@@ -314,4 +316,9 @@ public class UserServiceImpl implements UserService {
         }
         return userContacts;
     }
+
+	@Override
+	public List<User> getAdmins() {
+		return enumDAO.findUsersByEnumeration(4);
+	}
 }

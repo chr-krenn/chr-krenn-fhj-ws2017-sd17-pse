@@ -46,5 +46,7 @@ public interface UserService {
     boolean hasUserTheRole(ROLE privileg, User user);
 
     List<User> getContactsOfUser(User user);
+    
+    List<User> getAdmins();
 
 }

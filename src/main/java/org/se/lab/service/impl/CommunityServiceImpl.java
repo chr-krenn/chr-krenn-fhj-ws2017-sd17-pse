@@ -272,8 +272,11 @@ public class CommunityServiceImpl implements CommunityService {
     private void notifyAdmins(Community com) throws DatabaseException{
     	
 		User u = userServcie.findById(com.getPortaladminId());
-		PrivateMessage message = new PrivateMessage(u+" created new community", u, u);
-		pmService.sendMessage(message);
+		
+		for(User user : userServcie.getAdmins()){
+			PrivateMessage message = new PrivateMessage(u+" created new community", user, user);
+			pmService.sendMessage(message);
+		}
     }
 
     @Override
