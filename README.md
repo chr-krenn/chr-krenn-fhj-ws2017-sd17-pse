@@ -56,7 +56,7 @@ mvn verify
 
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
-mysql -p pse < sql/insert_sample_data.sql;
+mysql -p pse < sql/insert.sql;
 </pre>
 
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
