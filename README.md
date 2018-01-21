@@ -50,11 +50,11 @@ mvn wildfly:deploy   # (app is now running at http://localhost:8080/pse/)
 ### run unit tests:
 mvn test
 
-### run unit tests, DAO tests, and UI tests (sample data is kept in database now!):
+### run unit tests, DAO tests, and UI tests:
 mvn verify
 </pre>
 
-To run the Application correctly __insert some sample data__ (or just run mvn verify). Without them no login will be possible.
+To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
 mysql -p pse < sql/insert_sample_data.sql;
 </pre>
