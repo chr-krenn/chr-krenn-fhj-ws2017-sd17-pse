@@ -95,6 +95,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public void delete(Community community) {
         LOG.debug("delete " + community);
+        
         try {
             communityDAO.delete(community);
         } catch (Exception e) {

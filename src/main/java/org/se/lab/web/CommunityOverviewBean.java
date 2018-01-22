@@ -113,5 +113,22 @@ public class CommunityOverviewBean {
             }
         }
     }
+    
+    public void deleteCom() {
+        LOG.info("In Method deleteCom");
 
+        
+        if(selectedCommunity == null)
+        	return;
+        
+        LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
+        
+        service.delete(selectedCommunity);
+        
+        try {
+            context.getExternalContext().redirect("/pse/communityoverview.xhtml");
+        } catch (IOException e) {
+            LOG.error("Can't redirect to /pse/communityoverview.xhtml");
+        }
+    }
 }
