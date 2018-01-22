@@ -44,14 +44,14 @@ After that run the unit/integration tests or deploy the app:
 ### run unit tests and package application:
 mvn clean package
 
-### run unit tests and deploy application
-mvn wildfly:deploy   # (app is now running at http://localhost:8080/pse/)
+### run unit tests and deploy application (database is automatically populated with sample data)
+mvn clean wildfly:deploy
 
 ### run unit tests:
 mvn test
 
 ### run unit tests, DAO tests, and UI tests:
-mvn verify
+mvn clean verify
 </pre>
 
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
