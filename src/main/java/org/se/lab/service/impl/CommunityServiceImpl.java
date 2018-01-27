@@ -18,6 +18,7 @@ import org.se.lab.service.dao.FileDao;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -32,10 +33,10 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Inject
     private FileDao fileDao;
-    
+
     @Inject
     private PrivateMessageService pmService;
-    
+
     @Inject
     private UserService userServcie;
 
@@ -95,7 +96,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public void delete(Community community) {
         LOG.debug("delete " + community);
-        
+
         try {
             communityDAO.delete(community);
         } catch (Exception e) {
@@ -145,28 +146,28 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.se.lab.service.CommunityService#request(org.se.lab.data.Community)
-	 */
-	@Override
-	public Community request(String name, String description, int portalAdmin) {
-		LOG.debug("request community with name: " + name + " and description: " + description);
-		Community com;
-		try {
-			com = communityDAO.createCommunity(name, description, portalAdmin);
-			if(com == null)
-				throw new ServiceException("Can't insert community " + name);
-			
-			notifyAdmins(com);
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.se.lab.service.CommunityService#request(org.se.lab.data.Community)
+     */
+    @Override
+    public Community request(String name, String description, int portalAdmin) {
+        LOG.debug("request community with name: " + name + " and description: " + description);
+        Community com;
+        try {
+            com = communityDAO.createCommunity(name, description, portalAdmin);
+            if (com == null)
+                throw new ServiceException("Can't insert community " + name);
 
-		} catch (DatabaseException e) {
-			LOG.error("Can't insert community " + name, e);
-			throw new ServiceException("Can't insert community " + name);
-		}
-		return com;
-	}
+            notifyAdmins(com);
+
+        } catch (DatabaseException e) {
+            LOG.error("Can't insert community " + name, e);
+            throw new ServiceException("Can't insert community " + name);
+        }
+        return com;
+    }
 
     /*
      * (non-Javadoc)
@@ -244,16 +245,6 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
 
-    @Override
-    public void uploadFile(User user, UploadedFile uploadedFile) {
-
-        validate(user);
-        validate(uploadedFile);
-
-        LOG.info(String.format("File %s stored in Database", uploadedFile.getFileName()));
-        fileDao.insert(new File(user, uploadedFile.getFileName(), uploadedFile.getContents()));
-    }
-
     private void validate(UploadedFile uploadedFile) {
         if (uploadedFile == null || StringUtils.isEmpty(uploadedFile.getFileName())) {
             String error = "Uploaded File not valid";
@@ -269,25 +260,43 @@ public class CommunityServiceImpl implements CommunityService {
             throw new ServiceException(error);
         }
     }
-    
-    private void notifyAdmins(Community com) throws DatabaseException{
-    	
-		User u = userServcie.findById(com.getPortaladminId());
-		
-		for(User user : userServcie.getAdmins()){
-			PrivateMessage message = new PrivateMessage(u+" created new community", user, user);
-			pmService.sendMessage(message);
-		}
+
+    private void notifyAdmins(Community com) throws DatabaseException {
+
+        User u = userServcie.findById(com.getPortaladminId());
+
+        for (User user : userServcie.getAdmins()) {
+            PrivateMessage message = new PrivateMessage(u + " created new community", user, user);
+            pmService.sendMessage(message);
+        }
+    }
+
+    @Override
+    public void uploadFile(User user, UploadedFile uploadedFile) {
+
+        validate(user);
+        validate(uploadedFile);
+
+        LOG.info(String.format("File %s stored in Database", uploadedFile.getFileName()));
+        fileDao.insert(new File(user, uploadedFile.getFileName(), uploadedFile.getContents()));
     }
 
     @Override
     public List<File> getFilesFromUser(User user) {
-        return fileDao.findByUser(user);
+        List<File> files = new ArrayList<>();
+
+        if (user != null) {
+            files = fileDao.findByUser(user);
+        }
+        return files;
     }
 
     @Override
     public void deleteFile(File file) {
+        if (file == null) {
+            String error = "File is null";
+            throw new ServiceException(error);
+        }
         fileDao.delete(file);
     }
-
 }

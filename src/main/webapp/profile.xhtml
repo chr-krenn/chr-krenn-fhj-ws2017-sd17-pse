@@ -5,8 +5,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:body>
 	<ui:insert name="header">
@@ -208,35 +207,6 @@
 
 				</h:form>
 			</b:panel>
-
-
-			<b:panel title="File Upload" look="success"
-				rendered="#{userDataBean.portalAdmin}" collapsible="false">
-				<h:form id="form2" enctype="multipart/form-data">
-					<p:fileUpload id="file2"
-						fileUploadListener="#{userDataBean.uploadFile}"
-						allowTypes="/(\.|\/)(pdf|jpe?g|doc)$/" sizeLimit="500000"
-						mode="advanced" fileLimit="1" label="Choose (pdf, jpeg or doc" />
-				</h:form>
-			</b:panel>
-
-			<b:panel title="File Download Bereich" look="success"
-				rendered="#{not empty userDataBean.files}" collapsible="false">
-				<c:forEach var="file" items="#{userDataBean.files}" varStatus="loop">
-					<h:form>
-						<p:commandButton value="#{file.filename}" ajax="false"
-							onclick="PrimeFaces.monitorDownload(start, stop);"
-							icon="ui-icon-arrowthick-1-s">
-							<p:fileDownload value="#{userDataBean.getFile(file.id)}" />
-						</p:commandButton>
-						<p:commandButton value="Delete!" actionListener="#{userDataBean.deleteFile(file)}" />
-					</h:form>
-
-				</c:forEach>
-			</b:panel>
-
-
-
 
 			<b:panel title="Contacts" look="success" collapsible="false">
 				<h:form>

@@ -1,7 +1,12 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import org.se.lab.data.Community;
+import org.se.lab.data.File;
 import org.se.lab.data.Post;
 import org.se.lab.data.User;
 import org.se.lab.service.ActivityStreamService;
@@ -11,14 +16,15 @@ import org.se.lab.service.UserService;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
-
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Named
 @RequestScoped
@@ -35,8 +41,10 @@ public class CommunityDataBean implements Serializable {
     private Map<String, Object> session;
     private User user;
     private List<Post> communityPosts;
-
+    private String errorMsg = "";
+    private List<File> files = new ArrayList<>();
     private String joinLeaveState;
+    private boolean isPortalAdmin = false;
 
 
     @Inject
@@ -48,43 +56,21 @@ public class CommunityDataBean implements Serializable {
     @Inject
     private ActivityStreamService activityStreamService;
 
-    public String getName() {
-
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isPublicState() {
-        return publicState;
-    }
-
-    public void setPublicState(boolean publicState) {
-        this.publicState = publicState;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getJoinLeaveState() {
-        return joinLeaveState;
-    }
-
-    public void setJoinLeaveState(String joinLeaveState) {
-        this.joinLeaveState = joinLeaveState;
-    }
-
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance();
         session = context.getExternalContext().getSessionMap();
+        int userId = (int) session.get("user");
+        user = getUser(userId);
+        setPortalAdmin();
+        getFiles();
+    }
+
+    public User getUser(int id) {
+        if (id != 0) {
+            return userService.findById(id);
+        }
+        return null;
     }
 
     public Community getActualCommunity() {
@@ -139,9 +125,116 @@ public class CommunityDataBean implements Serializable {
     }
 
     public List<Post> getActualCommunityStream() {
-
+        getActualCommunity();
         communityPosts = activityStreamService.getPostsForCommunity(actualCommunity);
         return communityPosts;
 
+    }
+
+    public void deleteFile(File file) {
+        LOG.info("deleteFile " + file);
+        communityService.deleteFile(file);
+    }
+
+    public void uploadFile(FileUploadEvent event) {
+        UploadedFile uploadedFile = event.getFile();
+
+        try {
+            communityService.uploadFile(user, uploadedFile);
+        } catch (Exception e) {
+            errorMsg = "Can't upload file without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
+    }
+
+    public List<File> getFiles() {
+
+        if (user != null && hasUserPrivilege(UserService.ROLE.PORTALADMIN)) {
+            setFiles(communityService.getFilesFromUser(user));
+            return files;
+        }
+        return Collections.emptyList();
+    }
+
+    public StreamedContent getFile(int id) {
+
+        List<File> files = this.files.stream().filter(file -> file.getId() == id).collect(Collectors.toList());
+
+        if (files.size() != 1) {
+            return null;
+        }
+
+        DefaultStreamedContent defaultStreamedContent = new DefaultStreamedContent(new ByteArrayInputStream(files.get(0).getData()));
+        defaultStreamedContent.setName(files.get(0).getFilename());
+
+        return defaultStreamedContent;
+    }
+
+
+    private boolean hasUserPrivilege(UserService.ROLE role) {
+        try {
+            return userService.hasUserTheRole(role, user);
+        } catch (Exception e) {
+            errorMsg = String.format("Can't check privilege of user: %s", user.getUsername());
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+            return false;
+        }
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
+
+    public boolean isPortalAdmin() {
+        return isPortalAdmin;
+    }
+
+    public void setPortalAdmin() {
+        if (user != null) {
+            isPortalAdmin = hasUserPrivilege(UserService.ROLE.PORTALADMIN);
+        }
+    }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isPublicState() {
+        return publicState;
+    }
+
+    public void setPublicState(boolean publicState) {
+        this.publicState = publicState;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getJoinLeaveState() {
+        return joinLeaveState;
+    }
+
+    public void setJoinLeaveState(String joinLeaveState) {
+        this.joinLeaveState = joinLeaveState;
     }
 }

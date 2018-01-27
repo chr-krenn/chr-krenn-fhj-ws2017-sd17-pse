@@ -3,18 +3,21 @@ package org.se.lab.service;
 import org.easymock.*;
 import org.junit.*;
 import org.junit.runner.RunWith;
-import org.se.lab.data.Community;
-import org.se.lab.data.DatabaseException;
-import org.se.lab.data.Enumeration;
-import org.se.lab.data.User;
+import org.primefaces.model.NativeUploadedFile;
+import org.primefaces.model.UploadedFile;
+import org.se.lab.data.*;
 import org.se.lab.service.dao.CommunityDAO;
+import org.se.lab.service.dao.FileDao;
 import org.se.lab.service.impl.CommunityServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(EasyMockRunner.class)
 public class CommunityServiceTest {
@@ -31,6 +34,8 @@ public class CommunityServiceTest {
 	private EnumerationService enumerationService;
 	@Mock
 	private CommunityDAO communityDAO;
+	@Mock
+	private FileDao fileDao;
 	private Community community1;
 	private Community community2;
 	private Community community3;
@@ -181,4 +186,36 @@ public class CommunityServiceTest {
 		communityService.refuse(community3);
 	}
 
+	@Test(expected = ServiceException.class)
+	public void uploadFile_throwException_MissingFilename(){
+		UploadedFile uploadedFile = new NativeUploadedFile();
+
+		communityService.uploadFile(new User(),uploadedFile);
+	}
+
+	@Test(expected = ServiceException.class)
+	public void uploadFile_throwException_MissingUser(){
+		UploadedFile uploadedFile = new NativeUploadedFile();
+
+		communityService.uploadFile(null,uploadedFile);
+	}
+
+	@Test(expected = ServiceException.class)
+	public void uploadFile_throwException_MissingFile(){
+		communityService.uploadFile(new User(),null);
+	}
+
+	@Test
+	public void getFiles(){
+		User user = new User();
+		File file = new File(user, "test", null);
+		List<File> files = Collections.singletonList(file);
+
+
+		expect(fileDao.findByUser(user)).andReturn(files);
+		replay(fileDao);
+
+		List<File> filesFromUser = communityService.getFilesFromUser(user);
+		assertThat(filesFromUser,hasItem(file));
+	}
 }

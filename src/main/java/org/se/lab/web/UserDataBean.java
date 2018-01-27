@@ -6,7 +6,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.se.lab.data.Community;
-import org.se.lab.data.File;
 import org.se.lab.data.User;
 import org.se.lab.data.UserProfile;
 import org.se.lab.service.CommunityService;
@@ -22,10 +21,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Named
 @RequestScoped
@@ -43,14 +40,10 @@ public class UserDataBean implements Serializable {
     private CommunityService communityService;
 
     private User user;
-
-
-
     private User loggedInUser;
     private UserProfile userProfile;
     private List<User> contacts = new ArrayList<User>();
     private String errorMsg = "";
-    private List<File> files = new ArrayList<>();
 
     private List<Community> communities = new ArrayList<Community>();
 
@@ -61,7 +54,7 @@ public class UserDataBean implements Serializable {
     private boolean isContactAddable = false;
     private boolean ownProfile = false;
     private boolean isAdmin = false;
-    private boolean isPortalAdmin = false;
+
 
 	private String visibility;
 
@@ -133,8 +126,6 @@ public class UserDataBean implements Serializable {
                 //e.printStackTrace();
             }
         }
-        setPortalAdmin();
-        getFiles();
         setErrorMsg("");
     }
 
@@ -221,38 +212,12 @@ public class UserDataBean implements Serializable {
         return null;
     }
 
-    public void deleteFile(File file) {
-        LOG.info("deleteFile " + file);
-        communityService.deleteFile(file);
-    }
-
     public void uploadPicture(FileUploadEvent event) {
 
         UploadedFile uploadedFile = event.getFile();
         UserProfile userProfile = user.getUserProfile();
         userProfile.setPicture(uploadedFile.getContents());
         service.addPictureToProfile(userProfile);
-    }
-
-    public void uploadFile(FileUploadEvent event) {
-        UploadedFile uploadedFile = event.getFile();
-
-        try {
-            communityService.uploadFile(user, uploadedFile);
-        } catch (Exception e) {
-            errorMsg = "Can't upload file without errors! - pls contact the admin or try later";
-            LOG.error(errorMsg);
-            setErrorMsg(errorMsg);
-        }
-    }
-
-    public List<File> getFiles() {
-
-        if (user != null && hasUserPrivilege(UserService.ROLE.PORTALADMIN)) {
-            setFiles(communityService.getFilesFromUser(user));
-            return files;
-        }
-        return Collections.emptyList();
     }
 
     public boolean isImageExists() {
@@ -291,24 +256,6 @@ public class UserDataBean implements Serializable {
             setErrorMsg(errorMsg);
             return false;
         }
-    }
-
-    public StreamedContent getFile(int id) {
-
-        List<File> files = this.files.stream().filter(file -> file.getId() == id).collect(Collectors.toList());
-
-        if (files.size() != 1) {
-            return null;
-        }
-
-        DefaultStreamedContent defaultStreamedContent = new DefaultStreamedContent(new ByteArrayInputStream(files.get(0).getData()));
-        defaultStreamedContent.setName(files.get(0).getFilename());
-
-        return defaultStreamedContent;
-    }
-
-    public void setFiles(List<File> files) {
-        this.files = files;
     }
 
 
@@ -390,20 +337,10 @@ public class UserDataBean implements Serializable {
         this.ownProfile = ownProfile;
     }
 
-    public boolean isPortalAdmin() {
-        return isPortalAdmin;
-    }
-
-    public void setPortalAdmin() {
-        if (user != null) {
-            isPortalAdmin = hasUserPrivilege(UserService.ROLE.PORTALADMIN);
-        }
-    }
-
     public User getLoggedInUser() {
         return loggedInUser;
     }
-    
+
     public String setMessageVisibility(String visibility) {
     	return visibility;
     }
