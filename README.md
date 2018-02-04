@@ -53,6 +53,7 @@ mvn test
 ### run unit tests, DAO tests, and UI tests:
 mvn clean verify
 </pre>
+Code coverage reports are generated at target/site/jacoco-ut/index.html.
 
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
@@ -70,7 +71,7 @@ If something went wrong drop the database and make a new clean setup of the data
 If you clean your local git repository don't forget to delete the deployment section in the standalone.xml of Wildfly. For this purpose search for the standalone.xml in the __~/install/wildfly-10.1.0.Final/standalone/configuration/__ directory. Go to the end of the file and delete the __\<deployments\>...\<\/deployments\>__ tag.
 
 ## UI Testing
-UI tests reside in _src/test/integration/_ and need sample data from _sql/insert_sample_data.sql_ to be imported in order to be able to run successfully. __Setup a new project__ containing only UI tests: __Import Maven -> src/test/integration/pom.xml__
+UI tests reside in _src/test/integration/_ and need sample data from _sql/insert_sample_data.sql_ to be imported in order to be able to run successfully.
 ### Setup Selenium IDE
 * Download Firefox 54: https://ftp.mozilla.org/pub/firefox/releases/54.0/linux-x86_64/en-US/firefox-54.0.tar.bz2
 * Extract files -> delete update & update-settings.ini
