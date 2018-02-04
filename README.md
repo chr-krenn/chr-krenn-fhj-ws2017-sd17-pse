@@ -44,7 +44,7 @@ After that run the unit/integration tests or deploy the app:
 ### run unit tests and package application:
 mvn clean package
 
-### run unit tests and deploy application (database is automatically populated with sample data)
+### run unit tests and deploy application:
 mvn clean wildfly:deploy
 
 ### run unit tests:
@@ -53,7 +53,6 @@ mvn test
 ### run unit tests, DAO tests, and UI tests:
 mvn clean verify
 </pre>
-Code coverage reports are generated at target/site/jacoco-ut/index.html.
 
 To run the Application correctly __insert some sample data__. Without them no login will be possible.
 <pre>
@@ -61,6 +60,18 @@ mysql -p pse < sql/insert.sql;
 </pre>
 
 To access the application open in Browser: http://localhost:8080/pse/login.xhtml
+
+## Code coverage analysis
+<pre>
+# coverage report for unit tests
+mvn clean package
+
+# coverage report for unit and integration tests
+mvn clean verify
+</pre>
+Code coverage reports for unit and integration tests are generated at 
+* target/site/jacoco-ut/index.html 
+* target/site/jacoco-it/index.html
 
 ## Important
 Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed. <br/><br/>
