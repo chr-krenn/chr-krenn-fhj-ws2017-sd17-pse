@@ -60,7 +60,7 @@ public class PortalAdminITCase {
     }
 
     @Test
-    @Ignore // portaladmin can create community, but has to be accepted by admin
+    @Ignore // portaladmin can create community, but the community has to be approved by admin
     public void testCreateCommunity() throws Exception {
         String cname = UUID.randomUUID().toString();
         String cdesc = "Community description created by functional test.";

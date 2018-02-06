@@ -31,6 +31,30 @@ public abstract class PageObject {
 		this.setDriver(driver);
 		setDefaults();
 	}
+	
+	public CommunityOverviewPage getCommunityOverviewPage() {
+		// navigate to communityoverview.xhtml
+		driver.findElement(By.id("j_idt10:j_idt13")).click();
+		return new CommunityOverviewPage(driver);
+	}
+
+	public UserOverviewPage getUserOverviewPage() {
+		// navigate to useroverview.xhtml
+		driver.findElement(By.id("j_idt10:j_idt14")).click();
+		return new UserOverviewPage(driver);
+	}
+	
+	public AdminPortalPage getAdminPortalPage() {
+	    driver.findElement(By.cssSelector("b.caret")).click();
+	    driver.findElement(By.linkText("Admin Area")).click();
+		return new AdminPortalPage(driver);
+	}
+	
+	public ProfilePage getProfilePage() {
+	    driver.findElement(By.cssSelector("b.caret")).click();
+	    driver.findElement(By.linkText("Profil")).click();
+		return new ProfilePage(driver);
+	}
 
 	boolean isElementPresent(By by) {
 		try {

@@ -14,17 +14,18 @@ public class ActivityStreamPage extends PageObject {
 	public String getHeader() {
 		return driver.findElement(By.cssSelector("h2")).getText();
 	}
-
-	public CommunityOverviewPage getCommunityOverviewPage() {
-		// navigate to communityoverview.xhtml
-		driver.findElement(By.id("j_idt10:j_idt13")).click();
-		return new CommunityOverviewPage(driver);
+	
+	public String getAllPosts() {
+		return driver.findElement(By.id("j_idt22")).getText();
 	}
 
-	public UserOverviewPage getUserOverviewPage() {
-		// navigate to useroverview.xhtml
-		driver.findElement(By.id("j_idt10:j_idt14")).click();
-		return new UserOverviewPage(driver);
+	public ActivityStreamPage newPost(String message) {
+		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
+		driver.findElement(By.id("input_j_idt24:j_idt26")).clear();
+		driver.findElement(By.id("input_j_idt24:j_idt26")).sendKeys(message);
+		driver.findElement(By.id("j_idt24:j_idt29")).click();
+		System.out.println(getAllPosts());
+		return this;
 	}
 	
 	public void logout() {

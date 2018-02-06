@@ -20,4 +20,21 @@ public class LoginPage extends PageObject {
 		
 		return new ActivityStreamPage(driver);
 	}
+	
+	@Override
+	public CommunityOverviewPage getCommunityOverviewPage() {
+		throw new UnsupportedOperationException();
+	}
+
+	public UserOverviewPage getUserOverviewPage() {
+		throw new UnsupportedOperationException();
+	}
+	
+	public AdminPortalPage getAdminPortalPage() {
+		throw new UnsupportedOperationException();
+	}
+	
+	public ProfilePage getProfilePage() {
+		throw new UnsupportedOperationException();
+	}
 }

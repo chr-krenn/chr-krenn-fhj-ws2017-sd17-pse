@@ -17,6 +17,12 @@ public class CommunityOverviewPage extends PageObject {
 	    driver.findElement(By.id("j_idt24:j_idt31")).click();
 	    driver.findElement(By.cssSelector("button.btn.btn-success")).click();
 	}
+	
+	public ActivityStreamPage getActivityStreamPage() {
+		// navigate to activityStream.xhtml
+	    driver.findElement(By.linkText("Activity Stream")).click();
+		return new ActivityStreamPage(driver);
+	}
 
 	public String getCommunityName() {
 		return driver.findElement(By.cssSelector("h2")).getText();
