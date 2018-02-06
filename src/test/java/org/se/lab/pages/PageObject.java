@@ -17,8 +17,8 @@ public abstract class PageObject {
 	protected String baseUrl;
 
 	private void setDefaults() {
-		baseUrl = "http://localhost:8080/";
-		getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		baseUrl = "http://localhost:8080/pse/";
+		getDriver().manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 	}
 
 	public PageObject() {
@@ -31,7 +31,13 @@ public abstract class PageObject {
 		this.setDriver(driver);
 		setDefaults();
 	}
-	
+
+	public ActivityStreamPage getActivityStreamPage() {
+		// navigate to activityStream.xhtml
+		driver.findElement(By.linkText("Activity Stream")).click();
+		return new ActivityStreamPage(driver);
+	}
+
 	public CommunityOverviewPage getCommunityOverviewPage() {
 		// navigate to communityoverview.xhtml
 		driver.findElement(By.id("j_idt10:j_idt13")).click();
@@ -43,16 +49,16 @@ public abstract class PageObject {
 		driver.findElement(By.id("j_idt10:j_idt14")).click();
 		return new UserOverviewPage(driver);
 	}
-	
+
 	public AdminPortalPage getAdminPortalPage() {
-	    driver.findElement(By.cssSelector("b.caret")).click();
-	    driver.findElement(By.linkText("Admin Area")).click();
+		driver.findElement(By.cssSelector("b.caret")).click();
+		driver.findElement(By.linkText("Admin Area")).click();
 		return new AdminPortalPage(driver);
 	}
-	
+
 	public ProfilePage getProfilePage() {
-	    driver.findElement(By.cssSelector("b.caret")).click();
-	    driver.findElement(By.linkText("Profil")).click();
+		driver.findElement(By.cssSelector("b.caret")).click();
+		driver.findElement(By.linkText("Profil")).click();
 		return new ProfilePage(driver);
 	}
 

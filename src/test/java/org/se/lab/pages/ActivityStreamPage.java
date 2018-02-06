@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class ActivityStreamPage extends PageObject {
-	
-	private String url = "/pse/activityStream.xhtml";
-	
+
+	private String url = "activityStream.xhtml";
+
 	public ActivityStreamPage(WebDriver driver) {
 		super(driver);
 	}
@@ -14,7 +14,7 @@ public class ActivityStreamPage extends PageObject {
 	public String getHeader() {
 		return driver.findElement(By.cssSelector("h2")).getText();
 	}
-	
+
 	public String getAllPosts() {
 		return driver.findElement(By.id("j_idt22")).getText();
 	}
@@ -27,12 +27,12 @@ public class ActivityStreamPage extends PageObject {
 		System.out.println(getAllPosts());
 		return this;
 	}
-	
+
 	public void logout() {
-	    driver.findElement(By.id("dtLj_idt10:j_idt16")).click();
-	    driver.findElement(By.linkText("Logout")).click();
+		driver.findElement(By.id("dtLj_idt10:j_idt16")).click();
+		driver.findElement(By.linkText("Logout")).click();
 	}
-	
+
 	public void refresh() {
 		driver.get(baseUrl + url);
 	}

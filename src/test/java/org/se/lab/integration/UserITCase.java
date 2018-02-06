@@ -3,6 +3,7 @@ package org.se.lab.integration;
 import org.junit.After;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.se.lab.pages.*;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class AdminITCase {
+public class UserITCase {
 	private LoginPage loginPage;
 	private CommunityOverviewPage communityOverviewPage;
 	private UserOverviewPage userOverViewPage;
@@ -19,13 +20,13 @@ public class AdminITCase {
 	private ActivityStreamPage activityStreamPage;
 	private AdminPortalPage adminPortalPage;
 
-	private String adminUsername = "dogic";
-	private String adminPassword = "pass";
+	private String username = "ionescu";
+	private String password = "pass";
 
 	@Before
 	public void setUp() throws Exception {
 		loginPage = new LoginPage();
-		activityStreamPage = loginPage.login(adminUsername, adminPassword);
+		activityStreamPage = loginPage.login(username, password);
 	}
 
 	@Test
@@ -60,6 +61,7 @@ public class AdminITCase {
 	}
 
 	@Test
+	@Ignore // normal user should not able to create a community
 	public void testCreateCommunity() {
 		String cname = UUID.randomUUID().toString();
 		String cdesc = "Community description created by functional test.";
@@ -79,7 +81,7 @@ public class AdminITCase {
 	public void testCommunityListPresent() {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 
-		// user is part of Computer Vision community
+		// u is part of Computer Vision community
 		assertTrue(communityOverviewPage.getAvailableCommunities().contains("Computer Vision"));
 	}
 

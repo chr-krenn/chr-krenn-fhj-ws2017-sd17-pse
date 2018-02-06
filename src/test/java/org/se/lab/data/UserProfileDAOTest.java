@@ -9,7 +9,7 @@ import java.util.List;
 public class UserProfileDAOTest extends AbstractDAOTest {
 
     public User u;
-    public UserProfile  up;
+    public UserProfile up;
     public UserProfile  up2;
 
     public UserDAOImpl udao = new UserDAOImpl();

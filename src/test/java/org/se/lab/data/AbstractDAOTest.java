@@ -5,6 +5,8 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.se.lab.data.DatabaseException;
+import org.se.lab.data.EnumerationDAOImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

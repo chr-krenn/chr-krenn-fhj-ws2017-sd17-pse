@@ -8,20 +8,14 @@ public class CommunityOverviewPage extends PageObject {
 		super(driver);
 	}
 
-	public void createCommunity(String name, String description) throws Exception {
-	    driver.findElement(By.cssSelector("button.btn.btn-success")).click();
-	    driver.findElement(By.id("input_j_idt24:j_idt26")).clear();
-	    driver.findElement(By.id("input_j_idt24:j_idt26")).sendKeys(name);
-	    driver.findElement(By.id("input_j_idt24:j_idt28")).clear();
-	    driver.findElement(By.id("input_j_idt24:j_idt28")).sendKeys(description);
-	    driver.findElement(By.id("j_idt24:j_idt31")).click();
-	    driver.findElement(By.cssSelector("button.btn.btn-success")).click();
-	}
-	
-	public ActivityStreamPage getActivityStreamPage() {
-		// navigate to activityStream.xhtml
-	    driver.findElement(By.linkText("Activity Stream")).click();
-		return new ActivityStreamPage(driver);
+	public void createCommunity(String name, String description) {
+		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
+		driver.findElement(By.id("input_j_idt24:j_idt26")).clear();
+		driver.findElement(By.id("input_j_idt24:j_idt26")).sendKeys(name);
+		driver.findElement(By.id("input_j_idt24:j_idt28")).clear();
+		driver.findElement(By.id("input_j_idt24:j_idt28")).sendKeys(description);
+		driver.findElement(By.id("j_idt24:j_idt31")).click();
+		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
 	}
 
 	public String getCommunityName() {

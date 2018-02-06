@@ -11,5 +11,5 @@ public class UserOverviewPage extends PageObject {
 	public String getAvailableUsers() {
 		return driver.findElement(By.id("j_idt25:j_idt26")).getText();
 	}
-	
+
 }

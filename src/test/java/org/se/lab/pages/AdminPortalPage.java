@@ -11,8 +11,9 @@ public class AdminPortalPage extends PageObject {
 	public String getPendingCommunities() {
 		return driver.findElement(By.id("j_idt24")).getText();
 	}
+
 	public String getApprovedCommunities() {
 		return driver.findElement(By.id("j_idt33")).getText();
 	}
-	
+
 }
