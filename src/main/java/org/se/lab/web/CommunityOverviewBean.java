@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
@@ -15,120 +16,130 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 import org.se.lab.data.Community;
 import org.se.lab.service.CommunityService;
-import org.se.lab.service.UserService;
 
 @Named
 @RequestScoped
 public class CommunityOverviewBean {
 
-    private final Logger LOG = Logger.getLogger(CommunityOverviewBean.class);
+	private final Logger LOG = Logger.getLogger(CommunityOverviewBean.class);
 
-    @Inject
-    private CommunityService service;
-    
+	@Inject
+	private CommunityService service;
 
-    private List<Community> communities;
-    private Community selectedCommunity;
-    private String newCommunityName;
-    private String newCommunityDescription;
-    
-    Flash flash;
-    FacesContext context;
-    private int userId = 0;
+	private List<Community> communities;
+	private Community selectedCommunity;
 
-    @PostConstruct
-    public void init() {
-    	context = FacesContext.getCurrentInstance();
-        Map<String, Object> session = context.getExternalContext().getSessionMap();
-        userId = (int) session.get("user");
-        
-        communities = new ArrayList<>();
-        communities = service.findAll();
-    }
+	private String newCommunityName;
+	private String newCommunityDescription;
 
-    public List<Community> getCommunities() {
-        return communities;
-    }
+	Flash flash;
+	FacesContext context;
+	private int userId = 0;
 
-    public void setCommunities(List<Community> communities) {
-        this.communities = communities;
-    }
+	@PostConstruct
+	public void init() {
+		context = FacesContext.getCurrentInstance();
+		Map<String, Object> session = context.getExternalContext().getSessionMap();
+		userId = (int) session.get("user");
 
-    public Community getSelectedCommunity() {
-        return selectedCommunity;
-    }
+		communities = new ArrayList<>();
+		communities = service.findAll();
+	}
 
-    public void setSelectedCommunity(Community selectedCommunity) {
-        this.selectedCommunity = selectedCommunity;
-    }
+	public void reset() {
+		setNewCommunityDescription(null);
+		setNewCommunityName(null);
+		setSelectedCommunity(null);
+	}
 
-    public String getNewCommunityName() {
-        return newCommunityName;
-    }
+	public List<Community> getCommunities() {
+		return communities;
+	}
 
-    public void setNewCommunityName(String newCommunityName) {
-        this.newCommunityName = newCommunityName;
-    }
+	public void setCommunities(List<Community> communities) {
+		this.communities = communities;
+	}
 
-    public String getNewCommunityDescription() {
-        return newCommunityDescription;
-    }
+	public Community getSelectedCommunity() {
+		return selectedCommunity;
+	}
 
-    public void setNewCommunityDescription(String newCommunityDescription) {
-        this.newCommunityDescription = newCommunityDescription;
-    }
+	public void setSelectedCommunity(Community selectedCommunity) {
+		this.selectedCommunity = selectedCommunity;
+	}
 
-    public String createNewCommunity() {
-        Community newCommunity;
-        if (!newCommunityName.isEmpty()) {
-            if (newCommunityDescription.isEmpty()) {
-                newCommunityDescription = "<Edit me ...>";
-            }
-            newCommunity = service.request(newCommunityName, newCommunityDescription, userId);
-            newCommunity = service.findByName(newCommunityName);
+	public String getNewCommunityName() {
+		return newCommunityName;
+	}
 
+	public void setNewCommunityName(String newCommunityName) {
+		this.newCommunityName = newCommunityName;
+	}
 
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());
+	public String getNewCommunityDescription() {
+		return newCommunityDescription;
+	}
 
-            LOG.info(newCommunity.getName() + " community created with the id: " + newCommunity.getId() + ".");
-            return "/communityprofile.xhtml?faces-redirect=true";
-        }
+	public void setNewCommunityDescription(String newCommunityDescription) {
+		this.newCommunityDescription = newCommunityDescription;
+	}
 
-        return "/communityoverview.xhtml?faces-redirect=true";
-    }
+	public String createNewCommunity() {
+		Community newCommunity;
+		if (!newCommunityName.isEmpty()) {
+			if (newCommunityDescription.isEmpty()) {
+				newCommunityDescription = "<Edit me ...>";
+			}
+			String message = "Community requested.";
+			try {
+				newCommunity = service.request(newCommunityName, newCommunityDescription, userId);
+				newCommunity = service.findByName(newCommunityName);
 
-    public void gotoCom() {
-        LOG.info("In Method gotoCom");
-        if (selectedCommunity != null) {
-            LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());
+				LOG.info(newCommunity.getName() + " community created with the id: " + newCommunity.getId() + ".");
 
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
+			} catch (Exception e) {
+				message = "Failed to request new community!";
+			}
+			
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			facesContext.addMessage(null, new FacesMessage(message));
+		}
+		reset();
+		return "";
+	}
 
-            try {
-                context.getExternalContext().redirect("/pse/communityprofile.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
-            }
-        }
-    }
-    
-    public void deleteCom() {
-        LOG.info("In Method deleteCom");
+	public void gotoCom() {
+		LOG.info("In Method gotoCom");
+		if (selectedCommunity != null) {
+			LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
 
-        
-        if(selectedCommunity == null)
-        	return;
-        
-        LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
-        
-        service.delete(selectedCommunity);
-        
-        try {
-            context.getExternalContext().redirect("/pse/communityoverview.xhtml");
-        } catch (IOException e) {
-            LOG.error("Can't redirect to /pse/communityoverview.xhtml");
-        }
-    }
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
+
+			try {
+				context.getExternalContext().redirect("/pse/communityprofile.xhtml");
+			} catch (IOException e) {
+				LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+			}
+		}
+	}
+
+	public void deleteCom() {
+		LOG.info("In Method deleteCom");
+
+		if (selectedCommunity == null)
+			return;
+
+		LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
+
+		service.delete(selectedCommunity);
+
+		try {
+			context.getExternalContext().redirect("/pse/communityoverview.xhtml");
+		} catch (IOException e) {
+			LOG.error("Can't redirect to /pse/communityoverview.xhtml");
+		}
+	}
 }

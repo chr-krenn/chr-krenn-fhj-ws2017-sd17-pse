@@ -14,8 +14,13 @@
 	<b:jumbotron>
 		<b:container>
 			<h2>Available Communities</h2>
+
+			<h:messages id="messages" />
+
 			<b:modal id="newCommunityModal" title="Request community">
+
 				<h:form>
+
 					<b:row>
 						<b:inputText span="12" var="communityName"
 							value="#{communityOverviewBean.newCommunityName}"
@@ -29,8 +34,10 @@
 					<b:row>
 						<b:column span="4">
 							<b:commandButton value="Send" look="primary" dismiss="modal"
-								actionListener="#{communityOverviewBean.createNewCommunity()}" />
-							<b:button value="Close" dismiss="modal" />
+								update=":messages" onclick="newCommunityModal.hide();"
+								action="#{communityOverviewBean.createNewCommunity}" />
+							<b:button value="Close" dismiss="modal"
+								action="#{communityOverviewBean.reset}" />
 						</b:column>
 					</b:row>
 				</h:form>
@@ -43,24 +50,27 @@
 						<b:dataTableColumn value="#{community.description}"
 							label="Description" />
 						<b:dataTableColumn label="Details">
-							<b:commandButton action="#{communityOverviewBean.gotoCom()}" value="View Detail">
+							<b:commandButton action="#{communityOverviewBean.gotoCom()}"
+								value="View Detail">
 								<h:outputText styleClass="ui-icon ui-icon-search"
 									style="margin:0 auto;" />
 								<f:setPropertyActionListener value="#{community}"
 									target="#{communityOverviewBean.selectedCommunity}" />
 							</b:commandButton>
-						</b:dataTableColumn>						
+						</b:dataTableColumn>
 						<b:dataTableColumn label="Delete">
-							<b:commandButton action="#{communityOverviewBean.deleteCom()}" value="Delete"> 
-								<f:setPropertyActionListener value="#{community}" target="#{communityOverviewBean.selectedCommunity}" />						
+							<b:commandButton action="#{communityOverviewBean.deleteCom()}"
+								value="Delete">
+								<f:setPropertyActionListener value="#{community}"
+									target="#{communityOverviewBean.selectedCommunity}" />
 							</b:commandButton>
 						</b:dataTableColumn>
-						
+
 					</b:dataTable>
 				</h:form>
 				<f:facet name="footer">
-				<button class="btn btn-success" data-target="#newCommunityModal"
-					data-toggle="modal">Request community</button>
+					<button class="btn btn-success" data-target="#newCommunityModal"
+						data-toggle="modal">Request community</button>
 				</f:facet>
 			</b:panel>
 		</b:container>

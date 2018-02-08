@@ -221,13 +221,6 @@
 						</configuration>
 					</execution>
 
-
-					<!-- keep the sample data after UI-tests because we would have to insert it anyway -->
-					<!-- <execution> <id>remove-UI-test-data</id> <phase>post-integration-test</phase> 
-						<goals> <goal>execute</goal> </goals> <configuration> <orderFile>ascending</orderFile> 
-						<fileset> <basedir>sql</basedir> <includes> <include>truncate.sql</include> 
-						</includes> </fileset> </configuration> </execution> -->
-
 				</executions>
 			</plugin>
 

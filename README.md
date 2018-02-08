@@ -40,6 +40,9 @@ Start the Wildfly server with the __standalone.sh__ (use doc/data/SETUP_WILDFLY/
 
 After that run the unit/integration tests or deploy the app:
 <pre>
+### deploy the app without any testing as fast as possible
+# (sample data will still be inserted!)
+mvn clean wildfly:deploy -DskipTests -Djacoco.skip=true
 
 ### run unit tests and package application:
 mvn clean package
