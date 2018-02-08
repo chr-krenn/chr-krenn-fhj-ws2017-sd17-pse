@@ -9,6 +9,7 @@ import org.se.lab.pages.*;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AdminITCase {
@@ -67,12 +68,29 @@ public class AdminITCase {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 		communityOverviewPage.createCommunity(cname, cdesc);
 
-		activityStreamPage = communityOverviewPage.getActivityStreamPage();
-		adminPortalPage = activityStreamPage.getAdminPortalPage();
+		adminPortalPage = communityOverviewPage.getAdminPortalPage();
 
 		String pendingCommunities = adminPortalPage.getPendingCommunities();
 		assertTrue(pendingCommunities.contains(cname));
 		assertTrue(pendingCommunities.contains(cdesc));
+	}
+	
+	@Test
+	public void testDeclineCommunity() {
+		String firstPendingCommunityName;
+		String firstPendingCommunityNameAfterDecline;
+		
+		adminPortalPage = activityStreamPage.getAdminPortalPage();
+
+		firstPendingCommunityName = adminPortalPage.getFirstPendingCommunityName();
+	
+		adminPortalPage.declineFirstPendingCommunity();
+		
+		firstPendingCommunityNameAfterDecline= adminPortalPage.getFirstPendingCommunityName();
+		
+		assertFalse(firstPendingCommunityName.equals(firstPendingCommunityNameAfterDecline));
+		assertFalse(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityName));
+		assertTrue(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityNameAfterDecline));
 	}
 
 	@Test

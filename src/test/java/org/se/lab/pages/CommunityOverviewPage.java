@@ -15,7 +15,6 @@ public class CommunityOverviewPage extends PageObject {
 		driver.findElement(By.id("input_j_idt24:j_idt28")).clear();
 		driver.findElement(By.id("input_j_idt24:j_idt28")).sendKeys(description);
 		driver.findElement(By.id("j_idt24:j_idt31")).click();
-		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
 	}
 
 	public String getCommunityName() {

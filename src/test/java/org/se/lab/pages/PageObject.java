@@ -51,15 +51,21 @@ public abstract class PageObject {
 	}
 
 	public AdminPortalPage getAdminPortalPage() {
-		driver.findElement(By.cssSelector("b.caret")).click();
+		driver.findElement(By.id("dtLj_idt10:j_idt16")).click();
 		driver.findElement(By.linkText("Admin Area")).click();
 		return new AdminPortalPage(driver);
 	}
 
 	public ProfilePage getProfilePage() {
-		driver.findElement(By.cssSelector("b.caret")).click();
+		driver.findElement(By.id("dtLj_idt10:j_idt16")).click();
 		driver.findElement(By.linkText("Profil")).click();
 		return new ProfilePage(driver);
+	}
+	
+	public LoginPage logout() {
+		driver.findElement(By.id("dtLj_idt10:j_idt16")).click();
+		driver.findElement(By.linkText("Logout")).click();
+		return new LoginPage();
 	}
 
 	boolean isElementPresent(By by) {

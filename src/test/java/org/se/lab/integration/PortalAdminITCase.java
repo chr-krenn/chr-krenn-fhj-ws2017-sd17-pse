@@ -2,6 +2,7 @@ package org.se.lab.integration;
 
 import org.junit.*;
 import org.se.lab.pages.ActivityStreamPage;
+import org.se.lab.pages.AdminPortalPage;
 import org.se.lab.pages.CommunityOverviewPage;
 import org.se.lab.pages.LoginPage;
 import org.se.lab.pages.ProfilePage;
@@ -17,9 +18,13 @@ public class PortalAdminITCase {
 	private UserOverviewPage userOverViewPage;
 	private ProfilePage profilePage;
 	private ActivityStreamPage activityStreamPage;
+	private AdminPortalPage adminPortalPage;
 
 	private String portalAdminUsername = "baar";
 	private String portalAdminPassword = "pass";
+	
+	private String adminUsername = "dogic";
+	private String adminPassword = "pass";
 
 	@Before
 	public void setUp() throws Exception {
@@ -59,8 +64,6 @@ public class PortalAdminITCase {
 	}
 
 	@Test
-	@Ignore // portaladmin can create community, but the community has to be approved by
-			// admin
 	public void testCreateCommunity() {
 		String cname = UUID.randomUUID().toString();
 		String cdesc = "Community description created by functional test.";
@@ -68,8 +71,14 @@ public class PortalAdminITCase {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 		communityOverviewPage.createCommunity(cname, cdesc);
 
-		assertEquals(cname, communityOverviewPage.getCommunityName());
-		assertEquals(cdesc, communityOverviewPage.getCommunityDescription());
+		// login as admin to verify community has been requested
+		activityStreamPage = loginPage.login(adminUsername, adminPassword); 
+		
+		adminPortalPage = activityStreamPage.getAdminPortalPage();
+		String pendingCommunities = adminPortalPage.getPendingCommunities();
+		
+		assertTrue(pendingCommunities.contains(cname));
+		assertTrue(pendingCommunities.contains(cdesc));
 	}
 
 	@Test

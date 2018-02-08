@@ -2,8 +2,39 @@ package org.se.lab.integration;
 
 import org.junit.After;
 
+/* todo:
+ * 
+#11User will Kontakt entfernen 
+
+#13User will mittels Navigation im Header Zugriff zu alle relevanten Seiten haben 
+
+#32Als user möchte ich auf meiner Userseite Abteilungen und Kontake einsehen können. 
+
+#34Als User möchte ich Userinformationen haben
+
+#26User will eine Übersicht der Communities 
+
+#9User will einen Kontakt hinzufügen 
+
+#23User will auf der Startseite nur globale Nachrichten und die seiner Communities sehen 
+
+#10User will im Header einen Link zum eigenen Profil 
+
+#12Als Administrator will ich neu erstellte Communities freischalten.
+
+#21User will Feedback auf Nachrichten in Activity Stream geben können 
+
+#22Der User will den Newsbereich eines Unternehmens lesen können. 
+
+#29User soll in der Community den jeweiligen Activity Stream sehen 
+
+#17Als user möchte ich einen zentralen Activity-Stream um eine gute Übersicht zu haben 
+
+#14Als Portaladmin möchte ich Dokumente für User als Download zur Verfügung stellen. 
+
+ */
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.se.lab.pages.*;
 
@@ -22,6 +53,9 @@ public class UserITCase {
 
 	private String username = "ionescu";
 	private String password = "pass";
+	
+	private String adminUsername = "dogic";
+	private String adminPassword = "pass";
 
 	@Before
 	public void setUp() throws Exception {
@@ -61,7 +95,6 @@ public class UserITCase {
 	}
 
 	@Test
-	@Ignore // normal user should not able to create a community
 	public void testCreateCommunity() {
 		String cname = UUID.randomUUID().toString();
 		String cdesc = "Community description created by functional test.";
@@ -69,10 +102,12 @@ public class UserITCase {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 		communityOverviewPage.createCommunity(cname, cdesc);
 
-		activityStreamPage = communityOverviewPage.getActivityStreamPage();
+		// login as admin to verify community has been requested
+		activityStreamPage = loginPage.login(adminUsername, adminPassword); 
+		
 		adminPortalPage = activityStreamPage.getAdminPortalPage();
-
 		String pendingCommunities = adminPortalPage.getPendingCommunities();
+		
 		assertTrue(pendingCommunities.contains(cname));
 		assertTrue(pendingCommunities.contains(cdesc));
 	}
@@ -81,7 +116,7 @@ public class UserITCase {
 	public void testCommunityListPresent() {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 
-		// u is part of Computer Vision community
+		// user is part of Computer Vision community
 		assertTrue(communityOverviewPage.getAvailableCommunities().contains("Computer Vision"));
 	}
 

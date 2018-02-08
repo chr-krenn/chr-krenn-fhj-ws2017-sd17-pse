@@ -24,13 +24,7 @@ public class ActivityStreamPage extends PageObject {
 		driver.findElement(By.id("input_j_idt24:j_idt26")).clear();
 		driver.findElement(By.id("input_j_idt24:j_idt26")).sendKeys(message);
 		driver.findElement(By.id("j_idt24:j_idt29")).click();
-		System.out.println(getAllPosts());
 		return this;
-	}
-
-	public void logout() {
-		driver.findElement(By.id("dtLj_idt10:j_idt16")).click();
-		driver.findElement(By.linkText("Logout")).click();
 	}
 
 	public void refresh() {
