@@ -40,38 +40,26 @@ Start the Wildfly server with the __standalone.sh__ (use doc/data/SETUP_WILDFLY/
 
 After that run the unit/integration tests or deploy the app:
 <pre>
-### deploy the app without any testing as fast as possible
+# deploy the app without any testing as fast as possible
 # (sample data will still be inserted!)
 mvn clean wildfly:deploy -DskipTests -Djacoco.skip=true
 
-### run unit tests and package application:
+# run unit tests and package application:
 mvn clean package
 
-### run unit tests and deploy application:
+# run unit tests and deploy application:
 mvn clean wildfly:deploy
 
-### run unit tests:
+# run unit tests:
 mvn test
 
-### run unit tests, DAO tests, and UI tests:
+# run unit tests, DAO tests, and UI tests:
 mvn clean verify
 </pre>
 
-To run the Application correctly __insert some sample data__. Without them no login will be possible.
-<pre>
-mysql -p pse < sql/insert.sql;
-</pre>
-
-To access the application open in Browser: http://localhost:8080/pse/login.xhtml
+To access the application open: http://localhost:8080/pse/login.xhtml
 
 ## Code coverage analysis
-<pre>
-# coverage report for unit tests
-mvn clean package
-
-# coverage report for unit and integration tests
-mvn clean verify
-</pre>
 Code coverage reports for unit and integration tests are generated at 
 * target/site/jacoco-ut/index.html 
 * target/site/jacoco-it/index.html
@@ -85,7 +73,6 @@ If something went wrong drop the database and make a new clean setup of the data
 If you clean your local git repository don't forget to delete the deployment section in the standalone.xml of Wildfly. For this purpose search for the standalone.xml in the __~/install/wildfly-10.1.0.Final/standalone/configuration/__ directory. Go to the end of the file and delete the __\<deployments\>...\<\/deployments\>__ tag.
 
 ## UI Testing
-UI tests reside in _src/test/integration/_ and need sample data from _sql/insert.sql_ to be imported in order to be able to run successfully.
 ### Setup Selenium IDE
 * Download Firefox 54: https://ftp.mozilla.org/pub/firefox/releases/54.0/linux-x86_64/en-US/firefox-54.0.tar.bz2
 * Extract files -> delete update & update-settings.ini
