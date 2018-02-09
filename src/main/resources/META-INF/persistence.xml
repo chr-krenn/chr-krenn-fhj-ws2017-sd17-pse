@@ -20,7 +20,7 @@
 			<property name="hibernate.connection.username" value="student" />
 			<property name="hibernate.connection.password" value="student" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
 			<property name="jboss.as.jpa.providerModule" value="org.hibernate:5.0" />
 			<property name="eclipselink.ddl-generation" value="create-tables" />
 			<property name="toplink.ddl-generation" value="create-tables" />

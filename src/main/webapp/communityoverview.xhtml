@@ -15,12 +15,16 @@
 		<b:container>
 			<h2>Available Communities</h2>
 
-			<h:messages id="messages" />
-
 			<b:modal id="newCommunityModal" title="Request community">
-
+	
 				<h:form>
-
+					<b:growl for="sendbutton"  placementFrom="top" show-detail="true"
+				         global-only="true"
+				         show-summary="true" allow-dismiss="true"
+				         animation-enter="animated bounceInDown"
+				         animation-exit="animated flipOutX"
+				         escape="true" />
+         
 					<b:row>
 						<b:inputText span="12" var="communityName"
 							value="#{communityOverviewBean.newCommunityName}"
@@ -34,7 +38,7 @@
 					<b:row>
 						<b:column span="4">
 							<b:commandButton value="Send" look="primary" dismiss="modal"
-								update=":messages" onclick="newCommunityModal.hide();"
+								id="sendbutton" onclick="newCommunityModal.hide();" update="@form"
 								action="#{communityOverviewBean.createNewCommunity}" />
 							<b:button value="Close" dismiss="modal"
 								action="#{communityOverviewBean.reset}" />

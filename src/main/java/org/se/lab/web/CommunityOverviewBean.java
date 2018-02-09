@@ -87,24 +87,26 @@ public class CommunityOverviewBean {
 	public String createNewCommunity() {
 		Community newCommunity;
 		if (!newCommunityName.isEmpty()) {
+			FacesContext context = FacesContext.getCurrentInstance();
+
 			if (newCommunityDescription.isEmpty()) {
 				newCommunityDescription = "<Edit me ...>";
 			}
-			String message = "Community requested.";
+
 			try {
 				newCommunity = service.request(newCommunityName, newCommunityDescription, userId);
 				newCommunity = service.findByName(newCommunityName);
 
-				FacesContext context = FacesContext.getCurrentInstance();
 				context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());
 				LOG.info(newCommunity.getName() + " community created with the id: " + newCommunity.getId() + ".");
 
 			} catch (Exception e) {
-				message = "Failed to request new community!";
+				context.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fail!", "Unable to request community."));
+				reset();
+				return "";
 			}
-			
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			facesContext.addMessage(null, new FacesMessage(message));
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Community requested."));
 		}
 		reset();
 		return "";
