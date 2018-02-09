@@ -1,7 +1,7 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.Community;
+import org.se.lab.db.data.Community;
 import org.se.lab.service.CommunityService;
 import org.se.lab.service.ServiceException;
 

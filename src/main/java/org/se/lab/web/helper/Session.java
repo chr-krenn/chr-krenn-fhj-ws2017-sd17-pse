@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.User;
+import org.se.lab.db.data.User;
 import org.se.lab.service.UserService;
 
 @Stateless

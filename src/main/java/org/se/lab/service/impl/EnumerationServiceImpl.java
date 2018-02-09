@@ -3,10 +3,10 @@ package org.se.lab.service.impl;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.Enumeration;
+import org.se.lab.db.data.Enumeration;
 import org.se.lab.service.EnumerationService;
 import org.se.lab.service.ServiceException;
-import org.se.lab.service.dao.EnumerationDAO;
+import org.se.lab.db.dao.EnumerationDAO;
 
 public class EnumerationServiceImpl implements EnumerationService {
     private final Logger LOG = Logger.getLogger(EnumerationServiceImpl.class);

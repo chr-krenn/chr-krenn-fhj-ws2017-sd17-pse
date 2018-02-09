@@ -5,9 +5,9 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.primefaces.model.NativeUploadedFile;
 import org.primefaces.model.UploadedFile;
-import org.se.lab.data.*;
-import org.se.lab.service.dao.CommunityDAO;
-import org.se.lab.service.dao.FileDao;
+import org.se.lab.db.dao.CommunityDAO;
+import org.se.lab.db.dao.FileDao;
+import org.se.lab.db.data.*;
 import org.se.lab.service.impl.CommunityServiceImpl;
 
 import java.util.ArrayList;

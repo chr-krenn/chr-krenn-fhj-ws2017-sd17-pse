@@ -6,12 +6,12 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 
-import org.se.lab.data.Community;
-import org.se.lab.data.DatabaseException;
-import org.se.lab.data.Post;
-import org.se.lab.data.User;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.DatabaseException;
+import org.se.lab.db.data.Post;
+import org.se.lab.db.data.User;
 import org.se.lab.service.PostService;
-import org.se.lab.service.dao.PostDAO;
+import org.se.lab.db.dao.PostDAO;
 
 @Stateless
 public class PostServiceImpl implements PostService{

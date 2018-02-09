@@ -1,7 +1,7 @@
 
 package org.se.lab.web;
 
-import org.se.lab.data.User;
+import org.se.lab.db.data.User;
 import org.se.lab.web.helper.Session;
 
 import javax.annotation.PostConstruct;

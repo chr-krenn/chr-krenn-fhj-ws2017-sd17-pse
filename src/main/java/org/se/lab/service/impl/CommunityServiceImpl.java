@@ -3,18 +3,18 @@ package org.se.lab.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.model.UploadedFile;
-import org.se.lab.data.Community;
-import org.se.lab.data.DatabaseException;
-import org.se.lab.data.File;
-import org.se.lab.data.PrivateMessage;
-import org.se.lab.data.User;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.DatabaseException;
+import org.se.lab.db.data.File;
+import org.se.lab.db.data.PrivateMessage;
+import org.se.lab.db.data.User;
 import org.se.lab.service.CommunityService;
 import org.se.lab.service.EnumerationService;
 import org.se.lab.service.PrivateMessageService;
 import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
-import org.se.lab.service.dao.CommunityDAO;
-import org.se.lab.service.dao.FileDao;
+import org.se.lab.db.dao.CommunityDAO;
+import org.se.lab.db.dao.FileDao;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -91,7 +91,7 @@ public class CommunityServiceImpl implements CommunityService {
     /*
      * (non-Javadoc)
      *
-     * @see org.se.lab.service.CommunityService#delete(org.se.lab.data.Community)
+     * @see org.se.lab.service.CommunityService#delete(org.se.lab.db.data.Community)
      */
     @Override
     public void delete(Community community) {
@@ -108,7 +108,7 @@ public class CommunityServiceImpl implements CommunityService {
     /*
      * (non-Javadoc)
      *
-     * @see org.se.lab.service.CommunityService#update(org.se.lab.data.Community)
+     * @see org.se.lab.service.CommunityService#update(org.se.lab.db.data.Community)
      */
     @Override
     public void update(Community community) {
@@ -124,8 +124,8 @@ public class CommunityServiceImpl implements CommunityService {
     /*
      * (non-Javadoc)
      *
-     * @see org.se.lab.service.CommunityService#join(org.se.lab.data.Community,
-     * org.se.lab.data.User)
+     * @see org.se.lab.service.CommunityService#join(org.se.lab.db.data.Community,
+     * org.se.lab.db.data.User)
      */
     @Override
     public void join(Community community, User user) {
@@ -149,7 +149,7 @@ public class CommunityServiceImpl implements CommunityService {
     /*
      * (non-Javadoc)
      *
-     * @see org.se.lab.service.CommunityService#request(org.se.lab.data.Community)
+     * @see org.se.lab.service.CommunityService#request(org.se.lab.db.data.Community)
      */
     @Override
     public Community request(String name, String description, int portalAdmin) {
@@ -172,7 +172,7 @@ public class CommunityServiceImpl implements CommunityService {
     /*
      * (non-Javadoc)
      *
-     * @see org.se.lab.service.CommunityService#approve(org.se.lab.data.Community)
+     * @see org.se.lab.service.CommunityService#approve(org.se.lab.db.data.Community)
      */
     @Override
     public void approve(Community community) {
@@ -216,7 +216,7 @@ public class CommunityServiceImpl implements CommunityService {
     /*
      * (non-Javadoc)
      *
-     * @see org.se.lab.service.CommunityService#refuse(org.se.lab.data.Community)
+     * @see org.se.lab.service.CommunityService#refuse(org.se.lab.db.data.Community)
      */
     @Override
     public void refuse(Community community) {

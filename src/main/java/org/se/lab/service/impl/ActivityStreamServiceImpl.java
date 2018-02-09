@@ -1,14 +1,14 @@
 package org.se.lab.service.impl;
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.Community;
-import org.se.lab.data.Enumeration;
-import org.se.lab.data.Post;
-import org.se.lab.data.User;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.Enumeration;
+import org.se.lab.db.data.Post;
+import org.se.lab.db.data.User;
 import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.ServiceException;
-import org.se.lab.service.dao.EnumerationDAO;
-import org.se.lab.service.dao.PostDAO;
+import org.se.lab.db.dao.EnumerationDAO;
+import org.se.lab.db.dao.PostDAO;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -25,7 +25,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
     private EnumerationDAO enumerationDAO;
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.ActivityStreamService#insert(org.se.lab.data.Post)
+	 * @see org.se.lab.service.ActivityStreamService#insert(org.se.lab.db.data.Post)
 	 */
     @Override
 	public void insert(Post article) {
@@ -33,7 +33,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.ActivityStreamService#insert(org.se.lab.data.Post, org.se.lab.data.Community)
+	 * @see org.se.lab.service.ActivityStreamService#insert(org.se.lab.db.data.Post, org.se.lab.db.data.Community)
 	 */
     @Override
 	public void insert(Post post, Community community) {
@@ -56,7 +56,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.ActivityStreamService#delete(org.se.lab.data.Post)
+	 * @see org.se.lab.service.ActivityStreamService#delete(org.se.lab.db.data.Post)
 	 */
     @Override
 	public void delete(Post post,User user) {
@@ -90,7 +90,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.ActivityStreamService#update(org.se.lab.data.Post)
+	 * @see org.se.lab.service.ActivityStreamService#update(org.se.lab.db.data.Post)
 	 */
     @Override
 	public void update(Post post) {
@@ -104,7 +104,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.ActivityStreamService#getPostsForUser(org.se.lab.data.User)
+	 * @see org.se.lab.service.ActivityStreamService#getPostsForUser(org.se.lab.db.data.User)
 	 */
     @Override
 	public List<Post> getPostsForUser(User user) {
@@ -113,7 +113,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.ActivityStreamService#getPostsForCommunity(org.se.lab.data.Community)
+	 * @see org.se.lab.service.ActivityStreamService#getPostsForCommunity(org.se.lab.db.data.Community)
 	 */
     @Override
 	public List<Post> getPostsForCommunity(Community community) {

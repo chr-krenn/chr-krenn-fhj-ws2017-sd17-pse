@@ -11,14 +11,14 @@
   <property name="show_sql">false</property>
   <property name="format_sql">true</property>
   <property name="hbm2ddl.auto">update</property>
-  <mapping class="org.se.lab.data.User"/>
-  <mapping class="org.se.lab.data.Community"/>
-  <mapping class="org.se.lab.data.Post"/>
-  <mapping class="org.se.lab.data.UserProfile"/>
-  <mapping class="org.se.lab.data.UserContact"/>
-  <mapping class="org.se.lab.data.Enumeration"/>
-  <mapping class="org.se.lab.data.UserContact"/>
-  <mapping class="org.se.lab.data.PrivateMessage"/>
-  <mapping class="org.se.lab.data.File"/>
+  <mapping class="org.se.lab.db.data.User"/>
+  <mapping class="org.se.lab.db.data.Community"/>
+  <mapping class="org.se.lab.db.data.Post"/>
+  <mapping class="org.se.lab.db.data.UserProfile"/>
+  <mapping class="org.se.lab.db.data.UserContact"/>
+  <mapping class="org.se.lab.db.data.Enumeration"/>
+  <mapping class="org.se.lab.db.data.UserContact"/>
+  <mapping class="org.se.lab.db.data.PrivateMessage"/>
+  <mapping class="org.se.lab.db.data.File"/>
  </session-factory>
 </hibernate-configuration>

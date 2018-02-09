@@ -1,9 +1,9 @@
 package org.se.lab.service;
 
 import org.primefaces.model.UploadedFile;
-import org.se.lab.data.Community;
-import org.se.lab.data.File;
-import org.se.lab.data.User;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.File;
+import org.se.lab.db.data.User;
 
 import java.util.List;
 

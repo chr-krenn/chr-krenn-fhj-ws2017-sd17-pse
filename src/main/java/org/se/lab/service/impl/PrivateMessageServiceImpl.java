@@ -5,10 +5,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.se.lab.data.PrivateMessage;
-import org.se.lab.data.User;
+import org.se.lab.db.data.PrivateMessage;
+import org.se.lab.db.data.User;
 import org.se.lab.service.PrivateMessageService;
-import org.se.lab.service.dao.PrivateMessageDAO;
+import org.se.lab.db.dao.PrivateMessageDAO;
 
 @Stateless
 public class PrivateMessageServiceImpl implements PrivateMessageService{

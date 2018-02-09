@@ -1,6 +1,9 @@
 package org.se.lab.service;
 
-import org.se.lab.data.*;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.User;
+import org.se.lab.db.data.UserContact;
+import org.se.lab.db.data.UserProfile;
 
 import java.util.List;
 

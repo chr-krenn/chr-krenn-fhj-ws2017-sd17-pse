@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.se.lab.data.*;
-import org.se.lab.service.dao.EnumerationDAO;
-import org.se.lab.service.dao.PostDAO;
+import org.se.lab.db.dao.EnumerationDAO;
+import org.se.lab.db.dao.PostDAO;
+import org.se.lab.db.data.*;
 import org.se.lab.service.impl.ActivityStreamServiceImpl;
 
 import java.util.ArrayList;

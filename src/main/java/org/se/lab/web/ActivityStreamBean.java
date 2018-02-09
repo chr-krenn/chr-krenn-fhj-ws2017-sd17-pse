@@ -1,9 +1,9 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.DatabaseException;
-import org.se.lab.data.Post;
-import org.se.lab.data.User;
+import org.se.lab.db.data.DatabaseException;
+import org.se.lab.db.data.Post;
+import org.se.lab.db.data.User;
 import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.PostService;
 import org.se.lab.service.UserService;

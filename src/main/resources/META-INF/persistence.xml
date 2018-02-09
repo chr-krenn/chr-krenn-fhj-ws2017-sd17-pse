@@ -5,14 +5,14 @@
 
 	<persistence-unit name="pse">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>org.se.lab.data.Post</class>
-		<class>org.se.lab.data.Community</class>
-		<class>org.se.lab.data.Enumeration</class>
-		<class>org.se.lab.data.User</class>
-		<class>org.se.lab.data.UserContact</class>
-		<class>org.se.lab.data.UserProfile</class>
-		<class>org.se.lab.data.PrivateMessage</class>
-		<class>org.se.lab.data.File</class>
+		<class>org.se.lab.db.data.Post</class>
+		<class>org.se.lab.db.data.Community</class>
+		<class>org.se.lab.db.data.Enumeration</class>
+		<class>org.se.lab.db.data.User</class>
+		<class>org.se.lab.db.data.UserContact</class>
+		<class>org.se.lab.db.data.UserProfile</class>
+		<class>org.se.lab.db.data.PrivateMessage</class>
+		<class>org.se.lab.db.data.File</class>
 
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pse" />

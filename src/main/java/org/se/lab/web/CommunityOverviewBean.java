@@ -1,9 +1,8 @@
 package org.se.lab.web;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import org.apache.log4j.Logger;
+import org.se.lab.db.data.Community;
+import org.se.lab.service.CommunityService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -12,10 +11,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.apache.log4j.Logger;
-import org.se.lab.data.Community;
-import org.se.lab.service.CommunityService;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Named
 @RequestScoped

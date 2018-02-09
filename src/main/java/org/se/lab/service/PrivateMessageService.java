@@ -1,7 +1,7 @@
 package org.se.lab.service;
 
-import org.se.lab.data.PrivateMessage;
-import org.se.lab.data.User;
+import org.se.lab.db.data.PrivateMessage;
+import org.se.lab.db.data.User;
 
 import java.util.List;
 

@@ -5,9 +5,9 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
-import org.se.lab.data.Community;
-import org.se.lab.data.User;
-import org.se.lab.data.UserProfile;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.User;
+import org.se.lab.db.data.UserProfile;
 import org.se.lab.service.CommunityService;
 import org.se.lab.service.UserService;
 

@@ -1,8 +1,8 @@
 package org.se.lab.service;
 
-import org.se.lab.data.Community;
-import org.se.lab.data.Post;
-import org.se.lab.data.User;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.Post;
+import org.se.lab.db.data.User;
 
 import java.util.List;
 

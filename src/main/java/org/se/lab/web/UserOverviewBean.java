@@ -2,7 +2,7 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.UserProfile;
+import org.se.lab.db.data.UserProfile;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;

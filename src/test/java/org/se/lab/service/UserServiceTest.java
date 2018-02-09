@@ -6,19 +6,20 @@ import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.junit.*;
 import org.junit.runner.RunWith;
-import org.se.lab.data.*;
-import org.se.lab.service.dao.UserContactDAO;
-import org.se.lab.service.dao.UserDAO;
-import org.se.lab.service.dao.UserProfileDAO;
+import org.se.lab.db.dao.UserContactDAO;
+import org.se.lab.db.dao.UserDAO;
+import org.se.lab.db.dao.UserProfileDAO;
+import org.se.lab.db.data.DatabaseException;
+import org.se.lab.db.data.User;
+import org.se.lab.db.data.UserContact;
+import org.se.lab.db.data.UserProfile;
 import org.se.lab.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.easymock.EasyMock.*;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 
 @RunWith(EasyMockRunner.class)
 public class UserServiceTest {

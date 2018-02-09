@@ -2,14 +2,13 @@ package org.se.lab.service.impl;
 
 
 import org.apache.log4j.Logger;
-import org.se.lab.data.*;
+import org.se.lab.db.dao.*;
+import org.se.lab.db.data.*;
 import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
-import org.se.lab.service.dao.*;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private EnumerationDAO enumDAO;
 
     /* (non-Javadoc)
-     * @see org.se.lab.service.UserService#insert(org.se.lab.data.User)
+     * @see org.se.lab.service.UserService#insert(org.se.lab.db.data.User)
 	 */
     @Override
     public void insert(User user) {
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#delete(org.se.lab.data.User)
+	 * @see org.se.lab.service.UserService#delete(org.se.lab.db.data.User)
 	 */
     @Override
     public void delete(User user) {
@@ -90,7 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#addContact(org.se.lab.data.User, java.lang.String)
+	 * @see org.se.lab.service.UserService#addContact(org.se.lab.db.data.User, java.lang.String)
 	 */
     @Override
     public void addContact(User user, String contactName) {
@@ -116,7 +115,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#removeContact(org.se.lab.data.User, java.lang.String)
+	 * @see org.se.lab.service.UserService#removeContact(org.se.lab.db.data.User, java.lang.String)
 	 */
     @Override
     public void removeContact(User user, String contactName) {
@@ -137,7 +136,7 @@ public class UserServiceImpl implements UserService {
 
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#getAllContactsByUser(org.se.lab.data.User)
+	 * @see org.se.lab.service.UserService#getAllContactsByUser(org.se.lab.db.data.User)
 	 */
     @Override
     public List<UserContact> getAllContactsByUser(User user) {
@@ -146,7 +145,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#update(org.se.lab.data.User)
+	 * @see org.se.lab.service.UserService#update(org.se.lab.db.data.User)
 	 */
     @Override
     public void update(User user) {
@@ -207,7 +206,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#getAllCommunitiesForUser(org.se.lab.data.User)
+	 * @see org.se.lab.service.UserService#getAllCommunitiesForUser(org.se.lab.db.data.User)
 	 */
     @Override
     public List<Community> getAllCommunitiesForUser(User user) {
@@ -258,7 +257,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#userValidator(org.se.lab.data.User)
+	 * @see org.se.lab.service.UserService#userValidator(org.se.lab.db.data.User)
 	 */
     @Override
     public void userValidator(User user) {
@@ -280,7 +279,7 @@ public class UserServiceImpl implements UserService {
 
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#addPictureToProfile(org.se.lab.data.UserProfile)
+	 * @see org.se.lab.service.UserService#addPictureToProfile(org.se.lab.db.data.UserProfile)
 	 */
     @Override
     public void addPictureToProfile(UserProfile userProfile) {
@@ -288,7 +287,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-	 * @see org.se.lab.service.UserService#hasUserTheRole(org.se.lab.service.UserServiceImpl.ROLE, org.se.lab.data.User)
+	 * @see org.se.lab.service.UserService#hasUserTheRole(org.se.lab.service.UserServiceImpl.ROLE, org.se.lab.db.data.User)
 	 */
     @Override
     public boolean hasUserTheRole(ROLE privileg, User user) {
