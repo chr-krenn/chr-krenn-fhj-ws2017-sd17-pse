@@ -1,4 +1,4 @@
-package org.se.lab.db.data;
+package org.se.lab.db.dao;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.se.lab.db.data.*;
 
 public class PostTest {
 	

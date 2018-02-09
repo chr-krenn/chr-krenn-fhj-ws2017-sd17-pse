@@ -65,7 +65,7 @@ public class Enumeration implements Serializable {
 	/**
 	 * constructor for Hibernate
 	 */
-	protected Enumeration() {}
+	public Enumeration() {}
 
 	public Enumeration(String name) throws DatabaseException {
 		setName(name);

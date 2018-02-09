@@ -44,7 +44,7 @@ public class Community implements Serializable {
 	/**
 	 * Constructor for Hibernate
 	 */
-	Community() {
+	public Community() {
 	}
 
 	/**

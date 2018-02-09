@@ -74,7 +74,7 @@ public class Post implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
 
-	protected Post() {
+	public Post() {
 	}
 
 	public Post(Post parentpost, Community community, User user, String text, Date created) throws DatabaseException {

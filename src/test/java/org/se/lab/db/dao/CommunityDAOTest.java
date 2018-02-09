@@ -1,10 +1,11 @@
-package org.se.lab.db.data;
+package org.se.lab.db.dao;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.se.lab.db.dao.CommunityDAOImpl;
-import org.se.lab.db.dao.EnumerationDAOImpl;
-import org.se.lab.db.dao.UserDAOImpl;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.DatabaseException;
+import org.se.lab.db.data.Enumeration;
+import org.se.lab.db.data.User;
 
 import java.util.List;
 

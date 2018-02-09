@@ -98,7 +98,7 @@ public class UserProfile implements Serializable {
      * Constructor for Hibernate
      */
 
-    protected UserProfile() {
+    public UserProfile() {
     }
 
     public int getId() {

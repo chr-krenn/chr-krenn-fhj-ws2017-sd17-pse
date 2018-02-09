@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Table(name = "file")
 public class File implements Serializable {
 
-    protected File(){}
+    public File(){}
 
     public File(User user,String filename,byte[] data){
         setData(data);

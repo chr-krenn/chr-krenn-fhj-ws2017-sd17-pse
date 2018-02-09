@@ -1,17 +1,16 @@
-package org.se.lab.db.data;
+package org.se.lab.db.dao;
 
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.se.lab.db.dao.EnumerationDAOImpl;
+import org.se.lab.db.data.DatabaseException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-
 
 import static org.junit.Assert.assertNotNull;
 

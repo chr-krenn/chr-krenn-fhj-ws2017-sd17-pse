@@ -1,11 +1,13 @@
-package org.se.lab.db.data;
+package org.se.lab.db.dao;
 
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.se.lab.db.dao.PrivateMessageDAOImpl;
+import org.se.lab.db.data.DatabaseException;
+import org.se.lab.db.data.PrivateMessage;
+import org.se.lab.db.data.User;
 
 public class PrivateMessageDAOTest extends AbstractDAOTest
 {

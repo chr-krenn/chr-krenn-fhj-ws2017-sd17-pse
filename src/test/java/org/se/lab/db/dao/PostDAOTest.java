@@ -1,8 +1,8 @@
-package org.se.lab.db.data;
+package org.se.lab.db.dao;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.se.lab.db.dao.PostDAOImpl;
+import org.se.lab.db.data.*;
 
 import java.util.Date;
 import java.util.List;

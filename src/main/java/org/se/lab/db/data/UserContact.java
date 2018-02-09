@@ -51,7 +51,7 @@ public class UserContact implements Serializable {
      * Constructor for Hibernate
      */
 
-    protected UserContact() {
+    public UserContact() {
     }
 
     public int getId() {

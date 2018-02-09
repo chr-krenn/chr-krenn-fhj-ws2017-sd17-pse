@@ -84,8 +84,8 @@ public class PrivateMessage implements Serializable
 		setUserSender(sender);
 		setUserReceiver(receiver);
 	}
-	
-	protected PrivateMessage()
+
+	public PrivateMessage()
 	{
 
 	}
