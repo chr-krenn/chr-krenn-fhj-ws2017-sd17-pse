@@ -1,5 +1,6 @@
 package org.se.lab.db.dao;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,14 +9,15 @@ import org.se.lab.db.data.User;
 import java.util.List;
 
 public class UserDAOTest extends AbstractDAOTest {
-    public static UserDAOImpl udao = new UserDAOImpl();
+	
+    private static UserDAOImpl udao = new UserDAOImpl();
 
     static {
         udao.setEntityManager(em);
     }
 
-    public User user;
-    public User user2;
+    private User user;
+    private User user2;
 
     @Before
     public void setup() {
@@ -23,13 +25,16 @@ public class UserDAOTest extends AbstractDAOTest {
 
         user2 = new User("Donald Trump", "NurSauer");
         user = new User("Donald Duck", "EnteSuessSauer");
-
-    }
+   }
 
     @Test
     @Override
     public void testCreate() {
+    	
         udao.insert(user);
+        
+        
+        Assert.assertEquals(user, udao.findByUsername(user.getUsername()));
     }
 
 
@@ -37,20 +42,21 @@ public class UserDAOTest extends AbstractDAOTest {
     @Override
     public void testModify() {
         User persisted = udao.insert(user);
-
         persisted.setUsername("Test");
-
         udao.update(persisted);
-        Assert.assertEquals("Test", persisted.getUsername());
+        
+        Assert.assertEquals(persisted, udao.findByUsername("Test"));
     }
 
     @Test
     @Override
     public void testRemove() {
-        udao.insert(user);
+    	
+        testCreate();
+        
         udao.delete(user);
-        User user3 = udao.findById(user.getId());
-        Assert.assertNull(user3);
+        
+        Assert.assertEquals(null, udao.findByUsername(user.getUsername()));
     }
 
     @Test
@@ -58,13 +64,37 @@ public class UserDAOTest extends AbstractDAOTest {
         udao.insert(user);
         udao.insert(user2);
         List<User> users = udao.findAll();
-        Assert.assertEquals(2, users.size());
+        
+        Assert.assertEquals(true, users.contains(user));
+        Assert.assertEquals(true, users.contains(user2));
     }
 
     @Test
     public void testfindById() {
-        udao.insert(user);
-        User user3 = udao.findById(user.getId());
-        Assert.assertEquals(user, user3);
+        User persistedUser = udao.insert(user);
+        User userFoundById = udao.findById(persistedUser.getId());
+
+        Assert.assertEquals(user, userFoundById);
+    }
+    
+    @After
+    public void tearDown(){
+    	
+    	//arrange
+    	List<User> testUsers = udao.findAll();
+    	
+    	
+    	//act
+    	if(testUsers.contains(user))
+    		udao.delete(user);
+    	
+    	if(testUsers.contains(user2))
+    		udao.delete(user2);
+    	
+    	//assert
+    	testUsers = udao.findAll();
+    	
+    	Assert.assertEquals(false, testUsers.contains(user));
+    	Assert.assertEquals(false, testUsers.contains(user2));
     }
 }
