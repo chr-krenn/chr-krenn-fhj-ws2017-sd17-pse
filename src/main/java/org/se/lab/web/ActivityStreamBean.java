@@ -7,6 +7,7 @@ import org.se.lab.db.data.User;
 import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.PostService;
 import org.se.lab.service.UserService;
+import org.se.lab.web.helper.RedirectHelper;
 import org.se.lab.web.helper.Session;
 
 import javax.annotation.PostConstruct;
@@ -78,12 +79,7 @@ public class ActivityStreamBean implements Serializable {
             }
 
         } else {
-            try {
-                context.getExternalContext().redirect("/pse/login.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/login.xhtml");
-
-            }
+            RedirectHelper.redirect("/pse/login.xhtml");
         }
     }
 
