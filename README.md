@@ -64,6 +64,14 @@ Code coverage reports for unit and integration tests are generated at
 * target/site/jacoco-ut/index.html 
 * target/site/jacoco-it/index.html
 
+## Static code analysis
+ Run mvn pmd:pmd for pmd report
+ Run mvn pmd:cpd for cpd report
+ Run mvn jdepend:generate for jdepend report
+ Run mvn test site for findbugs report(compile source before)
+
+ All reports will be shown in target/site directory 
+
 ## Important
 Don't use scripts which are archived into the __doc directory__. Those are only archived for the possibility to reuse them if needed. <br/><br/>
 The JUnit test would fail if the tables contain any data. To clean the tables use the __truncate.sql__ script in the sql directory. 

@@ -268,6 +268,16 @@
 
 		</plugins>
 	</build>
+	
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.4</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<dependencyManagement>
 		<dependencies>
@@ -413,5 +423,20 @@
 			<version>5.1.37</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+    <groupId>net.sourceforge.pmd</groupId>
+    <artifactId>pmd</artifactId>
+    <version>5.5.2</version>
+    <type>pom</type>
+</dependency>
+<!-- https://mvnrepository.com/artifact/jdepend/jdepend -->
+<dependency>
+    <groupId>jdepend</groupId>
+    <artifactId>jdepend</artifactId>
+    <version>2.9.1</version>
+    <scope>test</scope>
+</dependency>
+		
 	</dependencies>
 </project>
