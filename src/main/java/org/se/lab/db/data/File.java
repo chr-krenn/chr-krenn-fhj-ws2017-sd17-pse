@@ -1,5 +1,7 @@
 package org.se.lab.db.data;
 
+import org.se.lab.utils.ArgumentChecker;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -7,9 +9,11 @@ import java.io.Serializable;
 @Table(name = "file")
 public class File implements Serializable {
 
-    public File(){}
-
     public File(User user,String filename,byte[] data){
+        ArgumentChecker.assertNotNull(user,"user");
+        ArgumentChecker.assertNotNullAndEmpty(filename,"filename");
+        ArgumentChecker.assertNotNull(user,"user");
+
         setData(data);
         setUser(user);
         setFilename(filename);
