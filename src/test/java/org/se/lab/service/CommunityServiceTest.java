@@ -206,7 +206,8 @@ public class CommunityServiceTest {
     @Test
     public void getFiles() {
         User user = new User();
-        File file = new File(user, "test", null);
+        byte[] data = "testByte".getBytes();
+        File file = new File(user, "test", data);
         List<File> files = Collections.singletonList(file);
 
 
