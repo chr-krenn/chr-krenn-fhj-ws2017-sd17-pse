@@ -1,13 +1,9 @@
 package org.se.lab.db.data;
 
+import org.se.lab.utils.ArgumentChecker;
+
 import javax.persistence.*;
 import java.io.Serializable;
-
-/**
- * @author Christopher Wegl
- *         <p>
- *         UserContact junction object with user and contact
- */
 
 @Entity
 @Table(name = "contact")
@@ -36,13 +32,8 @@ public class UserContact implements Serializable {
     @Column(name = "fk_contact_id")
     private int contact;
 
-    /**
-     * @param user    user object
-     * @param contact contact id which gets connected to user object
-     * @throws DatabaseException
-     */
 
-    public UserContact(User user, int contact) throws DatabaseException {
+    public UserContact(User user, int contact) {
         setUser(user);
         setContactId(contact);
     }
@@ -62,27 +53,21 @@ public class UserContact implements Serializable {
         return user;
     }
 
-    public void setUser(User user) throws DatabaseException {
-        if (user == null)
-            throw new DatabaseException("User must not be null");
+    public void setUser(User user) {
+        ArgumentChecker.assertNotNull(user, "user");
+
         this.user = user;
-        try {
-            user.addUserContacts(this);
-        } catch (DatabaseException e) {
-            throw new DatabaseException("setUser() in UserContact: " + user, e);
-        }
+        user.addUserContacts(this);
     }
 
     public int getContactId() {
         return contact;
     }
 
-    public void setContactId(int contact) throws DatabaseException {
-        if (contact <= 0)
-            throw new DatabaseException("The contact id must not less or equal 0");
+    public void setContactId(int contact) {
+        ArgumentChecker.assertValidNumber(contact,"contactId");
         this.contact = contact;
     }
-
 
     /**
      * Object Methods

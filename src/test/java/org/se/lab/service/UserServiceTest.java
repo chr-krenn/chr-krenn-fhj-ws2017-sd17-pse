@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.se.lab.db.dao.UserContactDAO;
 import org.se.lab.db.dao.UserDAO;
 import org.se.lab.db.dao.UserProfileDAO;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserContact;
 import org.se.lab.db.data.UserProfile;
@@ -55,8 +54,8 @@ public class UserServiceTest {
         user1.setId(1);
         user2.setId(2);
 
-        userProfile1 = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43",  "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
-        userProfile2 = new UserProfile("Erika", "Musterfrau", "Neuholdgasse 3", "1130", "Vienna", "Austria", "103", "Alpha","erika.musterfrau@edu.fh-joanneum.at", "03165678", "066489101112", "test2");
+        userProfile1 = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43", "MI6", "james.bond@gmail.com", "test", "test", "test userprofile");
+        userProfile2 = new UserProfile("Erika", "Musterfrau", "Neuholdgasse 3", "1130", "Vienna", "Austria", "103", "Alpha", "erika.musterfrau@edu.fh-joanneum.at", "03165678", "066489101112", "test2");
         user1.setUserProfile(userProfile1);
         user2.setUserProfile(userProfile2);
 
@@ -107,12 +106,10 @@ public class UserServiceTest {
         List<UserContact> userContactList = new ArrayList<>();
         UserContact contact1 = null;
         UserContact contact2 = null;
-		try {
-			contact1 = new UserContact(user1, 3);
-	        contact2 = new UserContact(user2, 2);
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		}
+
+        contact1 = new UserContact(user1, 3);
+        contact2 = new UserContact(user2, 2);
+
 
         userContactList.add(contact1);
         userContactList.add(contact2);
@@ -174,7 +171,7 @@ public class UserServiceTest {
         expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(false);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(), user2.getId())).andReturn(false);
         expect(userContactDAO.insert(userContact2)).andReturn(userContact2);
         replay(userContactDAO);
 
@@ -186,7 +183,7 @@ public class UserServiceTest {
         expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(), user2.getId())).andReturn(true);
         replay(userContactDAO);
 
         userService.addContact(user2, user1.getUsername());
@@ -197,7 +194,7 @@ public class UserServiceTest {
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(false);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(), user2.getId())).andReturn(false);
         replay(userContactDAO);
 
         userService.removeContact(user2, user1.getUsername());
@@ -208,13 +205,13 @@ public class UserServiceTest {
         expect(userDAO.findByUsername(user1.getUsername())).andReturn(user1);
         replay(userDAO);
 
-        expect(userContactDAO.doesContactExistForUserId(user1.getId(),user2.getId())).andReturn(true);
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(), user2.getId())).andReturn(true);
 
-        userContactDAO.deleteContactForUserIdAndContactId(user1.getId(),user2.getId());
+        userContactDAO.deleteContactForUserIdAndContactId(user1.getId(), user2.getId());
         expectLastCall();
         replay(userContactDAO);
 
-        userService.removeContact(user2,user1.getUsername());
+        userService.removeContact(user2, user1.getUsername());
     }
 
     @Test

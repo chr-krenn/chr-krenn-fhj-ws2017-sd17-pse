@@ -1,51 +1,45 @@
 package org.se.lab.db.dao;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.User;
 
-public class UserDAOTest extends AbstractDAOTest
-{
+import java.util.List;
+
+public class UserDAOTest extends AbstractDAOTest {
     public static UserDAOImpl udao = new UserDAOImpl();
 
     static {
-    	udao.setEntityManager(em);
+        udao.setEntityManager(em);
     }
 
     public User user;
     public User user2;
-    
-	@Before
-	public void setup() {
-		tx.begin();
-		try {
-			user2 = new User("Donald Trump", "NurSauer");
-			user = new User("Donald Duck", "EnteSuessSauer");
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		}
-	}
+
+    @Before
+    public void setup() {
+        tx.begin();
+
+        user2 = new User("Donald Trump", "NurSauer");
+        user = new User("Donald Duck", "EnteSuessSauer");
+
+    }
 
     @Test
     @Override
     public void testCreate() {
-    	udao.insert(user);
+        udao.insert(user);
     }
-    
+
 
     @Test
     @Override
     public void testModify() {
         User persisted = udao.insert(user);
-        try {
-			persisted.setUsername("Test");
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		}
+
+        persisted.setUsername("Test");
+
         udao.update(persisted);
         Assert.assertEquals("Test", persisted.getUsername());
     }
@@ -61,8 +55,8 @@ public class UserDAOTest extends AbstractDAOTest
 
     @Test
     public void testfindAll() {
-    	udao.insert(user);
-    	udao.insert(user2);
+        udao.insert(user);
+        udao.insert(user2);
         List<User> users = udao.findAll();
         Assert.assertEquals(2, users.size());
     }

@@ -3,7 +3,6 @@ package org.se.lab.db.dao;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
 
@@ -13,7 +12,7 @@ public class UserProfileDAOTest extends AbstractDAOTest {
 
     public User u;
     public UserProfile up;
-    public UserProfile  up2;
+    public UserProfile up2;
 
     public UserDAOImpl udao = new UserDAOImpl();
     public UserProfileDAOImpl updao = new UserProfileDAOImpl();
@@ -24,14 +23,11 @@ public class UserProfileDAOTest extends AbstractDAOTest {
         tx.begin();
         udao.setEntityManager(em);
         updao.setEntityManager(em);
-        try {
-			u = new User("James", "***");
-			up = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43",  "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
-	        up2 = new UserProfile("Heinz", "Bond","Neuholdgasse 123" ,"1130" , "Vienan", "Austria", "123", "MI6","james.bond@gmail.com" , "test" , "test", "test userprofile");
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		}
-        
+
+        u = new User("James", "***");
+        up = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43", "MI6", "james.bond@gmail.com", "test", "test", "test userprofile");
+        up2 = new UserProfile("Heinz", "Bond", "Neuholdgasse 123", "1130", "Vienan", "Austria", "123", "MI6", "james.bond@gmail.com", "test", "test", "test userprofile");
+
 
     }
 
@@ -79,11 +75,9 @@ public class UserProfileDAOTest extends AbstractDAOTest {
     public void testUserbyUserProfile() {
         udao.insert(u);
         updao.insert(up);
-        try {
-			u.setUserProfile(up);
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		}
+
+        u.setUserProfile(up);
+
 
         List<UserProfile> ups = updao.findAll();
         Assert.assertEquals(1, ups.size());

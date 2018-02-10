@@ -135,7 +135,7 @@ public class CommunityServiceImpl implements CommunityService {
             try {
                 community.addUsers(user);
                 update(community);
-            } catch (DatabaseException e) {
+            } catch (Exception e) {
                 LOG.error("Can't join user " + user + " to community " + community, e);
                 throw new ServiceException("Can't join user " + user + " to community " + community, e);
             }
@@ -182,7 +182,7 @@ public class CommunityServiceImpl implements CommunityService {
             try {
                 community.setState(enumerationService.getApproved());
                 update(community);
-            } catch (DatabaseException e) {
+            } catch (Exception e) {
                 LOG.warn("Can`t approve community " + community.getName() + "; Community is in State: "
                         + community.getState(), e);
                 throw new ServiceException("Can`t approve community " + community.getName()
@@ -225,7 +225,7 @@ public class CommunityServiceImpl implements CommunityService {
             try {
                 community.setState(enumerationService.getRefused());
                 update(community);
-            } catch (DatabaseException e) {
+            } catch (Exception e) {
                 LOG.warn("Can`t refuse community " + community.getName() + "; Community is in State: "
                         + community.getState() + ": " + e.toString());
                 throw new ServiceException("Can`t refuse community " + community.getName() + "; Community is in State: "

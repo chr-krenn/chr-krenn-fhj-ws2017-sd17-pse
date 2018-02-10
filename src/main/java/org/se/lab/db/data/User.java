@@ -1,9 +1,9 @@
 package org.se.lab.db.data;
 
-import javax.persistence.*;
-
 import org.apache.log4j.Logger;
+import org.se.lab.utils.ArgumentChecker;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +12,7 @@ import java.util.List;
 @Table(name = "users")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-    /**
-     * Private Message Constants
-     **/
-    private static final String ID_INVALID_ERROR = "The given id is less than 1";
-    private static final String USERNAME_NULL_ERROR = "The given username must not be null";
-    private static final String PASSWORD_NULL_ERROR = "The given password must not be null";
-    private static final String FK_USERPROFILE_NULL_ERROR = "The given fk_user Profile must not be null";
-    private static final String COMMUNITY_NULL_ERROR = "The given Community must not be null";
-    private static final String USERCONTACT_NULL_ERROR = "The given User Contact must not be null";
-    private static final String PRIVATEMESSAGE_NULL_ERROR = "The given Private Message must not be null";
+
     @Transient
     private Logger LOG = Logger.getLogger(User.class);
     @Id
@@ -51,7 +42,7 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "likedby")
     private List<Enumeration> likes = new ArrayList<Enumeration>();
 
-    public User(String username, String password) throws DatabaseException {
+    public User(String username, String password) {
         LOG.debug("New User");
         LOG.trace(
                 String.format("\t{\n\tusername: %s,\n\tpassword: %s",
@@ -64,69 +55,35 @@ public class User implements Serializable {
     public User() {
     }
 
-    /**
-     * Getter for id field of User
-     *
-     * @return: (int) id
-     */
+
     public int getId() {
         return this.id;
     }
 
-    /**
-     * Setter for id field of User Should not be negative or zero
-     *
-     * @param id
-     * @throws DatabaseException
-     * @throws DatabaseException.class if given id less than 1
-     */
-    public void setId(int id) throws DatabaseException {
-        if (id <= 0)
-            throw new DatabaseException(ID_INVALID_ERROR);
+
+    public void setId(int id) {
+        ArgumentChecker.assertValidNumber(id, "userId");
         this.id = id;
     }
 
-    /**
-     * Getter to get username of User
-     *
-     * @return (String) username
-     */
+
     public String getUsername() {
         return username;
     }
 
-    /**
-     * Setter for username field of User Should not be null
-     *
-     * @param username
-     * @throws DatabaseException
-     * @throws DatabaseException.class if given user object is null
-     */
-    public void setUsername(String username) throws DatabaseException {
-        if (username == null || username.trim().length() == 0)
-            throw new DatabaseException(USERNAME_NULL_ERROR);
+
+    public void setUsername(String username) {
+        ArgumentChecker.assertNotNullAndEmpty(username, "username");
         this.username = username;
     }
 
-    /**
-     * Getter to get password of User
-     *
-     * @return (String) password
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * Setter for password field of User Should not be null
-     *
-     * @param password
-     * @throws DatabaseException
-     * @throws DatabaseException.class if given user object is null
-     */
-    public void setPassword(String password) throws DatabaseException {
-        if (password == null || password.trim().length() == 0)
-            throw new DatabaseException(PASSWORD_NULL_ERROR);
+
+    public void setPassword(String password) {
+        ArgumentChecker.assertNotNullAndEmpty(password, "password");
         this.password = password;
     }
 
@@ -134,16 +91,14 @@ public class User implements Serializable {
         return userprofile;
     }
 
-    public void setUserProfile(UserProfile userprofile) throws DatabaseException {
-        if (userprofile == null)
-            throw new DatabaseException(FK_USERPROFILE_NULL_ERROR);
+    public void setUserProfile(UserProfile userprofile) {
+        ArgumentChecker.assertNotNull(userprofile, "userprofile");
         this.userprofile = userprofile;
         this.userprofile.setUser(this);
     }
 
-    public void addCommunity(Community community) throws DatabaseException {
-        if (community == null)
-            throw new DatabaseException(COMMUNITY_NULL_ERROR);
+    public void addCommunity(Community community) {
+        ArgumentChecker.assertNotNull(community, "community");
         communities.add(community);
     }
 
@@ -151,9 +106,8 @@ public class User implements Serializable {
         return communities;
     }
 
-    public void addUserContacts(UserContact usercontact) throws DatabaseException {
-        if (usercontact == null)
-            throw new DatabaseException(USERCONTACT_NULL_ERROR);
+    public void addUserContacts(UserContact usercontact) {
+        ArgumentChecker.assertNotNull(usercontact, "usercontact");
         usercontacts.add(usercontact);
     }
 
@@ -161,9 +115,8 @@ public class User implements Serializable {
         return usercontacts;
     }
 
-    public void addPrivateMessageSender(PrivateMessage privateMessage) throws DatabaseException {
-        if (privateMessage == null)
-            throw new DatabaseException(PRIVATEMESSAGE_NULL_ERROR);
+    public void addPrivateMessageSender(PrivateMessage privateMessage) {
+        ArgumentChecker.assertNotNull(privateMessage, "privateMessage");
         privateMessagesSender.add(privateMessage);
     }
 
@@ -171,9 +124,8 @@ public class User implements Serializable {
         return privateMessagesSender;
     }
 
-    public void addPrivateMessageReceiver(PrivateMessage privateMessage) throws DatabaseException {
-        if (privateMessage == null)
-            throw new DatabaseException(PRIVATEMESSAGE_NULL_ERROR);
+    public void addPrivateMessageReceiver(PrivateMessage privateMessage) {
+        ArgumentChecker.assertNotNull(privateMessage, "privateMessage");
         privateMessagesReceiver.add(privateMessage);
     }
 
@@ -185,26 +137,20 @@ public class User implements Serializable {
         return roles;
     }
 
-    public void addRole(Enumeration role) throws DatabaseException {
-        if (role == null)
-            throw new DatabaseException("User role must not be null: " + role);
-        try {
-            role.setUser(this);
-        } catch (DatabaseException e) {
-            LOG.error("Could not set Role " + role + " in " + this.toString());
-            throw new DatabaseException("Could not set Role " + role + " in " + this.toString(), e);
-        }
-        this.roles.add(role);
+    public void addRole(Enumeration role) {
+        ArgumentChecker.assertNotNull(role, "role");
 
+        role.setUser(this);
+        this.roles.add(role);
     }
 
     public List<Enumeration> getLikes() {
         return likes;
     }
 
-    public void addLike(Enumeration like) throws DatabaseException {
-        if (like == null)
-            throw new DatabaseException("The like must not be null");
+    public void addLike(Enumeration like) {
+        ArgumentChecker.assertNotNull(like, "like");
+
         if (!like.getLikedBy().contains(this))
             like.addUserToLike(this);
         this.likes.add(like);

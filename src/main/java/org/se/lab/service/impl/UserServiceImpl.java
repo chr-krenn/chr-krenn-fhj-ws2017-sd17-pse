@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
             UserContact userContact;
 			try {
 				userContact = new UserContact(user, userToAdd.getId());
-			} catch (DatabaseException e) {
+			} catch (Exception e) {
 				throw new ServiceException("A new contact could'n initialize with user: "+ user + " and: "+ userToAdd);
 			}
             userContactDAO.insert(userContact);
