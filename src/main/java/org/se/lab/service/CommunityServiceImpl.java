@@ -35,12 +35,6 @@ public class CommunityServiceImpl implements CommunityService {
     @Inject
     private UserService userServcie;
 
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#findAll()
-     */
     @Override
     public List<Community> findAll() {
         try {
@@ -51,11 +45,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#getApproved()
-     */
     @Override
     public List<Community> getApproved() {
         LOG.debug("getApproved Communities ");
@@ -67,11 +56,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#getPending()
-     */
     @Override
     public List<Community> getPending() {
         LOG.debug("getPending Communities");
@@ -83,11 +67,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#delete(org.se.lab.db.data.Community)
-     */
     @Override
     public void delete(Community community) {
         LOG.debug("delete " + community);
@@ -100,11 +79,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#update(org.se.lab.db.data.Community)
-     */
     @Override
     public void update(Community community) {
         LOG.debug("update " + community);
@@ -116,12 +90,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#join(org.se.lab.db.data.Community,
-     * org.se.lab.db.data.User)
-     */
     @Override
     public void join(Community community, User user) {
         LOG.debug("adding " + user + " to " + community);
@@ -141,11 +109,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#request(org.se.lab.db.data.Community)
-     */
     @Override
     public Community request(String name, String description, int portalAdmin) {
         LOG.debug("request community with name: " + name + " and description: " + description);
@@ -164,11 +127,6 @@ public class CommunityServiceImpl implements CommunityService {
         return com;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#approve(org.se.lab.db.data.Community)
-     */
     @Override
     public void approve(Community community) {
         LOG.debug("approve " + community);
@@ -191,11 +149,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#findById(int)
-     */
     @Override
     public Community findById(int id) {
         LOG.debug("findById " + id);
@@ -208,11 +161,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.se.lab.service.CommunityService#refuse(org.se.lab.db.data.Community)
-     */
     @Override
     public void refuse(Community community) {
         LOG.debug("refuse " + community);
