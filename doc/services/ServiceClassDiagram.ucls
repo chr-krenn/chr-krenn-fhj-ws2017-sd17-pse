@@ -10,7 +10,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="2" language="java" name="org.se.lab.service.impl.CommunityServiceImpl" project="pse" 
+  <class id="2" language="java" name="org.se.lab.service.CommunityServiceImpl" project="pse"
     file="/pse/src/main/java/org/se/lab/service/impl/CommunityServiceImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="293" width="183" x="225" y="64"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -28,7 +28,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="4" language="java" name="org.se.lab.service.impl.UserServiceImpl" project="pse" 
+  <class id="4" language="java" name="org.se.lab.service.UserServiceImpl" project="pse"
     file="/pse/src/main/java/org/se/lab/service/impl/UserServiceImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="491" width="275" x="606" y="64"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -46,7 +46,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="6" language="java" name="org.se.lab.service.impl.ActivityStreamServiceImpl" project="pse" 
+  <class id="6" language="java" name="org.se.lab.service.ActivityStreamServiceImpl" project="pse"
     file="/pse/src/main/java/org/se/lab/service/impl/ActivityStreamServiceImpl.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="221" width="258" x="941" y="64"/>    

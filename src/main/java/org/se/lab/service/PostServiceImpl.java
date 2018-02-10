@@ -1,4 +1,4 @@
-package org.se.lab.service.impl;
+package org.se.lab.service;
 
 import java.util.Date;
 

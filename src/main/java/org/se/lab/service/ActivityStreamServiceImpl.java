@@ -1,12 +1,10 @@
-package org.se.lab.service.impl;
+package org.se.lab.service;
 
 import org.apache.log4j.Logger;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
-import org.se.lab.service.ActivityStreamService;
-import org.se.lab.service.ServiceException;
 import org.se.lab.db.dao.EnumerationDAO;
 import org.se.lab.db.dao.PostDAO;
 

@@ -8,7 +8,6 @@ import org.primefaces.model.UploadedFile;
 import org.se.lab.db.dao.CommunityDAO;
 import org.se.lab.db.dao.FileDao;
 import org.se.lab.db.data.*;
-import org.se.lab.service.impl.CommunityServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Collections;

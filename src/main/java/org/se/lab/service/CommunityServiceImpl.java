@@ -1,4 +1,4 @@
-package org.se.lab.service.impl;
+package org.se.lab.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -8,11 +8,6 @@ import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.File;
 import org.se.lab.db.data.PrivateMessage;
 import org.se.lab.db.data.User;
-import org.se.lab.service.CommunityService;
-import org.se.lab.service.EnumerationService;
-import org.se.lab.service.PrivateMessageService;
-import org.se.lab.service.ServiceException;
-import org.se.lab.service.UserService;
 import org.se.lab.db.dao.CommunityDAO;
 import org.se.lab.db.dao.FileDao;
 

@@ -12,7 +12,6 @@ import org.se.lab.db.dao.UserProfileDAO;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserContact;
 import org.se.lab.db.data.UserProfile;
-import org.se.lab.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

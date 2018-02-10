@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.se.lab.db.dao.EnumerationDAO;
 import org.se.lab.db.dao.PostDAO;
 import org.se.lab.db.data.*;
-import org.se.lab.service.impl.ActivityStreamServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Date;
