@@ -31,7 +31,7 @@ public class ArgumentChecker {
 
     //todo check if 0 is ok or not
     public static void assertValidNumberIncludingZeroAsValid(final int argument, final String argumentName) {
-        if (argument <= 0) {
+        if (argument < 0) {
             throw new IllegalArgumentException(String.format("Argument %s invalid with value %s", argumentName, argument));
         }
     }

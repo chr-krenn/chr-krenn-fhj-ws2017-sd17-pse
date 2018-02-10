@@ -1,14 +1,14 @@
 package org.se.lab.db.dao;
 
-import static org.junit.Assert.*;
-
-import java.util.Date;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.se.lab.db.data.*;
+
+import java.util.Date;
+
+import static org.junit.Assert.*;
 
 public class PostTest {
 	
@@ -17,7 +17,7 @@ public class PostTest {
 	private User user;
 	
 	@Before
-	public void setup() throws DatabaseException {
+	public void setup() {
 		community = new Community();
 		user = new User();
 		post = new Post(null, community, user, "Test text", new Date(180L));
@@ -37,7 +37,7 @@ public class PostTest {
 	}
 	
 	@Test
-	public void testEqualsPost() throws DatabaseException {
+	public void testEqualsPost() {
 		Post current = new Post(null, community, user, "Test text", new Date(180L));
 		current.setId(1);
 		assertEquals(post, current);
@@ -45,7 +45,7 @@ public class PostTest {
 	}
 	
 	@Test
-	public void testNotEqualsPost() throws DatabaseException {
+	public void testNotEqualsPost()  {
 		Post current = new Post(null, community, user, "Test text", new Date(180L));
 		
 		post.setId(2);
@@ -57,13 +57,13 @@ public class PostTest {
 	}
 	
 	@Test
-	public void testCreatedDate() throws DatabaseException {
+	public void testCreatedDate()  {
 		post.setCreated(new Date(42L));
 		Assert.assertEquals(42L, post.getCreated().getTime());
 	}
 	
 	@Test
-	public void testText() throws DatabaseException {
+	public void testText()  {
 		post.setText("Hello World");
 		Assert.assertEquals("Hello World", post.getText());
 	}
@@ -79,13 +79,13 @@ public class PostTest {
 	}
 	
 	@Test
-	public void testParentPost() throws DatabaseException {
+	public void testParentPost() {
 		Post current = new Post(post, community, user, "Test text", new Date(180L));
 		assertEquals(post, current.getParentpost());
 	}
 	
 	@Test
-	public void testChildPost() throws DatabaseException {
+	public void testChildPost() {
 		Post current1 = new Post(post, community, user, "Test text", new Date(180L));
 		current1.setId(2);
 		Post current2 = new Post(current1, community, user, "Test text", new Date(180L));
@@ -95,7 +95,7 @@ public class PostTest {
 	}
 	
 	@Test
-	public void testLikePost() throws DatabaseException {
+	public void testLikePost()  {
 		Enumeration alike = new Enumeration(1);
 		alike.setName("Like");
 		User user = new User();
@@ -119,7 +119,7 @@ public class PostTest {
 	}
 	
 	@Test
-	public void testRemoveLikePost() throws DatabaseException {
+	public void testRemoveLikePost()  {
 		// Setup
 		Enumeration alike = new Enumeration(1);
 		alike.setName("Like");
@@ -144,34 +144,34 @@ public class PostTest {
 	}
 	
 	@Test
-	public void testHash() throws DatabaseException {
+	public void testHash() {
 		Assert.assertEquals(1, post.hashCode());
 		post.setId(2);
 		Assert.assertEquals(2, post.hashCode());
 	}
 	
-	@Test(expected=DatabaseException.class)
-	public void testInvalidId() throws DatabaseException {
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidId()  {
 		post.setId(0);
 	}
 	
-	@Test(expected=DatabaseException.class)
-	public void testInvalidUserIsNull() throws DatabaseException {
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidUserIsNull()  {
 		post.setUser(null);
 	}
 	
-	@Test(expected=DatabaseException.class)
-	public void testInvalidChildIsNull() throws DatabaseException {
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidChildIsNull()  {
 		post.addChildPost(null);
 	}
 	
-	@Test(expected=DatabaseException.class)
-	public void testInvalidLikeIsNull() throws DatabaseException {
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidLikeIsNull()  {
 		post.addLike(null);
 	}
 	
-	@Test(expected=DatabaseException.class)
-	public void testInvalidTextMessageLength() throws DatabaseException {
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidTextMessageLength()  {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i <= Post.MAX_TEXT_LENGTH; i++) {
 			builder.append("X");
@@ -179,18 +179,18 @@ public class PostTest {
 		post.setText(builder.toString());
 	}
 	
-	@Test(expected=DatabaseException.class)
-	public void testInvalidTextIsNull() throws DatabaseException {
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidTextIsNull()  {
 		post.setText(null);
 	}
 	
-	@Test(expected=DatabaseException.class)
-	public void testInvalidDateCreatedIsNull() throws DatabaseException {
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidDateCreatedIsNull()  {
 		post.setCreated(null);
 	}
 	
-	@Test(expected=DatabaseException.class)
-	public void testInvalidPostIsParent() throws DatabaseException {
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidPostIsParent()  {
 		post.setParentpost(post);
 	}
 	

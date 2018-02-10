@@ -12,7 +12,7 @@ public class File implements Serializable {
     public File(User user,String filename,byte[] data){
         ArgumentChecker.assertNotNull(user,"user");
         ArgumentChecker.assertNotNullAndEmpty(filename,"filename");
-        ArgumentChecker.assertNotNull(user,"user");
+        ArgumentChecker.assertNotNull(data,"data");
 
         setData(data);
         setUser(user);

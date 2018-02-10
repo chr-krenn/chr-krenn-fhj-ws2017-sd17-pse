@@ -1,5 +1,7 @@
 package org.se.lab.db.data;
 
+import org.se.lab.utils.ArgumentChecker;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -110,8 +112,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setFirstname(String firstname) {
-        if (firstname == null)
-            throw new IllegalArgumentException();
+        ArgumentChecker.assertNotNullAndEmpty(firstname,"firstname");
         this.firstname = firstname;
     }
 
@@ -120,8 +121,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setLastname(String lastname) {
-        if (lastname == null)
-            throw new IllegalArgumentException();
+        ArgumentChecker.assertNotNullAndEmpty(lastname,"lastname");
         this.lastname = lastname;
     }
 
@@ -138,8 +138,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setAddress(String address) {
-        if (address == null)
-            throw new IllegalArgumentException();
+        ArgumentChecker.assertNotNullAndEmpty(address,"address");
         this.address = address;
     }
 
