@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Stateless
 public class UserServiceImpl implements UserService {
-    private final Logger LOG = Logger.getLogger(UserServiceImpl.class);
+    private final static Logger LOG = Logger.getLogger(UserServiceImpl.class);
 
     @Inject
     private UserDAO userDAO;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Inject
     private EnumerationDAO enumDAO;
 
-    
+
     @Override
     public void insert(User user) {
         LOG.debug("insert " + user);
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    
+
     @Override
     public void delete(User user) {
         LOG.debug("delete " + user);
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    
+
     @Override
     public User login(String username, String password) {
         LOG.debug("login for " + username);
@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private User loadUserByUsername(String username) {
+    	validateString(username);
         try {
             return userDAO.findByUsername(username);
         } catch (Exception e) {
@@ -82,20 +83,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addContact(User user, String contactName) {
+    	 	
         LOG.debug("add contact" + contactName + " to " + user);
 
         userValidator(user);
         validateString(contactName);
 
-        User userToAdd = userDAO.findByUsername(contactName);
+        User userToAdd;
+        try {
+            userToAdd = userDAO.findByUsername(contactName);
+        } catch (Exception e) {
+            LOG.error("Can't find user " + contactName, e);
+            throw new ServiceException("Can't find user " + contactName);
+        }
+
+
         if (!userContactDAO.doesContactExistForUserId(userToAdd.getId(), user.getId())) {
 
             UserContact userContact;
-			try {
-				userContact = new UserContact(user, userToAdd.getId());
-			} catch (Exception e) {
-				throw new ServiceException("A new contact could'n initialize with user: "+ user + " and: "+ userToAdd);
-			}
+            try {
+                userContact = new UserContact(user, userToAdd.getId());
+            } catch (Exception e) {
+                LOG.error("Can't add contact " + contactName, e);
+                throw new ServiceException("A new contact could'n initialize with user: " + user + " and: " + userToAdd);
+            }
             userContactDAO.insert(userContact);
         } else {
             LOG.error("Contact " + userToAdd.getUsername() + " already exist ");
@@ -105,12 +116,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeContact(User user, String contactName) {
+      	
         LOG.debug("remove contact from " + user);
 
         userValidator(user);
         validateString(contactName);
-
-        User userToRemove = userDAO.findByUsername(contactName);
+        User userToRemove;
+        try {
+            userToRemove = userDAO.findByUsername(contactName);
+        } catch (Exception e) {
+            LOG.error("Can't find user " + contactName, e);
+            throw new ServiceException("Can't find user " + contactName);
+        }
         if (userContactDAO.doesContactExistForUserId(userToRemove.getId(), user.getId())) {
 
             userContactDAO.deleteContactForUserIdAndContactId(userToRemove.getId(), user.getId());
@@ -122,12 +139,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserContact> getAllContactsByUser(User user) {
+    	
+    	userValidator(user);
+    	
         LOG.debug("get all contacts from " + user);
-        return userContactDAO.findContactsbyUser(user);
+        try {
+            return userContactDAO.findContactsbyUser(user);
+        } catch (Exception e) {
+            LOG.error("Can't find contacts for user " + user, e);
+            throw new ServiceException("Can't find contacts for user" + user);
+        }
     }
 
     @Override
     public void update(User user) {
+    	
+
+    	userValidator(user);
+    	
         LOG.debug("update " + user);
 
         try {
@@ -153,6 +182,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserProfile getUserProfilById(int id) {
+    	
+
+    	if(id < 0)
+			throw new IllegalArgumentException();
+    	
         LOG.debug("getUserProfil by Id");
 
         try {
@@ -177,6 +211,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Community> getAllCommunitiesForUser(User user) {
+      
+        
+    	userValidator(user);
+        
         LOG.debug("getAllUserProfiles");
 
         try {
@@ -193,6 +231,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void delete(int id) {
+    	
+    	if(id < 0)
+			throw new IllegalArgumentException();
+    	
         LOG.info("delete: " + id);
 
         try {
@@ -207,6 +249,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(int id) {
+    	
+    	if(id < 0)
+			throw new IllegalArgumentException();
+    	
         LOG.debug("find User with id=" + id);
 
         try {
@@ -237,15 +283,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addPictureToProfile(UserProfile userProfile) {
-        userProfileDAO.update(userProfile);
+    	
+    	if(userProfile == null)
+			throw new IllegalArgumentException();
+    	
+        try {
+            userProfileDAO.update(userProfile);
+        } catch (Exception e) {
+            LOG.error("Can't add Picture for profile " + userProfile.getId(), e);
+            throw new ServiceException("Can't delete user with ID " + userProfile.getId());
+        }
     }
 
     @Override
     public boolean hasUserTheRole(ROLE privileg, User user) {
+    	
+    	userValidator(user);
+    	
         User loadedUser = findById(user.getId());
         List<Enumeration> roles = loadedUser.getRoles();
 
-        for (Enumeration enumeration : roles) {
+        for (Enumeration enumeration: roles) {
             if (enumeration.getName().equals(privileg.name())) {
                 return true;
             }
@@ -254,10 +312,14 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> getContactsOfUser(User user) {
+    	
+    	userValidator(user);
+    	
+    	
         List<UserContact> userContactObjects = getAllContactsByUser(user);
 
         List<User> userContacts = new ArrayList<>();
-        for (UserContact userContact : userContactObjects) {
+        for (UserContact userContact: userContactObjects) {
 
             User contacUser = findById(userContact.getContactId());
             if (contacUser != null) {
@@ -267,8 +329,14 @@ public class UserServiceImpl implements UserService {
         return userContacts;
     }
 
-	@Override
-	public List<User> getAdmins() {
-		return enumDAO.findUsersByEnumeration(4);
-	}
+    @Override
+    public List<User> getAdmins() {
+
+        try {
+            return enumDAO.findUsersByEnumeration(4);
+        } catch (Exception e) {
+            LOG.error("Can't getAdmins ", e);
+            throw new ServiceException("Can't getAdmins ");
+        }
+    }
 }

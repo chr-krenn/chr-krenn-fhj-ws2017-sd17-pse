@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.model.UploadedFile;
 import org.se.lab.db.data.Community;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.File;
 import org.se.lab.db.data.PrivateMessage;
 import org.se.lab.db.data.User;
@@ -120,7 +119,7 @@ public class CommunityServiceImpl implements CommunityService {
 
             notifyAdmins(com);
 
-        } catch (DatabaseException e) {
+        } catch (Exception e) {
             LOG.error("Can't insert community " + name, e);
             throw new ServiceException("Can't insert community " + name);
         }
@@ -136,16 +135,16 @@ public class CommunityServiceImpl implements CommunityService {
                 community.setState(enumerationService.getApproved());
                 update(community);
             } catch (Exception e) {
-                LOG.warn("Can`t approve community " + community.getName() + "; Community is in State: "
-                        + community.getState(), e);
-                throw new ServiceException("Can`t approve community " + community.getName()
-                        + "; Community is in State: " + community.getState());
+                LOG.warn("Can`t approve community " + community.getName() + "; Community is in State: " +
+                    community.getState(), e);
+                throw new ServiceException("Can`t approve community " + community.getName() +
+                    "; Community is in State: " + community.getState());
             }
         } else {
-            LOG.warn("Can`t approve community " + community.getName() + "; Community is in State: "
-                    + community.getState());
-            throw new ServiceException("Can`t approve community " + community.getName() + "; Community is in State: "
-                    + community.getState());
+            LOG.warn("Can`t approve community " + community.getName() + "; Community is in State: " +
+                community.getState());
+            throw new ServiceException("Can`t approve community " + community.getName() + "; Community is in State: " +
+                community.getState());
         }
     }
 
@@ -169,22 +168,29 @@ public class CommunityServiceImpl implements CommunityService {
                 community.setState(enumerationService.getRefused());
                 update(community);
             } catch (Exception e) {
-                LOG.warn("Can`t refuse community " + community.getName() + "; Community is in State: "
-                        + community.getState() + ": " + e.toString());
-                throw new ServiceException("Can`t refuse community " + community.getName() + "; Community is in State: "
-                        + community.getState());
+                LOG.warn("Can`t refuse community " + community.getName() + "; Community is in State: " +
+                    community.getState() + ": " + e.toString(), e);
+                throw new ServiceException("Can`t refuse community " + community.getName() + "; Community is in State: " +
+                    community.getState());
             }
         } else {
-            LOG.warn("Can`t refuse community " + community.getName() + "; Community is in State: "
-                    + community.getState());
-            throw new ServiceException("Can`t refuse community " + community.getName() + "; Community is in State: "
-                    + community.getState());
+            LOG.warn("Can`t refuse community " + community.getName() + "; Community is in State: " +
+                community.getState());
+            throw new ServiceException("Can`t refuse community " + community.getName() + "; Community is in State: " +
+                community.getState());
         }
     }
 
     public Community findByName(String name) {
-        Community com = communityDAO.findByName(name);
+        Community com;
+        try {
+            com = communityDAO.findByName(name);
+        } catch (Exception e) {
+            LOG.error("Can`t find community " + name, e);
+            throw new ServiceException("Can`t find community " + name);
+        }
         return com;
+
     }
 
 
@@ -204,11 +210,11 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    private void notifyAdmins(Community com) throws DatabaseException {
+    private void notifyAdmins(Community com) {
 
         User u = userServcie.findById(com.getPortaladminId());
 
-        for (User user : userServcie.getAdmins()) {
+        for (User user: userServcie.getAdmins()) {
             PrivateMessage message = new PrivateMessage(u + " created new community", user, user);
             pmService.sendMessage(message);
         }
@@ -221,15 +227,28 @@ public class CommunityServiceImpl implements CommunityService {
         validate(uploadedFile);
 
         LOG.info(String.format("File %s stored in Database", uploadedFile.getFileName()));
-        fileDao.insert(new File(user, uploadedFile.getFileName(), uploadedFile.getContents()));
+        try {
+            fileDao.insert(new File(user, uploadedFile.getFileName(), uploadedFile.getContents()));
+        } catch (Exception e) {
+            LOG.error("Can`t upload file " + uploadedFile.getFileName(), e);
+            throw new ServiceException("Can`t upload file  " + uploadedFile.getFileName());
+        }
+
     }
 
     @Override
     public List<File> getFilesFromUser(User user) {
-        List<File> files = new ArrayList<>();
+        List<File> files = new ArrayList<File>();
 
         if (user != null) {
-            files = fileDao.findByUser(user);
+            try {
+                files = fileDao.findByUser(user);
+            } catch (Exception e) {
+                LOG.error("Can`t get file from user" + user.getId(), e);
+                throw new ServiceException("Can`t get file from user" + user.getId());
+            }
+
+
         }
         return files;
     }
@@ -240,6 +259,11 @@ public class CommunityServiceImpl implements CommunityService {
             String error = "File is null";
             throw new ServiceException(error);
         }
-        fileDao.delete(file);
+        try {
+            fileDao.delete(file);
+        } catch (Exception e) {
+            LOG.error("Can`t delete file " + file.getFilename(), e);
+            throw new ServiceException("Can`t delete file " + file.getFilename());
+        }
     }
 }
