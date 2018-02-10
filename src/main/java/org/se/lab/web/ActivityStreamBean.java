@@ -27,10 +27,16 @@ public class ActivityStreamBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Logger LOG = Logger.getLogger(ActivityStreamBean.class);
-    Flash flash;
-    FacesContext context;
+
     @Inject
     ActivityStreamService service;
+    @Inject
+    private UserService uservice;
+    @Inject
+    private PostService pservice;
+
+    Flash flash;
+    FacesContext context;
     User user;
     private String inputText;
     private String inputTextChild;
@@ -41,10 +47,8 @@ public class ActivityStreamBean implements Serializable {
     private Post post;
     private List<Post> postChildren;
     private int id = 0;
-    @Inject
-    private UserService uservice;
-    @Inject
-    private PostService pservice;
+    private User loggedInUser;
+
 
     @PostConstruct
     public void init() {
@@ -58,6 +62,7 @@ public class ActivityStreamBean implements Serializable {
 
             flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
             flash.put("uid", id);
+            setLoggedInUser(loadLoggedInUser());
             userContactList = uservice.getContactsOfUser(getLoggedInUser());
 
 
@@ -146,7 +151,7 @@ public class ActivityStreamBean implements Serializable {
         }
     }
 
-    public User getLoggedInUser() {
+    public User loadLoggedInUser() {
         return uservice.findById(id);
     }
 
@@ -188,4 +193,11 @@ public class ActivityStreamBean implements Serializable {
         this.inputTextChild = inputTextChild;
     }
 
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
 }

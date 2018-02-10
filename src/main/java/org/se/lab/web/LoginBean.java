@@ -32,7 +32,7 @@ public class LoginBean implements Serializable {
 
     @PostConstruct
     public void init() {
-
+        //todo check why init is needed to get values
     }
 
     public String getUsername() {
