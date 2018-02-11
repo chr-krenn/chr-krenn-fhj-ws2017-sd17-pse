@@ -7,6 +7,8 @@ import org.se.lab.db.data.User;
 import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.PostService;
 import org.se.lab.service.UserService;
+import org.se.lab.web.helper.RedirectHelper;
+import org.se.lab.web.helper.Session;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -19,12 +21,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Named
 @RequestScoped
 public class ActivityStreamBean implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final int INVALID_STATE = -1;
 
     private final Logger LOG = Logger.getLogger(ActivityStreamBean.class);
 
@@ -34,10 +36,12 @@ public class ActivityStreamBean implements Serializable {
     private UserService uservice;
     @Inject
     private PostService pservice;
+    @Inject
+    private Session session;
+
 
     Flash flash;
     FacesContext context;
-    User user;
     private String inputText;
     private String inputTextChild;
     private List<Integer> contactIds;
@@ -52,15 +56,12 @@ public class ActivityStreamBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        int userId = session.getUserId();
         context = FacesContext.getCurrentInstance();
-        Map<String, Object> session = context.getExternalContext().getSessionMap();
 
-        if (session.size() != 0 && session.get("user") != null) {
-
-            id = (int) session.get("user");
-            LOG.info("SESSION UID: " + String.valueOf(id));
-
-            flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+        if (userId > INVALID_STATE) {
+            id = userId;
+            flash = context.getExternalContext().getFlash();
             flash.put("uid", id);
             setLoggedInUser(loadLoggedInUser());
             userContactList = uservice.getContactsOfUser(getLoggedInUser());
@@ -78,12 +79,7 @@ public class ActivityStreamBean implements Serializable {
             }
 
         } else {
-            try {
-                context.getExternalContext().redirect("/pse/login.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/login.xhtml");
-
-            }
+            RedirectHelper.redirect("/pse/login.xhtml");
         }
     }
 
