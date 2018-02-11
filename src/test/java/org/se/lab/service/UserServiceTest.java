@@ -6,6 +6,7 @@ import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.junit.*;
 import org.junit.runner.RunWith;
+import org.mindrot.jbcrypt.BCrypt;
 import org.se.lab.db.dao.UserContactDAO;
 import org.se.lab.db.dao.UserDAO;
 import org.se.lab.db.dao.UserProfileDAO;
@@ -24,7 +25,7 @@ public class UserServiceTest {
 
     public static final int ID = 1;
     public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
+    public static final String PASSWORD = "$2a$10$Wa/BTCLKT80QzamNUt4O9uMcetbU97DFI3yw7.9UpA.Ld8VcegNMO";
 
     @TestSubject
     private UserService userService = new UserServiceImpl();
@@ -86,7 +87,8 @@ public class UserServiceTest {
         expect(userDAO.findByUsername(USERNAME)).andReturn(user1);
         replay(userDAO);
 
-        User user = userService.login(user1.getUsername(), user1.getPassword());
+        User user = userService.login(user1.getUsername(), "password");
+        Assert.assertTrue(BCrypt.checkpw("password", user.getPassword()));
         Assert.assertThat(user, equalTo(user1));
     }
 

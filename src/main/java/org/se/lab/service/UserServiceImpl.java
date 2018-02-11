@@ -28,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private EnumerationDAO enumDAO;
 
 
+    private PasswordEncoder pwEncoder = new PasswordEncoder();
+
     @Override
     public void insert(User user) {
         LOG.debug("insert " + user);
@@ -63,16 +65,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String username, String password) {
         LOG.debug("login for " + username);
-        // TODO +hashing
-
+       
         //todo return null in case of username or pw is null/empty
         
         ArgumentChecker.assertNotNullAndEmpty(username,"username");
         ArgumentChecker.assertNotNullAndEmpty(password,"password");
         
         User user = loadUserByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
+
+        if (user != null && pwEncoder.checkPassword(password, user.getPassword())) {
+        return user;
         }
         LOG.error("Password incorrect for user " + user);
         return null;
