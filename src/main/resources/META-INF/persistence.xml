@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
 	<persistence-unit name="pse">
-		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<jta-data-source>java:jboss/datasources/MySqlDS</jta-data-source>
 		<class>org.se.lab.db.data.Post</class>
 		<class>org.se.lab.db.data.Community</class>
 		<class>org.se.lab.db.data.Enumeration</class>
@@ -15,17 +15,13 @@
 		<class>org.se.lab.db.data.File</class>
 
 		<properties>
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/pse" />
-			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
-			<property name="hibernate.connection.username" value="student" />
-			<property name="hibernate.connection.password" value="student" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
 			<property name="hibernate.show_sql" value="false" />
-			<property name="jboss.as.jpa.providerModule" value="org.hibernate:5.0" />
 			<property name="eclipselink.ddl-generation" value="create-tables" />
 			<property name="toplink.ddl-generation" value="create-tables" />
 			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
+			
 			
 			<!-- populate database with sample data at deployment -->
 			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
