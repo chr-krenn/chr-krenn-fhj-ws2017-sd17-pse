@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
-import org.se.lab.service.PostService;
 import org.apache.log4j.Logger;
 import org.se.lab.db.dao.PostDAO;
 

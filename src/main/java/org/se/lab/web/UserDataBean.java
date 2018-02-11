@@ -8,7 +8,6 @@ import org.primefaces.model.UploadedFile;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
-import org.se.lab.service.CommunityService;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +18,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +27,17 @@ import java.util.Map;
 
 @Named
 @RequestScoped
-public class UserDataBean implements Serializable {
+public class UserDataBean  implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Logger LOG = Logger.getLogger(UserDataBean.class);
+    private final static Logger LOG = Logger.getLogger(UserDataBean.class);
 
     Flash flash;
     FacesContext context;
     private StreamedContent photo;
     @Inject
     private UserService service;
-    @Inject
-    private CommunityService communityService;
+
 
     private User user;
     private User loggedInUser;
@@ -353,5 +353,15 @@ public class UserDataBean implements Serializable {
 		if(visibility==null)
 			this.visibility = "default";
 		this.visibility = visibility;
+	}
+	
+	private void writeObject(ObjectOutputStream stream)
+	        throws IOException {
+	    stream.defaultWriteObject();
+	}
+
+	private void readObject(ObjectInputStream stream)
+	        throws IOException, ClassNotFoundException {
+	    stream.defaultReadObject();
 	}
 }

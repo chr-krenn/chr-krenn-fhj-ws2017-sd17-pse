@@ -2,7 +2,6 @@ package org.se.lab.db.dao;
 
 import org.apache.log4j.Logger;
 import org.se.lab.db.data.Community;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
 

@@ -4,6 +4,10 @@ import org.apache.log4j.Logger;
 import org.se.lab.utils.ArgumentChecker;
 
 import javax.persistence.*;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -187,4 +191,15 @@ public class User implements Serializable {
             return false;
         return true;
     }
+    
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        stream.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+    }
+    
 }

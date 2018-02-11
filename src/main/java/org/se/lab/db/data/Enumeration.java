@@ -145,7 +145,7 @@ public class Enumeration implements Serializable {
         if (likedby.contains(user))
             likedby.remove(user);
 
-        if (liked.contains(post)) ;
+        if (liked.contains(post))
         liked.remove(post);
 
         user.getLikes().remove(this);

@@ -4,6 +4,10 @@ import org.apache.log4j.Logger;
 import org.se.lab.utils.ArgumentChecker;
 
 import javax.persistence.*;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -240,4 +244,15 @@ public class Post implements Serializable {
         return String.format(TOSTRING_MSG, this.id, this.text, this.created, this.user, this.community,
                 this.parentpost);
     }
+    
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        stream.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+    }
+    
 }

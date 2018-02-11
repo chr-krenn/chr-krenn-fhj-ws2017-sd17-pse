@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import org.se.lab.db.data.PrivateMessage;
 import org.se.lab.db.data.User;
-import org.se.lab.service.PrivateMessageService;
 import org.se.lab.db.dao.PrivateMessageDAO;
 
 @Stateless

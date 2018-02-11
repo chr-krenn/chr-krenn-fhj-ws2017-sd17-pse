@@ -4,6 +4,10 @@ import org.apache.log4j.Logger;
 import org.se.lab.utils.ArgumentChecker;
 
 import javax.persistence.*;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 
@@ -147,6 +151,16 @@ public class PrivateMessage implements Serializable {
     @Override
     public String toString() {
         return String.format(TOSTRING_MSG, this.ID, this.text, this.usersender, this.userreceiver);
+    }
+    
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        stream.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
     }
 
 }

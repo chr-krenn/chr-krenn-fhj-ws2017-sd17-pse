@@ -4,7 +4,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.se.lab.db.dao.DAOTemplate;
 
 public abstract class DAOImplTemplate<E> implements DAOTemplate<E> {
 	/*

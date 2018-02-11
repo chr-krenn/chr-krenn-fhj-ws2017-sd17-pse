@@ -17,6 +17,8 @@ import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +26,7 @@ import java.util.List;
 
 @Named
 @RequestScoped
-public class ActivityStreamBean implements Serializable {
+public class ActivityStreamBean  implements Serializable {
     private static final long serialVersionUID = 1L;
     public static final int INVALID_STATE = -1;
 
@@ -196,4 +198,17 @@ public class ActivityStreamBean implements Serializable {
     public User getLoggedInUser() {
         return loggedInUser;
     }
+    
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        stream.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+    }
+    
+    
+    
 }
