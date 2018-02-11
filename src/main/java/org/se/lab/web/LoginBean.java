@@ -89,7 +89,7 @@ public class LoginBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 
         //TODO return isn`t needed in case each class has the handling if no session exists
-        return "/login.xhtml?faces-redirect=true";
+        return "/index.xhtml?faces-redirect=true";
 
         //TODO smarter would be the next line without return a string - at the moment the instance of LoginBean is new create so the errorMsg isn`t shown
     }

@@ -120,9 +120,9 @@ public class UserDataBean  implements Serializable {
 			 *
 			 */
             try {
-                context.getExternalContext().redirect("/pse/login.xhtml");
+                context.getExternalContext().redirect("/pse/index.xhtml");
             } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/login.xhtml");
+                LOG.error("Can't redirect to /pse/index.xhtml");
                 //e.printStackTrace();
             }
         }

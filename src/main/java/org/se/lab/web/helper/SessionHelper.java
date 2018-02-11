@@ -58,9 +58,9 @@ public class SessionHelper implements Session {
 
     private void redirectLogin(ExternalContext context) {
         try {
-            context.redirect("/pse/login.xhtml");
+            context.redirect("/pse/index.xhtml");
         } catch (IOException e) {
-            LOG.error("Can't redirect to /pse/login.xhtml");
+            LOG.error("Can't redirect to /pse/index.xhtml");
         }
     }
 }

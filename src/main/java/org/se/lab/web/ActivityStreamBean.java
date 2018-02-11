@@ -81,7 +81,7 @@ public class ActivityStreamBean  implements Serializable {
             }
 
         } else {
-            RedirectHelper.redirect("/pse/login.xhtml");
+            RedirectHelper.redirect("/pse/index.xhtml");
         }
     }
 

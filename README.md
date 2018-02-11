@@ -57,7 +57,7 @@ mvn test
 mvn clean verify
 </pre>
 
-To access the application open: http://localhost:8080/pse/login.xhtml
+To access the application open: http://localhost:8080/pse/index.xhtml
 
 ## Code coverage analysis
 Code coverage reports for unit and integration tests are generated at 

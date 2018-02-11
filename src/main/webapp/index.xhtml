@@ -1,12 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Indexpage only used to redirect</title>
+	<title>PSE 2017/18</title>
+	<meta name="author" content="SWD15"></meta>
+	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
-
-<h:body onload="#{indexBean.init()}">
+<h:body>
+	<b:navBar brand="PSE 2017/18" fixed="top" inverse="true">
+	</b:navBar>
+	<b:jumbotron>
+		<b:container>
+			<h2>Login</h2>
+			<b:panel>
+				<p:messages id="messages" />
+				<h:outputText id="error" value="#{loginBean.errorMsg}"
+							  rendered="#{not empty loginBean.errorMsg}" style="color:#ff0c13;" />
+				<b:form id="loginForm">
+					<b:inputText id="username" name="username"
+								 value="#{loginBean.username}" label="Username" />
+					<b:inputSecret id="password" name="password"
+								   value="#{loginBean.password}" label="Password" />
+					<b:commandButton update=":error" value="Login"
+									 action="#{loginBean.doLogin}" ajax="false" />
+				</b:form>
+			</b:panel>
+		</b:container>
+	</b:jumbotron>
+	<ui:insert name="footer">
+		<ui:include src="templates/footer.xhtml" />
+	</ui:insert>
 </h:body>
 </html>

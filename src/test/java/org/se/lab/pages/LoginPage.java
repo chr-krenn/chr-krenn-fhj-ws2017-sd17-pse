@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 
 public class LoginPage extends PageObject {
 
-	private String url = "login.xhtml";
+	private String url = "index.xhtml";
 
 	public LoginPage() {
 		super();
