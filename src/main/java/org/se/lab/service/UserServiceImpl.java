@@ -4,6 +4,7 @@ package org.se.lab.service;
 import org.apache.log4j.Logger;
 import org.se.lab.db.dao.*;
 import org.se.lab.db.data.*;
+import org.se.lab.utils.ArgumentChecker;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -30,7 +31,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void insert(User user) {
         LOG.debug("insert " + user);
-        userValidator(user);
+        
+        ArgumentChecker.assertNotNull(user,"user");
+        
 
         try {
             userDAO.insert(user);
@@ -44,7 +47,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(User user) {
         LOG.debug("delete " + user);
-        userValidator(user);
+
+        ArgumentChecker.assertNotNull(user,"user");
+        
 
         try {
             userDAO.delete(user);
@@ -61,8 +66,10 @@ public class UserServiceImpl implements UserService {
         // TODO +hashing
 
         //todo return null in case of username or pw is null/empty
-        validateString(username, password);
-
+        
+        ArgumentChecker.assertNotNullAndEmpty(username,"username");
+        ArgumentChecker.assertNotNullAndEmpty(password,"password");
+        
         User user = loadUserByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
             return user;
@@ -72,7 +79,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private User loadUserByUsername(String username) {
-    	validateString(username);
+
+        ArgumentChecker.assertNotNullAndEmpty(username,"username");
         try {
             return userDAO.findByUsername(username);
         } catch (Exception e) {
@@ -86,8 +94,9 @@ public class UserServiceImpl implements UserService {
     	 	
         LOG.debug("add contact" + contactName + " to " + user);
 
-        userValidator(user);
-        validateString(contactName);
+
+        ArgumentChecker.assertNotNull(user,"user");
+        ArgumentChecker.assertNotNullAndEmpty(contactName,"contactName");
 
         User userToAdd;
         try {
@@ -119,8 +128,9 @@ public class UserServiceImpl implements UserService {
       	
         LOG.debug("remove contact from " + user);
 
-        userValidator(user);
-        validateString(contactName);
+
+        ArgumentChecker.assertNotNull(user,"user");
+        ArgumentChecker.assertNotNullAndEmpty(contactName,"contactName");
         User userToRemove;
         try {
             userToRemove = userDAO.findByUsername(contactName);
@@ -140,7 +150,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserContact> getAllContactsByUser(User user) {
     	
-    	userValidator(user);
+
+        ArgumentChecker.assertNotNull(user,"user");
     	
         LOG.debug("get all contacts from " + user);
         try {
@@ -154,8 +165,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user) {
     	
-
-    	userValidator(user);
+        ArgumentChecker.assertNotNull(user,"user");
     	
         LOG.debug("update " + user);
 
@@ -183,9 +193,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfile getUserProfilById(int id) {
     	
-
-    	if(id < 0)
-			throw new IllegalArgumentException();
+    	ArgumentChecker.assertValidNumber(id, "userProfilId");
     	
         LOG.debug("getUserProfil by Id");
 
@@ -212,8 +220,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Community> getAllCommunitiesForUser(User user) {
       
-        
-    	userValidator(user);
+        ArgumentChecker.assertNotNull(user,"user");
         
         LOG.debug("getAllUserProfiles");
 
@@ -232,8 +239,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(int id) {
     	
-    	if(id < 0)
-			throw new IllegalArgumentException();
+    	ArgumentChecker.assertValidNumber(id, "userId");
     	
         LOG.info("delete: " + id);
 
@@ -250,8 +256,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(int id) {
     	
-    	if(id < 0)
-			throw new IllegalArgumentException();
+    	ArgumentChecker.assertValidNumber(id, "userId");
     	
         LOG.debug("find User with id=" + id);
 
@@ -264,28 +269,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void userValidator(User user) {
-        boolean isValidUser = user != null && user.getUsername() != null && user.getPassword() != null;
-        if (!isValidUser) {
-            LOG.error("User not valid " + user);
-            throw new ServiceException("User not valid " + user);
-        }
-    }
-
-    private void validateString(String... strings) {
-        for (String field : strings) {
-            if (field == null || field.isEmpty()) {
-                LOG.error("Missing Argument ");
-                throw new ServiceException("Missing Argument ");
-            }
-        }
-    }
-
-    @Override
     public void addPictureToProfile(UserProfile userProfile) {
     	
-    	if(userProfile == null)
-			throw new IllegalArgumentException();
+    	ArgumentChecker.assertNotNull(userProfile, "userprofile");
     	
         try {
             userProfileDAO.update(userProfile);
@@ -298,7 +284,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean hasUserTheRole(ROLE privileg, User user) {
     	
-    	userValidator(user);
+
+        ArgumentChecker.assertNotNull(user,"user");
     	
         User loadedUser = findById(user.getId());
         List<Enumeration> roles = loadedUser.getRoles();
@@ -313,9 +300,9 @@ public class UserServiceImpl implements UserService {
 
     public List<User> getContactsOfUser(User user) {
     	
-    	userValidator(user);
-    	
-    	
+
+        ArgumentChecker.assertNotNull(user,"user");
+        
         List<UserContact> userContactObjects = getAllContactsByUser(user);
 
         List<User> userContacts = new ArrayList<>();

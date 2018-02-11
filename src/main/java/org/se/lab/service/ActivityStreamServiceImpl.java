@@ -5,6 +5,7 @@ import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
+import org.se.lab.utils.ArgumentChecker;
 import org.se.lab.db.dao.EnumerationDAO;
 import org.se.lab.db.dao.PostDAO;
 
@@ -31,9 +32,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
     public void insert(Post post, Community community) {
         LOG.debug("insert " + post);
 
-        if (post == null) {
-            throw new ServiceException("Post must not be null");
-        }
+        ArgumentChecker.assertNotNull(post, "post");
 
         try {
             if (community == null) {

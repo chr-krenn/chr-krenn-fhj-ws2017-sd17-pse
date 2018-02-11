@@ -1,12 +1,12 @@
 package org.se.lab.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.model.UploadedFile;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.File;
 import org.se.lab.db.data.PrivateMessage;
 import org.se.lab.db.data.User;
+import org.se.lab.utils.ArgumentChecker;
 import org.se.lab.db.dao.CommunityDAO;
 import org.se.lab.db.dao.FileDao;
 
@@ -114,8 +114,8 @@ public class CommunityServiceImpl implements CommunityService {
         Community com;
         try {
             com = communityDAO.createCommunity(name, description, portalAdmin);
-            if (com == null)
-                throw new ServiceException("Can't insert community " + name);
+            
+            ArgumentChecker.assertNotNull(com, "com");
 
             notifyAdmins(com);
 
@@ -193,23 +193,6 @@ public class CommunityServiceImpl implements CommunityService {
 
     }
 
-
-    private void validate(UploadedFile uploadedFile) {
-        if (uploadedFile == null || StringUtils.isEmpty(uploadedFile.getFileName())) {
-            String error = "Uploaded File not valid";
-            LOG.error(error);
-            throw new ServiceException(error);
-        }
-    }
-
-    private void validate(User user) {
-        if (user == null) {
-            String error = "User cant be null";
-            LOG.error(error);
-            throw new ServiceException(error);
-        }
-    }
-
     private void notifyAdmins(Community com) {
 
         User u = userServcie.findById(com.getPortaladminId());
@@ -223,8 +206,10 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public void uploadFile(User user, UploadedFile uploadedFile) {
 
-        validate(user);
-        validate(uploadedFile);
+
+        ArgumentChecker.assertNotNull(user, "user");
+
+        ArgumentChecker.assertNotNull(uploadedFile, "uploadedFile");
 
         LOG.info(String.format("File %s stored in Database", uploadedFile.getFileName()));
         try {
@@ -255,10 +240,9 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public void deleteFile(File file) {
-        if (file == null) {
-            String error = "File is null";
-            throw new ServiceException(error);
-        }
+    
+        ArgumentChecker.assertNotNull(file, "file");
+        
         try {
             fileDao.delete(file);
         } catch (Exception e) {

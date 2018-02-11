@@ -42,7 +42,6 @@ public interface UserService {
 
     User findById(int id);
 
-    void userValidator(User user);
 
     void addPictureToProfile(UserProfile userProfile);
 
