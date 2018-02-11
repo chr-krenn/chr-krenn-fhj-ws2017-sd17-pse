@@ -222,19 +222,16 @@ public class UserDataBean  implements Serializable {
 
     public boolean isImageExists() {
 
-        boolean imageExists = false;
+		if(user != null)
+		{
+    return user.getUserProfile().getPicture() != null;
 
-        try {
-            user.getUserProfile().getPicture();
-            imageExists = true;
-
-        } catch (Exception e) {
-            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
-            LOG.error(errorMsg);
-            setErrorMsg(errorMsg);
-        }
-        return imageExists;
-    }
+		}
+		else
+		{
+			return false;
+		}
+}
 
     private void validateUserPriviles(User u) {
         try {
