@@ -9,15 +9,15 @@ public class AdminPortalPage extends PageObject {
 	}
 
 	public String getPendingCommunities() {
-		return driver.findElement(By.id("j_idt24")).getText();
+		return driver.findElement(By.id("j_idt22:j_idt23")).getText();
 	}
 
 	public String getApprovedCommunities() {
-		return driver.findElement(By.id("j_idt33")).getText();
+		return driver.findElement(By.id("j_idt31:j_idt32")).getText();
 	}
 	
 	public String getFirstPendingCommunityName() {
-		return driver.findElement(By.xpath("//table[@id='j_idt25:j_idt26']/tbody/tr/td[2]")).getText();
+		return driver.findElement(By.xpath("//*[@id=\"j_idt22:j_idt23\"]/tbody/tr[1]/td[2]")).getText();
 	}
 	
 	public String getFirstPendingCommunityDescription() {
@@ -25,11 +25,11 @@ public class AdminPortalPage extends PageObject {
 	}
 	
 	public void declineFirstPendingCommunity() {
-		driver.findElement(By.id("j_idt25:j_idt26:0:j_idt31")).click();
+		driver.findElement(By.id("j_idt22:j_idt23:0:j_idt28")).click();
 	}
 	
 	public void approveFirstPendingCommunity() {
-		driver.findElement(By.id("j_idt25:j_idt26:1:j_idt32")).click();
+		driver.findElement(By.id("j_idt22:j_idt23:0:j_idt29")).click();
 	}
 
 }

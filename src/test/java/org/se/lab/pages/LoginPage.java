@@ -1,6 +1,7 @@
 package org.se.lab.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends PageObject {
 
@@ -8,6 +9,10 @@ public class LoginPage extends PageObject {
 
 	public LoginPage() {
 		super();
+	}
+
+	public LoginPage(WebDriver driver) {
+		super(driver);
 	}
 
 	public ActivityStreamPage login(String username, String password) {

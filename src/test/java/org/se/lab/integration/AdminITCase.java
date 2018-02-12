@@ -86,7 +86,7 @@ public class AdminITCase {
 	
 		adminPortalPage.declineFirstPendingCommunity();
 		
-		firstPendingCommunityNameAfterDecline= adminPortalPage.getFirstPendingCommunityName();
+		firstPendingCommunityNameAfterDecline = adminPortalPage.getFirstPendingCommunityName();
 		
 		assertFalse(firstPendingCommunityName.equals(firstPendingCommunityNameAfterDecline));
 		assertFalse(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityName));
