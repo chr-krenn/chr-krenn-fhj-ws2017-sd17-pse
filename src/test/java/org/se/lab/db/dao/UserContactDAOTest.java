@@ -1,5 +1,6 @@
 package org.se.lab.db.dao;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,46 +41,57 @@ public class UserContactDAOTest extends AbstractDAOTest {
     @Override
     public void testCreate() {
         udao.insert(u);
-        ucdao.insert(uc);
+        UserContact persistedUserContact = ucdao.insert(uc);
+        
+        Assert.assertEquals(u, udao.findByUsername(u.getUsername()));
+        Assert.assertNotNull(persistedUserContact);
+        Assert.assertEquals(uc, ucdao.findById(persistedUserContact.getId()));
     }
 
     @Test
     @Override
     public void testModify() {
         udao.insert(u);
-        UserContact persisted = ucdao.insert(uc);
+        UserContact persistedContact = ucdao.insert(uc);
 
-        persisted.setContactId(3);
+        persistedContact.setContactId(3);
+        persistedContact.setUser(u);
+       
 
-        ucdao.update(persisted);
-        Assert.assertEquals(3, uc.getContactId());
+        UserContact modifiedContact = ucdao.update(persistedContact);
+        Assert.assertEquals(3, modifiedContact.getContactId());
+        Assert.assertEquals(u, modifiedContact.getUser());
     }
 
     @Test
     @Override
     public void testRemove() {
-        udao.insert(u);
-        ucdao.insert(uc);
+    	udao.insert(u);
+        UserContact persistedUserContact = ucdao.insert(uc);
+        
         ucdao.delete(uc);
-        UserContact uc3 = ucdao.findById(uc.getId());
-        Assert.assertNull(uc3);
+                
+        Assert.assertNull(null, ucdao.findById(persistedUserContact.getId()));
     }
 
     @Test
     public void testfindAll() {
-        udao.insert(u);
+    	udao.insert(u);
         ucdao.insert(uc);
         ucdao.insert(uc2);
-        List<UserContact> ucs = ucdao.findAll();
-        Assert.assertEquals(2, ucs.size());
+        List<UserContact> userContacts = ucdao.findAll();
+        
+        Assert.assertEquals(true, userContacts.contains(uc));
+        Assert.assertEquals(true, userContacts.contains(uc2));
     }
 
     @Test
     public void testfindById() {
         udao.insert(u);
-        ucdao.insert(uc);
-        UserContact uc3 = ucdao.findById(uc.getId());
-        Assert.assertEquals(uc, uc3);
+        UserContact persistedUserContact = ucdao.insert(uc);
+        
+                
+        Assert.assertEquals(persistedUserContact, ucdao.findById(persistedUserContact.getId()));
     }
 
     @Test
@@ -131,39 +143,77 @@ public class UserContactDAOTest extends AbstractDAOTest {
 
     @Test
     public void testUserbyContact() {
-        udao.insert(u);
+        User persistedUser = udao.insert(u);
         ucdao.insert(uc);
 
         List<UserContact> ucs = ucdao.findAll();
-        Assert.assertEquals(1, ucs.size());
-        Assert.assertEquals(uc.getId(), ucs.get(0).getId());
-
-        Assert.assertEquals(u.getId(), ucs.get(0).getUser().getId());
-        Assert.assertEquals("James", ucs.get(0).getUser().getUsername());
-        Assert.assertEquals("***", ucs.get(0).getUser().getPassword());
-
-        Assert.assertEquals(2, ucs.get(0).getContactId());
+        Assert.assertEquals(true, ucs.contains(uc));
+        
+        boolean contactFound = false;
+        for(UserContact contact : ucs){
+        	if(contact.getUser().equals(persistedUser)){
+        		contactFound = true;
+        		Assert.assertEquals(persistedUser.getId(), contact.getUser().getId());
+        	}
+        }
+        
+        Assert.assertTrue(contactFound);
+        
     }
 
     @Test
     public void testUserProfilebyContact() {
-        udao.insert(u);
+    	User persistedUser = udao.insert(u);
         ucdao.insert(uc);
         updao.insert(up);
 
         u.setUserProfile(up);
 
         List<UserContact> ucs = ucdao.findAll();
-        Assert.assertEquals(1, ucs.size());
-        Assert.assertEquals(uc.getId(), ucs.get(0).getId());
+        
+        boolean contactFound = false;
+        
+        for(UserContact contact : ucs){
+        	if(contact.getUser().equals(persistedUser)){
+        		contactFound = true;
+        		Assert.assertEquals(persistedUser.getUserProfile(), contact.getUser().
+        				getUserProfile());
+        		
+        	}
+        }
+        Assert.assertTrue(contactFound);
 
-        Assert.assertEquals(up.getId(), ucs.get(0).getUser().getUserProfile().getId());
-        Assert.assertEquals("James", ucs.get(0).getUser().getUserProfile().getFirstname());
-        Assert.assertEquals("Bond", ucs.get(0).getUser().getUserProfile().getLastname());
-        Assert.assertEquals("james.bond@gmail.com", ucs.get(0).getUser().getUserProfile().getEmail());
-
-        Assert.assertEquals(2, ucs.get(0).getContactId());
-
+    }
+    
+    @After
+    public void tearDown(){
+    	//arrange
+    	List<User> testUsers = udao.findAll();
+    	List<UserProfile> testUserProfiles = updao.findAll();
+    	List<UserContact> testUserContacts = ucdao.findAll();
+    	
+    	//act
+    	if(testUsers.contains(u))
+    		udao.delete(u);
+    	
+    	if(testUserProfiles.contains(up))
+    		updao.delete(up);
+    	
+    	if(testUserContacts.contains(uc))
+    		ucdao.delete(uc);
+    	
+    	if(testUserContacts.contains(uc2))
+    		ucdao.delete(uc2);
+    	
+    	//assert
+    	testUsers = udao.findAll();
+    	testUserProfiles = updao.findAll();
+    	testUserContacts = ucdao.findAll();
+    	
+    	Assert.assertEquals(false, testUsers.contains(u));
+    	Assert.assertEquals(false, testUserProfiles.contains(up));
+    	Assert.assertEquals(false, testUserContacts.contains(uc));
+    	Assert.assertEquals(false, testUserContacts.contains(uc2));
     }
 
 }
