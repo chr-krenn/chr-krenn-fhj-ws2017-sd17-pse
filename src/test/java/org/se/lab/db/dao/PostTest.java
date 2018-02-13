@@ -117,12 +117,7 @@ public class PostTest {
 	public void testInvalidChildIsNull()  {
 		post.addChildPost(null);
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testInvalidLikeIsNull()  {
-		post.addLike(null);
-	}
-	
+
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidTextMessageLength()  {
 		StringBuilder builder = new StringBuilder();
