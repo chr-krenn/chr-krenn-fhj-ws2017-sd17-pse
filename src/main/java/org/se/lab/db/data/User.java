@@ -49,7 +49,7 @@ public class User implements Serializable {
     public User(String username, String password) {
         LOG.debug("New User");
         LOG.trace(
-                String.format("\t{\n\tusername: %s,\n\tpassword: %s",
+                String.format("\t{%n\tusername: %s,%n\tpassword: %s",
                         username,
                         password));
         setUsername(username);
