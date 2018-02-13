@@ -11,11 +11,8 @@ import java.util.List;
 public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
 
     private final Logger LOG = Logger.getLogger(PostDAOImpl.class);
-
-
     private static final String POST_FOR_USER_QUERY = "SELECT p FROM Post p WHERE p.user.id = :id";
     private static final String POST_FOR_COMMUNITY_QUERY = "SELECT p FROM Post p WHERE p.community.id = :id";
-
     private static final String POST_FOR_USER_AND_CONTACT_QUERY = "SELECT p FROM Post p WHERE p.user.id IN :idlist";
 
     @Override
@@ -24,28 +21,24 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
         return super.insert(post);
     }
 
-    // DAOImplTemplate update
     @Override
     public Post update(Post post) {
         LOG.debug("merge(" + post + ")");
         return super.update(post);
     }
 
-    // DAOImplTemplate delete
     @Override
     public void delete(Post post) {
         LOG.debug("delete(" + post + ")");
         super.delete(post);
     }
 
-    // DAOImplTemplate findById
     @Override
     public Post findById(int id) {
         LOG.debug("findById(" + id + ")");
         return super.findById(id);
     }
 
-    // DAOImplTemplate findAll
     @Override
     public List<Post> findAll() {
         LOG.debug("findAll()");
@@ -57,14 +50,6 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
         return Post.class;
     }
 
-	/*
-     * End DAOImplTemplate
-	 */
-
-
-    /*
-     * None DAOImplTemplate methods
-     */
     @Override
     public Post insert(Post post, Community community) {
         LOG.debug("insert(" + post + ", " + community + ")");
@@ -90,11 +75,6 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
         return super.em.createQuery(POST_FOR_COMMUNITY_QUERY, Post.class).setParameter("id", community.getId()).getResultList();
     }
 
-	
-	/*
-	 * Create methods 
-	 */
-
     @Override
     public Post clonePost(Post post) {
         return insert(new Post(post.getParentpost(), post.getCommunity(), post.getUser(), post.getText(), post.getCreated()));
@@ -110,4 +90,5 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
     	LOG.debug("trying to persist new post:" + parentpost + " " + community + " " + user + " " + text);
         return insert(new Post(parentpost, community, user, text, created));
     }
+
 }

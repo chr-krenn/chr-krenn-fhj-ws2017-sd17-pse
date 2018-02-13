@@ -11,5 +11,5 @@ public interface UserProfileDAO {
     void delete(UserProfile up);
     List<UserProfile> findAll();
     UserProfile findById(int id);
-    
+
 }

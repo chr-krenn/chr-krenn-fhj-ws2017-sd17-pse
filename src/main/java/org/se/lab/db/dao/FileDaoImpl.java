@@ -44,4 +44,5 @@ public class FileDaoImpl extends DAOImplTemplate<File> implements FileDao {
     }
 
     private static final String FILES_BY_USER_QUERY = "SELECT f FROM File f WHERE f.user.id = :id";
+
 }

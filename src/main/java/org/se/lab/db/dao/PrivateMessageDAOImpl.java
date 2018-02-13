@@ -5,11 +5,9 @@ import org.se.lab.db.data.PrivateMessage;
 
 import java.util.List;
 
-public class PrivateMessageDAOImpl extends DAOImplTemplate<PrivateMessage> implements PrivateMessageDAO
-{
+public class PrivateMessageDAOImpl extends DAOImplTemplate<PrivateMessage> implements PrivateMessageDAO {
 	
 	private final Logger LOG = Logger.getLogger(UserProfileDAOImpl.class);
-    
 
 	@Override
 	public PrivateMessage insert(PrivateMessage privatemessage) {
@@ -39,4 +37,5 @@ public class PrivateMessageDAOImpl extends DAOImplTemplate<PrivateMessage> imple
 	protected Class<PrivateMessage> getEntityClass() {
 		return PrivateMessage.class;
 	}
+
 }

@@ -1,14 +1,12 @@
 package org.se.lab.db.dao;
 
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 
 public abstract class DAOImplTemplate<E> implements DAOTemplate<E> {
-	/*
-	 * Constructor injection
-	 */
+
 	@PersistenceContext
 	protected EntityManager em;
 
@@ -18,19 +16,12 @@ public abstract class DAOImplTemplate<E> implements DAOTemplate<E> {
 		return em;
 	}
 
-	/**
-	 * Set the EntityManager for DAO
-	 * @param em
-	 */
 	public void setEntityManager(EntityManager em) {
 		this.em = em;
 	}
 
 	protected abstract Class<E> getEntityClass();
 
-	/**
-	 * CRUD methods
-	 **/
 	@Override
 	public E insert(E entity) {
 		em.persist(entity);
@@ -58,4 +49,5 @@ public abstract class DAOImplTemplate<E> implements DAOTemplate<E> {
 		final String hql = "SELECT u FROM " + getEntityClass().getName() + " AS u";
 		return em.createQuery(hql).getResultList();
 	}
+
 }
