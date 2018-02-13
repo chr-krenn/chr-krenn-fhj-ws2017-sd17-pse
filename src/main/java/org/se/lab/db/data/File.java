@@ -4,6 +4,7 @@ import org.se.lab.utils.ArgumentChecker;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "file")
@@ -36,11 +37,11 @@ public class File implements Serializable {
     private User user;
 
     public byte[] getData() {
-        return data;
+        return Arrays.copyOf(data, data.length);
     }
 
     public void setData(byte[] file) {
-        this.data = file;
+        this.data = Arrays.copyOf(file, file.length);
     }
 
     public User getUser() {

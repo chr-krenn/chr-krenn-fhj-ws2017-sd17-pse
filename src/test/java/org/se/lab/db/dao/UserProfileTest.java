@@ -1,5 +1,7 @@
 package org.se.lab.db.dao;
 
+import java.util.Arrays;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -83,12 +85,12 @@ public class UserProfileTest {
         up.setUser(null);
     }
 
-
     @Test
     public void testProfilepicture() {
         byte[] bytearray = "Random Picture".getBytes();
+        bytearray = Arrays.copyOf(bytearray, bytearray.length);
         up.setPicture(bytearray);
-        Assert.assertEquals(bytearray, up.getPicture());
+        Assert.assertArrayEquals(bytearray, up.getPicture());
     }
 
 

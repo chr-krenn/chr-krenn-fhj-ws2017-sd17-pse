@@ -51,7 +51,7 @@ public class PrivateMessage implements Serializable {
     public PrivateMessage(String text, User sender, User receiver) {
         LOG.debug("New Private Message");
         LOG.trace(
-                String.format("\t{\n\ttext: %s,\n\tsender: %s\n\treceiver:",
+                String.format("\t{%n\ttext: %s,%n\tsender: %s%n\treceiver: %s%n\t",
                         text,
                         sender,
                         receiver));

@@ -206,10 +206,8 @@ public class UserDataBean  implements Serializable {
 
         //todo maybe need to load from db
 
-        if (user.getUserProfile().getPicture() != null) {
             return new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
-        }
-        return null;
+        
     }
 
     public void uploadPicture(FileUploadEvent event) {
@@ -222,14 +220,13 @@ public class UserDataBean  implements Serializable {
 
     public boolean isImageExists() {
 
-		if(user != null)
+		if(user == null)
 		{
-    return user.getUserProfile().getPicture() != null;
-
+			return false;
 		}
 		else
 		{
-			return false;
+		    return user.getUserProfile().getPicture() != null;
 		}
 }
 

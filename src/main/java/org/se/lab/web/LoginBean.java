@@ -73,8 +73,9 @@ public class LoginBean implements Serializable {
 
             Map<String, Object> session = context.getExternalContext().getSessionMap();
 
-            for (String key : session.keySet()) {
-                LOG.info(key + ": " + session.get(key));
+            
+            	for (Map.Entry<String,Object> e : session.entrySet()) {
+                LOG.info(e.getKey() + ": " + e.getValue());
             }
 
             try {
