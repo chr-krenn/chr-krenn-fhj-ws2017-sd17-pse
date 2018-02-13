@@ -50,6 +50,9 @@ mvn clean package
 # run unit tests and deploy application:
 mvn clean wildfly:deploy
 
+# run unit/integration tests with coverage analysis, deploy application, run UI tests:
+mvn clean wildfly:deploy verify
+
 # run unit tests:
 mvn test
 
