@@ -55,8 +55,10 @@ public class Post implements Serializable {
     @JoinColumn(name = "fk_user_id")
     private User user;
     // Likes
-    @ManyToMany(mappedBy = "liked")
-    private List<Enumeration> likes = new ArrayList<Enumeration>();
+    @ManyToMany( fetch=FetchType.EAGER)
+    private List<User> likedByUsers = new ArrayList<User>();
+    
+    
     @Column(name = "text", length = MAX_TEXT_LENGTH)
     private String text;
     // created (Timestamp)
@@ -175,19 +177,18 @@ public class Post implements Serializable {
      *
      * @return (EnumerationItem) likes
      */
-    public List<Enumeration> getLikes() {
-        LOG.debug("getLikes -> " + likes);
-        return likes;
+    public List<User> getLikes() {
+        LOG.debug("getLikes -> " + likedByUsers);
+        return likedByUsers;
     }
 
-    public void addLike(Enumeration like) {
-        LOG.debug("addLikeToPost(" + like + ")");
-        ArgumentChecker.assertNotNull(like, "like");
-
-        if (!like.getLikedPosts().contains(this))
-            like.addLikedPost(this);
-        if (!this.likes.contains(like))
-            this.likes.add(like);
+    public int getLikeCount() {
+    	return likedByUsers.size();
+    }
+    
+    public void addLike(User from) {
+        LOG.debug("addLikeToPost(" + from + ")");
+        likedByUsers.add(from);
     }
 
     public String getText() {

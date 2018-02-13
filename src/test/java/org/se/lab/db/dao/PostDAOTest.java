@@ -118,7 +118,6 @@ public class PostDAOTest extends AbstractDAOTest {
     public void testFindById(){
 		Post persistedPost1 = pdao.insert(post1);
 		
-		
 		Assert.assertEquals(persistedPost1, pdao.findById(persistedPost1.getId()));
     }
     
@@ -133,7 +132,7 @@ public class PostDAOTest extends AbstractDAOTest {
 		Assert.assertEquals(true, posts.contains(persistedPost2));
     }
     
-    @After
+    //@After
     public void tearDown(){
     	//arrange
     	List<User> testUsers = udao.findAll();

@@ -144,7 +144,6 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
         return c;
     }
 
-
     private Enumeration getValidEnumeration(Enumeration find) throws DatabaseException {
         if (find != null)
             return find;
@@ -158,9 +157,6 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
         return find;
     }
 
-    /*
-     * helper
-     */
     private Community initializeCom(Community c) {
         if (c == null) return c;
         Hibernate.initialize(c.getState());

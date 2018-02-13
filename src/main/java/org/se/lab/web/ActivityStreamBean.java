@@ -1,6 +1,7 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
+import org.se.lab.db.dao.PostDAOImpl;
 import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
@@ -9,6 +10,8 @@ import org.se.lab.service.PostService;
 import org.se.lab.service.UserService;
 import org.se.lab.web.helper.RedirectHelper;
 import org.se.lab.web.helper.Session;
+
+import com.steadystate.css.parser.selectors.PseudoElementSelectorImpl;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -40,7 +43,6 @@ public class ActivityStreamBean  implements Serializable {
     private PostService pservice;
     @Inject
     private Session session;
-
 
     Flash flash;
     FacesContext context;
@@ -92,17 +94,23 @@ public class ActivityStreamBean  implements Serializable {
     }
 
 
-    public int getLikeCount() {
-        return likecount;
-    }
 
     public void addLike(Post post) {
-        likecount++;
+    	
+    	if (!post.getLikes().contains(getLoggedInUser())) {
+    		post.addLike(getLoggedInUser());
+        	pservice.updatePost(post);
+    	}
         LOG.info("Likes: " + likecount + " - " + post.toString());
     }
 
-    public int getLikes(Post p) {
-        return likecount;
+    public String getLikes(Post p) {
+    	String r = "";
+    	
+    	for (User u: p.getLikes())
+    		r += " " + u.getUsername();
+    	
+        return r;
     }
 
     public void newPost(Post parentpost) {
@@ -117,6 +125,7 @@ public class ActivityStreamBean  implements Serializable {
             }
         } else {
             flash.put("inputText", inputTextChild);
+            LOG.info("appending comment to post: " + inputTextChild);
             try {
                 post = pservice.createPost(parentpost, parentpost.getCommunity(), getLoggedInUser(), inputTextChild, new Date());
             } catch (DatabaseException e) {

@@ -94,54 +94,7 @@ public class PostTest {
 		post.addChildPost(current2);
 	}
 	
-	@Test
-	public void testLikePost()  {
-		Enumeration alike = new Enumeration(1);
-		alike.setName("Like");
-		User user = new User();
-		alike.addUserToLike(user);
-		
-		post.addLike(alike);
-		assertTrue(post.getLikes().size() == 1);
-		assertEquals(alike, post.getLikes().get(0));
-		
-		// Add dame like again
-		post.addLike(alike);
-		assertTrue(post.getLikes().size() == 1);
-		assertEquals(alike, post.getLikes().get(0));
-		
-		// Post set in Like
-		alike = new Enumeration(2);
-		alike.addLikedPost(post);
-		post.addLike(alike);
-		assertTrue(post.getLikes().size() == 2);
-		assertEquals(alike, post.getLikes().get(1));
-	}
-	
-	@Test
-	public void testRemoveLikePost()  {
-		// Setup
-		Enumeration alike = new Enumeration(1);
-		alike.setName("Like");
-		User user = new User();
-		assertNotNull(user);
-		alike.addUserToLike(user);
-		
-		post.addLike(alike);
-		assertTrue(post.getLikes().size() == 1);
-		
-		// remove
-		alike.removeLike(user, post);
-		assertTrue(post.getLikes().size() == 0);
-		
-		// Like never added to post
-		alike.addLikedPost(post);
-		assertEquals(alike.getLikedPosts().get(0), post);
-		alike.removeLike(user, post);
-		assertTrue(post.getLikes().size() == 0);
-		assertTrue(alike.getLikedPosts().size() == 0);
-		
-	}
+
 	
 	@Test
 	public void testHash() {
@@ -164,12 +117,7 @@ public class PostTest {
 	public void testInvalidChildIsNull()  {
 		post.addChildPost(null);
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testInvalidLikeIsNull()  {
-		post.addLike(null);
-	}
-	
+
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidTextMessageLength()  {
 		StringBuilder builder = new StringBuilder();

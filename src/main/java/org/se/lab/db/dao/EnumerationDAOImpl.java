@@ -54,11 +54,10 @@ public class EnumerationDAOImpl extends DAOImplTemplate<Enumeration> implements 
 				name="LIKE";
 				break;
 			default:
-				throw new DatabaseException("unknown id for new Enumeration! id = " + id);
+				throw new IllegalArgumentException("unknown id for new Enumeration! id = " + id);
 		}
 		Enumeration e = new Enumeration(name);
 		insert(e);
-		
 		return e;
 	}
 	
@@ -98,4 +97,5 @@ public class EnumerationDAOImpl extends DAOImplTemplate<Enumeration> implements 
 	protected Class<Enumeration> getEntityClass() {
 		return Enumeration.class;
 	}
+
 }

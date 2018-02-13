@@ -74,12 +74,6 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
 
     public void deleteExecuter(Post post) {
         try {
-            // delete likes from post
-            List<Enumeration> likes = post.getLikes();
-            for (Enumeration like: likes) {
-                enumerationDAO.delete(like);
-            }
-
             dao.delete(post);
         } catch (Exception e) {
             LOG.error("Can't delete post " + post, e);

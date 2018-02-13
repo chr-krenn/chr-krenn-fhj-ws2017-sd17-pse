@@ -10,19 +10,11 @@ public class UserContactDAOImpl extends DAOImplTemplate<UserContact> implements 
 
     private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
 
-    /**
-     * insert method to add a new contact in DB.
-     */
-
     @Override
     public UserContact insert(UserContact contact) {
         LOG.info("insert(" + contact + ")");
         return super.insert(contact);
     }
-
-    /**
-     * update contact object in DB.
-     */
 
     @Override
     public UserContact update(UserContact contact) {
@@ -30,19 +22,11 @@ public class UserContactDAOImpl extends DAOImplTemplate<UserContact> implements 
         return super.update(contact);
     }
 
-    /**
-     * delete contact object
-     */
-
     @Override
     public void delete(UserContact contact) {
         LOG.info("delete(" + contact + ")");
         super.delete(contact);
     }
-
-    /**
-     * find all contact objects in DB.
-     */
 
     @Override
     public List<UserContact> findAll() {
@@ -50,31 +34,17 @@ public class UserContactDAOImpl extends DAOImplTemplate<UserContact> implements 
         return super.findAll();
     }
 
-    /**
-     * find contact objects by ID in DB.
-     */
-
     @Override
     public UserContact findById(int id) {
         LOG.info("findById(" + id + ")");
         return super.findById(id);
     }
 
-    /**
-     * @param contactId
-     * @param userId    checks if user exists in DB.
-     */
-
     @Override
     public boolean doesContactExistForUserId(int contactId, int userId) {
         final String hql = "SELECT uc FROM " + UserContact.class.getName() + " AS uc WHERE uc.user = " + userId + " AND uc.contact = " + contactId;
         return em.createQuery(hql).getResultList().isEmpty() ? false : true;
     }
-
-    /**
-     * @param contactId
-     * @param userId    deletes contact where user id and contact id matches
-     */
 
     @Override
     public void deleteContactForUserIdAndContactId(int contactId, int userId) {
@@ -92,6 +62,5 @@ public class UserContactDAOImpl extends DAOImplTemplate<UserContact> implements 
     protected Class<UserContact> getEntityClass() {
         return UserContact.class;
     }
-
 
 }

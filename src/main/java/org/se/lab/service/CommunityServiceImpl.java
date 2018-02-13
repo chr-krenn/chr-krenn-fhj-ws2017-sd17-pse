@@ -8,7 +8,7 @@ import org.se.lab.db.data.PrivateMessage;
 import org.se.lab.db.data.User;
 import org.se.lab.utils.ArgumentChecker;
 import org.se.lab.db.dao.CommunityDAO;
-import org.se.lab.db.dao.FileDao;
+import org.se.lab.db.dao.FileDAO;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -26,7 +26,7 @@ public class CommunityServiceImpl implements CommunityService {
     private CommunityDAO communityDAO;
 
     @Inject
-    private FileDao fileDao;
+    private FileDAO fileDAO;
 
     @Inject
     private PrivateMessageService pmService;
@@ -213,7 +213,7 @@ public class CommunityServiceImpl implements CommunityService {
 
         LOG.info(String.format("File %s stored in Database", uploadedFile.getFileName()));
         try {
-            fileDao.insert(new File(user, uploadedFile.getFileName(), uploadedFile.getContents()));
+            fileDAO.insert(new File(user, uploadedFile.getFileName(), uploadedFile.getContents()));
         } catch (Exception e) {
             LOG.error("Can`t upload file " + uploadedFile.getFileName(), e);
             throw new ServiceException("Can`t upload file  " + uploadedFile.getFileName());
@@ -227,7 +227,7 @@ public class CommunityServiceImpl implements CommunityService {
 
         if (user != null) {
             try {
-                files = fileDao.findByUser(user);
+                files = fileDAO.findByUser(user);
             } catch (Exception e) {
                 LOG.error("Can`t get file from user" + user.getId(), e);
                 throw new ServiceException("Can`t get file from user" + user.getId());
@@ -244,7 +244,7 @@ public class CommunityServiceImpl implements CommunityService {
         ArgumentChecker.assertNotNull(file, "file");
         
         try {
-            fileDao.delete(file);
+            fileDAO.delete(file);
         } catch (Exception e) {
             LOG.error("Can`t delete file " + file.getFilename(), e);
             throw new ServiceException("Can`t delete file " + file.getFilename());

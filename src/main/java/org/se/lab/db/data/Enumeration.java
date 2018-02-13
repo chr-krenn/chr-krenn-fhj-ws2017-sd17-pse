@@ -123,13 +123,6 @@ public class Enumeration implements Serializable {
         return liked;
     }
 
-    public void addLikedPost(Post post) {
-        if (!this.liked.contains(post))
-            this.liked.add(post);
-
-        if (!post.getLikes().contains(this))
-            post.getLikes().add(this);
-    }
 
     public List<User> getLikedBy() {
         return likedby;

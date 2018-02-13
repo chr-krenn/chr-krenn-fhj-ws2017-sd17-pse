@@ -97,6 +97,9 @@
 						</b:column>
 					</b:row>
 					<f:facet name="footer">
+						<b:row>
+						<h:outputText value="liked by #{activityStreamBean.getLikes(posts)}" />
+						</b:row>
 						<h:form>
 							<b:commandButton value="Like!"
 								actionListener="#{activityStreamBean.addLike(posts)}"

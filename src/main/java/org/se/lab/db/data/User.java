@@ -40,6 +40,8 @@ public class User implements Serializable {
     private List<PrivateMessage> privateMessagesReceiver = new ArrayList<>();
     @ManyToMany(mappedBy = "userroles")
     private List<Enumeration> roles = new ArrayList<Enumeration>();
+    
+   
     /*
      * User for Like
      */

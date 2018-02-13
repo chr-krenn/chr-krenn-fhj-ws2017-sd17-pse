@@ -10,10 +10,7 @@ import org.se.lab.db.data.User;
 
 public interface UserDAO extends DAOTemplate<User> {
 
-	/**
-	 * @return user searched by username
-	 */
 	User findByUsername(String username);
-
 	User createUser(String username, String password) throws DatabaseException;
+
 }

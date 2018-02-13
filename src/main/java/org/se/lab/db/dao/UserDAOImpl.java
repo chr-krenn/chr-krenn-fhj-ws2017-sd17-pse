@@ -13,8 +13,8 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
-    private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
 
+    private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
 
     @Override
     protected Class<User> getEntityClass() {
@@ -58,10 +58,6 @@ public class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
         }
     }
 
-	/*
-     * Factory methods
-	 */
-
     @Override
     public User createUser(String username, String password) throws DatabaseException {
         LOG.info("createArticle(\"" + username + "\"," + "***" + ")");
@@ -73,10 +69,6 @@ public class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
         return u;
     }
 
-	/*
-	 * Helper
-	 */
-
     private User initializeUser(User u) {
         Hibernate.initialize(u.getLikes());
         Hibernate.initialize(u.getCommunities());
@@ -86,4 +78,5 @@ public class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
         Hibernate.initialize(u.getPrivateMessagesSender());
         return u;
     }
+
 }
