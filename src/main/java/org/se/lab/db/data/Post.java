@@ -70,7 +70,7 @@ public class Post implements Serializable {
     public Post(Post parentpost, Community community, User user, String text, Date created) {
         LOG.debug("New Post");
         LOG.trace(
-                String.format("\t{\n\tparentpost: %s,\n\tcommunity: %s\n\tuser: %s\n\ttext: %s\n\tcreated: %s",
+                String.format("\t{%n\tparentpost: %s,%n\tcommunity: %s%n\tuser: %s%n\ttext: %s%n\tcreated: %s",
                         parentpost,
                         community,
                         user,
@@ -204,14 +204,14 @@ public class Post implements Serializable {
 
     public Date getCreated() {
         LOG.debug("getCreated -> " + created);
-        return created;
+        return new Date(created.getTime());
     }
 
     public void setCreated(Date created) {
         LOG.debug("setCreated(" + created + ")");
         ArgumentChecker.assertNotNull(created, "creationDate");
 
-        this.created = created;
+        this.created = new Date(created.getTime());;
     }
 
 	/*

@@ -6,6 +6,7 @@ import org.se.lab.utils.ArgumentChecker;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -92,11 +93,11 @@ public class Community implements Serializable {
     }
 
     public byte[] getPicture() {
-        return picture;
+        return  Arrays.copyOf(picture, picture.length);
     }
 
     public void setPicture(byte[] picture) {
-        this.picture = picture;
+        this.picture = Arrays.copyOf(picture, picture.length);
     }
 
     public String getName() {

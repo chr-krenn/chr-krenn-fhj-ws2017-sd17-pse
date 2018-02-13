@@ -4,6 +4,7 @@ import org.se.lab.utils.ArgumentChecker;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * @author Christopher Wegl
@@ -126,11 +127,11 @@ public class UserProfile implements Serializable {
     }
 
     public byte[] getPicture() {
-        return picture;
+        return Arrays.copyOf(picture, picture.length);
     }
 
     public void setPicture(byte[] picture) {
-        this.picture = picture;
+        this.picture = Arrays.copyOf(picture, picture.length);
     }
 
     public String getAddress() {

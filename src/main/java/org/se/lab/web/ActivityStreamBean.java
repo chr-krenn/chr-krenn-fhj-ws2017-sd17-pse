@@ -86,7 +86,7 @@ public class ActivityStreamBean  implements Serializable {
     }
 
     public List<Post> getChildPosts(Post post) {
-        postChildren = new ArrayList<Post>();
+        
         postChildren = post.getChildPosts();
         return postChildren;
     }
