@@ -1,5 +1,6 @@
 package org.se.lab.db.dao;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,12 +11,12 @@ import java.util.List;
 
 public class UserProfileDAOTest extends AbstractDAOTest {
 
-    public User u;
-    public UserProfile up;
-    public UserProfile up2;
+    private User u;
+    private UserProfile up;
+    private UserProfile up2;
 
-    public UserDAOImpl udao = new UserDAOImpl();
-    public UserProfileDAOImpl updao = new UserProfileDAOImpl();
+    private UserDAOImpl udao = new UserDAOImpl();
+    private UserProfileDAOImpl updao = new UserProfileDAOImpl();
 
     @Before
     @Override
@@ -36,56 +37,98 @@ public class UserProfileDAOTest extends AbstractDAOTest {
     public void testCreate() {
         udao.insert(u);
         updao.insert(up);
+        
+        List<UserProfile> userProfiles = updao.findAll();
+        
+        Assert.assertEquals(u, udao.findByUsername(u.getUsername()));
+        Assert.assertEquals(true, userProfiles.contains(up));
     }
 
     @Test
     @Override
     public void testModify() {
         UserProfile persisted = updao.insert(up);
+        
         persisted.setFirstname("Test");
-        updao.update(persisted);
-        Assert.assertEquals("Test", up.getFirstname());
+        
+        UserProfile upModified = updao.update(persisted);
+        
+        
+        Assert.assertEquals(upModified, persisted);
     }
 
     @Test
     @Override
     public void testRemove() {
-        updao.insert(up);
-        updao.delete(up);
-        UserProfile up3 = updao.findById(up.getId());
-        Assert.assertNull(up3);
+    	UserProfile persisted = updao.insert(up);
+    	
+    	Assert.assertEquals(up, updao.findById(persisted.getId()));
+    	
+        updao.delete(persisted);
+        
+        Assert.assertEquals(null, updao.findById(persisted.getId()));
     }
 
     @Test
     public void testfindAll() {
         updao.insert(up);
         updao.insert(up2);
-        List<UserProfile> ups = updao.findAll();
-        Assert.assertEquals(2, ups.size());
+        
+        
+        List<UserProfile> userProfiles = updao.findAll();
+        Assert.assertEquals(true, userProfiles.contains(up));
+        Assert.assertEquals(true, userProfiles.contains(up2));
     }
 
     @Test
     public void testfindById() {
-        updao.insert(up);
-        UserProfile up3 = updao.findById(up.getId());
-        Assert.assertEquals(up, up3);
+        UserProfile persisted = updao.insert(up);
+        
+        Assert.assertEquals(up, updao.findById(persisted.getId()));
     }
 
     @Test
     public void testUserbyUserProfile() {
-        udao.insert(u);
-        updao.insert(up);
+        User userPersisted = udao.insert(u);
+        UserProfile userProfilePersisted = updao.insert(up);
 
         u.setUserProfile(up);
 
 
-        List<UserProfile> ups = updao.findAll();
-        Assert.assertEquals(1, ups.size());
-        Assert.assertEquals(up.getId(), ups.get(0).getId());
-
-        Assert.assertEquals(u.getId(), ups.get(0).getUser().getId());
-        Assert.assertEquals("James", ups.get(0).getUser().getUsername());
-        Assert.assertEquals("***", ups.get(0).getUser().getPassword());
+        List<UserProfile> userProfiles = updao.findAll();
+        Assert.assertEquals(true, userProfiles.contains(up));
+        
+        
+        for(UserProfile profile : userProfiles){
+        	if(profile.equals(userProfilePersisted)){
+        		Assert.assertEquals(userPersisted.getId(), profile.getUser().getId());
+        	}
+        }
+    }
+    
+    @After
+    public void tearDown(){
+    	//arrange
+    	List<User> testUsers = udao.findAll();
+    	List<UserProfile> testUserProfiles = updao.findAll();
+    	
+    	//act
+    	if(testUsers.contains(u))
+    		udao.delete(u);
+    	
+    	if(testUserProfiles.contains(up))
+    		updao.delete(up);
+    	
+    	if(testUserProfiles.contains(up2))
+    		updao.delete(up2);
+    	
+    	//assert
+    	testUsers = udao.findAll();
+    	testUserProfiles = updao.findAll();
+    	
+    	Assert.assertEquals(false, testUsers.contains(u));
+    	Assert.assertEquals(false, testUserProfiles.contains(up));
+    	Assert.assertEquals(false, testUserProfiles.contains(up2));
     }
 
 }
