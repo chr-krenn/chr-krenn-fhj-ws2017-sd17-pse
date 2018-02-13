@@ -104,18 +104,6 @@ public class PostDAOTest extends AbstractDAOTest {
         dao.update(persisted);
         assertTrue(persisted.getText().equals("Modified"));
 
-        // add Like To Post
-        like1 = edao.findById(7);
-        assertNotNull(like1);
-        like1.addUserToLike(user1);
-        persisted.addLike(like1);
-        dao.update(persisted);
-        assertTrue(persisted.getLikes().contains(like1));
-        assertTrue(persisted.getLikes()
-                .get(persisted.getLikes().size() - 1) // last like
-                .getLikedBy().contains(user1));
-
-
     }
 
     @Test

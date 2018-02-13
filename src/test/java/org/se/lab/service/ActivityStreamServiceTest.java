@@ -54,7 +54,6 @@ public class ActivityStreamServiceTest {
         post1 = new Post(null, community, user, "msg1", new Date());
         childPost = new Post(post1, community, user, "msg1", new Date());
         post1.addChildPost(childPost);
-        childPost.addLike(alike);
 
         post2 = new Post(null, community, user, "msg2", new Date());
 

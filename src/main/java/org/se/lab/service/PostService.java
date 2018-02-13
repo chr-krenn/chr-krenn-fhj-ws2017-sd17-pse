@@ -13,5 +13,5 @@ public interface PostService {
 
     Post createPost(Post parentpost, Community community, User user, String text, Date created) throws DatabaseException;
 
-
+    Post updatePost(Post post);	
 }

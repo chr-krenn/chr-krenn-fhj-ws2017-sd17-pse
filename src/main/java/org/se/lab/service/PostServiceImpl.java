@@ -27,7 +27,7 @@ public class PostServiceImpl implements PostService {
             return postDAO.createPost(user, text, created);
         } catch (Exception e) {
             LOG.error("Can't create post", e);
-            throw new ServiceException("Can't create post");
+            throw new ServiceException("Can't create post", e);
         }
     }
 
@@ -38,9 +38,19 @@ public class PostServiceImpl implements PostService {
             return postDAO.createPost(parentpost, community, user, text, created);
         } catch (Exception e) {
             LOG.error("Can't create post", e);
-            throw new ServiceException("Can't create post");
+            throw new ServiceException("Can't create post", e);
         }
 
     }
+
+	@Override
+	public Post updatePost(Post post) {
+        try {
+            return postDAO.update(post);
+        } catch (Exception e) {
+            LOG.error("Can't update post", e);
+            throw new ServiceException("Can't create post", e);
+        }
+	}
 
 }

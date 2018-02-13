@@ -142,8 +142,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
 
         Enumeration e = new Enumeration();
         e.setName(name);
-        e.addLikedPost(post);
-
+  
         dao.insert(e);
 
         int id = e.getId();
