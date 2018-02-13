@@ -6,7 +6,7 @@ import org.se.lab.db.data.User;
 
 import java.util.List;
 
-public class FileDaoImpl extends DAOImplTemplate<File> implements FileDao {
+public class FileDAOImpl extends DAOImplTemplate<File> implements FileDAO {
 
     @Override
     protected Class<File> getEntityClass() {

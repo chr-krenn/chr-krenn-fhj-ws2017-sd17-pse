@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.primefaces.model.NativeUploadedFile;
 import org.primefaces.model.UploadedFile;
 import org.se.lab.db.dao.CommunityDAO;
-import org.se.lab.db.dao.FileDao;
+import org.se.lab.db.dao.FileDAO;
 import org.se.lab.db.data.*;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class CommunityServiceTest {
     @Mock
     private CommunityDAO communityDAO;
     @Mock
-    private FileDao fileDao;
+    private FileDAO fileDAO;
     private Community community1;
     private Community community2;
     private Community community3;
@@ -210,8 +210,8 @@ public class CommunityServiceTest {
         List<File> files = Collections.singletonList(file);
 
 
-        expect(fileDao.findByUser(user)).andReturn(files);
-        replay(fileDao);
+        expect(fileDAO.findByUser(user)).andReturn(files);
+        replay(fileDAO);
 
         List<File> filesFromUser = communityService.getFilesFromUser(user);
         assertThat(filesFromUser, hasItem(file));
