@@ -3,7 +3,10 @@ package org.se.lab.db.dao;
 import org.junit.Before;
 import org.junit.Test;
 import org.se.lab.db.data.*;
+import org.junit.After;
+import org.junit.Assert;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,121 +15,160 @@ import static org.junit.Assert.*;
 public class PostDAOTest extends AbstractDAOTest {
 
     private Community community1;
+    
     private User user1;
     private Post post1;
     private Post post2;
-    private Post post3;
-    private Date created1 = new Date(244L);
-    private String text1 = "A long time ago in a galaxy far, far away....";
-    private Enumeration like1;
+    private UserContact userContact;
 
-    private PostDAOImpl dao = new PostDAOImpl();
+    private static PostDAOImpl pdao = new PostDAOImpl();
+    private static UserDAOImpl udao = new UserDAOImpl();
+    private static CommunityDAOImpl cdao = new CommunityDAOImpl();
+    private static UserContactDAOImpl ucdao = new UserContactDAOImpl();
+    
+    static{
+    	pdao.setEntityManager(em);
+    	
+    	udao.setEntityManager(em);
+    	ucdao.setEntityManager(em);
+    	cdao.setEntityManager(em);
+    	edao.setEntityManager(em);
+    }
 
     @Before
-    public void setupPost() throws DatabaseException {
-        user1 = new User("testuserpost", "*****");
-        community1 = new Community("testPost", "test community", user1.getId());
-        post1 = new Post(null, community1, user1, "Happy Path Test", new Date(180L));
-        dao.setEntityManager(em);
-        edao.setEntityManager(em);
+    public void setup() {
+    	tx.begin();
+    	
+        user1 = new User("testuserpost", "*****");        
+        User persistedUser = udao.insert(user1);
+        
+        community1 = new Community("testPost", "test community", persistedUser.getId());
+        Community persistedCommunity = cdao.insert(community1);
+        
+        userContact = new UserContact(user1, 2);
+        
+        post1 = new Post(null, null, user1, "Happy Path Test", new Date(180L));
+        post2 = new Post(null, persistedCommunity, user1, "Happy Path Test", new Date(180L));
     }
 
 
     @Test
     @Override
     public void testCreate() {
-        em.persist(user1);
-        em.persist(community1);
-        assertNotNull(dao.insert(post1));
-        assertNotNull(dao.insert(post1, community1));
-        assertTrue(post1.getUser().equals(user1));
-
-
-        // Test post cloning
-
-        post2 = dao.createPost(user1, text1, created1);
-        post2 = dao.insert(post1);
-        assertNotNull(post2);
-        post3 = dao.clonePost(post2);
-        post3 = dao.insert(post3);
-        assertNotNull(post3);
-        assertTrue(post2.getUser().equals(post3.getUser()));
-        assertTrue(post2.getCreated().equals(post3.getCreated()));
-        assertTrue(post2.getText().equals(post3.getText()));
-        assertFalse(post2.getId() == post3.getId());
-
-
-        // full create method
-
-        post1 = dao.createPost(post2, community1, user1, "A I am the parent Post, wait no", created1);
-        post1 = dao.insert(post1);
-        assertNotNull(post1);
-        List<Post> posts = dao.findAll();
-        assertTrue(posts.contains(post1));
-        assertTrue(posts.contains(post2));
-        assertTrue(posts.contains(post3));
-        assertTrue(posts.get(posts.size() - 1).getUser().equals(user1));
-        assertTrue(post2.getChildPosts().contains(post1));
-        assertTrue(
-                dao.findById(post1.getId()) // circle ( post1
-                        .getParentpost().getUser() // -> parentpost -> user
-                        .equals(post1.getUser())); // == post1 -> user )
-
+    	Community persistedCommunity = cdao.insert(community1);
+    	User persistedUser = udao.insert(user1);
+    	UserContact persistedUserContact = ucdao.insert(userContact);
+    	
+    	Post insertedPost1 = pdao.insert(post1);
+    	Post insertedPost2 = pdao.insert(post2);
+    	
+    	Post parentPost = pdao.createPost(user1, "Blah", new Date(180L));
+    	Post childPost = pdao.createPost(parentPost, persistedCommunity, user1, "tests", new Date(180L));
+    	
+    	Post clonePost = pdao.clonePost(post1);
+    	
+    	List<UserContact> contacts = ucdao.findAll();
+    	List<Integer> contactIds = new ArrayList<Integer>();
+    	
+    	for(UserContact contact : contacts){
+    		contactIds.add(contact.getId());
+    	}
+    	
+    	Assert.assertEquals(insertedPost1, pdao.getPostsForUser(user1).get(0));
+    	Assert.assertEquals(insertedPost2, pdao.getPostsForUser(user1).get(1));
+    	Assert.assertEquals(parentPost, pdao.getPostsForUser(user1).get(2));
+    	Assert.assertEquals(childPost, pdao.getPostsForUser(user1).get(3));
+    	Assert.assertEquals(childPost, pdao.getPostsForCommunity(persistedCommunity).get(1));
+    	Assert.assertEquals(clonePost, pdao.getPostsForUser(user1).get(4));
+    	
+    	Assert.assertNotNull(pdao.getPostsForUserAndContacts(user1, contactIds));
     }
-
+    
     @Test
-    public void testFindAll() {
-        int currentcount = dao.findAll().size();
-        em.persist(user1);
-        em.persist(community1);
-        assertNotNull(dao.insert(post1));
-        assertEquals(currentcount + 1, dao.findAll().size());
+	@Override
+	public void testModify() {
+		
+		Post persistedPost1 = pdao.insert(post1);
+		Post persistedPost2 = pdao.insert(post2);
+		
+		persistedPost1.setText("Modified1");
+		persistedPost2.setText("Modified2");
+		
+		pdao.update(persistedPost1);
+		pdao.update(persistedPost2);
+		
+		Assert.assertEquals("Modified1", pdao.findById(persistedPost1.getId()).getText());
+		Assert.assertEquals("Modified2", pdao.findById(persistedPost2.getId()).getText());
+	}
+    
+    @Test
+	@Override
+	public void testRemove() {
+		Post persistedPost1 = pdao.insert(post1);
+		Post persistedPost2 = pdao.insert(post2);
+		
+		pdao.delete(persistedPost1);
+		pdao.delete(persistedPost2);
+		
+		Assert.assertEquals(null, pdao.findById(persistedPost1.getId()));
+		Assert.assertEquals(null, pdao.findById(persistedPost2.getId()));
+	}
+    
+    @Test
+    public void testFindById(){
+		Post persistedPost1 = pdao.insert(post1);
+		
+		
+		Assert.assertEquals(persistedPost1, pdao.findById(persistedPost1.getId()));
     }
-
+    
     @Test
-    @Override
-    public void testModify() {
-
-
-        em.persist(user1);
-        em.persist(community1);
-
-        // create again
-        Post persisted;
-        persisted = dao.insert(post1, community1);
-        List<Post> posts = dao.getPostsForUser(user1);
-        List<Post> postscom = dao.getPostsForCommunity(community1);
-        assertTrue(posts.contains(persisted));
-        assertTrue(postscom.contains(persisted));
-        assertTrue(persisted.getText().equals(post1.getText()));
-        // test modify
-        persisted.setText("Modified");
-        dao.update(persisted);
-        assertTrue(persisted.getText().equals("Modified"));
-
-        // add Like To Post
-        like1 = edao.findById(7);
-        assertNotNull(like1);
-        like1.addUserToLike(user1);
-        persisted.addLike(like1);
-        dao.update(persisted);
-        assertTrue(persisted.getLikes().contains(like1));
-        assertTrue(persisted.getLikes()
-                .get(persisted.getLikes().size() - 1) // last like
-                .getLikedBy().contains(user1));
-
-
+    public void testFindAll(){
+		Post persistedPost1 = pdao.insert(post1);
+		Post persistedPost2 = pdao.insert(post2);
+		
+		List<Post> posts = pdao.findAll();
+		
+		Assert.assertEquals(true, posts.contains(persistedPost1));
+		Assert.assertEquals(true, posts.contains(persistedPost2));
     }
+    
+    @After
+    public void tearDown(){
+    	//arrange
+    	List<User> testUsers = udao.findAll();
+    	List<Post> testPosts = pdao.getPostsForUser(user1);
+    	List<UserContact> testContacts = ucdao.findAll();
+    	List<Community> testCommunities = cdao.findAll();
 
-    @Test
-    @Override
-    public void testRemove() {
-
-        em.persist(user1);
-        em.persist(community1);
-
-        dao.delete(post1);
-        assertTrue(!dao.getPostsForUser(user1).contains(post1));
+    	//act
+    	
+    	for(Post post : testPosts){
+    		pdao.delete(post);
+    	}
+    	
+    	if(testCommunities.contains(community1)){
+    		cdao.delete(community1);
+    	}
+    	
+    	if(testContacts.contains(userContact)){
+    		ucdao.delete(userContact);
+    	}
+    	
+    	if(testUsers.contains(user1)){
+    		udao.delete(user1);
+    	}
+    	
+    	
+    	//assert
+    	testUsers = udao.findAll();
+    	testContacts = ucdao.findAll();
+    	testCommunities = cdao.findAll();
+    	
+    	Assert.assertEquals(0, pdao.getPostsForUser(user1).size());
+    	Assert.assertEquals(false, testUsers.contains(user1));
+    	Assert.assertEquals(false, testContacts.contains(userContact));
+    	Assert.assertEquals(false, testCommunities.contains(community1));
     }
 
 }
