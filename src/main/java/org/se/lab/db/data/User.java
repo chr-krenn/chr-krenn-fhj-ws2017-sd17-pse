@@ -1,6 +1,8 @@
 package org.se.lab.db.data;
 
 import org.apache.log4j.Logger;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.se.lab.utils.ArgumentChecker;
 
 import javax.persistence.*;
@@ -30,6 +32,7 @@ public class User implements Serializable {
     @OneToOne
     @JoinColumn(name = "fk_userprofile")
     private UserProfile userprofile;
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "users")
     private List<Community> communities = new ArrayList<Community>();
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)

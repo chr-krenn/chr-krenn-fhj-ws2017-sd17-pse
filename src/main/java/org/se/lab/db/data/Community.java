@@ -1,5 +1,7 @@
 package org.se.lab.db.data;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Type;
 import org.se.lab.utils.ArgumentChecker;
 
@@ -62,6 +64,7 @@ public class Community implements Serializable {
      */
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "user_community", joinColumns = @JoinColumn(name = "community_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "users_id"))
     private List<User> users = new ArrayList<User>();
 

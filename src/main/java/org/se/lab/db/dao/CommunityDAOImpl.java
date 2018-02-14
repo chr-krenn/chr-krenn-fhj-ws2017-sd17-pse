@@ -46,20 +46,14 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
     @Override
     public Community findById(int id) {
         LOG.info("findById(int " + id + ")");
-        Community c = em.find(Community.class, id);
-        return initializeCom(c);
+        return super.findById(id);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Community> findAll() {
         LOG.info("findAll()");
-        final String hql = "SELECT c FROM " + Community.class.getName() + " AS c";
-        List<Community> coms = em.createQuery(hql).getResultList();
-        for (Community c : coms) {
-            initializeCom(c);
-        }
-        return coms;
+        
+        return super.findAll();
     }
 
     @Override

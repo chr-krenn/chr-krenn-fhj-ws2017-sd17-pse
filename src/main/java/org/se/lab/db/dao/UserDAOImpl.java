@@ -24,23 +24,13 @@ public class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
     @Override
     public User findById(int id) {
         LOG.info("findById(" + id + ")");
-        User u = em.find(User.class, id);
-        if (u != null) {
-            return initializeUser(u);
-        }
-        return null;
+        return super.findById(id);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<User> findAll() {
         LOG.info("findAll()");
-        final String hql = "SELECT u FROM " + User.class.getName() + " AS u";
-        List<User> users = em.createQuery(hql).getResultList();
-        for (User u : users) {
-            initializeUser(u);
-        }
-        return users;
+        return super.findAll();
     }
 
     @Override
