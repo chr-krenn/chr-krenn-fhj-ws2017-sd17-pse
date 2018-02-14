@@ -1,7 +1,11 @@
 package org.se.lab.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class ActivityStreamPage extends PageObject {
 
@@ -17,6 +21,21 @@ public class ActivityStreamPage extends PageObject {
 
 	public String getAllPosts() {
 		return driver.findElement(By.id("j_idt19")).getText();
+	}
+	
+	public List<String> getAllNavbarLinks() {
+		List<String> result = new ArrayList<String>();
+		List<WebElement> links = driver.findElements(By.xpath("//form[@id='j_idt10']/ul/li/a"));
+		
+		for(int i = 0; i < links.size(); i++) {
+			String url = links.get(i).getAttribute("href");
+			
+			if(url != null && !url.isEmpty()) {
+				result.add(url);			
+			}			
+		}
+
+		return result;
 	}
 
 	public ActivityStreamPage newPost(String message) {

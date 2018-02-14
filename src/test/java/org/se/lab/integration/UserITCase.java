@@ -38,6 +38,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.se.lab.pages.*;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -128,11 +129,33 @@ public class UserITCase {
 		assertTrue(profilePage.getFirstName().contains("Robert"));
 		assertTrue(profilePage.getLastName().contains("Ionescu"));
 		assertTrue(profilePage.getMailAddress().contains("robert.ionescu@edu.fh-joanneum.at"));
+	}	
+	
+	@Test
+	public void testNavigationHeaderLinks() {
+		List<String> links = activityStreamPage.getAllNavbarLinks();
+		
+		assertTrue(AnyContains(links, "activityStream.xhtml"));
+		assertTrue(AnyContains(links, "communityoverview.xhtml"));
 	}
 	
-
 	@After
 	public void tearDown() throws Exception {
 		loginPage.tearDown();
+	}
+	
+	private Boolean AnyContains(List<String> list, String lookup) {
+		
+		for(int i = 0; i < list.size(); i++) {
+			String element = list.get(i);
+			
+			if(element == null || element.isEmpty())
+				continue;
+			
+			if(element.toLowerCase().contains(lookup.toLowerCase()))
+				return true;
+		}
+		
+		return false;
 	}
 }
