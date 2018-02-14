@@ -93,15 +93,15 @@ public class ActivityStreamBean  implements Serializable {
         return postChildren;
     }
 
-
-
     public void addLike(Post post) {
     	
     	if (!post.getLikes().contains(getLoggedInUser())) {
     		post.addLike(getLoggedInUser());
         	pservice.updatePost(post);
+    	} else {
+    		post.removeLike(getLoggedInUser());
+        	pservice.updatePost(post);
     	}
-        LOG.info("Likes: " + likecount + " - " + post.toString());
     }
 
     public String getLikes(Post p) {

@@ -187,8 +187,11 @@ public class Post implements Serializable {
     }
     
     public void addLike(User from) {
-        LOG.debug("addLikeToPost(" + from + ")");
         likedByUsers.add(from);
+    }
+    
+    public void removeLike(User from) {
+        likedByUsers.remove(from);
     }
 
     public String getText() {
