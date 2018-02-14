@@ -10,14 +10,14 @@ public class ProfilePage extends PageObject {
 	}
 
 	public String getFirstName() {
-		return driver.findElement(By.xpath("//div[@id='j_idt4:j_idt46']/table/tbody/tr/td[2]/span")).getText();
+		return driver.findElement(By.xpath("//div[@id='j_idt61']/span")).getText();
 	}
-
+	
 	public String getLastName() {
-		return driver.findElement(By.xpath("//div[@id='j_idt4:j_idt46']/table/tbody/tr[2]/td[2]/span")).getText();
-	}
-
+		return driver.findElement(By.xpath("//div[@id='j_idt66']/span")).getText();
+	}	
+	
 	public String getMailAddress() {
-		return driver.findElement(By.xpath("//div[@id='j_idt4:j_idt46']/table/tbody/tr[3]/td[2]/span")).getText();
+		return driver.findElement(By.xpath("//div[@id='j_idt71']/span")).getText();
 	}
 }

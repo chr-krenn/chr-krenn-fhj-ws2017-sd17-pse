@@ -119,6 +119,17 @@ public class UserITCase {
 		// user is part of Computer Vision community
 		assertTrue(communityOverviewPage.getAvailableCommunities().contains("Computer Vision"));
 	}
+	
+	
+	@Test
+	public void testUserProfilePresent() {
+		profilePage = activityStreamPage.getProfilePage();
+
+		assertTrue(profilePage.getFirstName().contains("Robert"));
+		assertTrue(profilePage.getLastName().contains("Ionescu"));
+		assertTrue(profilePage.getMailAddress().contains("robert.ionescu@edu.fh-joanneum.at"));
+	}
+	
 
 	@After
 	public void tearDown() throws Exception {
