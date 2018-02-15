@@ -29,195 +29,192 @@ import java.util.List;
 
 @Named
 @RequestScoped
-public class ActivityStreamBean  implements Serializable {
-    private static final long serialVersionUID = 1L;
-    public static final int INVALID_STATE = -1;
+public class ActivityStreamBean implements Serializable {
+	private static final long serialVersionUID = 1L;
+	public static final int INVALID_STATE = -1;
 
-    private final Logger LOG = Logger.getLogger(ActivityStreamBean.class);
+	private final Logger LOG = Logger.getLogger(ActivityStreamBean.class);
 
-    @Inject
-    ActivityStreamService service;
-    @Inject
-    private UserService uservice;
-    @Inject
-    private PostService pservice;
-    @Inject
-    private Session session;
+	@Inject
+	ActivityStreamService service;
+	@Inject
+	private UserService uservice;
+	@Inject
+	private PostService pservice;
+	@Inject
+	private Session session;
 
-    Flash flash;
-    FacesContext context;
-    private String inputText;
-    private String inputTextChild;
-    private List<Integer> contactIds;
-    private List<User> userContactList;
-    private List<Post> posts;
-    private int likecount = 0;
-    private Post post;
-    private List<Post> postChildren;
-    private int id = 0;
-    private User loggedInUser;
+	Flash flash;
+	FacesContext context;
+	private String inputText;
+	private String inputTextChild;
+	private List<Integer> contactIds;
+	private List<User> userContactList;
+	private List<Post> posts;
+	private int likecount = 0;
+	private Post post;
+	private List<Post> postChildren;
+	private int id = 0;
+	private User loggedInUser;
 
+	@PostConstruct
+	public void init() {
+		int userId = session.getUserId();
+		context = FacesContext.getCurrentInstance();
 
-    @PostConstruct
-    public void init() {
-        int userId = session.getUserId();
-        context = FacesContext.getCurrentInstance();
+		if (userId > INVALID_STATE) {
+			id = userId;
+			flash = context.getExternalContext().getFlash();
+			flash.put("uid", id);
+			setLoggedInUser(loadLoggedInUser());
+			userContactList = uservice.getContactsOfUser(getLoggedInUser());
 
-        if (userId > INVALID_STATE) {
-            id = userId;
-            flash = context.getExternalContext().getFlash();
-            flash.put("uid", id);
-            setLoggedInUser(loadLoggedInUser());
-            userContactList = uservice.getContactsOfUser(getLoggedInUser());
+			if (userContactList.size() > 0) {
+				contactIds = new ArrayList<>();
+				contactIds.add(getLoggedInUser().getId());
+				for (User c : userContactList) {
+					contactIds.add(c.getId());
+				}
+				loadPostsForUserAndContacts();
+			} else {
+				loadPostsForUser();
+			}
 
+		} else {
+			RedirectHelper.redirect("/pse/index.xhtml");
+		}
+	}
 
-            if (userContactList.size() > 0) {
-                contactIds = new ArrayList<>();
-                contactIds.add(getLoggedInUser().getId());
-                for (User c : userContactList) {
-                    contactIds.add(c.getId());
-                }
-                loadPostsForUserAndContacts();
-            } else {
-                loadPostsForUser();
-            }
+	public List<Post> getChildPosts(Post post) {
 
-        } else {
-            RedirectHelper.redirect("/pse/index.xhtml");
-        }
-    }
+		postChildren = post.getChildPosts();
+		return postChildren;
+	}
 
-    public List<Post> getChildPosts(Post post) {
-        
-        postChildren = post.getChildPosts();
-        return postChildren;
-    }
+	public void addLike(Post post) {
 
-    public void addLike(Post post) {
-    	
-    	if (!post.getLikes().contains(getLoggedInUser())) {
-    		post.addLike(getLoggedInUser());
-        	pservice.updatePost(post);
-    	} else {
-    		post.removeLike(getLoggedInUser());
-        	pservice.updatePost(post);
-    	}
-    }
+		if (!post.getLikes().contains(getLoggedInUser())) {
+			post.addLike(getLoggedInUser());
+			pservice.updatePost(post);
+		} else {
+			post.removeLike(getLoggedInUser());
+			pservice.updatePost(post);
+		}
+	}
 
-    public String getLikes(Post p) {
-    	String r = "";
-    	
-    	for (User u: p.getLikes())
-    		r += " " + u.getUsername();
-    	
-        return r;
-    }
+	public String getLikes(Post p) {
+		String r = "liked by ";
 
-    public void newPost(Post parentpost) {
+		if (p.getLikeCount() == 0)
+			return "";
 
+		for (User u : p.getLikes())
+			r += " " + u.getUsername();
 
-        if (parentpost == null) {
-            flash.put("inputText", inputText);
-            try {
-                post = pservice.createPost(getLoggedInUser(), inputText, new Date());
-            } catch (DatabaseException e) {
-                LOG.error("could not create root post", e);
-            }
-        } else {
-            flash.put("inputText", inputTextChild);
-            LOG.info("appending comment to post: " + inputTextChild);
-            try {
-                post = pservice.createPost(parentpost, parentpost.getCommunity(), getLoggedInUser(), inputTextChild, new Date());
-            } catch (DatabaseException e) {
-                LOG.error("could not create leaf post", e);
-            }
-        }
-        flash.put("post", post);
-        LOG.info("Flash: " + flash.toString());
+		return r;
+	}
 
-        refreshPage();
-    }
+	public void newPost(Post parentpost) {
 
-    public void deletePost(Post p) {
-        if (p != null) {
-            service.delete(p, getLoggedInUser());
-            refreshPage();
-        }
-    }
+		if (parentpost == null) {
+			flash.put("inputText", inputText);
+			try {
+				post = pservice.createPost(getLoggedInUser(), inputText, new Date());
+			} catch (DatabaseException e) {
+				LOG.error("could not create root post", e);
+			}
+		} else {
+			flash.put("inputText", inputTextChild);
+			LOG.info("appending comment to post: " + inputTextChild);
+			try {
+				post = pservice.createPost(parentpost, parentpost.getCommunity(), getLoggedInUser(), inputTextChild,
+						new Date());
+			} catch (DatabaseException e) {
+				LOG.error("could not create leaf post", e);
+			}
+		}
+		flash.put("post", post);
+		LOG.info("Flash: " + flash.toString());
 
-    public boolean showDeleteButton(Post p) {
-        return p != null && p.getCommunity() != null && p.getCommunity().getPortaladminId() == getLoggedInUser().getId();
-    }
+		refreshPage();
+	}
 
-    private void refreshPage() {
-        try {
-            context.getExternalContext().redirect("/pse/activityStream.xhtml");
-        } catch (IOException e) {
-            LOG.error("Can't redirect to /pse/activityStream.xhtml");
+	public void deletePost(Post p) {
+		if (p != null) {
+			service.delete(p, getLoggedInUser());
+			refreshPage();
+		}
+	}
 
-        }
-    }
+	public boolean showDeleteButton(Post p) {
+		return p != null && p.getCommunity() != null
+				&& p.getCommunity().getPortaladminId() == getLoggedInUser().getId();
+	}
 
-    public User loadLoggedInUser() {
-        return uservice.findById(id);
-    }
+	private void refreshPage() {
+		try {
+			context.getExternalContext().redirect("/pse/activityStream.xhtml");
+		} catch (IOException e) {
+			LOG.error("Can't redirect to /pse/activityStream.xhtml");
 
-    public void loadPostsForUser() {
-        List<Post> uposts = service.getPostsForUser(getLoggedInUser());
-        setPosts(uposts);
-    }
+		}
+	}
 
-    public void loadPostsForUserAndContacts() {
-        List<Post> uposts = service.getPostsForUserAndContacts(getLoggedInUser(), contactIds);
-        setPosts(uposts);
-    }
+	public User loadLoggedInUser() {
+		return uservice.findById(id);
+	}
 
+	public void loadPostsForUser() {
+		List<Post> uposts = service.getPostsForUser(getLoggedInUser());
+		setPosts(uposts);
+	}
 
-    /**
-     * Getter & Setter for Properties
-     **/
-    public List<Post> getPosts() {
-        return posts;
-    }
+	public void loadPostsForUserAndContacts() {
+		List<Post> uposts = service.getPostsForUserAndContacts(getLoggedInUser(), contactIds);
+		setPosts(uposts);
+	}
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
+	/**
+	 * Getter & Setter for Properties
+	 **/
+	public List<Post> getPosts() {
+		return posts;
+	}
 
-    public String getInputText() {
-        return inputText;
-    }
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
 
-    public void setInputText(String inputText) {
-        this.inputText = inputText;
-    }
+	public String getInputText() {
+		return inputText;
+	}
 
-    public String getInputTextChild() {
-        return inputTextChild;
-    }
+	public void setInputText(String inputText) {
+		this.inputText = inputText;
+	}
 
-    public void setInputTextChild(String inputTextChild) {
-        this.inputTextChild = inputTextChild;
-    }
+	public String getInputTextChild() {
+		return inputTextChild;
+	}
 
-    public void setLoggedInUser(User loggedInUser) {
-        this.loggedInUser = loggedInUser;
-    }
+	public void setInputTextChild(String inputTextChild) {
+		this.inputTextChild = inputTextChild;
+	}
 
-    public User getLoggedInUser() {
-        return loggedInUser;
-    }
-    
-    private void writeObject(ObjectOutputStream stream)
-            throws IOException {
-        stream.defaultWriteObject();
-    }
+	public void setLoggedInUser(User loggedInUser) {
+		this.loggedInUser = loggedInUser;
+	}
 
-    private void readObject(ObjectInputStream stream)
-            throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-    }
-    
-    
-    
+	public User getLoggedInUser() {
+		return loggedInUser;
+	}
+
+	private void writeObject(ObjectOutputStream stream) throws IOException {
+		stream.defaultWriteObject();
+	}
+
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
+	}
+
 }

@@ -56,7 +56,8 @@
 				<b:panel look="success" collapsible="false">
 					<f:facet name="heading">
 						Posted
-						<h:outputText value=" in #{posts.community.name} " rendered="#{posts.community != null}"/>
+						<h:outputText value=" in #{posts.community.name} "
+							rendered="#{posts.community != null}" />
 						<h:outputText value="at #{posts.created}" />
 					</f:facet>
 					<b:row>
@@ -70,8 +71,8 @@
 										<h:outputText value="#{posts.text}" />
 									</b:column>
 									<p:commandButton value="DELETE Post!"
-													 actionListener="#{activityStreamBean.deletePost(posts)}"
-													 rendered="#{activityStreamBean.showDeleteButton(posts)}" />
+										actionListener="#{activityStreamBean.deletePost(posts)}"
+										rendered="#{activityStreamBean.showDeleteButton(posts)}" />
 								</b:row>
 							</b:panel>
 						</b:column>
@@ -89,22 +90,28 @@
 											<h:outputText value="#{children.text}" />
 										</b:column>
 										<p:commandButton value="DELETE Comment!"
-														 actionListener="#{activityStreamBean.deletePost(children)}"
-														 rendered="#{activityStreamBean.showDeleteButton(posts)}"/>
+											actionListener="#{activityStreamBean.deletePost(children)}"
+											rendered="#{activityStreamBean.showDeleteButton(posts)}" />
 									</b:row>
 								</b:panel>
 							</p:repeat>
 						</b:column>
 					</b:row>
 					<f:facet name="footer">
-						<b:row>
-						<h:outputText value="liked by #{activityStreamBean.getLikes(posts)}" />
-						</b:row>
+
 						<h:form>
+							<b:row>
+								<h:outputText value="#{activityStreamBean.getLikes(posts)}" />
+							</b:row>
+
 							<b:commandButton value="Like!"
 								actionListener="#{activityStreamBean.addLike(posts)}"
-								look="success" />
-							<b:button value="New comment" look="primary" onclick="$('.newCommentModal_#{posts.id}').modal()" />
+								look="success">
+								<f:ajax execute="@form" render="@form" />
+							</b:commandButton>
+
+							<b:button value="New comment" look="primary"
+								onclick="$('.newCommentModal_#{posts.id}').modal()" />
 						</h:form>
 					</f:facet>
 				</b:panel>
