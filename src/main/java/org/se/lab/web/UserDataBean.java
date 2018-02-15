@@ -32,8 +32,8 @@ public class UserDataBean  implements Serializable {
 
     private final static Logger LOG = Logger.getLogger(UserDataBean.class);
 
-    Flash flash;
-    FacesContext context;
+    private Flash flash;
+    private FacesContext context;
     private StreamedContent photo;
     @Inject
     private UserService service;

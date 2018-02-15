@@ -14,7 +14,7 @@ import java.util.List;
 
 public class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
 
-    private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
+    private final static Logger LOG = Logger.getLogger(UserDAOImpl.class);
 
     @Override
     protected Class<User> getEntityClass() {

@@ -36,16 +36,16 @@ public class AdminDataBean  implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    private final Logger LOG = Logger.getLogger(AdminDataBean.class);
-    List<Community> requestedCommunityList;
-    List<Community> approvedCommunityList;
+    private final static Logger LOG = Logger.getLogger(AdminDataBean.class);
+    private List<Community> requestedCommunityList;
+    private List<Community> approvedCommunityList;
     /*
      * Properties for Session
      */
-    Flash flash;
-    FacesContext context;
-    List<Community> selectedCommunities;
-    Community selectedCommunity;
+    private Flash flash;
+    private FacesContext context;
+    private List<Community> selectedCommunities;
+    private Community selectedCommunity;
     private String id = "";
     private int userId = 0;
     private String reactionOnPendingRequest = null;

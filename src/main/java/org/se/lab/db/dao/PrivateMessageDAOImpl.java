@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PrivateMessageDAOImpl extends DAOImplTemplate<PrivateMessage> implements PrivateMessageDAO {
 	
-	private final Logger LOG = Logger.getLogger(UserProfileDAOImpl.class);
+	private final static Logger LOG = Logger.getLogger(UserProfileDAOImpl.class);
 
 	@Override
 	public PrivateMessage insert(PrivateMessage privatemessage) {

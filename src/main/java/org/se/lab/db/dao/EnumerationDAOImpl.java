@@ -7,7 +7,7 @@ import java.util.List;
 
 public class EnumerationDAOImpl extends DAOImplTemplate<Enumeration> implements EnumerationDAO {
 
-	private final Logger LOG = Logger.getLogger(EnumerationDAOImpl.class);
+	private final static Logger LOG = Logger.getLogger(EnumerationDAOImpl.class);
 
 	@Override
 	public Enumeration insert(Enumeration enumeration) {

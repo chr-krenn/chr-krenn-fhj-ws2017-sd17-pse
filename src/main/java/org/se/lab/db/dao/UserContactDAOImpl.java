@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserContactDAOImpl extends DAOImplTemplate<UserContact> implements UserContactDAO {
 
-    private final Logger LOG = Logger.getLogger(UserDAOImpl.class);
+    private final static Logger LOG = Logger.getLogger(UserDAOImpl.class);
 
     @Override
     public UserContact insert(UserContact contact) {

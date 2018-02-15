@@ -17,7 +17,7 @@ import java.util.List;
 
 @Stateless
 public class CommunityServiceImpl implements CommunityService {
-    private final Logger LOG = Logger.getLogger(CommunityServiceImpl.class);
+    private final static Logger LOG = Logger.getLogger(CommunityServiceImpl.class);
 
     @Inject
     private EnumerationService enumerationService;

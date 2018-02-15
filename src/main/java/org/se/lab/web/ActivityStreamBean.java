@@ -1,7 +1,6 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.se.lab.db.dao.PostDAOImpl;
 import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
@@ -11,7 +10,6 @@ import org.se.lab.service.UserService;
 import org.se.lab.web.helper.RedirectHelper;
 import org.se.lab.web.helper.Session;
 
-import com.steadystate.css.parser.selectors.PseudoElementSelectorImpl;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -33,10 +31,10 @@ public class ActivityStreamBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final int INVALID_STATE = -1;
 
-	private final Logger LOG = Logger.getLogger(ActivityStreamBean.class);
+	private final static Logger LOG = Logger.getLogger(ActivityStreamBean.class);
 
 	@Inject
-	ActivityStreamService service;
+	private ActivityStreamService service;
 	@Inject
 	private UserService uservice;
 	@Inject
@@ -44,8 +42,8 @@ public class ActivityStreamBean implements Serializable {
 	@Inject
 	private Session session;
 
-	Flash flash;
-	FacesContext context;
+	private Flash flash;
+	private FacesContext context;
 	private String inputText;
 	private String inputTextChild;
 	private List<Integer> contactIds;

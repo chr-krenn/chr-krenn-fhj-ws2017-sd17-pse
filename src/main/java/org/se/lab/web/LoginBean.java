@@ -21,7 +21,7 @@ import java.util.Map;
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Logger LOG = Logger.getLogger(LoginBean.class);
+    private final static Logger LOG = Logger.getLogger(LoginBean.class);
 
     private String username;
     private String password;
@@ -59,15 +59,14 @@ public class LoginBean implements Serializable {
             user = service.login(getUsername(), getPassword());
         } catch (Exception e) {
             String erroMsg = "Ooops something went wrong - pls contact the admin or try later";
-            LOG.error(erroMsg);
+            LOG.error(erroMsg,e);
             setErrorMsg(erroMsg);
         }
 
         if (user == null) {
             setErrorMsg("wrong Credentials - please try again");
         }
-
-        if (user != null) {
+        else {
             FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().getSessionMap().put("user", user.getId());
 

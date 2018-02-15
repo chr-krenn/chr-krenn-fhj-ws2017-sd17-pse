@@ -15,10 +15,7 @@ import java.util.List;
 
 public class CommunityDAOImpl extends DAOImplTemplate<Community> implements CommunityDAO {
 
-    private final Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
-
-    public CommunityDAOImpl() {
-    }
+    private final static Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
 
     @Override
     public Community insert(Community entity) {

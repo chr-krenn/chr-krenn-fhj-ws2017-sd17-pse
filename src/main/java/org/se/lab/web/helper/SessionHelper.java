@@ -16,7 +16,7 @@ import java.util.Objects;
 public class SessionHelper implements Session {
     public final static String USER = "user";
 
-    private final Logger LOG = Logger.getLogger(SessionHelper.class);
+    private final static Logger LOG = Logger.getLogger(SessionHelper.class);
 
     @Inject
     private UserService service;

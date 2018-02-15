@@ -1,13 +1,15 @@
 package org.se.lab.service;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.dao.EnumerationDAO;
 
+@Stateless
 public class EnumerationServiceImpl implements EnumerationService {
-    private final Logger LOG = Logger.getLogger(EnumerationServiceImpl.class);
+    private final static Logger LOG = Logger.getLogger(EnumerationServiceImpl.class);
     
     private final int PENDING = 1;
     private final int APPROVED = 2;

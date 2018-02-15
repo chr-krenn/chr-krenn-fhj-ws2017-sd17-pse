@@ -19,15 +19,15 @@ import java.util.Map;
 @RequestScoped
 public class UserOverviewBean {
 
-    private final Logger LOG = Logger.getLogger(UserOverviewBean.class);
+    private final static Logger LOG = Logger.getLogger(UserOverviewBean.class);
 
     @Inject
-    UserService service;
+    private UserService service;
     /*
      * Properties for Session
      */
-    Flash flash;
-    FacesContext context;
+    private Flash flash;
+    private FacesContext context;
     private List<UserProfile> profiles;
     private UserProfile selectedProfile;
     private String id = "";

@@ -15,7 +15,7 @@ import java.util.List;
 
 @Stateless
 public class ActivityStreamServiceImpl implements ActivityStreamService {
-    private final Logger LOG = Logger.getLogger(ActivityStreamServiceImpl.class);
+    private final static Logger LOG = Logger.getLogger(ActivityStreamServiceImpl.class);
 
     @Inject
     private PostDAO dao;

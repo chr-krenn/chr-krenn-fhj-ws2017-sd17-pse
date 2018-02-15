@@ -20,7 +20,7 @@ import java.util.Map;
 @RequestScoped
 public class CommunityOverviewBean {
 
-	private final Logger LOG = Logger.getLogger(CommunityOverviewBean.class);
+	private final static Logger LOG = Logger.getLogger(CommunityOverviewBean.class);
 
 	@Inject
 	private CommunityService service;
@@ -31,8 +31,8 @@ public class CommunityOverviewBean {
 	private String newCommunityName;
 	private String newCommunityDescription;
 
-	Flash flash;
-	FacesContext context;
+	private Flash flash;
+	private FacesContext context;
 	private int userId = 0;
 
 	@PostConstruct

@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
 public class CommunityDataBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = Logger.getLogger(CommunityDataBean.class);
-    FacesContext context;
+    private final static Logger LOG = Logger.getLogger(CommunityDataBean.class);
+    private FacesContext context;
     private String name;
     private boolean publicState;
     private String description;

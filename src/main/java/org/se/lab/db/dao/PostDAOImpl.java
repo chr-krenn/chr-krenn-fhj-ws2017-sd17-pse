@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
 
-    private final Logger LOG = Logger.getLogger(PostDAOImpl.class);
+    private final static Logger LOG = Logger.getLogger(PostDAOImpl.class);
     private static final String POST_FOR_USER_QUERY = "SELECT p FROM Post p WHERE p.user.id = :id";
     private static final String POST_FOR_COMMUNITY_QUERY = "SELECT p FROM Post p WHERE p.community.id = :id";
     private static final String POST_FOR_USER_AND_CONTACT_QUERY = "SELECT p FROM Post p WHERE p.user.id IN :idlist";

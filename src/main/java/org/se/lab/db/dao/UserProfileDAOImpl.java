@@ -7,7 +7,7 @@ import java.util.List;
 
 public class UserProfileDAOImpl extends DAOImplTemplate<UserProfile> implements UserProfileDAO {
 
-    private final Logger LOG = Logger.getLogger(UserProfileDAOImpl.class);
+    private final static Logger LOG = Logger.getLogger(UserProfileDAOImpl.class);
 
     @Override
     public UserProfile insert(UserProfile up) {
