@@ -1,6 +1,7 @@
 package org.se.lab.db.dao;
 
 
+import org.apache.log4j.Logger;
 import org.se.lab.db.data.File;
 import org.se.lab.db.data.User;
 
@@ -8,6 +9,9 @@ import java.util.List;
 
 public class FileDAOImpl extends DAOImplTemplate<File> implements FileDAO {
 
+	
+	private final static Logger LOG = Logger.getLogger(FileDAOImpl.class);
+	
     @Override
     protected Class<File> getEntityClass() {
         return File.class;
@@ -15,26 +19,31 @@ public class FileDAOImpl extends DAOImplTemplate<File> implements FileDAO {
 
     @Override
     public File insert(File entity) {
+    	LOG.debug("insert(" + entity + ")");
         return super.insert(entity);
     }
 
     @Override
     public File update(File entity) {
+    	LOG.debug("merge(" + entity + ")");
         return super.update(entity);
     }
 
     @Override
     public void delete(File entity) {
+    	 LOG.debug("delete(" + entity + ")");
         em.remove(em.contains(entity) ? entity : em.merge(entity));
     }
 
     @Override
     public File findById(int id) {
+    	 LOG.debug("findById(" + id + ")");
         return super.findById(id);
     }
 
     @Override
     public List<File> findAll() {
+    	LOG.debug("findAll()");
         return super.findAll();
     }
 

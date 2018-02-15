@@ -215,7 +215,7 @@ public class Post implements Serializable {
         LOG.debug("setCreated(" + created + ")");
         ArgumentChecker.assertNotNull(created, "creationDate");
 
-        this.created = new Date(created.getTime());;
+        this.created = new Date(created.getTime());
     }
 
 	/*
