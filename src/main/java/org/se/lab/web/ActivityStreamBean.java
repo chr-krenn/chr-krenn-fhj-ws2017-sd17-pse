@@ -101,15 +101,16 @@ public class ActivityStreamBean implements Serializable {
 	}
 
 	public String getLikes(Post p) {
-		String r = "liked by ";
+		StringBuilder sb = new StringBuilder();
+		sb.append("liked by ");
 
 		if (p.getLikeCount() == 0)
 			return "";
 
 		for (User u : p.getLikes())
-			r += " " + u.getUsername();
+			sb.append(" "+u.getUsername());
 
-		return r;
+		return sb.toString();
 	}
 
 	public void newPost(Post parentpost) {
