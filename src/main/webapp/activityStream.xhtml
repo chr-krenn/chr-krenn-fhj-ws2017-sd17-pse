@@ -101,12 +101,15 @@
 
 						<h:form>
 							<b:row>
-								<h:outputText value="#{activityStreamBean.getLikes(posts)}" />
+								<div class="well well-sm">
+									<h:outputText value="#{activityStreamBean.getLikes(posts)}" />
+								</div>
 							</b:row>
 
-							<b:commandButton value="Like!"
-								actionListener="#{activityStreamBean.addLike(posts)}"
+							<b:commandButton actionListener="#{activityStreamBean.addLike(posts)}"
 								look="success">
+								<span class="glyphicon glyphicon-thumbs-up"></span> Like
+								<p:effect type="pulsate" event="click" />
 								<f:ajax execute="@form" render="@form" />
 							</b:commandButton>
 
