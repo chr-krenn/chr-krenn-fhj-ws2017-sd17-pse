@@ -21,13 +21,17 @@
 						<b:dataTableColumn value="#{user.firstname}" label="Firstname" />
 						<b:dataTableColumn value="#{user.lastname}" label="Lastname" />
 						<b:dataTableColumn value="#{user.description}" label="Description" />
-						<b:dataTableColumn label="Details">
-							<p:commandLink action="#{userDataBean.redirect()}"
-								title="View Detail"> 
-								<h:outputText styleClass="ui-icon ui-icon-search"
-									style="margin:0 auto;" />
-								<f:param name="userid" value="#{user.id}" />
-							</p:commandLink>
+						<b:dataTableColumn label="Add Contact">
+							<b:commandButton value="Add" look="primary"
+								action="#{userDataBean.addContact()}" ajax="false">
+								<f:param name="contactName" value="#{user.user.username}" />
+							</b:commandButton>
+						</b:dataTableColumn>
+						<b:dataTableColumn label="Remove Contact">
+							<b:commandButton value="Remove" look="danger"
+								action="#{userDataBean.removeContact()}" ajax="false">
+								<f:param name="contactName" value="#{user.user.username}" />
+							</b:commandButton>
 						</b:dataTableColumn>
 					</b:dataTable>
 				</h:form>
