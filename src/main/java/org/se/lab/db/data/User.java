@@ -18,7 +18,11 @@ import java.util.List;
 @Table(name = "users")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
+    public enum ROLE {
+        ADMIN, PORTALADMIN, USER;
+    }
+
     @Transient
     private Logger LOG = Logger.getLogger(User.class);
     @Id

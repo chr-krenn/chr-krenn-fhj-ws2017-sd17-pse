@@ -9,10 +9,6 @@ import java.util.List;
 
 public interface UserService {
 
-    public enum ROLE {
-        ADMIN, PORTALADMIN, USER;
-    }
-
     void insert(User user);
 
     void delete(User user);
@@ -35,20 +31,15 @@ public interface UserService {
 
     List<Community> getAllCommunitiesForUser(User user);
 
-    /*
-     * TODO check if methods delete(id), findById(id) required
-     */
     void delete(int id);
 
     User findById(int id);
 
-
     void addPictureToProfile(UserProfile userProfile);
 
-    boolean hasUserTheRole(ROLE privileg, User user);
+    boolean hasUserTheRole(User.ROLE privileg, User user);
 
     List<User> getContactsOfUser(User user);
-    
-    List<User> getAdmins();
 
+    List<User> getAdmins();
 }

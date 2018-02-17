@@ -1,15 +1,14 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
 import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.PostService;
+import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
 import org.se.lab.web.helper.RedirectHelper;
 import org.se.lab.web.helper.Session;
-
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -119,7 +118,7 @@ public class ActivityStreamBean implements Serializable {
 			flash.put("inputText", inputText);
 			try {
 				post = pservice.createPost(getLoggedInUser(), inputText, new Date());
-			} catch (DatabaseException e) {
+			} catch (ServiceException e) {
 				LOG.error("could not create root post", e);
 			}
 		} else {
@@ -128,7 +127,7 @@ public class ActivityStreamBean implements Serializable {
 			try {
 				post = pservice.createPost(parentpost, parentpost.getCommunity(), getLoggedInUser(), inputTextChild,
 						new Date());
-			} catch (DatabaseException e) {
+			} catch (ServiceException e) {
 				LOG.error("could not create leaf post", e);
 			}
 		}

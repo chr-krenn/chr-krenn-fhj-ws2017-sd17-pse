@@ -212,7 +212,7 @@ public class UserDataBean implements Serializable {
 
     private void validateUserPriviles(User u) {
         try {
-            this.isAdmin = service.hasUserTheRole(UserService.ROLE.ADMIN, u);
+            this.isAdmin = service.hasUserTheRole(User.ROLE.ADMIN, u);
 
         } catch (Exception e) {
             errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
@@ -221,7 +221,7 @@ public class UserDataBean implements Serializable {
         }
     }
 
-    private boolean hasUserPrivilege(UserService.ROLE role) {
+    private boolean hasUserPrivilege(User.ROLE role) {
         try {
             return service.hasUserTheRole(role, user);
         } catch (Exception e) {

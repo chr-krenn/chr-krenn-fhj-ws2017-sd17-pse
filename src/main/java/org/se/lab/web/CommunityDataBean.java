@@ -154,7 +154,7 @@ public class CommunityDataBean implements Serializable {
 
     public List<File> getFiles() {
 
-        if (user != null && hasUserPrivilege(UserService.ROLE.PORTALADMIN)) {
+        if (user != null && hasUserPrivilege(User.ROLE.PORTALADMIN)) {
             setFiles(communityService.getFilesFromUser(user));
             return files;
         }
@@ -176,7 +176,7 @@ public class CommunityDataBean implements Serializable {
     }
 
 
-    private boolean hasUserPrivilege(UserService.ROLE role) {
+    private boolean hasUserPrivilege(User.ROLE role) {
         try {
             return userService.hasUserTheRole(role, user);
         } catch (Exception e) {
@@ -205,7 +205,7 @@ public class CommunityDataBean implements Serializable {
 
     public void setPortalAdmin() {
         if (user != null) {
-            isPortalAdmin = hasUserPrivilege(UserService.ROLE.PORTALADMIN);
+            isPortalAdmin = hasUserPrivilege(User.ROLE.PORTALADMIN);
         }
     }
 

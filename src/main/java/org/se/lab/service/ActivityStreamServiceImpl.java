@@ -108,7 +108,6 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
             LOG.error("Can't get posts for community " + community, e);
             throw new ServiceException("Can't update post " + community);
         }
-
     }
 
     @Override
@@ -120,6 +119,5 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
             LOG.error("Can't get posts for User and Contacts " + user, e);
             throw new ServiceException("Can't get posts or User and Contacts  " + user);
         }
-
     }
 }

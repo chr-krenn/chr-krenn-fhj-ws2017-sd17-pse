@@ -284,7 +284,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean hasUserTheRole(ROLE privileg, User user) {
+    public boolean hasUserTheRole(User.ROLE privileg, User user) {
     	
 
         ArgumentChecker.assertNotNull(user,"user");

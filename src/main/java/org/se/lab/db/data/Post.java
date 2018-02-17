@@ -194,9 +194,7 @@ public class Post implements Serializable {
             return false;
         if (this.getClass() != obj.getClass())
             return false;
-        if (this.id != ((Post) obj).getId())
-            return false;
-        return true;
+        return this.id == ((Post) obj).getId();
     }
 
     @Override
