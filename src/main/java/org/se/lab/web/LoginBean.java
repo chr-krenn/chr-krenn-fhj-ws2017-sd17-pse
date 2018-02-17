@@ -7,6 +7,7 @@ import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +28,7 @@ public class LoginBean implements Serializable {
     private String password;
     private User user;
     private String errorMsg = "";
+    private ExternalContext context;
 
 
     @Inject
@@ -67,10 +69,10 @@ public class LoginBean implements Serializable {
             setErrorMsg("wrong Credentials - please try again");
         }
         else {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.getExternalContext().getSessionMap().put("user", user.getId());
+            context = FacesContext.getCurrentInstance().getExternalContext();
+            context.getSessionMap().put("user", user.getId());
 
-            Map<String, Object> session = context.getExternalContext().getSessionMap();
+            Map<String, Object> session = context.getSessionMap();
 
             
             	for (Map.Entry<String,Object> e : session.entrySet()) {
@@ -78,7 +80,7 @@ public class LoginBean implements Serializable {
             }
 
             try {
-                context.getExternalContext().redirect("/pse/activityStream.xhtml");
+                context.redirect("/pse/activityStream.xhtml");
             } catch (IOException e) {
                 LOG.error("Can't redirect to /pse/activityStream.xhtml");
             }
@@ -86,7 +88,7 @@ public class LoginBean implements Serializable {
     }
 
     public String logout() {
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+    	FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 
         //TODO return isn`t needed in case each class has the handling if no session exists
         return "/index.xhtml?faces-redirect=true";
