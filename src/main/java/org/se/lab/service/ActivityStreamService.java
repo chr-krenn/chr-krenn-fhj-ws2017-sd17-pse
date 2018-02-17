@@ -8,18 +8,18 @@ import java.util.List;
 
 public interface ActivityStreamService {
 
-	void insert(Post article);
+    void insert(Post article);
 
-	void insert(Post post, Community community);
+    void insert(Post post, Community community);
 
-	void delete(Post post,User user);
+    void delete(Post post, User user);
 
-	void update(Post post);
+    void update(Post post);
 
-	List<Post> getPostsForUser(User user);
-	
-	List<Post> getPostsForUserAndContacts(User user,List<Integer> contactIds);
+    List<Post> getPostsForUser(User user);
 
-	List<Post> getPostsForCommunity(Community community);
+    List<Post> getPostsForUserAndContacts(User user, List<Integer> contactIds);
+
+    List<Post> getPostsForCommunity(Community community);
 
 }

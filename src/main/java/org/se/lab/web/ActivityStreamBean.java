@@ -30,7 +30,7 @@ import java.util.List;
 @RequestScoped
 public class ActivityStreamBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public static final int INVALID_STATE = -1;
+	private static final int INVALID_STATE = -1;
 
 	private final static Logger LOG = Logger.getLogger(ActivityStreamBean.class);
 
@@ -50,7 +50,6 @@ public class ActivityStreamBean implements Serializable {
 	private List<Integer> contactIds;
 	private List<User> userContactList;
 	private List<Post> posts;
-	private int likecount = 0;
 	private Post post;
 	private List<Post> postChildren;
 	private int id = 0;
@@ -109,7 +108,7 @@ public class ActivityStreamBean implements Serializable {
 			return "";
 
 		for (User u : p.getLikes())
-			sb.append(" "+u.getUsername());
+			sb.append(" ").append(u.getUsername());
 
 		return sb.toString();
 	}

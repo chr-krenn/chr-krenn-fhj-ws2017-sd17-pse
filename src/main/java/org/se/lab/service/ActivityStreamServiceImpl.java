@@ -1,13 +1,11 @@
 package org.se.lab.service;
 
 import org.apache.log4j.Logger;
+import org.se.lab.db.dao.PostDAO;
 import org.se.lab.db.data.Community;
-import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
 import org.se.lab.utils.ArgumentChecker;
-import org.se.lab.db.dao.EnumerationDAO;
-import org.se.lab.db.dao.PostDAO;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,9 +17,6 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
 
     @Inject
     private PostDAO dao;
-
-    @Inject
-    private EnumerationDAO enumerationDAO;
 
     @Override
     public void insert(Post article) {
@@ -42,7 +37,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
             }
         } catch (Exception e) {
             LOG.error("Can't insert post " + post, e);
-            throw new ServiceException("Can't insert post " + post, e);
+            throw new ServiceException("Can't insert post " + post);
         }
     }
 
@@ -51,13 +46,12 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
         LOG.debug("delete " + post);
         Post postToDelete;
 
-        // delete childposts
-        for (Post childPost: post.getChildPosts()) {
+        for (Post childPost : post.getChildPosts()) {
             try {
                 postToDelete = dao.findById(childPost.getId());
             } catch (Exception e) {
                 LOG.error("Can't find post ", e);
-                throw new ServiceException("Can't find post ", e);
+                throw new ServiceException("Can't find post ");
             }
             deleteExecuter(postToDelete);
         }
@@ -67,7 +61,7 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
             postToDelete = dao.findById(post.getId());
         } catch (Exception e) {
             LOG.error("Can't find post ", e);
-            throw new ServiceException("Can't find post ", e);
+            throw new ServiceException("Can't find post ");
         }
         deleteExecuter(postToDelete);
     }
@@ -95,13 +89,13 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
     @Override
     public List<Post> getPostsForUser(User user) {
         LOG.debug("getting posts relevant for " + user);
-     
+
         try {
-        return dao.getPostsForUser(user);
-    } catch (Exception e) {
-        LOG.error("Can't get posts for user " + user, e);
-        throw new ServiceException("Can't update post " + user);
-    }
+            return dao.getPostsForUser(user);
+        } catch (Exception e) {
+            LOG.error("Can't get posts for user " + user, e);
+            throw new ServiceException("Can't update post " + user);
+        }
     }
 
     @Override
