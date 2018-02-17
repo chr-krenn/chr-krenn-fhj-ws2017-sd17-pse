@@ -20,126 +20,119 @@ import java.util.Map;
 @RequestScoped
 public class CommunityOverviewBean {
 
-	private final static Logger LOG = Logger.getLogger(CommunityOverviewBean.class);
+    private final static Logger LOG = Logger.getLogger(CommunityOverviewBean.class);
 
-	@Inject
-	private CommunityService service;
+    @Inject
+    private CommunityService service;
 
-	private List<Community> communities;
-	private Community selectedCommunity;
+    private List<Community> communities;
+    private Community selectedCommunity;
 
-	private String newCommunityName;
-	private String newCommunityDescription;
+    private String newCommunityName;
+    private String newCommunityDescription;
 
-	private int userId = 0;
-	private ExternalContext context;
+    private int userId = 0;
+    private ExternalContext context;
 
-	@PostConstruct
-	public void init() {
-		context = FacesContext.getCurrentInstance().getExternalContext();
-		Map<String, Object> session = context.getSessionMap();
-		userId = (int) session.get("user");
+    @PostConstruct
+    public void init() {
+        context = FacesContext.getCurrentInstance().getExternalContext();
+        Map<String, Object> session = context.getSessionMap();
+        userId = (int) session.get("user");
 
-		communities = new ArrayList<>();
-		communities = service.findAll();
-	}
+        communities = new ArrayList<>();
+        communities = service.findAll();
+    }
 
-	public void reset() {
-		setNewCommunityDescription(null);
-		setNewCommunityName(null);
-		setSelectedCommunity(null);
-	}
+    public void reset() {
+        setNewCommunityDescription(null);
+        setNewCommunityName(null);
+        setSelectedCommunity(null);
+    }
 
-	public String createNewCommunity() {
-		Community newCommunity;
-		if (!newCommunityName.isEmpty()) {
-			FacesContext context = FacesContext.getCurrentInstance();
+    public void createNewCommunity() {
+        Community newCommunity;
+        if (!newCommunityName.isEmpty()) {
+            FacesContext context = FacesContext.getCurrentInstance();
 
-			if (newCommunityDescription.isEmpty()) {
-				newCommunityDescription = "<Edit me ...>";
-			}
+            if (newCommunityDescription.isEmpty()) {
+                newCommunityDescription = "<Edit me ...>";
+            }
 
-			try {
-				newCommunity = service.request(newCommunityName, newCommunityDescription, userId);
-				newCommunity = service.findByName(newCommunityName);
+            try {
+                newCommunity = service.request(newCommunityName, newCommunityDescription, userId);
+                context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());
+                LOG.info(newCommunity.getName() + " community created with the id: " + newCommunity.getId() + ".");
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Community requested."));
+            } catch (Exception e) {
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fail!", "Unable to request community."));
+            }
+        }
+        reset();
+    }
 
-				context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());
-				LOG.info(newCommunity.getName() + " community created with the id: " + newCommunity.getId() + ".");
+    public void gotoCom() {
+        LOG.info("In Method gotoCom");
+        if (selectedCommunity != null) {
+            LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
 
-			} catch (Exception e) {
-				context.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fail!", "Unable to request community."));
-				reset();
-				return "";
-			}
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Community requested."));
-		}
-		reset();
-		return "";
-	}
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
 
-	public void gotoCom() {
-		LOG.info("In Method gotoCom");
-		if (selectedCommunity != null) {
-			LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
+            try {
+                context.getExternalContext().redirect("/pse/communityprofile.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+            }
+        }
+    }
 
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
+    public void deleteCom() {
+        LOG.info("In Method deleteCom");
 
-			try {
-				context.getExternalContext().redirect("/pse/communityprofile.xhtml");
-			} catch (IOException e) {
-				LOG.error("Can't redirect to /pse/communityprofile.xhtml");
-			}
-		}
-	}
+        if (selectedCommunity != null) {
 
-	public void deleteCom() {
-		LOG.info("In Method deleteCom");
+            LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
+            service.delete(selectedCommunity);
 
-		if (selectedCommunity == null)
-			return;
+            try {
+                context.redirect("/pse/communityoverview.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/communityoverview.xhtml");
+            }
+        }
+    }
 
-		LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
+    public List<Community> getCommunities() {
+        return communities;
+    }
 
-		service.delete(selectedCommunity);
+    public void setCommunities(List<Community> communities) {
+        this.communities = communities;
+    }
 
-		try {
-			context.redirect("/pse/communityoverview.xhtml");
-		} catch (IOException e) {
-			LOG.error("Can't redirect to /pse/communityoverview.xhtml");
-		}
-	}
+    public Community getSelectedCommunity() {
+        return selectedCommunity;
+    }
 
-	public List<Community> getCommunities() {
-		return communities;
-	}
+    public void setSelectedCommunity(Community selectedCommunity) {
+        this.selectedCommunity = selectedCommunity;
+    }
 
-	public void setCommunities(List<Community> communities) {
-		this.communities = communities;
-	}
+    public String getNewCommunityName() {
+        return newCommunityName;
+    }
 
-	public Community getSelectedCommunity() {
-		return selectedCommunity;
-	}
+    public void setNewCommunityName(String newCommunityName) {
+        this.newCommunityName = newCommunityName;
+    }
 
-	public void setSelectedCommunity(Community selectedCommunity) {
-		this.selectedCommunity = selectedCommunity;
-	}
+    public String getNewCommunityDescription() {
+        return newCommunityDescription;
+    }
 
-	public String getNewCommunityName() {
-		return newCommunityName;
-	}
-
-	public void setNewCommunityName(String newCommunityName) {
-		this.newCommunityName = newCommunityName;
-	}
-
-	public String getNewCommunityDescription() {
-		return newCommunityDescription;
-	}
-
-	public void setNewCommunityDescription(String newCommunityDescription) {
-		this.newCommunityDescription = newCommunityDescription;
-	}
+    public void setNewCommunityDescription(String newCommunityDescription) {
+        this.newCommunityDescription = newCommunityDescription;
+    }
 }

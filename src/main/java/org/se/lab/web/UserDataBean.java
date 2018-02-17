@@ -8,6 +8,7 @@ import org.primefaces.model.UploadedFile;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
+import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -36,9 +37,6 @@ public class UserDataBean implements Serializable {
     private Flash flash;
     private ExternalContext context;
     private StreamedContent photo;
-    @Inject
-    private UserService service;
-
 
     private User user;
     private User loggedInUser;
@@ -59,16 +57,16 @@ public class UserDataBean implements Serializable {
     private boolean isContactAddable = false;
     private boolean ownProfile = false;
     private boolean isAdmin = false;
-
-
     private String visibility;
 
+    @Inject
+    private UserService service;
 
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> session = context.getSessionMap();
-        
+
         if (session.size() != 0 && session.get("user") != null) {
 
             flash = context.getFlash();
@@ -91,17 +89,13 @@ public class UserDataBean implements Serializable {
                 loadContactsCommunitiesAndUserprofile();
                 validateUserPriviles(loggedInUser);
 
-            } catch (Exception e) {
+            } catch (ServiceException e) {
                 errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
                 LOG.error(errorMsg);
                 setErrorMsg(errorMsg);
             }
 
         } else {
-            /*
-             * If session is null - redirect to login page!
-             *
-             */
             try {
                 context.redirect("/pse/index.xhtml");
             } catch (IOException e) {
@@ -118,7 +112,7 @@ public class UserDataBean implements Serializable {
             communities = user.getCommunities();
             userProfile = service.getUserProfilById(user.getId());
 
-        } catch (Exception e) {
+        } catch (ServiceException e) {
             errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
             LOG.error(errorMsg);
             setErrorMsg(errorMsg);
@@ -154,43 +148,19 @@ public class UserDataBean implements Serializable {
     }
 
     public void addContact() {
-
         contactName = context.getRequestParameterMap().get("contactName");
-
-        System.out.println("LoggedInAdd " + loggedInUser.getId());
-        System.out.println("addContact: " + contactName);
-        LOG.info("contactName " + contactName);
-        LOG.info("u " + loggedInUser.getId());
-        LOG.info("userid " + userId);
         service.addContact(loggedInUser, contactName);
-
         setContactAddable(false);
-
     }
 
     public void removeContact() {
-
         contactName = context.getRequestParameterMap().get("contactName");
-
-        System.out.println("LoggedInRemove " + loggedInUser.getId());
-        System.out.println("RemoveContact: " + contactName);
-
-        LOG.info("contactName " + contactName);
-        LOG.info("u " + loggedInUser.getId());
-        LOG.info("userid " + userId);
         service.removeContact(loggedInUser, contactName);
-
         setContactAddable(true);
-
-
     }
 
     public StreamedContent getImage() {
-
-        //todo maybe need to load from db
-
         return new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
-
     }
 
     public void uploadPicture(FileUploadEvent event) {
@@ -202,33 +172,17 @@ public class UserDataBean implements Serializable {
     }
 
     public boolean isImageExists() {
-
-        if (user == null) {
-            return false;
-        } else {
-            return user.getUserProfile().getPicture() != null;
-        }
+        return user != null && user.getUserProfile().getPicture() != null;
     }
 
     private void validateUserPriviles(User u) {
         try {
             this.isAdmin = service.hasUserTheRole(User.ROLE.ADMIN, u);
 
-        } catch (Exception e) {
+        } catch (ServiceException e) {
             errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
             LOG.error(errorMsg);
             setErrorMsg(errorMsg);
-        }
-    }
-
-    private boolean hasUserPrivilege(User.ROLE role) {
-        try {
-            return service.hasUserTheRole(role, user);
-        } catch (Exception e) {
-            errorMsg = String.format("Can't check privilege of user: %s", user.getUsername());
-            LOG.error(errorMsg);
-            setErrorMsg(errorMsg);
-            return false;
         }
     }
 
@@ -246,14 +200,14 @@ public class UserDataBean implements Serializable {
 
                 List<User> usersList = service.getContactsOfUser(loggedInUser);
 
-                for (User u: usersList) {
+                for (User u : usersList) {
                     //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
                     if (u.getId() == user.getId()) {
                         setContactAddable(false);
                     }
                 }
 
-            } catch (Exception e) {
+            } catch (ServiceException e) {
                 errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
                 LOG.error(errorMsg);
                 setErrorMsg(errorMsg);
@@ -263,7 +217,6 @@ public class UserDataBean implements Serializable {
             loggedInUser = user;
         }
     }
-
 
 
     public User getUser(int id) {
@@ -363,12 +316,12 @@ public class UserDataBean implements Serializable {
     }
 
     private void writeObject(ObjectOutputStream stream)
-    throws IOException {
+            throws IOException {
         stream.defaultWriteObject();
     }
 
     private void readObject(ObjectInputStream stream)
-    throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
     }
 }
