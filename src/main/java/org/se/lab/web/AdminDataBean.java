@@ -10,6 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
@@ -31,24 +32,21 @@ import java.util.Map;
 @ManagedBean(name = "AdminDataBean")
 public class AdminDataBean  implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     private final static Logger LOG = Logger.getLogger(AdminDataBean.class);
     private List<Community> requestedCommunityList;
     private List<Community> approvedCommunityList;
-    /*
-     * Properties for Session
-     */
+
     private Flash flash;
-    private FacesContext context;
+    private ExternalContext context;
     private List<Community> selectedCommunities;
     private Community selectedCommunity;
     private String id = "";
+    private String userProfId;
     private int userId = 0;
     private String reactionOnPendingRequest = null;
+    
     @Inject
     private CommunityService service;
 
@@ -74,25 +72,18 @@ public class AdminDataBean  implements Serializable {
 
     @PostConstruct
     public void init() {
-        context = FacesContext.getCurrentInstance();
+        context = FacesContext.getCurrentInstance().getExternalContext();
 
-        /**
-         * FG Info Flash: We need flash to make the param survive one redirect request
-         * otherwise param will be null
-         **/
         flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
         //Get UserId of user, who owns session
-        Map<String, Object> session = context.getExternalContext().getSessionMap();
+        Map<String, Object> session = context.getSessionMap();
 
-
-        id = context.getExternalContext().getRequestParameterMap().get("userid");
+        id = context.getRequestParameterMap().get("userid");
 
         flash.put("uid", id);
 
-
-        String userProfId = String.valueOf(context.getExternalContext().getFlash().get("uid"));
-
-
+        userProfId = String.valueOf(context.getFlash().get("uid"));
+        
         LOG.info("userProfId: " + userProfId);
 
         if (session.size() != 0 && session.get("user") != null) {
@@ -101,7 +92,7 @@ public class AdminDataBean  implements Serializable {
             LOG.info("SESSIOn UID: " + userId);
         } else {
             try {
-                context.getExternalContext().redirect("/pse/index.xhtml");
+                context.redirect("/pse/index.xhtml");
             } catch (IOException e) {
                 LOG.error("Can't redirect to /pse/index.xhtml");
 
@@ -148,7 +139,7 @@ public class AdminDataBean  implements Serializable {
 
     private void refreshPage() {
         try {
-            context.getExternalContext().redirect("/pse/adminPortal.xhtml");
+            context.redirect("/pse/adminPortal.xhtml");
         } catch (IOException e) {
             LOG.error("Can't redirect to /pse/adminPortal.xhtml");
 
