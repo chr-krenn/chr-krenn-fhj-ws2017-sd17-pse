@@ -7,8 +7,8 @@ import org.se.lab.service.CommunityService;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
@@ -31,14 +31,13 @@ public class CommunityOverviewBean {
 	private String newCommunityName;
 	private String newCommunityDescription;
 
-	private Flash flash;
-	private FacesContext context;
 	private int userId = 0;
+	private ExternalContext context;
 
 	@PostConstruct
 	public void init() {
-		context = FacesContext.getCurrentInstance();
-		Map<String, Object> session = context.getExternalContext().getSessionMap();
+		context = FacesContext.getCurrentInstance().getExternalContext();
+		Map<String, Object> session = context.getSessionMap();
 		userId = (int) session.get("user");
 
 		communities = new ArrayList<>();
@@ -138,7 +137,7 @@ public class CommunityOverviewBean {
 		service.delete(selectedCommunity);
 
 		try {
-			context.getExternalContext().redirect("/pse/communityoverview.xhtml");
+			context.redirect("/pse/communityoverview.xhtml");
 		} catch (IOException e) {
 			LOG.error("Can't redirect to /pse/communityoverview.xhtml");
 		}
