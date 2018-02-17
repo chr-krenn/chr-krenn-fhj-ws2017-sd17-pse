@@ -7,6 +7,7 @@ import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
@@ -27,10 +28,11 @@ public class UserOverviewBean {
      * Properties for Session
      */
     private Flash flash;
-    private FacesContext context;
+    private ExternalContext context;
     private List<UserProfile> profiles;
     private UserProfile selectedProfile;
     private String id = "";
+    private String userProfId;
     private int userId = 0;
 
 
@@ -38,20 +40,16 @@ public class UserOverviewBean {
     public void init() {
 
         //TODO Check if Session exists
-        context = FacesContext.getCurrentInstance();
+        context = FacesContext.getCurrentInstance().getExternalContext();
 
-        flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+        flash = context.getFlash();
 
-        Map<String, Object> session = context.getExternalContext().getSessionMap();
+        Map<String, Object> session = context.getSessionMap();
 
-
-        id = context.getExternalContext().getRequestParameterMap().get("userid");
+        id = context.getRequestParameterMap().get("userid");
 
         flash.put("uid", id);
-
-
-        String userProfId = String.valueOf(context.getExternalContext().getFlash().get("uid"));
-
+        userProfId = String.valueOf(context.getFlash().get("uid"));
 
         LOG.info("userProfId: " + userProfId);
 
@@ -61,15 +59,17 @@ public class UserOverviewBean {
             LOG.info("SESSIOn UID: " + userId);
         } else {
             try {
-                context.getExternalContext().redirect("/pse/index.xhtml");
+                context.redirect("/pse/index.xhtml");
             } catch (IOException e) {
                 LOG.error("Can't redirect to /pse/index.xhtml");
                 //e.printStackTrace();
             }
         }
-
+try {
         profiles = service.getAllUserProfiles();
-
+    } catch (Exception e) {
+        LOG.error("Error in UserOverview", e);
+    }
 
     }
 
