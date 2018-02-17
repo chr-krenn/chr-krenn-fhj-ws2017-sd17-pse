@@ -12,6 +12,7 @@ import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
@@ -33,7 +34,7 @@ public class UserDataBean  implements Serializable {
     private final static Logger LOG = Logger.getLogger(UserDataBean.class);
 
     private Flash flash;
-    private FacesContext context;
+    private ExternalContext context;
     private StreamedContent photo;
     @Inject
     private UserService service;
@@ -47,9 +48,12 @@ public class UserDataBean  implements Serializable {
 
     private List<Community> communities = new ArrayList<Community>();
 
+    private String contactName;
     private String id = "";
     private String hideAddRemove = "";
     private String fromHeader = "";
+    private String fromHeaderCheck;
+    private String userProfId;
     private int userId = 0;
     private boolean isContactAddable = false;
     private boolean ownProfile = false;
@@ -61,17 +65,17 @@ public class UserDataBean  implements Serializable {
 
     @PostConstruct
     public void init() {
-        context = FacesContext.getCurrentInstance();
-        Map<String, Object> session = context.getExternalContext().getSessionMap();
+        context = FacesContext.getCurrentInstance().getExternalContext();
+        Map<String, Object> session = context.getSessionMap();
         if (session.size() != 0 && session.get("user") != null) {
 
-            flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-            id = context.getExternalContext().getRequestParameterMap().get("userid");
+            flash = context.getFlash();
+            id = context.getRequestParameterMap().get("userid");
             handleButton(session);
 
             userId = (int) session.get("user");
-            String userProfId = String.valueOf(context.getExternalContext().getFlash().get("uid"));
-            String fromHeaderCheck = String.valueOf(context.getExternalContext().getFlash().get("fromHeader"));
+            userProfId = String.valueOf(context.getFlash().get("uid"));
+            fromHeaderCheck = String.valueOf(context.getFlash().get("fromHeader"));
             if (fromHeaderCheck != null && fromHeaderCheck.equals("1")) {
                 userProfId = null;
             }
@@ -120,7 +124,7 @@ public class UserDataBean  implements Serializable {
 			 *
 			 */
             try {
-                context.getExternalContext().redirect("/pse/index.xhtml");
+                context.redirect("/pse/index.xhtml");
             } catch (IOException e) {
                 LOG.error("Can't redirect to /pse/index.xhtml");
                 //e.printStackTrace();
@@ -156,14 +160,14 @@ public class UserDataBean  implements Serializable {
         }
 
 
-        hideAddRemove = context.getExternalContext().getRequestParameterMap().get("hideAddRemove");
-        fromHeader = context.getExternalContext().getRequestParameterMap().get("fromHeader");
+        hideAddRemove = context.getRequestParameterMap().get("hideAddRemove");
+        fromHeader = context.getRequestParameterMap().get("fromHeader");
 
         flash.put("uid", id);
         flash.put("hideAddRemove", hideAddRemove);
         flash.put("fromHeader", fromHeader);
 
-        String hideAddRemoveCheck = String.valueOf(context.getExternalContext().getFlash().get("hideAddRemove"));
+        String hideAddRemoveCheck = String.valueOf(context.getFlash().get("hideAddRemove"));
         //Hide Buttons for own profile
         if ("1".equals(hideAddRemoveCheck)) {
             setOwnProfile(true);
@@ -172,7 +176,7 @@ public class UserDataBean  implements Serializable {
 
     public void addContact() {
 
-        String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
+         contactName = context.getRequestParameterMap().get("contactName");
 
         System.out.println("LoggedInAdd " + loggedInUser.getId());
         System.out.println("addContact: " + contactName);
@@ -187,7 +191,7 @@ public class UserDataBean  implements Serializable {
 
     public void removeContact() {
 
-        String contactName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("contactName");
+        contactName = context.getRequestParameterMap().get("contactName");
 
         System.out.println("LoggedInRemove " + loggedInUser.getId());
         System.out.println("RemoveContact: " + contactName);
@@ -251,6 +255,8 @@ public class UserDataBean  implements Serializable {
             return false;
         }
     }
+    
+
 
 
     public User getUser(int id) {
