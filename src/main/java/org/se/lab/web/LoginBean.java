@@ -6,6 +6,7 @@ import org.se.lab.db.data.User;
 import org.se.lab.service.UserService;
 import org.se.lab.web.helper.Session;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -37,20 +38,9 @@ public class LoginBean implements Serializable {
     @Inject
     private Session session;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    @PostConstruct
+    public void init() {
+        //todo check why init is needed to get values
     }
 
     public void doLogin() {
@@ -94,6 +84,22 @@ public class LoginBean implements Serializable {
 
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     private void writeObject(ObjectOutputStream stream)
