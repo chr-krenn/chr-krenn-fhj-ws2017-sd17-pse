@@ -13,6 +13,7 @@ import org.se.lab.web.helper.Session;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
@@ -43,7 +44,7 @@ public class ActivityStreamBean implements Serializable {
 	private Session session;
 
 	private Flash flash;
-	private FacesContext context;
+	private ExternalContext context;
 	private String inputText;
 	private String inputTextChild;
 	private List<Integer> contactIds;
@@ -58,11 +59,11 @@ public class ActivityStreamBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		int userId = session.getUserId();
-		context = FacesContext.getCurrentInstance();
+		context = FacesContext.getCurrentInstance().getExternalContext();
 
 		if (userId > INVALID_STATE) {
 			id = userId;
-			flash = context.getExternalContext().getFlash();
+			flash = context.getFlash();
 			flash.put("uid", id);
 			setLoggedInUser(loadLoggedInUser());
 			userContactList = uservice.getContactsOfUser(getLoggedInUser());
@@ -152,7 +153,7 @@ public class ActivityStreamBean implements Serializable {
 
 	private void refreshPage() {
 		try {
-			context.getExternalContext().redirect("/pse/activityStream.xhtml");
+			context.redirect("/pse/activityStream.xhtml");
 		} catch (IOException e) {
 			LOG.error("Can't redirect to /pse/activityStream.xhtml");
 
