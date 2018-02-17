@@ -15,6 +15,7 @@ import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,7 +36,7 @@ public class CommunityDataBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(CommunityDataBean.class);
-    private FacesContext context;
+    private ExternalContext context;
     private String name;
     private boolean publicState;
     private String description;
@@ -61,8 +62,8 @@ public class CommunityDataBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        context = FacesContext.getCurrentInstance();
-        session = context.getExternalContext().getSessionMap();
+        context = FacesContext.getCurrentInstance().getExternalContext();
+        session = context.getSessionMap();
         int userId = (int) session.get("user");
         user = getUser(userId);
         setPortalAdmin();
