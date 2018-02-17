@@ -84,7 +84,7 @@ public class CommunityDAOTest extends AbstractDAOTest {
 
 
         //exercise
-        coms = cdao.findPendingCommunities();
+        coms = cdao.findCommunitiesByState(Enumeration.State.PENDING);
 
         coms.get(1).setState(edao.findById(2));
 
@@ -95,7 +95,7 @@ public class CommunityDAOTest extends AbstractDAOTest {
         Assert.assertEquals(coms.get(0).getState(), edao.findById(1));
         Assert.assertEquals(coms.get(1).getState(), edao.findById(2));
         Assert.assertEquals(coms.get(2).getState(), edao.findById(1));
-        coms = cdao.findApprovedCommunities();
+        coms = cdao.findCommunitiesByState(Enumeration.State.APPROVED);
         Assert.assertEquals(coms.get(0).getState(), edao.findById(2));
         Assert.assertTrue(coms.size() == 1);
         Assert.assertTrue(coms.get(0).getName() == "TestDAOCommunity2");

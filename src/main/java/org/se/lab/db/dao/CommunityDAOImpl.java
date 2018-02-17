@@ -3,7 +3,6 @@ package org.se.lab.db.dao;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.se.lab.db.data.Community;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.Enumeration;
 
 import javax.persistence.NoResultException;
@@ -16,6 +15,77 @@ import java.util.List;
 public class CommunityDAOImpl extends DAOImplTemplate<Community> implements CommunityDAO {
 
     private final static Logger LOG = Logger.getLogger(CommunityDAOImpl.class);
+
+    @Override
+    public Community findByName(String name) {
+        LOG.info("findByName(name = " + name + ")");
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
+        Root<Community> community = criteria.from(Community.class);
+        criteria.where(builder.equal(community.get("name"), name));
+        TypedQuery<Community> query = em.createQuery(criteria);
+        try {
+            Community c = query.getSingleResult();
+            return initializeCom(c);
+        } catch (Exception e) {
+            LOG.error(e.toString());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Community> findCommunitiesByState(Enumeration.State state) {
+        LOG.info(String.format("findCommunites with State %s", state.getName()));
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
+        Root<Community> community = criteria.from(Community.class);
+        try {
+            criteria.where(builder.equal(community.get("state"), new Enumeration(state.getValue())));
+            //todo impl right (only log)??
+        } catch (Exception e1) {
+            LOG.error(String.format("Enumeration().%s konnte nicht erstellt werden!", state.getName()));
+        }
+        TypedQuery<Community> query = em.createQuery(criteria);
+        try {
+            List<Community> coms = query.getResultList();
+            for (Community c : coms) {
+                initializeCom(c);
+            }
+            return coms;
+        } catch (NoResultException e) {
+            LOG.error(e.toString());
+            return null;
+        }
+    }
+
+    @Override
+    public Community createCommunity(String name, String description, int portaladminId) {
+        LOG.info("createCommunity(name = " + name + ", description = " + description + ")");
+        Community c = new Community(name, description, portaladminId);
+
+        Enumeration e = getValidEnumeration(em.find(Enumeration.class, 1));
+        c.setState(e);
+        return insert(c);
+
+    }
+
+    private Enumeration getValidEnumeration(Enumeration find) {
+        if (find != null)
+            return find;
+        EnumerationDAOImpl edao = new EnumerationDAOImpl();
+        edao.setEntityManager(em);
+
+        return edao.insert(edao.createEnumeration(1));
+
+    }
+
+    private Community initializeCom(Community c) {
+        if (c == null) return c;
+        Hibernate.initialize(c.getState());
+        Hibernate.initialize(c.getUsers());
+        return c;
+    }
+
 
     @Override
     public Community insert(Community entity) {
@@ -49,110 +119,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
     @Override
     public List<Community> findAll() {
         LOG.info("findAll()");
-        
+
         return super.findAll();
     }
-
-    @Override
-    public Community findByName(String name) {
-        LOG.info("findByName(name = " + name + ")");
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
-        Root<Community> community = criteria.from(Community.class);
-        criteria.where(builder.equal(community.get("name"), name));
-        TypedQuery<Community> query = em.createQuery(criteria);
-        try {
-            Community c = query.getSingleResult();
-            return initializeCom(c);
-        } catch (Exception e) {
-            LOG.error(e.toString());
-            return null;
-        }
-    }
-
-    @Override
-    public List<Community> findPendingCommunities() {
-        LOG.info("findPendingCommunites()");
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
-        Root<Community> community = criteria.from(Community.class);
-        try {
-            criteria.where(builder.equal(community.get("state"), new Enumeration(1)));
-            //todo impl right (only log)??
-        } catch (Exception e1) {
-            LOG.error("Enumeration().PENDING konnte nicht erstellt werden!");
-        }
-        TypedQuery<Community> query = em.createQuery(criteria);
-        try {
-            List<Community> coms = query.getResultList();
-            for (Community c : coms) {
-                initializeCom(c);
-            }
-            return coms;
-        } catch (NoResultException e) {
-            LOG.error(e.toString());
-            return null;
-        }
-    }
-
-    @Override
-    public List<Community> findApprovedCommunities() {
-        LOG.info("findApprovedCommunites()");
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
-        Root<Community> community = criteria.from(Community.class);
-        try {
-            criteria.where(builder.equal(community.get("state"), new Enumeration(2)));
-            //todo impl right (only log)??
-        } catch (Exception e1) {
-            LOG.error("Enumeration(2).APPROVED konnte nicht erstellt werden!");
-        }
-        TypedQuery<Community> query = em.createQuery(criteria);
-        try {
-            List<Community> coms = query.getResultList();
-            for (Community c : coms) {
-                initializeCom(c);
-            }
-            return coms;
-        } catch (NoResultException e) {
-            LOG.error(e.toString());
-            return null;
-        }
-    }
-
-    @Override
-    public Community createCommunity(String name, String description, int portaladminId) throws DatabaseException {
-        LOG.info("createCommunity(name = " + name + ", description = " + description + ")");
-        Community c = new Community(name, description, portaladminId);
-        try {
-            Enumeration e = getValidEnumeration(em.find(Enumeration.class, 1));
-            c.setState(e);
-            insert(c);
-        } catch (DatabaseException e) {
-            throw new DatabaseException("Community konnte nicht erstellt werden", e);
-        }
-
-        return c;
-    }
-
-    private Enumeration getValidEnumeration(Enumeration find) throws DatabaseException {
-        if (find != null)
-            return find;
-        EnumerationDAOImpl edao = new EnumerationDAOImpl();
-        edao.setEntityManager(em);
-        try {
-            find = edao.insert(edao.createEnumeration(1));
-        } catch (DatabaseException e) {
-            throw new DatabaseException("No wright Enumeration found", e);
-        }
-        return find;
-    }
-
-    private Community initializeCom(Community c) {
-        if (c == null) return c;
-        Hibernate.initialize(c.getState());
-        Hibernate.initialize(c.getUsers());
-        return c;
-    }
-
 }

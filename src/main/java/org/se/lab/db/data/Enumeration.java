@@ -20,18 +20,25 @@ public class Enumeration implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public enum State {
-        PENDING(1),
-        APPROVED(2),
-        REFUSED(3);
+        PENDING(1, "PENDING"),
+        APPROVED(2, "APPROVED"),
+        REFUSED(3, "REFUSED");
 
         private final int value;
+        private final String identifier;
 
-        private State(int value) {
+        private State(int value, String identifier) {
             this.value = value;
+            this.identifier = identifier;
         }
+
 
         public int getValue() {
             return value;
+        }
+
+        public String getName() {
+            return identifier;
         }
     }
 
@@ -138,9 +145,9 @@ public class Enumeration implements Serializable {
     public void removeLike(User user, Post post) {
         if (likedby.contains(user))
             likedby.remove(user);
-        
+
         if (liked.contains(post))
-        liked.remove(post);
+            liked.remove(post);
 
         user.getLikes().remove(this);
         post.getLikes().remove(user);

@@ -7,14 +7,14 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 @Stateless
-public class PrivateMessageServiceImpl implements PrivateMessageService{
+public class PrivateMessageServiceImpl implements PrivateMessageService {
 
-	@Inject
-	private PrivateMessageDAO pmDAO;
+    @Inject
+    private PrivateMessageDAO pmDAO;
 
-	@Override
-	public void sendMessage(PrivateMessage privateMessage) {
-		pmDAO.insert(privateMessage);
-		
-	}
+    @Override
+    public void sendMessage(PrivateMessage privateMessage) {
+        pmDAO.insert(privateMessage);
+
+    }
 }

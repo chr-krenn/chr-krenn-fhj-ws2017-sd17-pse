@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void insert(User user) {
         LOG.debug("insert " + user);
-        
-        ArgumentChecker.assertNotNull(user,"user");
-        
+
+        ArgumentChecker.assertNotNull(user, "user");
+
 
         try {
             userDAO.insert(user);
@@ -45,13 +45,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     @Override
     public void delete(User user) {
         LOG.debug("delete " + user);
 
-        ArgumentChecker.assertNotNull(user,"user");
-        
+        ArgumentChecker.assertNotNull(user, "user");
 
         try {
             userDAO.delete(user);
@@ -65,24 +63,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String username, String password) {
         LOG.debug("login for " + username);
-       
-        //todo return null in case of username or pw is null/empty
-        
-        ArgumentChecker.assertNotNullAndEmpty(username,"username");
-        ArgumentChecker.assertNotNullAndEmpty(password,"password");
-        
-        User user = loadUserByUsername(username);
 
-        if (user != null && pwEncoder.checkPassword(password, user.getPassword())) {
-        return user;
-        }
-        LOG.error("Password incorrect for user " + user);
-        return null;
+        ArgumentChecker.assertNotNullAndEmpty(username, "username");
+        ArgumentChecker.assertNotNullAndEmpty(password, "password");
+
+        User user = loadUserByUsername(username);
+        ArgumentChecker.assertNotNull(user, "user");
+
+        return pwEncoder.checkPassword(password, user.getPassword()) ? user : null;
     }
 
     private User loadUserByUsername(String username) {
 
-        ArgumentChecker.assertNotNullAndEmpty(username,"username");
+        ArgumentChecker.assertNotNullAndEmpty(username, "username");
         try {
             return userDAO.findByUsername(username);
         } catch (Exception e) {
@@ -93,12 +86,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addContact(User user, String contactName) {
-    	 	
+
         LOG.debug("add contact" + contactName + " to " + user);
 
-
-        ArgumentChecker.assertNotNull(user,"user");
-        ArgumentChecker.assertNotNullAndEmpty(contactName,"contactName");
+        ArgumentChecker.assertNotNull(user, "user");
+        ArgumentChecker.assertNotNullAndEmpty(contactName, "contactName");
 
         User userToAdd;
         try {
@@ -127,12 +119,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeContact(User user, String contactName) {
-      	
+
         LOG.debug("remove contact from " + user);
 
 
-        ArgumentChecker.assertNotNull(user,"user");
-        ArgumentChecker.assertNotNullAndEmpty(contactName,"contactName");
+        ArgumentChecker.assertNotNull(user, "user");
+        ArgumentChecker.assertNotNullAndEmpty(contactName, "contactName");
         User userToRemove;
         try {
             userToRemove = userDAO.findByUsername(contactName);
@@ -151,10 +143,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserContact> getAllContactsByUser(User user) {
-    	
 
-        ArgumentChecker.assertNotNull(user,"user");
-    	
+        ArgumentChecker.assertNotNull(user, "user");
+
         LOG.debug("get all contacts from " + user);
         try {
             return userContactDAO.findContactsbyUser(user);
@@ -166,9 +157,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
-    	
-        ArgumentChecker.assertNotNull(user,"user");
-    	
+
+        ArgumentChecker.assertNotNull(user, "user");
         LOG.debug("update " + user);
 
         try {
@@ -194,9 +184,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserProfile getUserProfilById(int id) {
-    	
-    	ArgumentChecker.assertValidNumber(id, "userProfilId");
-    	
+
+        ArgumentChecker.assertValidNumber(id, "userProfilId");
+
         LOG.debug("getUserProfil by Id");
 
         try {
@@ -221,9 +211,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Community> getAllCommunitiesForUser(User user) {
-      
-        ArgumentChecker.assertNotNull(user,"user");
-        
+
+        ArgumentChecker.assertNotNull(user, "user");
+
         LOG.debug("getAllUserProfiles");
 
         try {
@@ -234,15 +224,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
-    /*
-     * TODO check if methods delete(id), findById(id) required
-     */
     @Override
     public void delete(int id) {
-    	
-    	ArgumentChecker.assertValidNumber(id, "userId");
-    	
+
+        ArgumentChecker.assertValidNumber(id, "userId");
+
         LOG.info("delete: " + id);
 
         try {
@@ -257,9 +243,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(int id) {
-    	
-    	ArgumentChecker.assertValidNumber(id, "userId");
-    	
+
+        ArgumentChecker.assertValidNumber(id, "userId");
         LOG.debug("find User with id=" + id);
 
         try {
@@ -272,9 +257,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addPictureToProfile(UserProfile userProfile) {
-    	
-    	ArgumentChecker.assertNotNull(userProfile, "userprofile");
-    	
+
+        ArgumentChecker.assertNotNull(userProfile, "userprofile");
         try {
             userProfileDAO.update(userProfile);
         } catch (Exception e) {
@@ -285,14 +269,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean hasUserTheRole(User.ROLE privileg, User user) {
-    	
 
-        ArgumentChecker.assertNotNull(user,"user");
-    	
+        ArgumentChecker.assertNotNull(user, "user");
         User loadedUser = findById(user.getId());
         List<Enumeration> roles = loadedUser.getRoles();
 
-        for (Enumeration enumeration: roles) {
+        for (Enumeration enumeration : roles) {
             if (enumeration.getName().equals(privileg.name())) {
                 return true;
             }
@@ -301,14 +283,14 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> getContactsOfUser(User user) {
-    	
 
-        ArgumentChecker.assertNotNull(user,"user");
-        
+
+        ArgumentChecker.assertNotNull(user, "user");
+
         List<UserContact> userContactObjects = getAllContactsByUser(user);
 
         List<User> userContacts = new ArrayList<>();
-        for (UserContact userContact: userContactObjects) {
+        for (UserContact userContact : userContactObjects) {
 
             User contacUser = findById(userContact.getContactId());
             if (contacUser != null) {

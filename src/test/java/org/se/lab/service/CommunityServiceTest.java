@@ -115,7 +115,7 @@ public class CommunityServiceTest {
     public void getApproved_Successful() {
         communities.add(community1);
 
-        expect(communityDAO.findApprovedCommunities()).andReturn(communities);
+        expect(communityDAO.findCommunitiesByState(Enumeration.State.APPROVED)).andReturn(communities);
 
         communityService.getApproved();
     }
@@ -124,7 +124,7 @@ public class CommunityServiceTest {
     public void getPending_Successful() {
         communities.add(community2);
 
-        expect(communityDAO.findPendingCommunities()).andReturn(communities);
+        expect(communityDAO.findCommunitiesByState(Enumeration.State.PENDING)).andReturn(communities);
 
         communityService.getPending();
     }

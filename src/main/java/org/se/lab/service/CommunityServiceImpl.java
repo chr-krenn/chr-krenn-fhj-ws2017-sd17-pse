@@ -2,10 +2,7 @@ package org.se.lab.service;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.UploadedFile;
-import org.se.lab.db.data.Community;
-import org.se.lab.db.data.File;
-import org.se.lab.db.data.PrivateMessage;
-import org.se.lab.db.data.User;
+import org.se.lab.db.data.*;
 import org.se.lab.utils.ArgumentChecker;
 import org.se.lab.db.dao.CommunityDAO;
 import org.se.lab.db.dao.FileDAO;
@@ -48,7 +45,7 @@ public class CommunityServiceImpl implements CommunityService {
     public List<Community> getApproved() {
         LOG.debug("getApproved Communities ");
         try {
-            return communityDAO.findApprovedCommunities();
+            return communityDAO.findCommunitiesByState(Enumeration.State.APPROVED);
         } catch (Exception e) {
             LOG.error("Can't findApprovedCommunities", e);
             throw new ServiceException("Can't findApprovedCommunities");
@@ -59,7 +56,7 @@ public class CommunityServiceImpl implements CommunityService {
     public List<Community> getPending() {
         LOG.debug("getPending Communities");
         try {
-            return communityDAO.findPendingCommunities();
+            return communityDAO.findCommunitiesByState(Enumeration.State.PENDING);
         } catch (Exception e) {
             LOG.error("Can't findPendingCommunities", e);
             throw new ServiceException("Can't findPendingCommunities");
