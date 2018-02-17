@@ -28,7 +28,7 @@ import java.util.Map;
 
 @Named
 @RequestScoped
-public class UserDataBean  implements Serializable {
+public class UserDataBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final static Logger LOG = Logger.getLogger(UserDataBean.class);
@@ -54,19 +54,21 @@ public class UserDataBean  implements Serializable {
     private String fromHeader = "";
     private String fromHeaderCheck;
     private String userProfId;
+    private String hideAddRemoveCheck;
     private int userId = 0;
     private boolean isContactAddable = false;
     private boolean ownProfile = false;
     private boolean isAdmin = false;
 
 
-	private String visibility;
+    private String visibility;
 
 
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> session = context.getSessionMap();
+        
         if (session.size() != 0 && session.get("user") != null) {
 
             flash = context.getFlash();
@@ -76,37 +78,14 @@ public class UserDataBean  implements Serializable {
             userId = (int) session.get("user");
             userProfId = String.valueOf(context.getFlash().get("uid"));
             fromHeaderCheck = String.valueOf(context.getFlash().get("fromHeader"));
+
+
             if (fromHeaderCheck != null && fromHeaderCheck.equals("1")) {
                 userProfId = null;
             }
-            //Wr befinden uns auf einem Profil eines anderen Users
-            if (userProfId != null && !userProfId.equals("null")) {
-                setContactAddable(true);
-                /* TODO userProfId might be "null" or NaN */
-                user = getUser(Integer.parseInt(userProfId));
 
-                //Holen des eingeloggten Users
-                try {
-                    loggedInUser = service.findById(userId);
+            this.initializeProfile(userId, userProfId);
 
-                    List<User> usersList = service.getContactsOfUser(loggedInUser);
-
-                    for (User u : usersList) {
-                        //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
-                        if (u.getId() == user.getId()) {
-                            setContactAddable(false);
-                        }
-                    }
-
-                } catch (Exception e) {
-                    errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
-                    LOG.error(errorMsg);
-                    setErrorMsg(errorMsg);
-                }
-            } else {
-                user = getUser(userId);
-                loggedInUser = user;
-            }
 
             try {
                 loadContactsCommunitiesAndUserprofile();
@@ -121,8 +100,8 @@ public class UserDataBean  implements Serializable {
         } else {
             /*
              * If session is null - redirect to login page!
-			 *
-			 */
+             *
+             */
             try {
                 context.redirect("/pse/index.xhtml");
             } catch (IOException e) {
@@ -167,7 +146,7 @@ public class UserDataBean  implements Serializable {
         flash.put("hideAddRemove", hideAddRemove);
         flash.put("fromHeader", fromHeader);
 
-        String hideAddRemoveCheck = String.valueOf(context.getFlash().get("hideAddRemove"));
+        hideAddRemoveCheck = String.valueOf(context.getFlash().get("hideAddRemove"));
         //Hide Buttons for own profile
         if ("1".equals(hideAddRemoveCheck)) {
             setOwnProfile(true);
@@ -176,7 +155,7 @@ public class UserDataBean  implements Serializable {
 
     public void addContact() {
 
-         contactName = context.getRequestParameterMap().get("contactName");
+        contactName = context.getRequestParameterMap().get("contactName");
 
         System.out.println("LoggedInAdd " + loggedInUser.getId());
         System.out.println("addContact: " + contactName);
@@ -210,8 +189,8 @@ public class UserDataBean  implements Serializable {
 
         //todo maybe need to load from db
 
-            return new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
-        
+        return new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
+
     }
 
     public void uploadPicture(FileUploadEvent event) {
@@ -224,15 +203,12 @@ public class UserDataBean  implements Serializable {
 
     public boolean isImageExists() {
 
-		if(user == null)
-		{
-			return false;
-		}
-		else
-		{
-		    return user.getUserProfile().getPicture() != null;
-		}
-}
+        if (user == null) {
+            return false;
+        } else {
+            return user.getUserProfile().getPicture() != null;
+        }
+    }
 
     private void validateUserPriviles(User u) {
         try {
@@ -255,7 +231,38 @@ public class UserDataBean  implements Serializable {
             return false;
         }
     }
-    
+
+
+    private void initializeProfile(int userId, String userProfId) {
+        //Wr befinden uns auf einem Profil eines anderen Users
+        if (userProfId != null && !userProfId.equals("null")) {
+
+            setContactAddable(true);
+            user = getUser(Integer.parseInt(userProfId));
+
+            //Holen des eingeloggten Users
+            try {
+                loggedInUser = service.findById(userId);
+
+                List<User> usersList = service.getContactsOfUser(loggedInUser);
+
+                for (User u: usersList) {
+                    //Wenn sich der User des aktuell angezeigten Profils in der Kontaktliste befindet wird der removeBtn angezeigt
+                    if (u.getId() == user.getId()) {
+                        setContactAddable(false);
+                    }
+                }
+
+            } catch (Exception e) {
+                errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+                LOG.error(errorMsg);
+                setErrorMsg(errorMsg);
+            }
+        } else {
+            user = getUser(userId);
+            loggedInUser = user;
+        }
+    }
 
 
 
@@ -342,26 +349,26 @@ public class UserDataBean  implements Serializable {
     }
 
     public String setMessageVisibility(String visibility) {
-    	return visibility;
+        return visibility;
     }
 
-	public String getVisibility() {
-		return visibility;
-	}
+    public String getVisibility() {
+        return visibility;
+    }
 
-	public void setVisibility(String visibility) {
-		if(visibility==null)
-			this.visibility = "default";
-		this.visibility = visibility;
-	}
-	
-	private void writeObject(ObjectOutputStream stream)
-	        throws IOException {
-	    stream.defaultWriteObject();
-	}
+    public void setVisibility(String visibility) {
+        if (visibility == null)
+            this.visibility = "default";
+        this.visibility = visibility;
+    }
 
-	private void readObject(ObjectInputStream stream)
-	        throws IOException, ClassNotFoundException {
-	    stream.defaultReadObject();
-	}
+    private void writeObject(ObjectOutputStream stream)
+    throws IOException {
+        stream.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream stream)
+    throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+    }
 }
