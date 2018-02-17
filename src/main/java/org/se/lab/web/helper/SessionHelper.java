@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @Stateless
 public class SessionHelper implements Session {
-    public final static String USER = "user";
+    private final static String USER = "user";
 
     private final static Logger LOG = Logger.getLogger(SessionHelper.class);
 
@@ -52,9 +52,12 @@ public class SessionHelper implements Session {
             }
         }
         return -1;
-
     }
 
+    public void logout(){
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        RedirectHelper.redirect("/pse/index.xhtml");
+    }
 
     private void redirectLogin(ExternalContext context) {
         try {

@@ -50,26 +50,6 @@ public class AdminDataBean  implements Serializable {
     @Inject
     private CommunityService service;
 
-    public String getReactionOnPendingRequest() {
-        return reactionOnPendingRequest;
-    }
-
-    public List<Community> getRequestedCommunityList() {
-        return requestedCommunityList;
-    }
-
-    public void setRequestedCommunityList(List<Community> requestedCommunityList) {
-        this.requestedCommunityList = requestedCommunityList;
-    }
-
-    public List<Community> getApprovedCommunityList() {
-        return approvedCommunityList;
-    }
-
-    public void setApprovedCommunityList(List<Community> approvedCommunityList) {
-        this.approvedCommunityList = approvedCommunityList;
-    }
-
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance().getExternalContext();
@@ -83,7 +63,7 @@ public class AdminDataBean  implements Serializable {
         flash.put("uid", id);
 
         userProfId = String.valueOf(context.getFlash().get("uid"));
-        
+
         LOG.info("userProfId: " + userProfId);
 
         if (session.size() != 0 && session.get("user") != null) {
@@ -146,22 +126,6 @@ public class AdminDataBean  implements Serializable {
         }
     }
 
-    public Community getSelectedCommunity() {
-        return selectedCommunity;
-    }
-
-    public void setSelectedCommunity(Community selectedCommunity) {
-        this.selectedCommunity = selectedCommunity;
-    }
-
-    public List<Community> getSelectedCommunities() {
-        return selectedCommunities;
-    }
-
-    public void setSelectedCommunities(List<Community> selectedCommunities) {
-        this.selectedCommunities = selectedCommunities;
-    }
-
     public void goToCommunity() {
         LOG.info("In Method goToCommunity");
 
@@ -177,7 +141,7 @@ public class AdminDataBean  implements Serializable {
             }
         }
     }
-    
+
     private void writeObject(ObjectOutputStream stream)
             throws IOException {
         stream.defaultWriteObject();
@@ -188,4 +152,39 @@ public class AdminDataBean  implements Serializable {
         stream.defaultReadObject();
     }
 
+    public String getReactionOnPendingRequest() {
+        return reactionOnPendingRequest;
+    }
+
+    public List<Community> getRequestedCommunityList() {
+        return requestedCommunityList;
+    }
+
+    public void setRequestedCommunityList(List<Community> requestedCommunityList) {
+        this.requestedCommunityList = requestedCommunityList;
+    }
+
+    public List<Community> getApprovedCommunityList() {
+        return approvedCommunityList;
+    }
+
+    public void setApprovedCommunityList(List<Community> approvedCommunityList) {
+        this.approvedCommunityList = approvedCommunityList;
+    }
+
+    public Community getSelectedCommunity() {
+        return selectedCommunity;
+    }
+
+    public void setSelectedCommunity(Community selectedCommunity) {
+        this.selectedCommunity = selectedCommunity;
+    }
+
+    public List<Community> getSelectedCommunities() {
+        return selectedCommunities;
+    }
+
+    public void setSelectedCommunities(List<Community> selectedCommunities) {
+        this.selectedCommunities = selectedCommunities;
+    }
 }

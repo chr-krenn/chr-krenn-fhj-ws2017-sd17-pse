@@ -11,6 +11,7 @@ import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
 import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.CommunityService;
+import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -49,7 +50,6 @@ public class CommunityDataBean implements Serializable {
     private List<File> files = new ArrayList<>();
     private String joinLeaveState;
     private boolean isPortalAdmin = false;
-
 
     @Inject
     private CommunityService communityService;
@@ -121,11 +121,7 @@ public class CommunityDataBean implements Serializable {
 
         listCommunity = userService.getAllCommunitiesForUser(user);
 
-        if (listCommunity.contains(actualCommunity)) {
-
-            return true;
-        }
-        return false;
+        return listCommunity.contains(actualCommunity);
     }
 
     public List<Post> getActualCommunityStream() {
@@ -145,7 +141,7 @@ public class CommunityDataBean implements Serializable {
 
         try {
             communityService.uploadFile(user, uploadedFile);
-        } catch (Exception e) {
+        } catch (ServiceException e) {
             errorMsg = "Can't upload file without errors! - pls contact the admin or try later";
             LOG.error(errorMsg);
             setErrorMsg(errorMsg);
@@ -241,7 +237,7 @@ public class CommunityDataBean implements Serializable {
     public void setJoinLeaveState(String joinLeaveState) {
         this.joinLeaveState = joinLeaveState;
     }
-    
+
     private void writeObject(ObjectOutputStream stream)
             throws IOException {
         stream.defaultWriteObject();

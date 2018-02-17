@@ -5,9 +5,9 @@ import org.se.lab.db.data.User;
 
 import java.util.List;
 
-public interface FileDAO extends DAOTemplate<File>{
+public interface FileDAO extends DAOTemplate<File> {
 
     List<File> findByUser(User user);
-    void delete(File entity);
 
+    void delete(File entity);
 }

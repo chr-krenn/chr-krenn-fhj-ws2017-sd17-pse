@@ -50,38 +50,6 @@ public class CommunityOverviewBean {
 		setSelectedCommunity(null);
 	}
 
-	public List<Community> getCommunities() {
-		return communities;
-	}
-
-	public void setCommunities(List<Community> communities) {
-		this.communities = communities;
-	}
-
-	public Community getSelectedCommunity() {
-		return selectedCommunity;
-	}
-
-	public void setSelectedCommunity(Community selectedCommunity) {
-		this.selectedCommunity = selectedCommunity;
-	}
-
-	public String getNewCommunityName() {
-		return newCommunityName;
-	}
-
-	public void setNewCommunityName(String newCommunityName) {
-		this.newCommunityName = newCommunityName;
-	}
-
-	public String getNewCommunityDescription() {
-		return newCommunityDescription;
-	}
-
-	public void setNewCommunityDescription(String newCommunityDescription) {
-		this.newCommunityDescription = newCommunityDescription;
-	}
-
 	public String createNewCommunity() {
 		Community newCommunity;
 		if (!newCommunityName.isEmpty()) {
@@ -141,5 +109,37 @@ public class CommunityOverviewBean {
 		} catch (IOException e) {
 			LOG.error("Can't redirect to /pse/communityoverview.xhtml");
 		}
+	}
+
+	public List<Community> getCommunities() {
+		return communities;
+	}
+
+	public void setCommunities(List<Community> communities) {
+		this.communities = communities;
+	}
+
+	public Community getSelectedCommunity() {
+		return selectedCommunity;
+	}
+
+	public void setSelectedCommunity(Community selectedCommunity) {
+		this.selectedCommunity = selectedCommunity;
+	}
+
+	public String getNewCommunityName() {
+		return newCommunityName;
+	}
+
+	public void setNewCommunityName(String newCommunityName) {
+		this.newCommunityName = newCommunityName;
+	}
+
+	public String getNewCommunityDescription() {
+		return newCommunityDescription;
+	}
+
+	public void setNewCommunityDescription(String newCommunityDescription) {
+		this.newCommunityDescription = newCommunityDescription;
 	}
 }

@@ -8,15 +8,20 @@ import org.se.lab.db.data.User;
 import java.util.Date;
 import java.util.List;
 
-public interface PostDAO extends DAOTemplate<Post>  {
+public interface PostDAO extends DAOTemplate<Post> {
 
+    Post insert(Post post, Community community);
 
-	Post insert(Post post, Community community);
-	List<Post> getPostsForUser(User user);
-	List<Post> getPostsForUserAndContacts(User user, List<Integer> contactIds);
-	List<Post> getPostsForCommunity(Community community);
-	Post clonePost(Post post) throws DatabaseException;
-	Post createPost(User user, String text, Date created) throws DatabaseException;
-	Post createPost(Post parentpost, Community community, User user, String text, Date created) throws DatabaseException;
-	
+    List<Post> getPostsForUser(User user);
+
+    List<Post> getPostsForUserAndContacts(User user, List<Integer> contactIds);
+
+    List<Post> getPostsForCommunity(Community community);
+
+    Post clonePost(Post post) throws DatabaseException;
+
+    Post createPost(User user, String text, Date created) throws DatabaseException;
+
+    Post createPost(Post parentpost, Community community, User user, String text, Date created) throws DatabaseException;
+
 }

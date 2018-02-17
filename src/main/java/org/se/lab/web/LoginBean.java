@@ -4,6 +4,7 @@ package org.se.lab.web;
 import org.apache.log4j.Logger;
 import org.se.lab.db.data.User;
 import org.se.lab.service.UserService;
+import org.se.lab.web.helper.Session;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -34,6 +35,9 @@ public class LoginBean implements Serializable {
     @Inject
     private UserService service;
 
+    @Inject
+    private Session session;
+
     @PostConstruct
     public void init() {
         //todo check why init is needed to get values
@@ -61,21 +65,20 @@ public class LoginBean implements Serializable {
             user = service.login(getUsername(), getPassword());
         } catch (Exception e) {
             String erroMsg = "Ooops something went wrong - pls contact the admin or try later";
-            LOG.error(erroMsg,e);
+            LOG.error(erroMsg, e);
             setErrorMsg(erroMsg);
         }
 
         if (user == null) {
             setErrorMsg("wrong Credentials - please try again");
-        }
-        else {
+        } else {
             context = FacesContext.getCurrentInstance().getExternalContext();
             context.getSessionMap().put("user", user.getId());
 
             Map<String, Object> session = context.getSessionMap();
 
-            
-            	for (Map.Entry<String,Object> e : session.entrySet()) {
+
+            for (Map.Entry<String, Object> e : session.entrySet()) {
                 LOG.info(e.getKey() + ": " + e.getValue());
             }
 
@@ -87,13 +90,8 @@ public class LoginBean implements Serializable {
         }
     }
 
-    public String logout() {
-    	FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-
-        //TODO return isn`t needed in case each class has the handling if no session exists
-        return "/index.xhtml?faces-redirect=true";
-
-        //TODO smarter would be the next line without return a string - at the moment the instance of LoginBean is new create so the errorMsg isn`t shown
+    public void logout() {
+        session.logout();
     }
 
     public String getErrorMsg() {
@@ -113,5 +111,5 @@ public class LoginBean implements Serializable {
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
     }
-    
+
 }

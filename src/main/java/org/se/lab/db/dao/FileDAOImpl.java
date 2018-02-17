@@ -8,9 +8,7 @@ import org.se.lab.db.data.User;
 import java.util.List;
 
 public class FileDAOImpl extends DAOImplTemplate<File> implements FileDAO {
-
-	
-	private final static Logger LOG = Logger.getLogger(FileDAOImpl.class);
+    private final static Logger LOG = Logger.getLogger(FileDAOImpl.class);
 	
     @Override
     protected Class<File> getEntityClass() {
