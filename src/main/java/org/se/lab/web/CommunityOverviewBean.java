@@ -65,7 +65,8 @@ public class CommunityOverviewBean {
                 context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());
                 LOG.info(newCommunity.getName() + " community created with the id: " + newCommunity.getId() + ".");
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Community requested."));
-            } catch (ServiceException e) {
+            } catch (Exception e) {	// only catching ServiceException would miss EJBException
+            	LOG.info("Exception in createNewCommunity()", e);
                 context.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fail!", "Unable to request community."));
             }
