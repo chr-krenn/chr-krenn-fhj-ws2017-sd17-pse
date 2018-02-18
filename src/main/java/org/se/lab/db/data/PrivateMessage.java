@@ -30,7 +30,7 @@ public class PrivateMessage implements Serializable {
             + " characters";
     private static final String TEXT_WHITESPACE_ERROR = "The given text must have charakters not only whitespaces";
     @Transient
-    private Logger LOG = Logger.getLogger(Post.class);
+    private static final Logger LOG = Logger.getLogger(Post.class);
 
     @Id
     @Column(name = "id")

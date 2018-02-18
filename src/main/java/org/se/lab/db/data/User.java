@@ -18,13 +18,8 @@ import java.util.List;
 @Table(name = "users")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    public enum ROLE {
-        ADMIN, PORTALADMIN, USER;
-    }
-
     @Transient
-    private Logger LOG = Logger.getLogger(User.class);
+    private static final Logger LOG = Logger.getLogger(User.class);
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,13 +42,12 @@ public class User implements Serializable {
     private List<PrivateMessage> privateMessagesReceiver = new ArrayList<>();
     @ManyToMany(mappedBy = "userroles")
     private List<Enumeration> roles = new ArrayList<Enumeration>();
-    
-   
     /*
      * User for Like
      */
     @ManyToMany(mappedBy = "likedby")
     private List<Enumeration> likes = new ArrayList<Enumeration>();
+
 
     public User(String username, String password) {
         LOG.debug("New User");
@@ -68,22 +62,18 @@ public class User implements Serializable {
     public User() {
     }
 
-
     public int getId() {
         return this.id;
     }
-
 
     public void setId(int id) {
         ArgumentChecker.assertValidNumber(id, "userId");
         this.id = id;
     }
 
-
     public String getUsername() {
         return username;
     }
-
 
     public void setUsername(String username) {
         ArgumentChecker.assertNotNullAndEmpty(username, "username");
@@ -93,7 +83,6 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
-
 
     public void setPassword(String password) {
         ArgumentChecker.assertNotNullAndEmpty(password, "password");
@@ -169,15 +158,14 @@ public class User implements Serializable {
         this.likes.add(like);
     }
 
-	/*
-     * Object methods
-	 */
-
     @Override
     public String toString() {
         return "User [id=" + id + ", username=" + username + "]";
     }
 
+	/*
+     * Object methods
+	 */
 
     @Override
     public int hashCode() {
@@ -200,7 +188,7 @@ public class User implements Serializable {
             return false;
         return true;
     }
-    
+
     private void writeObject(ObjectOutputStream stream)
             throws IOException {
         stream.defaultWriteObject();
@@ -209,6 +197,10 @@ public class User implements Serializable {
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
+    }
+
+    public enum ROLE {
+        ADMIN, PORTALADMIN, USER;
     }
     
 }

@@ -23,7 +23,7 @@ public class Post implements Serializable {
     private static final String SELF_REFERENTIAL_ERROR = "The given parent post must not be the same as this post";
 
     @Transient
-    private Logger LOG = Logger.getLogger(Post.class);
+    private static final Logger LOG = Logger.getLogger(Post.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
