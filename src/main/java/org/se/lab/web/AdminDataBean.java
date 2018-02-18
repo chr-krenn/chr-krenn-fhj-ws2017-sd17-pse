@@ -28,8 +28,6 @@ import java.util.Map;
  */
 @Named
 @RequestScoped
-@ViewScoped
-@ManagedBean(name = "AdminDataBean")
 public class AdminDataBean  implements Serializable {
 
     private static final long serialVersionUID = 1L;
