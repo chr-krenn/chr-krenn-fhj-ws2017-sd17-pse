@@ -18,14 +18,6 @@ public class PrivateMessage implements Serializable {
     public static final int MAX_TEXT_LENGTH = 1024;
     private static final long serialVersionUID = 1L;
     private static final String TOSTRING_MSG = "PrivateMessage: {id: %d, text: %s, FK_User_Sender: %s, FK_User_Receiver: %s}";
-    private static final String ID_INVALID_ERROR = "The given id is less than 1";
-    private static final String USERSENDER_NULL_ERROR = "The given user must not be null";
-    private static final String USERRECEIVER_NULL_ERROR = "The given post must not be null";
-    private static final String TEXT_NULL_ERROR = "The given text must not be null";
-    private static final String TEXT_INVALID_ERROR = "The given text is to long and exceeds "
-            + MAX_TEXT_LENGTH
-            + " characters";
-    private static final String TEXT_WHITESPACE_ERROR = "The given text must have charakters not only whitespaces";
 
     @Transient
     private static final Logger LOG = Logger.getLogger(Post.class);
@@ -81,11 +73,6 @@ public class PrivateMessage implements Serializable {
         this.text = text;
     }
 
-    /**
-     * Getter to get UserSender of PrivateMessage
-     *
-     * @return (User) usersender
-     */
     public User getUserSender() {
         return usersender;
     }
@@ -97,11 +84,6 @@ public class PrivateMessage implements Serializable {
         usersender.addPrivateMessageSender(this);
     }
 
-    /**
-     * Getter to get UserReceiver of PrivateMessage
-     *
-     * @return (User) userreceiver
-     */
     public User getUserReceiver() {
         return userreceiver;
     }

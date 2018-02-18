@@ -5,7 +5,6 @@ import org.hibernate.Hibernate;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Enumeration;
 
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
