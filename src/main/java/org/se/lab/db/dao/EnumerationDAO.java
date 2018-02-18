@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EnumerationDAO extends DAOTemplate<Enumeration> {
 
-	Enumeration createEnumeration(int id) throws DatabaseException;
+	Enumeration createEnumeration(int id);
 	List<User> findUsersByEnumeration(int id);
 	List<Community> findCommunitiesByEnumeration(int id);
 	List<Post> findLikedPostsByEnumeration(int id);

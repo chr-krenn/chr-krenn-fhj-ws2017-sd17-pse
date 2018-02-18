@@ -25,12 +25,10 @@ public class ActivityStreamServiceTest {
     public static final String DESCRIPTION = "description";
     public static final String NAME = "name";
     public static final int ID = 1;
-    @TestSubject
-    private ActivityStreamService activityStreamService = new ActivityStreamServiceImpl();
-
     @Rule
     public EasyMockRule mocks = new EasyMockRule(this);
-
+    @TestSubject
+    private ActivityStreamService activityStreamService = new ActivityStreamServiceImpl();
     @Mock
     private PostDAO postDAO;
 
@@ -46,7 +44,7 @@ public class ActivityStreamServiceTest {
     private Enumeration alike;
 
     @Before
-    public void setup() throws DatabaseException {
+    public void setup() {
         alike = new Enumeration(7);
 
         community = new Community(NAME, DESCRIPTION,1);
@@ -71,7 +69,7 @@ public class ActivityStreamServiceTest {
     }
 
     @Test
-    public void insert_withCommunity() throws DatabaseException {
+    public void insert_withCommunity() {
         expect(postDAO.insert(post1,community)).andReturn(post1);
         replay(postDAO);
 

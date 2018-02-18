@@ -72,7 +72,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     }
 
     @Test
-    public void testUser() throws DatabaseException {
+    public void testUser() {
         String name = "testUser";
         String username = "test";
         String pass = "pass";
@@ -102,7 +102,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     }
 
     @Test
-    public void testLikedUser() throws DatabaseException {
+    public void testLikedUser() {
         String name = "testLikedUser";
         String username = "test";
         String pass = "pass";
@@ -132,7 +132,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     }
 
     @Test
-    public void testPost() throws DatabaseException {
+    public void testPost() {
         String name = "testPost";
         String text = "Test";
 
@@ -159,7 +159,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     }
 
     @Test
-    public void testCommunity() throws DatabaseException {
+    public void testCommunity() {
         String name = "testCommunity";
         String description = "Test";
 

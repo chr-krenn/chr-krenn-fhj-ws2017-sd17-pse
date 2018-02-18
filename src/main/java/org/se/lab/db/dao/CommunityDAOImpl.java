@@ -34,23 +34,15 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
         Root<Community> community = criteria.from(Community.class);
-        try {
-            criteria.where(builder.equal(community.get("state"), new Enumeration(state.getValue())));
-            //todo impl right (only log)??
-        } catch (Exception e1) {
-            LOG.error(String.format("Enumeration().%s konnte nicht erstellt werden!", state.getName()));
-        }
+        criteria.where(builder.equal(community.get("state"), new Enumeration(state.getValue())));
         TypedQuery<Community> query = em.createQuery(criteria);
-        try {
-            List<Community> coms = query.getResultList();
-            for (Community c : coms) {
-                initializeCom(c);
-            }
-            return coms;
-        } catch (NoResultException e) {
-            LOG.error(e.toString());
-            return null;
+
+        List<Community> coms = query.getResultList();
+        for (Community c : coms) {
+            initializeCom(c);
         }
+        return coms;
+
     }
 
     @Override

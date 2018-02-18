@@ -5,7 +5,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.se.lab.db.data.DatabaseException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,7 +23,7 @@ public abstract class AbstractDAOTest {
 	
 	
 	@BeforeClass
-	public static void connect() throws DatabaseException {
+	public static void connect() {
 		factory = Persistence.createEntityManagerFactory(persistencUnitName);
 		assertNotNull(factory);
 		em = factory.createEntityManager();

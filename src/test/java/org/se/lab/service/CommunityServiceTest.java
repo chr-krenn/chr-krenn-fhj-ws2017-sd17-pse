@@ -72,7 +72,7 @@ public class CommunityServiceTest {
     }
 
     @Test
-    public void approve() throws DatabaseException {
+    public void approve() {
         Community community = new Community(NAME, DESCRIPTION, 1);
 
         Community communityResult = new Community(NAME, DESCRIPTION, 1);
@@ -88,7 +88,7 @@ public class CommunityServiceTest {
 
     @Ignore("something wrong with mock configuration for new method request")
     @Test
-    public void request() throws DatabaseException {
+    public void request() {
         Community community = new Community(NAME, DESCRIPTION, 1);
 
         Community communityResult = new Community(NAME, DESCRIPTION, 1);
@@ -167,7 +167,7 @@ public class CommunityServiceTest {
     }
 
     @Test
-    public void refuse_Successful() throws DatabaseException {
+    public void refuse_Successful() {
         community3.setState(enumerationService.getPending());
 
         expect(communityDAO.update(community3)).andReturn(community3);

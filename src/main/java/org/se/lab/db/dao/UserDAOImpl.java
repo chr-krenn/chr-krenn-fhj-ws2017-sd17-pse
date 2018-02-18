@@ -2,10 +2,8 @@ package org.se.lab.db.dao;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.User;
 
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -40,16 +38,13 @@ public class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
         Root<User> user = criteria.from(User.class);
         criteria.where(builder.equal(user.get("username"), username));
         TypedQuery<User> query = em.createQuery(criteria);
-        try {
-            User u = query.getSingleResult();
-            return initializeUser(u);
-        } catch (NoResultException e) {
-            return null;
-        }
+
+        User u = query.getSingleResult();
+        return initializeUser(u);
     }
 
     @Override
-    public User createUser(String username, String password) throws DatabaseException {
+    public User createUser(String username, String password) {
         LOG.info("createArticle(\"" + username + "\"," + "***" + ")");
 
         User u = new User();

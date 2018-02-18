@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
 
@@ -61,14 +60,14 @@ public class UserProfileTest {
     }
 
     @Test
-    public void testHash() throws DatabaseException {
+    public void testHash() {
         UserProfile  up2 = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43",  "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
         u.setUserProfile(up2);
         Assert.assertTrue(up.hashCode() == up2.hashCode());
     }
 
     @Test
-    public void testEquals() throws DatabaseException {
+    public void testEquals() {
         UserProfile  up2 = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43",  "MI6", "james.bond@gmail.com", "test" , "test", "test userprofile");
         u.setUserProfile(up2);
         Assert.assertTrue(up.equals(up2));

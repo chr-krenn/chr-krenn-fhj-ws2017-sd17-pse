@@ -3,7 +3,6 @@ package org.se.lab.db.dao;
 import org.junit.Assert;
 import org.junit.Test;
 import org.se.lab.db.data.Community;
-import org.se.lab.db.data.DatabaseException;
 import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.User;
 
@@ -31,7 +30,6 @@ public class CommunityDAOTest extends AbstractDAOTest {
         cdao.setEntityManager(em);
         udao.setEntityManager(em);
         edao.setEntityManager(em);
-        try {
             user1 = udao.createUser("TestUser1", "*****");
             user2 = udao.createUser("TestUser2", "*****");
             user3 = udao.createUser("TestUser3", "*****");
@@ -43,10 +41,6 @@ public class CommunityDAOTest extends AbstractDAOTest {
             com2.addUsers(user2);
             com2.addUsers(user3);
             com3.addUsers(user3);
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        }
-
 
         pending = edao.findById(1);
     }
