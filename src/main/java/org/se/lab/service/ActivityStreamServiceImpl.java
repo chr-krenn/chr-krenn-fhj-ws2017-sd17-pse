@@ -36,8 +36,9 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
                 dao.insert(post, community);
             }
         } catch (Exception e) {
-            LOG.error("Can't insert post " + post, e);
-            throw new ServiceException("Can't insert post " + post);
+            String message = "Can't insert post ";
+            LOG.error(message, e);
+            throw new ServiceException(message + post);
         }
     }
 
@@ -46,33 +47,27 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
         LOG.debug("delete " + post);
         Post postToDelete;
 
-        for (Post childPost : post.getChildPosts()) {
-            try {
+        try {
+
+            //deletes child Posts
+            for (Post childPost : post.getChildPosts()) {
                 postToDelete = dao.findById(childPost.getId());
-            } catch (Exception e) {
-                LOG.error("Can't find post ", e);
-                throw new ServiceException("Can't find post ");
+                dao.delete(postToDelete);
             }
-            deleteExecuter(postToDelete);
-        }
 
-        // delete mainpost
-        try {
+            // deletes parent post
             postToDelete = dao.findById(post.getId());
+            dao.delete(postToDelete);
+        } catch (IllegalArgumentException e) {
+            String message = "Illegal Argument given for findById";
+            LOG.error(message, e);
+            throw new ServiceException(message);
         } catch (Exception e) {
-            LOG.error("Can't find post ", e);
-            throw new ServiceException("Can't find post ");
+            String message = "Can't find post ";
+            LOG.error(message, e);
+            throw new ServiceException(message);
         }
-        deleteExecuter(postToDelete);
-    }
 
-    public void deleteExecuter(Post post) {
-        try {
-            dao.delete(post);
-        } catch (Exception e) {
-            LOG.error("Can't delete post " + post, e);
-            throw new ServiceException("Can't delete post " + post);
-        }
     }
 
     @Override
@@ -80,9 +75,14 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
         LOG.debug("update " + post);
         try {
             dao.update(post);
+        } catch (IllegalArgumentException e) {
+            String message = "Can't update (wrong argument)";
+            LOG.error(message, e);
+            throw new ServiceException(message);
         } catch (Exception e) {
-            LOG.error("Can't update post " + post, e);
-            throw new ServiceException("Can't update post " + post);
+            String msg = "Can't update post ";
+            LOG.error(msg, e);
+            throw new ServiceException(msg + post);
         }
     }
 
@@ -92,9 +92,14 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
 
         try {
             return dao.getPostsForUser(user);
+        } catch (IllegalStateException e) {
+            String msg = "Wrong Type of Query";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't get posts for user " + user, e);
-            throw new ServiceException("Can't update post " + user);
+            String msg = "Can't get posts ";
+            LOG.error(msg + "for user ", e);
+            throw new ServiceException(msg + user);
         }
     }
 
@@ -104,9 +109,14 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
 
         try {
             return dao.getPostsForCommunity(community);
+        } catch (IllegalStateException e) {
+            String msg = "Wrong Type of Query";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't get posts for community " + community, e);
-            throw new ServiceException("Can't update post " + community);
+            String msg = "Can't get posts for community ";
+            LOG.error(msg, e);
+            throw new ServiceException(msg + community);
         }
     }
 
@@ -115,9 +125,14 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
         LOG.debug("getting posts relevant for " + user);
         try {
             return dao.getPostsForUserAndContacts(user, contactIds);
+        } catch (IllegalStateException e) {
+            String msg = "Wrong Type of Query";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't get posts for User and Contacts " + user, e);
-            throw new ServiceException("Can't get posts or User and Contacts  " + user);
+            String msg = "Can't get posts for User and Contacts ";
+            LOG.error(msg, e);
+            throw new ServiceException(msg + user);
         }
     }
 }
