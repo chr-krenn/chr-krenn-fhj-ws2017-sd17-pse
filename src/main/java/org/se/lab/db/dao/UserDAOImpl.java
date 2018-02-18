@@ -35,14 +35,23 @@ public class UserDAOImpl extends DAOImplTemplate<User> implements UserDAO {
     public User findByUsername(String username) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
-
         Root<User> user = criteria.from(User.class);
         criteria.where(builder.equal(user.get("username"), username));
-
         TypedQuery<User> query = em.createQuery(criteria);
 
         User u = query.getSingleResult();
         return initializeUser(u);
+    }
+
+    @Override
+    public User createUser(String username, String password) {
+        LOG.info("createArticle(\"" + username + "\"," + "***" + ")");
+
+        User u = new User();
+        u.setUsername(username);
+        u.setPassword(password);
+        insert(u);
+        return u;
     }
 
     private User initializeUser(User u) {
