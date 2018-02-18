@@ -35,9 +35,14 @@ public class CommunityServiceImpl implements CommunityService {
     public List<Community> findAll() {
         try {
             return communityDAO.findAll();
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't find all coms (illegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Error during findAll Communities", e);
-            throw new ServiceException("Error during findAll Communities");
+            String msg = "Can't find all communities";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -46,9 +51,14 @@ public class CommunityServiceImpl implements CommunityService {
         LOG.debug("getApproved Communities ");
         try {
             return communityDAO.findCommunitiesByState(Enumeration.State.APPROVED);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't find ApprovedCommunities(llegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't findApprovedCommunities", e);
-            throw new ServiceException("Can't findApprovedCommunities");
+            String msg = "Can't find approved communites";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -57,9 +67,14 @@ public class CommunityServiceImpl implements CommunityService {
         LOG.debug("getPending Communities");
         try {
             return communityDAO.findCommunitiesByState(Enumeration.State.PENDING);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't find PendingCommunities(illegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't findPendingCommunities", e);
-            throw new ServiceException("Can't findPendingCommunities");
+            String msg = "Can't find PendingCommunities";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -69,9 +84,14 @@ public class CommunityServiceImpl implements CommunityService {
 
         try {
             communityDAO.delete(community);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't delete Post - illegal Argument";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't delete community " + community, e);
-            throw new ServiceException("Can't delete community " + community);
+            String msg = "Can't delete community " + community;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -80,9 +100,14 @@ public class CommunityServiceImpl implements CommunityService {
         LOG.debug("update " + community);
         try {
             communityDAO.update(community);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't update Community(illegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't update community " + community, e);
-            throw new ServiceException("Can't update community " + community);
+            String msg = "Can't update community " + community;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -94,9 +119,14 @@ public class CommunityServiceImpl implements CommunityService {
             try {
                 community.addUsers(user);
                 update(community);
+            } catch (IllegalArgumentException e) {
+                String msg = "Can't join User (illegal Agrument)";
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
             } catch (Exception e) {
-                LOG.error("Can't join user " + user + " to community " + community, e);
-                throw new ServiceException("Can't join user " + user + " to community " + community, e);
+                String msg = "Can't join user " + user + " to community " + community;
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
             }
 
         } else {
@@ -111,14 +141,22 @@ public class CommunityServiceImpl implements CommunityService {
         Community com;
         try {
             com = communityDAO.createCommunity(name, description, portalAdmin);
-            
+
             ArgumentChecker.assertNotNull(com, "com");
 
             notifyAdmins(com);
-
+        } catch (ServiceException e) {
+            String msg = "Unable to notify admins";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't insert community(illegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't insert community " + name, e);
-            throw new ServiceException("Can't insert community " + name);
+            String msg = "Can't insert community " + name;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
         return com;
     }
@@ -131,17 +169,19 @@ public class CommunityServiceImpl implements CommunityService {
             try {
                 community.setState(enumerationService.getApproved());
                 update(community);
+            } catch (IllegalArgumentException e) {
+                String msg = "Can't approve Community(illegal Argument)";
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
             } catch (Exception e) {
-                LOG.warn("Can`t approve community " + community.getName() + "; Community is in State: " +
-                    community.getState(), e);
-                throw new ServiceException("Can`t approve community " + community.getName() +
-                    "; Community is in State: " + community.getState());
+                String msg = "Can't approve community " + community.getName() + "; State: " + community.getState();
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
             }
         } else {
-            LOG.warn("Can`t approve community " + community.getName() + "; Community is in State: " +
-                community.getState());
-            throw new ServiceException("Can`t approve community " + community.getName() + "; Community is in State: " +
-                community.getState());
+            String msg = "Can't approve community " + community.getName() + "; State: " + community.getState();
+            LOG.error(msg);
+            throw new ServiceException(msg);
         }
     }
 
@@ -151,9 +191,14 @@ public class CommunityServiceImpl implements CommunityService {
 
         try {
             return communityDAO.findById(id);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't find Community(illegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can`t find Id " + id, e);
-            throw new ServiceException("Can`t find Id " + id);
+            String msg = "Can't find id " + id;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -164,17 +209,19 @@ public class CommunityServiceImpl implements CommunityService {
             try {
                 community.setState(enumerationService.getRefused());
                 update(community);
+            } catch (IllegalArgumentException e) {
+                String msg = "Can't refuse Community(illegal Argument)";
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
             } catch (Exception e) {
-                LOG.warn("Can`t refuse community " + community.getName() + "; Community is in State: " +
-                    community.getState() + ": " + e.toString(), e);
-                throw new ServiceException("Can`t refuse community " + community.getName() + "; Community is in State: " +
-                    community.getState());
+                String msg = "Can't refuse community " + community.getName() + "; State: " + community.getState();
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
             }
         } else {
-            LOG.warn("Can`t refuse community " + community.getName() + "; Community is in State: " +
-                community.getState());
-            throw new ServiceException("Can`t refuse community " + community.getName() + "; Community is in State: " +
-                community.getState());
+            String msg = "Can't refuse community " + community.getName() + "; State: " + community.getState();
+            LOG.error(msg);
+            throw new ServiceException(msg);
         }
     }
 
@@ -182,9 +229,14 @@ public class CommunityServiceImpl implements CommunityService {
         Community com;
         try {
             com = communityDAO.findByName(name);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't get Community by Name (illegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can`t find community " + name, e);
-            throw new ServiceException("Can`t find community " + name);
+            String msg = "Can't find community " + name;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
         return com;
 
@@ -192,28 +244,41 @@ public class CommunityServiceImpl implements CommunityService {
 
     private void notifyAdmins(Community com) {
 
-        User u = userServcie.findById(com.getPortaladminId());
+        try {
+            User u = userServcie.findById(com.getPortaladminId());
 
-        for (User user: userServcie.getAdmins()) {
-            PrivateMessage message = new PrivateMessage(u + " created new community", user, user);
-            pmService.sendMessage(message);
+            for (User user : userServcie.getAdmins()) {
+                PrivateMessage message = new PrivateMessage(u + " created new community", user, user);
+                pmService.sendMessage(message);
+            }
+        } catch (IllegalArgumentException e) {
+            String msg = "Coulnd't find user(wrong argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
+        } catch (Exception e) {
+            String msg = "Unable to retrieve user by id " + com.getPortaladminId();
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
     @Override
     public void uploadFile(User user, UploadedFile uploadedFile) {
 
-
         ArgumentChecker.assertNotNull(user, "user");
-
         ArgumentChecker.assertNotNull(uploadedFile, "uploadedFile");
 
         LOG.info(String.format("File %s stored in Database", uploadedFile.getFileName()));
         try {
             fileDAO.insert(new File(user, uploadedFile.getFileName(), uploadedFile.getContents()));
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't upload file (illegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can`t upload file " + uploadedFile.getFileName(), e);
-            throw new ServiceException("Can`t upload file  " + uploadedFile.getFileName());
+            String msg = "Can't upload file " + uploadedFile.getFileName();
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
 
     }
@@ -225,9 +290,14 @@ public class CommunityServiceImpl implements CommunityService {
         if (user != null) {
             try {
                 files = fileDAO.findByUser(user);
+            } catch (IllegalArgumentException e) {
+                String msg = "Can't get files for User(illegal Argument)";
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
             } catch (Exception e) {
-                LOG.error("Can`t get file from user" + user.getId(), e);
-                throw new ServiceException("Can`t get file from user" + user.getId());
+                String msg = "Can't get file from User " + user.getId();
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
             }
 
 
@@ -237,14 +307,19 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public void deleteFile(File file) {
-    
+
         ArgumentChecker.assertNotNull(file, "file");
-        
+
         try {
             fileDAO.delete(file);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't delete file - illegal Argument";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can`t delete file " + file.getFilename(), e);
-            throw new ServiceException("Can`t delete file " + file.getFilename());
+            String msg = "Can't delete file " + file.getFilename();
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 }
