@@ -27,7 +27,7 @@ public class PostServiceImpl implements PostService {
         ArgumentChecker.assertNotNull(user, "user");
         ArgumentChecker.assertNotNullAndEmpty(text, "postMessage");
         ArgumentChecker.assertNotNull(created, "createdDate");
-        assertBothOrNoneNull(parentpost,community);
+        
 
         try {
             return postDAO.createPost(parentpost, community, user, text, created);
@@ -42,11 +42,7 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-    private void assertBothOrNoneNull(Post parentpost, Community community) {
-        if(parentpost == null ^ community != null){
-            throw new IllegalArgumentException("ParentPost and Community have to be both null or none");
-        }
-    }
+  
 
     @Override
     public Post updatePost(Post post) {
