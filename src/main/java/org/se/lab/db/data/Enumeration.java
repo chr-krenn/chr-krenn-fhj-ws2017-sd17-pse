@@ -145,6 +145,7 @@ public class Enumeration implements Serializable {
         user.getLikes().remove(this);
         post.getLikes().remove(user);
     }
+    
 
     /**
      * Object Methods

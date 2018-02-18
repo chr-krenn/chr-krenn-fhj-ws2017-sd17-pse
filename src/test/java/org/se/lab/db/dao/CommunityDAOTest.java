@@ -16,17 +16,14 @@ public class CommunityDAOTest extends AbstractDAOTest {
 	
 	private User user1;
 	private Community community1;
-	private Community community2;
 	
 	private static UserDAOImpl udao = new UserDAOImpl();
 	
 	private static CommunityDAOImpl cdao = new CommunityDAOImpl();
-	private static EnumerationDAOImpl edao = new EnumerationDAOImpl();
 	
     static {
     	cdao.setEntityManager(em);
     	udao.setEntityManager(em);
-    	edao.setEntityManager(em);
     }
 	
     @Before
@@ -78,18 +75,10 @@ public class CommunityDAOTest extends AbstractDAOTest {
     @Test
     public void testFindByState(){
     	Community persistedCommunity = cdao.createCommunity(community1.getName(), community1.getDescription(), user1.getId());
+    	    	    	
+    	List<Community> communities = cdao.findCommunitiesByState(Enumeration.State.PENDING);
     	
-    	Enumeration enumerationCommunity = persistedCommunity.getState();
-    	Enumeration e = edao.createEnumeration(1);
-    	
-    	
-    	
-    	//TODO: change Enumeration class: make state public or modify comDao findComByState(Enumeration) 
-    	//instead of findComByState(Enumeration.State)
-    	    	
-    	//List<Community> communities = cdao.findCommunitiesByState();
-    	
-    	//Assert.assertEquals(persistedCommunity, communities.contains(persistedCommunity));
+    	Assert.assertEquals(true, communities.contains(persistedCommunity));
     }
 
     @Override
@@ -107,7 +96,24 @@ public class CommunityDAOTest extends AbstractDAOTest {
     @After
     @Test
     public void tearDown(){
+    	//arrange
+    	List<User> testUsers = udao.findAll();
+    	List<Community> communities = cdao.findAll();
     	
+    	
+    	//act
+    	if(testUsers.contains(user1))
+    		udao.delete(user1);
+    	
+    	if(communities.contains(community1))
+    		cdao.delete(community1);
+    	
+    	//assert
+    	testUsers = udao.findAll();
+    	communities = cdao.findAll();
+    	
+    	Assert.assertEquals(false, testUsers.contains(user1));	
+    	Assert.assertEquals(false, communities.contains(community1));	
     }
 
 }
