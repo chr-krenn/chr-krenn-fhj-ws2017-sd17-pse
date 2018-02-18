@@ -57,11 +57,9 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
     public Community createCommunity(String name, String description, int portaladminId) {
         LOG.info("createCommunity(name = " + name + ", description = " + description + ")");
         Community c = new Community(name, description, portaladminId);
-
         Enumeration e = getValidEnumeration(em.find(Enumeration.class, 1));
         c.setState(e);
         return insert(c);
-
     }
 
     private Enumeration getValidEnumeration(Enumeration find) {
@@ -69,9 +67,7 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
             return find;
         EnumerationDAOImpl edao = new EnumerationDAOImpl();
         edao.setEntityManager(em);
-
         return edao.insert(edao.createEnumeration(1));
-
     }
 
     private Community initializeCom(Community c) {
@@ -114,7 +110,6 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
     @Override
     public List<Community> findAll() {
         LOG.info("findAll()");
-
         return super.findAll();
     }
 }
