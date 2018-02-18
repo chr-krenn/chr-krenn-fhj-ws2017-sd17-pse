@@ -22,13 +22,15 @@
 						<b:dataTableColumn value="#{user.lastname}" label="Lastname" />
 						<b:dataTableColumn value="#{user.description}" label="Description" />
 						<b:dataTableColumn label="Add Contact">
-							<b:commandButton value="Add" look="primary" rendered="#{userOverviewBean.userIsContact(user.id)}"
+							<b:commandButton value="Add Contact" look="primary" 
+								rendered="#{!userOverviewBean.userIsSessionUser(user.id) and userOverviewBean.userIsContact(user.id)}"
 								action="#{userDataBean.addContact()}" ajax="false">
 								<f:param name="contactName" value="#{user.user.username}" />
 							</b:commandButton>
 						</b:dataTableColumn>
 						<b:dataTableColumn label="Remove Contact">
-							<b:commandButton value="Remove" look="danger" rendered="#{!userOverviewBean.userIsContact(user.id)}"
+							<b:commandButton value="Remove Contact" look="danger" 
+								rendered="#{!userOverviewBean.userIsSessionUser(user.id) and !userOverviewBean.userIsContact(user.id)}"
 								action="#{userDataBean.removeContact()}" ajax="false">
 								<f:param name="contactName" value="#{user.user.username}" />
 							</b:commandButton>

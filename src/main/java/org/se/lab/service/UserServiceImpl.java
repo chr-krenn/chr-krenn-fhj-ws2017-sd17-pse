@@ -4,6 +4,7 @@ package org.se.lab.service;
 import org.apache.log4j.Logger;
 import org.se.lab.db.dao.*;
 import org.se.lab.db.data.*;
+import org.se.lab.service.helper.PasswordEncoder;
 import org.se.lab.utils.ArgumentChecker;
 
 import javax.ejb.Stateless;
@@ -39,9 +40,14 @@ public class UserServiceImpl implements UserService {
 
         try {
             userDAO.insert(user);
+        } catch (IllegalArgumentException e) {
+            String msg = "Illegal Argument on inserting User";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't insert user " + user, e);
-            throw new ServiceException("Can't insert user " + user);
+            String msg = "Can't insert user";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -53,9 +59,14 @@ public class UserServiceImpl implements UserService {
 
         try {
             userDAO.delete(user);
+        } catch (IllegalArgumentException e) {
+            String msg = "Illegal Argument on deleting User";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't delete user " + user, e);
-            throw new ServiceException("Can't delete user " + user);
+            String msg = "Can't delete user " + user.getUsername();
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -78,9 +89,14 @@ public class UserServiceImpl implements UserService {
         ArgumentChecker.assertNotNullAndEmpty(username, "username");
         try {
             return userDAO.findByUsername(username);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't get user by Username(ill.argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't find user " + username, e);
-            throw new ServiceException("Can't find user " + username);
+            String msg = "Can't find user";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -95,25 +111,36 @@ public class UserServiceImpl implements UserService {
         User userToAdd;
         try {
             userToAdd = userDAO.findByUsername(contactName);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't find user (ill. argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't find user " + contactName, e);
-            throw new ServiceException("Can't find user " + contactName);
+            String msg = "Can't find user " + contactName;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
 
 
         if (!userContactDAO.doesContactExistForUserId(userToAdd.getId(), user.getId())) {
 
             UserContact userContact;
+
             try {
                 userContact = new UserContact(user, userToAdd.getId());
+            } catch (IllegalArgumentException e) {
+                String msg = "Can't add contact (illegal Argument)";
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
             } catch (Exception e) {
                 LOG.error("Can't add contact " + contactName, e);
                 throw new ServiceException("A new contact could'n initialize with user: " + user + " and: " + userToAdd);
             }
             userContactDAO.insert(userContact);
         } else {
-            LOG.error("Contact " + userToAdd.getUsername() + " already exist ");
-            throw new ServiceException("Contact " + userToAdd.getUsername() + " already exist ");
+            String msg = "Contact " + userToAdd.getUsername() + " already exist!";
+            LOG.error(msg);
+            throw new ServiceException(msg);
         }
     }
 
@@ -128,16 +155,22 @@ public class UserServiceImpl implements UserService {
         User userToRemove;
         try {
             userToRemove = userDAO.findByUsername(contactName);
+        } catch (IllegalArgumentException e) {
+            String msg = "Error on removing contact";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't find user " + contactName, e);
-            throw new ServiceException("Can't find user " + contactName);
+            String msg = "Can't find user " + contactName;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
         if (userContactDAO.doesContactExistForUserId(userToRemove.getId(), user.getId())) {
 
             userContactDAO.deleteContactForUserIdAndContactId(userToRemove.getId(), user.getId());
         } else {
-            LOG.error("Contact " + userToRemove.getUsername() + " is missing ");
-            throw new ServiceException("Contact " + userToRemove.getUsername() + "  is missing ");
+            String msg = "Couldn't find " + userToRemove.getUsername();
+            LOG.error(msg);
+            throw new ServiceException(msg);
         }
     }
 
@@ -149,9 +182,14 @@ public class UserServiceImpl implements UserService {
         LOG.debug("get all contacts from " + user);
         try {
             return userContactDAO.findContactsbyUser(user);
+        } catch (IllegalArgumentException e) {
+            String msg = "Error on getAllContactsByUser";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't find contacts for user " + user, e);
-            throw new ServiceException("Can't find contacts for user" + user);
+            String msg = "Can't find contacts for user " + user.getUsername();
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -163,9 +201,14 @@ public class UserServiceImpl implements UserService {
 
         try {
             userDAO.update(user);
+        } catch (IllegalArgumentException e) {
+            String msg = "Error on user update";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't update user " + user, e);
-            throw new ServiceException("Can't update user " + user);
+            String msg = "Can't update user " + user.getUsername();
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -176,9 +219,14 @@ public class UserServiceImpl implements UserService {
         try {
             List<User> list = userDAO.findAll();
             return list;
+        } catch (IllegalArgumentException e) {
+            String msg = "Unable to get All users(ill.Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't find all users!", e);
-            throw new ServiceException("Can't find all users!");
+            String msg = "Can't find all users";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -191,9 +239,15 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userProfileDAO.findById(id);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't get profile";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
+
         } catch (Exception e) {
-            LOG.error("Can't find user profile!", e);
-            throw new ServiceException("Can't find user profile!");
+            String msg = "Can't find user profile for ID " + id;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -203,9 +257,14 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userProfileDAO.findAll();
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't load all user profiles";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't find all user profile!", e);
-            throw new ServiceException("Can't find all user profile!");
+            String msg = "Can't find all user profiles";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -218,9 +277,15 @@ public class UserServiceImpl implements UserService {
 
         try {
             return communityDAO.findAll().stream().filter(community -> community.getUsers().contains(user)).collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't find coms (ill. Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
+
         } catch (Exception e) {
-            LOG.error("Can't find All Communities", e);
-            throw new ServiceException("Can't find All Communities");
+            String msg = "Can't find all communities";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -234,9 +299,14 @@ public class UserServiceImpl implements UserService {
         try {
             User user = findById(id);
             userDAO.delete(user);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't delete user (ill. Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't delete user with ID " + id, e);
-            throw new ServiceException("Can't delete user with ID " + id);
+            String msg = "Can't delete user with id " + id;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
 
     }
@@ -249,9 +319,14 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userDAO.findById(id);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't find user (ill. Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't find user with id " + id, e);
-            throw new ServiceException("Can't find user with id " + id);
+            String msg = "Can't find user with id " + id;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -261,9 +336,14 @@ public class UserServiceImpl implements UserService {
         ArgumentChecker.assertNotNull(userProfile, "userprofile");
         try {
             userProfileDAO.update(userProfile);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't add profilepicture";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't add Picture for profile " + userProfile.getId(), e);
-            throw new ServiceException("Can't delete user with ID " + userProfile.getId());
+            String msg = "Can't add picture for profile " + userProfile.getId();
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -271,6 +351,7 @@ public class UserServiceImpl implements UserService {
     public boolean hasUserTheRole(User.ROLE privileg, User user) {
 
         ArgumentChecker.assertNotNull(user, "user");
+
         User loadedUser = findById(user.getId());
         List<Enumeration> roles = loadedUser.getRoles();
 
@@ -279,6 +360,7 @@ public class UserServiceImpl implements UserService {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -287,9 +369,10 @@ public class UserServiceImpl implements UserService {
 
         ArgumentChecker.assertNotNull(user, "user");
 
-        List<UserContact> userContactObjects = getAllContactsByUser(user);
-
         List<User> userContacts = new ArrayList<>();
+        List<UserContact> userContactObjects;
+
+        userContactObjects = getAllContactsByUser(user);
         for (UserContact userContact : userContactObjects) {
 
             User contactUser = findById(userContact.getContactId());
@@ -298,6 +381,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         return userContacts;
+
     }
 
     @Override
@@ -305,9 +389,14 @@ public class UserServiceImpl implements UserService {
 
         try {
             return enumDAO.findUsersByEnumeration(4);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't find admins (illegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't getAdmins ", e);
-            throw new ServiceException("Can't getAdmins");
+            String msg = "Error finding Admins";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 }

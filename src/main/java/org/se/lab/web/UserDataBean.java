@@ -146,19 +146,20 @@ public class UserDataBean implements Serializable {
         contactName = context.getRequestParameterMap().get("contactName");
         service.addContact(loggedInUser, contactName);
         setContactAddable(false);
+        RedirectHelper.reload();
     }
 
     public void removeContact() {
         contactName = context.getRequestParameterMap().get("contactName");
         service.removeContact(loggedInUser, contactName);
         setContactAddable(true);
+        RedirectHelper.reload();
     }
 
     public StreamedContent getImage() {
         DefaultStreamedContent content = null;
         try {
             content = new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
-
         } catch (Exception e) {
             LOG.error(String.format("Exception during picture processing"), e);
         }

@@ -140,6 +140,14 @@ public class UserITCase {
 		assertTrue(ListHelper.AnyContains(links, "communityoverview.xhtml"));
 	}
 	
+	
+	@Test
+	public void testAddUser() {
+		userOverViewPage = activityStreamPage.getUserOverviewPage();
+		userOverViewPage= userOverViewPage.addUser(2);
+	}
+	
+	
 	@After
 	public void tearDown() throws Exception {
 		loginPage.tearDown();
