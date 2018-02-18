@@ -1,6 +1,8 @@
 package org.se.lab.db.dao;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Enumeration;
@@ -8,115 +10,104 @@ import org.se.lab.db.data.User;
 
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 public class CommunityDAOTest extends AbstractDAOTest {
+	
+	private User user1;
+	private Community community1;
+	private Community community2;
+	
+	private static UserDAOImpl udao = new UserDAOImpl();
+	
+	private static CommunityDAOImpl cdao = new CommunityDAOImpl();
+	private static EnumerationDAOImpl edao = new EnumerationDAOImpl();
+	
+    static {
+    	cdao.setEntityManager(em);
+    	udao.setEntityManager(em);
+    	edao.setEntityManager(em);
+    }
+	
+    @Before
+    public void setup() {
+        tx.begin();
 
-    private static CommunityDAOImpl cdao = new CommunityDAOImpl();
-    private static UserDAOImpl udao = new UserDAOImpl();
-    private static EnumerationDAOImpl edao = new EnumerationDAOImpl();
-
-    Community com1;
-    Community com2;
-    Community com3;
-    User user1;
-    User user2;
-    User user3;
-    List<Community> coms;
-    List<User> users;
-    Enumeration pending;
-    Enumeration approved;
-    Enumeration refused;
-
-    public void createTestData() {
-        cdao.setEntityManager(em);
-        udao.setEntityManager(em);
-        edao.setEntityManager(em);
-            user1 = udao.createUser("TestUser1", "*****");
-            user2 = udao.createUser("TestUser2", "*****");
-            user3 = udao.createUser("TestUser3", "*****");
-            com1 = cdao.createCommunity("TestDAOCommunity1", "Community 1 to test CommunityDAO", user1.getId());
-            com2 = cdao.createCommunity("TestDAOCommunity2", "Community 2 to test CommunityDAO", user1.getId());
-            com3 = cdao.createCommunity("TestDAOCommunity3", "Community 3 to test CommunityDAO", user1.getId());
-            com1.addUsers(user1);
-            com1.addUsers(user3);
-            com2.addUsers(user2);
-            com2.addUsers(user3);
-            com3.addUsers(user3);
-
-        pending = edao.findById(1);
+        user1 = udao.createUser("Donald Trump", "NurSauer");
+        community1 = new Community("TestCommunity", "a description", user1.getId());
+        
     }
 
     @Override
     @Test
     public void testCreate() {
-        //setup
-        createTestData();
-        cdao.insert(com1);
-        cdao.insert(com2);
-        cdao.insert(com3);
-
-        Assert.assertNotNull(com1);
-        Assert.assertNotNull(com1);
-        Assert.assertNotNull(user1);
-        Assert.assertNotNull(user1.getCommunities().get(0));
-        Assert.assertTrue(user1.getCommunities().get(0).getName() == "TestDAOCommunity1");
-        Assert.assertTrue(user1.getCommunities().get(0).getDescription() == "Community 1 to test CommunityDAO");
-        Assert.assertTrue(com1.getState().equals(pending));
-
-        //verify with findByName
-        Community actual = cdao.findByName("TestDAOCommunity1");
-        Assert.assertEquals(actual, com1);
+    	cdao.insert(community1);
+    	
+    	Assert.assertEquals(community1, cdao.findByName(community1.getName()));
     }
 
     @Override
     @Test
     public void testModify() {
-        //setup
-        createTestData();
-        cdao.insert(com1);
-        cdao.insert(com2);
-        cdao.insert(com3);
-
-
-        //exercise
-        coms = cdao.findCommunitiesByState(Enumeration.State.PENDING);
-
-        coms.get(1).setState(edao.findById(2));
-
-        cdao.update(coms.get(1));
-
-        //verify
-        coms = cdao.findAll();
-        Assert.assertEquals(coms.get(0).getState(), edao.findById(1));
-        Assert.assertEquals(coms.get(1).getState(), edao.findById(2));
-        Assert.assertEquals(coms.get(2).getState(), edao.findById(1));
-        coms = cdao.findCommunitiesByState(Enumeration.State.APPROVED);
-        Assert.assertEquals(coms.get(0).getState(), edao.findById(2));
-        Assert.assertTrue(coms.size() == 1);
-        Assert.assertTrue(coms.get(0).getName() == "TestDAOCommunity2");
-        users = coms.get(0).getUsers();
-        Assert.assertEquals(users.get(0), user2);
-        Assert.assertEquals(users.get(1), user3);
-
+    	Community persistedCommunity = cdao.insert(community1);
+    	
+    	persistedCommunity.setDescription("other description");
+    	
+    	cdao.update(persistedCommunity);
+    	Assert.assertEquals(persistedCommunity.getDescription(), 
+    			cdao.findByName(community1.getName()).getDescription());
+    }
+    
+    @Test
+    public void testFindById(){
+    	Community persistedCommunity = cdao.insert(community1);
+    	
+    	Assert.assertEquals(community1.getName(), 
+    			cdao.findById(persistedCommunity.getId()).getName());
+    }
+    
+    @Test
+    public void testFindAll(){
+    	Community persistedCommunity = cdao.insert(community1);
+    	
+    	List<Community> communities = cdao.findAll();
+    	
+    	Assert.assertEquals(true, communities.contains(persistedCommunity));
+    }
+    
+    @Test
+    public void testFindByState(){
+    	Community persistedCommunity = cdao.createCommunity(community1.getName(), community1.getDescription(), user1.getId());
+    	
+    	Enumeration enumerationCommunity = persistedCommunity.getState();
+    	Enumeration e = edao.createEnumeration(1);
+    	
+    	
+    	
+    	//TODO: change Enumeration class: make state public or modify comDao findComByState(Enumeration) 
+    	//instead of findComByState(Enumeration.State)
+    	    	
+    	//List<Community> communities = cdao.findCommunitiesByState();
+    	
+    	//Assert.assertEquals(persistedCommunity, communities.contains(persistedCommunity));
     }
 
     @Override
-    @Test
+    @Test(expected = PersistenceException.class)
     public void testRemove() {
-        //setup
-        createTestData();
-        cdao.insert(com1);
-        cdao.insert(com2);
-        cdao.insert(com3);
-
-        //exercise
-        cdao.delete(cdao.findByName("TestDAOCommunity1"));
-        cdao.delete(cdao.findByName("TestDAOCommunity2"));
-        cdao.delete(cdao.findByName("TestDAOCommunity3"));
-
-        //verify
-        Assert.assertEquals(0, cdao.findAll().size());
-
+    	Community persistedCommunity = cdao.insert(community1);
+    	
+    	persistedCommunity.setDescription("other description");
+    	
+    	cdao.delete(persistedCommunity);
+    	
+    	Assert.assertEquals(null, cdao.findByName(community1.getName()));
     }
-
+    
+    @After
+    @Test
+    public void tearDown(){
+    	
+    }
 
 }
