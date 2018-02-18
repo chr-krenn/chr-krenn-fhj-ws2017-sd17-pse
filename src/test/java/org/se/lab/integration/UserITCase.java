@@ -36,6 +36,7 @@ import org.junit.After;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.se.lab.helpers.ListHelper;
 import org.se.lab.pages.*;
 
 import java.util.List;
@@ -135,27 +136,12 @@ public class UserITCase {
 	public void testNavigationHeaderLinks() {
 		List<String> links = activityStreamPage.getAllNavbarLinks();
 		
-		assertTrue(AnyContains(links, "activityStream.xhtml"));
-		assertTrue(AnyContains(links, "communityoverview.xhtml"));
+		assertTrue(ListHelper.AnyContains(links, "activityStream.xhtml"));
+		assertTrue(ListHelper.AnyContains(links, "communityoverview.xhtml"));
 	}
 	
 	@After
 	public void tearDown() throws Exception {
 		loginPage.tearDown();
-	}
-	
-	private Boolean AnyContains(List<String> list, String lookup) {
-		
-		for(int i = 0; i < list.size(); i++) {
-			String element = list.get(i);
-			
-			if(element == null || element.isEmpty())
-				continue;
-			
-			if(element.toLowerCase().contains(lookup.toLowerCase()))
-				return true;
-		}
-		
-		return false;
 	}
 }
