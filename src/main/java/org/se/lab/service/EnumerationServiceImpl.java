@@ -18,9 +18,14 @@ public class EnumerationServiceImpl implements EnumerationService {
     public Enumeration findById(int id) {
         try {
             return enumerationDAO.findById(id);
+        } catch (IllegalArgumentException e) {
+            String msg = "Illegal Argument while finding EnumbyId";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can`t find Id " + id, e);
-            throw new ServiceException("Can`t find Id " + id);
+            String msg = "Can't find Enum by Id=" + id;
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
