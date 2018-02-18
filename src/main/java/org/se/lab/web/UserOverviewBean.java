@@ -30,6 +30,12 @@ public class UserOverviewBean {
     @PostConstruct
     public void init() {
         session.getUser();
+        
+        try {
+            profiles = service.getAllUserProfiles();
+        } catch (Exception e) {
+            LOG.error("Error in UserOverview", e);
+        }
     }
 
     public List<UserProfile> getProfiles() {
