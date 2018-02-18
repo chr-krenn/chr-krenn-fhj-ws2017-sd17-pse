@@ -9,6 +9,7 @@ import org.se.lab.utils.ArgumentChecker;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.xml.ws.Service;
 import java.util.List;
 
 @Stateless
@@ -35,6 +36,10 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
             } else {
                 dao.insert(post, community);
             }
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't insert Post - illegal Argument";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
             String message = "Can't insert post ";
             LOG.error(message, e);
