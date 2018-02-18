@@ -10,6 +10,5 @@ import org.se.lab.db.data.User;
 public interface UserDAO extends DAOTemplate<User> {
 
     User findByUsername(String username);
-    User createUser(String username, String password);
 
 }
