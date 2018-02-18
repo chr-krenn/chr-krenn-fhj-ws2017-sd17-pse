@@ -41,7 +41,7 @@
 							value="#{activityStreamBean.inputText}"
 							placeholder="Enter your message" />
 					</b:row>
-					
+
 								<b:commandButton value="Send" look="primary" dismiss="modal"
 									actionListener="#{activityStreamBean.newPost(null)}" />
 
@@ -50,7 +50,7 @@
 					</b:row>
 				</h:form>
 			</b:panel>
-			
+
 			<b:panel collapsible="false"
 				rendered="#{not userDataBean.ownProfile}">
 				<f:facet name="heading">Actions</f:facet>

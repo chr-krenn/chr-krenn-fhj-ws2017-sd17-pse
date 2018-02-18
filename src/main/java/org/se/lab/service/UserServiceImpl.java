@@ -292,9 +292,9 @@ public class UserServiceImpl implements UserService {
         List<User> userContacts = new ArrayList<>();
         for (UserContact userContact : userContactObjects) {
 
-            User contacUser = findById(userContact.getContactId());
-            if (contacUser != null) {
-                userContacts.add(contacUser);
+            User contactUser = findById(userContact.getContactId());
+            if (contactUser != null) {
+                userContacts.add(contactUser);
             }
         }
         return userContacts;
@@ -307,7 +307,7 @@ public class UserServiceImpl implements UserService {
             return enumDAO.findUsersByEnumeration(4);
         } catch (Exception e) {
             LOG.error("Can't getAdmins ", e);
-            throw new ServiceException("Can't getAdmins ");
+            throw new ServiceException("Can't getAdmins");
         }
     }
 }

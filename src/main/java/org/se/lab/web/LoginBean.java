@@ -3,7 +3,9 @@ package org.se.lab.web;
 
 import org.apache.log4j.Logger;
 import org.se.lab.db.data.User;
+import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
+import org.se.lab.web.helper.RedirectHelper;
 import org.se.lab.web.helper.Session;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +18,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Map;
 
 @Named
 @RequestScoped
@@ -47,7 +48,7 @@ public class LoginBean implements Serializable {
 
         try {
             user = service.login(getUsername(), getPassword());
-        } catch (Exception e) {
+        } catch (ServiceException e) {
             String erroMsg = "Ooops something went wrong - pls contact the admin or try later";
             LOG.error(erroMsg, e);
             setErrorMsg(erroMsg);
@@ -59,18 +60,7 @@ public class LoginBean implements Serializable {
             context = FacesContext.getCurrentInstance().getExternalContext();
             context.getSessionMap().put("user", user.getId());
 
-            Map<String, Object> session = context.getSessionMap();
-
-
-            for (Map.Entry<String, Object> e : session.entrySet()) {
-                LOG.info(e.getKey() + ": " + e.getValue());
-            }
-
-            try {
-                context.redirect("/pse/activityStream.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/activityStream.xhtml");
-            }
+            RedirectHelper.redirect("/pse/activityStream.xhtml");
         }
     }
 

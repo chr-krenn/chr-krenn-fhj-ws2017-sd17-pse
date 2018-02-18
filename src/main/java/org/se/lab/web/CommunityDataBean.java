@@ -175,7 +175,7 @@ public class CommunityDataBean implements Serializable {
     private boolean hasUserPrivilege(User.ROLE role) {
         try {
             return userService.hasUserTheRole(role, user);
-        } catch (Exception e) {
+        } catch (ServiceException e) {
             errorMsg = String.format("Can't check privilege of user: %s", user.getUsername());
             LOG.error(errorMsg);
             setErrorMsg(errorMsg);

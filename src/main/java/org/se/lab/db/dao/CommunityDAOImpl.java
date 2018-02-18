@@ -24,13 +24,8 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
         Root<Community> community = criteria.from(Community.class);
         criteria.where(builder.equal(community.get("name"), name));
         TypedQuery<Community> query = em.createQuery(criteria);
-        try {
-            Community c = query.getSingleResult();
-            return initializeCom(c);
-        } catch (Exception e) {
-            LOG.error(e.toString());
-            return null;
-        }
+
+        return query.getSingleResult();
     }
 
     @Override

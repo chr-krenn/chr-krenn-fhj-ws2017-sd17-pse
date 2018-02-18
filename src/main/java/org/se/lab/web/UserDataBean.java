@@ -10,6 +10,7 @@ import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
 import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
+import org.se.lab.web.helper.RedirectHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -96,14 +97,8 @@ public class UserDataBean implements Serializable {
             }
 
         } else {
-            try {
-                context.redirect("/pse/index.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/index.xhtml");
-                //e.printStackTrace();
-            }
+            RedirectHelper.redirect("/pse/index.xhtml");
         }
-        setErrorMsg("");
     }
 
     private void loadContactsCommunitiesAndUserprofile() {
@@ -160,7 +155,14 @@ public class UserDataBean implements Serializable {
     }
 
     public StreamedContent getImage() {
-        return new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
+        DefaultStreamedContent content = null;
+        try {
+            content = new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
+
+        } catch (Exception e) {
+            LOG.error(String.format("Exception during picture processing", e));
+        }
+        return content;
     }
 
     public void uploadPicture(FileUploadEvent event) {

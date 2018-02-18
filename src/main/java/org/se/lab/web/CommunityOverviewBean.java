@@ -3,6 +3,7 @@ package org.se.lab.web;
 import org.apache.log4j.Logger;
 import org.se.lab.db.data.Community;
 import org.se.lab.service.CommunityService;
+import org.se.lab.service.ServiceException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -64,7 +65,7 @@ public class CommunityOverviewBean {
                 context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());
                 LOG.info(newCommunity.getName() + " community created with the id: " + newCommunity.getId() + ".");
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Community requested."));
-            } catch (Exception e) {
+            } catch (ServiceException e) {
                 context.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fail!", "Unable to request community."));
             }
