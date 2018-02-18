@@ -22,6 +22,7 @@ public class UserOverviewBean {
     private List<UserProfile> profiles;
     private UserProfile selectedProfile;
     private List<User> contacts;
+    private int userId;
 
     @Inject
     private UserService service;
@@ -33,6 +34,8 @@ public class UserOverviewBean {
     public void init() {
         session.getUser();
         
+        userId = session.getUserId();
+                
         try {
             profiles = service.getAllUserProfiles();
         } catch (Exception e) {
@@ -41,21 +44,26 @@ public class UserOverviewBean {
         contacts = service.getContactsOfUser(session.getUser());
     }
     
-    
     public boolean userIsContact(int id)
     {
+    	if(id == session.getUserId())
+    		return false;
+    	
     	for(User u : contacts)
     	{
-        		if(u.getId() == id)
-        		{
-        			return false;
-        		}
-    		
+    		if(u.getId() == id)
+    		{
+    			return false;
+    		}    		
     	}
     	return true;
     }
+        
+    public boolean userIsSessionUser(int id)
+    {
+    	return id == userId;
+    }
     
-
     public List<UserProfile> getProfiles() {
         return profiles;
     }
