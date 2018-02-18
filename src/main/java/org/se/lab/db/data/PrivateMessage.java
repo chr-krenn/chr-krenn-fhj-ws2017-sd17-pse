@@ -14,9 +14,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "private_message")
 public class PrivateMessage implements Serializable {
-    /**
-     * Private Message Constants
-     */
 
     public static final int MAX_TEXT_LENGTH = 1024;
     private static final long serialVersionUID = 1L;
@@ -29,6 +26,7 @@ public class PrivateMessage implements Serializable {
             + MAX_TEXT_LENGTH
             + " characters";
     private static final String TEXT_WHITESPACE_ERROR = "The given text must have charakters not only whitespaces";
+
     @Transient
     private static final Logger LOG = Logger.getLogger(Post.class);
 
@@ -60,9 +58,7 @@ public class PrivateMessage implements Serializable {
         setUserReceiver(receiver);
     }
 
-    public PrivateMessage() {
-
-    }
+    public PrivateMessage() {}
 
     public int getID() {
         return ID;

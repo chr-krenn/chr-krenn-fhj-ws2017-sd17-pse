@@ -5,7 +5,6 @@ import java.util.List;
 
 public class QueryHelper {
 
-    //todo check if needed
     public static <T> T getSingleResultOrNull(TypedQuery<T> query) {
         query.setMaxResults(1);
         List<T> list = query.getResultList();

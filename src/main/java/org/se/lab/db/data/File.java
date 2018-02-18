@@ -14,7 +14,6 @@ public class File implements Serializable {
         ArgumentChecker.assertNotNull(user,"user");
         ArgumentChecker.assertNotNullAndEmpty(filename,"filename");
         ArgumentChecker.assertNotNull(data,"data");
-
         setData(data);
         setUser(user);
         setFilename(filename);
@@ -108,8 +107,4 @@ public class File implements Serializable {
 	public String toString() {
 		return "File [id=" + id + ", data=" + Arrays.toString(data) + ", filename=" + filename + ", user=" + user + "]";
 	}
-    
-    
-    
-    
 }

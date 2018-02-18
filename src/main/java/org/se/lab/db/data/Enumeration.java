@@ -8,12 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Nevzad Mujic
- * <p>
- * Enumeration is used to assign states/values to Users, Communities or Posts
- */
-
 @Entity
 @Table(name = "enumeration")
 public class Enumeration implements Serializable {
@@ -31,7 +25,6 @@ public class Enumeration implements Serializable {
             this.value = value;
             this.identifier = identifier;
         }
-
 
         public int getValue() {
             return value;

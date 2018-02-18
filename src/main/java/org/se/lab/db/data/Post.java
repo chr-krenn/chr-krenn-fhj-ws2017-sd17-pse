@@ -55,9 +55,6 @@ public class Post implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
 
-    public Post() {
-    }
-
     public Post(Post parentpost, Community community, User user, String text, Date created) {
         LOG.debug("New Post");
         LOG.trace(
@@ -73,6 +70,8 @@ public class Post implements Serializable {
         setText(text);
         setCreated(created);
     }
+
+    public Post() {}
 
     public int getId() {
         LOG.debug("getID -> " + id);

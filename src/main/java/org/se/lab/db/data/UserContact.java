@@ -10,24 +10,15 @@ import java.io.Serializable;
 public class UserContact implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    /**
-     * id unique identifier for the usercontact. Auto genereted by DB.
-     */
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    /**
-     * user mapping of object of user
-     */
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
-    /**
-     * usercontact mapping with id of contact
-     */
 
     @Column(name = "fk_contact_id")
     private int contact;
@@ -38,12 +29,7 @@ public class UserContact implements Serializable {
         setContactId(contact);
     }
 
-    /**
-     * Constructor for Hibernate
-     */
-
-    public UserContact() {
-    }
+    public UserContact() {}
 
     public int getId() {
         return id;
