@@ -1,16 +1,16 @@
 package org.se.lab.db.dao;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.se.lab.db.data.*;
-import org.junit.After;
-import org.junit.Assert;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.Post;
+import org.se.lab.db.data.User;
+import org.se.lab.db.data.UserContact;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class PostDAOTest extends AbstractDAOTest {
 
@@ -62,7 +62,7 @@ public class PostDAOTest extends AbstractDAOTest {
     	Post insertedPost1 = pdao.insert(post1);
     	Post insertedPost2 = pdao.insert(post2);
     	
-    	Post parentPost = pdao.createPost(user1, "Blah", new Date(180L));
+    	Post parentPost = pdao.createPost(null,null,user1, "Blah", new Date(180L));
     	Post childPost = pdao.createPost(parentPost, persistedCommunity, user1, "tests", new Date(180L));
     	
     	Post clonePost = pdao.clonePost(post1);

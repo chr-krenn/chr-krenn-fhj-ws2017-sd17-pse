@@ -4,6 +4,7 @@ package org.se.lab.service;
 import org.apache.log4j.Logger;
 import org.se.lab.db.dao.*;
 import org.se.lab.db.data.*;
+import org.se.lab.service.helper.PasswordEncoder;
 import org.se.lab.utils.ArgumentChecker;
 
 import javax.ejb.Stateless;

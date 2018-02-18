@@ -160,7 +160,6 @@ public class UserDataBean implements Serializable {
         DefaultStreamedContent content = null;
         try {
             content = new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
-
         } catch (Exception e) {
             LOG.error(String.format("Exception during picture processing"), e);
         }

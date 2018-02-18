@@ -118,7 +118,7 @@ public class ActivityStreamBean implements Serializable {
         if (parentPost == null) {
             flash.put("inputText", inputText);
             try {
-                post = pservice.createPost(getLoggedInUser(), inputText, new Date());
+                post = pservice.createRootPost(getLoggedInUser(), inputText, new Date());
             } catch (ServiceException e) {
                 LOG.error("could not create root post", e);
             }
@@ -126,7 +126,7 @@ public class ActivityStreamBean implements Serializable {
             flash.put("inputText", inputTextChild);
             LOG.info("appending comment to post: " + inputTextChild);
             try {
-                post = pservice.createPost(parentPost, parentPost.getCommunity(), getLoggedInUser(), inputTextChild,
+                post = pservice.createChildPost(parentPost, parentPost.getCommunity(), getLoggedInUser(), inputTextChild,
                         new Date());
             } catch (ServiceException e) {
                 LOG.error("could not create leaf post", e);

@@ -1,4 +1,4 @@
-package org.se.lab.service;
+package org.se.lab.service.helper;
 
 import org.mindrot.jbcrypt.BCrypt;
 
