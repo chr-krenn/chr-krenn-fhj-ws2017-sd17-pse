@@ -9,5 +9,4 @@ public interface FileDAO extends DAOTemplate<File> {
 
     List<File> findByUser(User user);
 
-    void delete(File entity);
 }

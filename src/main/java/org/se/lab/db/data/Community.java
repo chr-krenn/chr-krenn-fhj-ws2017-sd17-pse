@@ -45,10 +45,6 @@ public class Community implements Serializable {
     @Column(name = "picture")
     private byte[] picture;
 
-    /**
-     * users is a list of users which are in the same community
-     */
-
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "user_community", joinColumns = @JoinColumn(name = "community_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "users_id"))
@@ -76,7 +72,6 @@ public class Community implements Serializable {
 
     public void setState(Enumeration state) {
         ArgumentChecker.assertNotNull(state, "state");
-
         state.setCom(this);
         this.state = state;
     }
@@ -124,6 +119,10 @@ public class Community implements Serializable {
         ArgumentChecker.assertNotNullAndEmptyAndUnderMaxLength(description, "description", MAX_TEXT_LENGTH);
         this.description = description;
     }
+
+    /**
+     * Object Methods
+     */
 
     @Override
     public int hashCode() {

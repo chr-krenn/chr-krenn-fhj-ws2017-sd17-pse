@@ -9,7 +9,8 @@ import java.util.List;
 
 public class FileDAOImpl extends DAOImplTemplate<File> implements FileDAO {
     private final static Logger LOG = Logger.getLogger(FileDAOImpl.class);
-	
+    private static final String FILES_BY_USER_QUERY = "SELECT f FROM File f WHERE f.user.id = :id";
+
     @Override
     protected Class<File> getEntityClass() {
         return File.class;
@@ -29,8 +30,8 @@ public class FileDAOImpl extends DAOImplTemplate<File> implements FileDAO {
 
     @Override
     public void delete(File entity) {
-    	 LOG.debug("delete(" + entity + ")");
-        em.remove(em.contains(entity) ? entity : em.merge(entity));
+        LOG.debug("delete(" + entity + ")");
+        super.delete(entity);
     }
 
     @Override
@@ -49,7 +50,5 @@ public class FileDAOImpl extends DAOImplTemplate<File> implements FileDAO {
     public List<File> findByUser(User user) {
         return super.em.createQuery(FILES_BY_USER_QUERY, File.class).setParameter("id", user.getId()).getResultList();
     }
-
-    private static final String FILES_BY_USER_QUERY = "SELECT f FROM File f WHERE f.user.id = :id";
 
 }
