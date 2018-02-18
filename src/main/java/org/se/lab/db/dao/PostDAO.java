@@ -19,8 +19,5 @@ public interface PostDAO extends DAOTemplate<Post> {
 
     Post clonePost(Post post);
 
-    Post createPost(User user, String text, Date created);
-
     Post createPost(Post parentpost, Community community, User user, String text, Date created);
-
 }

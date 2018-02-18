@@ -81,11 +81,6 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
     }
 
     @Override
-    public Post createPost(User user, String text, Date created) {
-        return insert(new Post(null, null, user, text, created));
-    }
-
-    @Override
     public Post createPost(Post parentpost, Community community, User user, String text, Date created) {
     	LOG.debug("trying to persist new post:" + parentpost + " " + community + " " + user + " " + text);
         return insert(new Post(parentpost, community, user, text, created));

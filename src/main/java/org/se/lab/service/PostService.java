@@ -8,9 +8,9 @@ import java.util.Date;
 
 public interface PostService {
 
-    Post createPost(User user, String text, Date created);
+    Post createRootPost(User user, String text, Date created);
 
-    Post createPost(Post parentpost, Community community, User user, String text, Date created);
+    Post createChildPost(Post parentpost, Community community, User user, String text, Date created);
 
     Post updatePost(Post post);
 }

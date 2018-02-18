@@ -5,6 +5,7 @@ import org.se.lab.db.dao.PostDAO;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
+import org.se.lab.utils.ArgumentChecker;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -18,17 +19,16 @@ public class PostServiceImpl implements PostService {
     private PostDAO postDAO;
 
     @Override
-    public Post createPost(User user, String text, Date created) {
-        try {
-            return postDAO.createPost(user, text, created);
-        } catch (Exception e) {
-            LOG.error("Can't create post", e);
-            throw new ServiceException("Can't create post");
-        }
+    public Post createRootPost(User user, String text, Date created) {
+        return createChildPost(null, null, user, text, created);
     }
 
-    @Override
-    public Post createPost(Post parentpost, Community community, User user, String text, Date created) {
+    public Post createChildPost(Post parentpost, Community community, User user, String text, Date created) {
+        ArgumentChecker.assertNotNull(user, "user");
+        ArgumentChecker.assertNotNullAndEmpty(text, "postMessage");
+        ArgumentChecker.assertNotNull(created, "createdDate");
+
+        //todo partenpost null and community null is ok or both set
 
         try {
             return postDAO.createPost(parentpost, community, user, text, created);
@@ -40,6 +40,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post updatePost(Post post) {
+        ArgumentChecker.assertNotNull(post, "post");
         try {
             return postDAO.update(post);
         } catch (Exception e) {
