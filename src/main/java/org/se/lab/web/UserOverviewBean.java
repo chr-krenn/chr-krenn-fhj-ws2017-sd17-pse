@@ -2,6 +2,7 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
+import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
 import org.se.lab.service.UserService;
 import org.se.lab.web.helper.Session;
@@ -20,6 +21,7 @@ public class UserOverviewBean {
 
     private List<UserProfile> profiles;
     private UserProfile selectedProfile;
+    private List<User> contacts;
 
     @Inject
     private UserService service;
@@ -36,7 +38,23 @@ public class UserOverviewBean {
         } catch (Exception e) {
             LOG.error("Error in UserOverview", e);
         }
+        contacts = service.getContactsOfUser(session.getUser());
     }
+    
+    
+    public boolean userIsContact(int id)
+    {
+    	for(User u : contacts)
+    	{
+        		if(u.getId() == id)
+        		{
+        			return false;
+        		}
+    		
+    	}
+    	return true;
+    }
+    
 
     public List<UserProfile> getProfiles() {
         return profiles;
