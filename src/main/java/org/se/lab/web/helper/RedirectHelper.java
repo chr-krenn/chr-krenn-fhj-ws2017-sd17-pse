@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 public class RedirectHelper {
@@ -18,6 +20,16 @@ public class RedirectHelper {
         } catch (IOException e) {
             LOG.error("Can't redirect to " + url);
 
+        }
+    }
+    
+    public static void reload() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+
+        try {
+        	externalContext.redirect(((HttpServletRequest) externalContext.getRequest()).getRequestURI());
+        } catch (IOException e) {
+            LOG.error("Can't reload page");
         }
     }
 }
