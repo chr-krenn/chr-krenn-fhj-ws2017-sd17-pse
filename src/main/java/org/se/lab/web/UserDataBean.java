@@ -14,22 +14,19 @@ import org.se.lab.web.helper.RedirectHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class UserDataBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -155,12 +152,13 @@ public class UserDataBean implements Serializable {
     }
 
     public StreamedContent getImage() {
+
         DefaultStreamedContent content = null;
         try {
             content = new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
 
         } catch (Exception e) {
-            LOG.error(String.format("Exception during picture processing", e));
+            LOG.error(String.format("Exception during picture processing"),e);
         }
         return content;
     }
@@ -170,7 +168,14 @@ public class UserDataBean implements Serializable {
         UploadedFile uploadedFile = event.getFile();
         UserProfile userProfile = user.getUserProfile();
         userProfile.setPicture(uploadedFile.getContents());
-        service.addPictureToProfile(userProfile);
+        try{
+            service.addPictureToProfile(userProfile);
+            RedirectHelper.redirect("/pse/profile.xhtml");
+        }catch (ServiceException e){
+            errorMsg = "Fehler beim Hochladen eines Bildes";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
     }
 
     public boolean isImageExists() {

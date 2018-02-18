@@ -8,7 +8,6 @@ import org.se.lab.service.UserService;
 import org.se.lab.web.helper.RedirectHelper;
 import org.se.lab.web.helper.Session;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -32,20 +31,13 @@ public class LoginBean implements Serializable {
     private String errorMsg = "";
     private ExternalContext context;
 
-
     @Inject
     private UserService service;
 
     @Inject
     private Session session;
 
-    @PostConstruct
-    public void init() {
-        //todo check why init is needed to get values
-    }
-
     public void doLogin() {
-
         try {
             user = service.login(getUsername(), getPassword());
         } catch (ServiceException e) {
