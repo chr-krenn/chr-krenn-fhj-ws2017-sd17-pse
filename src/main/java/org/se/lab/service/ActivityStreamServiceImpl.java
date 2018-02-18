@@ -9,7 +9,6 @@ import org.se.lab.utils.ArgumentChecker;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.xml.ws.Service;
 import java.util.List;
 
 @Stateless
