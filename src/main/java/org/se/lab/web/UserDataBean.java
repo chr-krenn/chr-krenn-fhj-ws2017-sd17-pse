@@ -160,7 +160,7 @@ public class UserDataBean implements Serializable {
             content = new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
 
         } catch (Exception e) {
-            LOG.error(String.format("Exception during picture processing", e));
+            LOG.error(String.format("Exception during picture processing"), e);
         }
         return content;
     }
@@ -170,7 +170,14 @@ public class UserDataBean implements Serializable {
         UploadedFile uploadedFile = event.getFile();
         UserProfile userProfile = user.getUserProfile();
         userProfile.setPicture(uploadedFile.getContents());
-        service.addPictureToProfile(userProfile);
+        try {
+            service.addPictureToProfile(userProfile);
+            RedirectHelper.redirect("/pse/profile.xhtml");
+        } catch (ServiceException e) {
+            errorMsg = "Fehler beim Hochladen eines Bildes";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
     }
 
     public boolean isImageExists() {
