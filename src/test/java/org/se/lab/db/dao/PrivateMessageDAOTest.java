@@ -1,5 +1,6 @@
 package org.se.lab.db.dao;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,16 +10,19 @@ import org.se.lab.db.data.User;
 import java.util.List;
 
 public class PrivateMessageDAOTest extends AbstractDAOTest {
-    public User user;
-    public User user2;
-    public PrivateMessage pm;
-    public PrivateMessage pm2;
+	
+    private User user;
+    private User user2;
+    private PrivateMessage pm;
+    private PrivateMessage pm2;
 
 
-    public static PrivateMessageDAOImpl pmdao = new PrivateMessageDAOImpl();
+    private static PrivateMessageDAOImpl pmdao = new PrivateMessageDAOImpl();
+    private static UserDAOImpl udao = new UserDAOImpl();
 
     static {
         pmdao.setEntityManager(em);
+        udao.setEntityManager(em);
     }
 
     @Before
@@ -35,36 +39,74 @@ public class PrivateMessageDAOTest extends AbstractDAOTest {
     @Test
     @Override
     public void testCreate() {
-
-        pmdao.insert(pm);
+        PrivateMessage persisted = pmdao.insert(pm);
+        
+        Assert.assertEquals(pm, pmdao.findById(persisted.getID()));
     }
 
     @Test
     @Override
     public void testRemove() {
-        pmdao.insert(pm);
-        pmdao.delete(pm);
-        PrivateMessage pm3 = pmdao.findById(pm.getID());
-        Assert.assertNull(pm3);
+    	PrivateMessage persisted = pmdao.insert(pm);
+    	
+        pmdao.delete(persisted);
+        
+        Assert.assertNull(pmdao.findById(pm.getID()));
     }
 
     @Test
     public void testfindAll() {
-        pmdao.insert(pm);
-        pmdao.insert(pm2);
+    	PrivateMessage persisted = pmdao.insert(pm);
+    	PrivateMessage persisted2 = pmdao.insert(pm2);
+    	
         List<PrivateMessage> pms = pmdao.findAll();
-        Assert.assertEquals(2, pms.size());
+        
+        Assert.assertEquals(true, pms.contains(persisted));
+        Assert.assertEquals(true, pms.contains(persisted2));
     }
 
     @Test
     public void testfindById() {
-        pmdao.insert(pm);
-        PrivateMessage pm3 = pmdao.findById(pm.getID());
-        Assert.assertEquals(pm, pm3);
+    	PrivateMessage persisted = pmdao.insert(pm);
+    	
+
+        Assert.assertEquals(persisted, pmdao.findById(persisted.getID()));
     }
 
+    @Test
     @Override
     public void testModify() {
-        // TODO Auto-generated method stub
+    	PrivateMessage persisted = pmdao.insert(pm);
+    	
+    	persisted.setText("Blah");
+    	
+    	Assert.assertEquals(persisted.getText(), pmdao.findById(persisted.getID()).getText());
     }
+    
+    @After
+    @Test
+    public void tearDown(){
+    	//arrange
+    	List<User> testUsers = udao.findAll();
+    	List<PrivateMessage> pms = pmdao.findAll();
+    	
+    	//act
+    	if(testUsers.contains(user))
+    		udao.delete(user);
+    	
+    	if(pms.contains(pm))
+    		pmdao.delete(pm);
+    	
+    	if(pms.contains(pm2))
+    		pmdao.delete(pm2);
+    	
+    	//assert
+    	testUsers = udao.findAll();
+    	pms = pmdao.findAll();
+    	
+    	Assert.assertEquals(false, testUsers.contains(user));
+    	Assert.assertEquals(false, pms.contains(pm));
+    	Assert.assertEquals(false, pms.contains(pm2));
+    }
+    
 }
