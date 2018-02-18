@@ -18,6 +18,8 @@ public class File implements Serializable {
         setUser(user);
         setFilename(filename);
     }
+    
+    public File() {}
 
     @Id
     @Column(name = "id")
