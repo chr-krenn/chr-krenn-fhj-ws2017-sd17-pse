@@ -8,6 +8,8 @@ import org.se.lab.db.data.User;
 
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 public class UserDAOTest extends AbstractDAOTest {
 	
     private static UserDAOImpl udao = new UserDAOImpl();
@@ -19,6 +21,7 @@ public class UserDAOTest extends AbstractDAOTest {
     private User user;
     private User user2;
 
+    
     @Before
     public void setup() {
         tx.begin();
@@ -48,15 +51,16 @@ public class UserDAOTest extends AbstractDAOTest {
         Assert.assertEquals(persisted, udao.findByUsername("Test"));
     }
 
-    @Test
+    @Test(expected = PersistenceException.class)
     @Override
     public void testRemove() {
     	
         testCreate();
-        
+                
         udao.delete(user);
-        
+               
         Assert.assertEquals(null, udao.findByUsername(user.getUsername()));
+       
     }
 
     @Test
