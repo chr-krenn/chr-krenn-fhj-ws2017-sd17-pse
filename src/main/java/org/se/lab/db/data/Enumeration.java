@@ -146,10 +146,9 @@ public class Enumeration implements Serializable {
         post.getLikes().remove(user);
     }
 
-    @Override
-    public String toString() {
-        return getId() + "," + getName() + "," + "***";
-    }
+    /**
+     * Object Methods
+     */
 
     @Override
     public int hashCode() {
@@ -175,5 +174,10 @@ public class Enumeration implements Serializable {
             return false;
 
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + "," + getName() + "," + "***";
     }
 }

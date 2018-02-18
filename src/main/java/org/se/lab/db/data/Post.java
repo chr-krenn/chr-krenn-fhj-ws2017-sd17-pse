@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.se.lab.utils.ArgumentChecker;
 
 import javax.persistence.*;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -178,6 +177,20 @@ public class Post implements Serializable {
         this.created = new Date(created.getTime());
     }
 
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        stream.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+    }
+
+    /**
+     * Object Methods
+     */
+
     @Override
     public int hashCode() {
         LOG.debug("hashCode -> " + id);
@@ -201,15 +214,5 @@ public class Post implements Serializable {
         LOG.trace("toString");
         return String.format(TOSTRING_MSG, this.id, this.text, this.created, this.user, this.community,
                 this.parentpost);
-    }
-
-    private void writeObject(ObjectOutputStream stream)
-            throws IOException {
-        stream.defaultWriteObject();
-    }
-
-    private void readObject(ObjectInputStream stream)
-            throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
     }
 }

@@ -165,15 +165,19 @@ public class User implements Serializable {
         this.likes.add(like);
     }
 
-	/*
-     * Object methods
-	 */
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", username=" + username + "]";
+    private void writeObject(ObjectOutputStream stream)
+            throws IOException {
+        stream.defaultWriteObject();
     }
 
+    private void readObject(ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+    }
+
+    /**
+     * Object Methods
+     */
 
     @Override
     public int hashCode() {
@@ -196,15 +200,10 @@ public class User implements Serializable {
             return false;
         return true;
     }
-    
-    private void writeObject(ObjectOutputStream stream)
-            throws IOException {
-        stream.defaultWriteObject();
-    }
 
-    private void readObject(ObjectInputStream stream)
-            throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + "]";
     }
     
 }

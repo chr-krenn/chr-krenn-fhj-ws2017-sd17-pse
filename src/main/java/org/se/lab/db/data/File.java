@@ -68,7 +68,11 @@ public class File implements Serializable {
         this.id = id;
     }
 
-	@Override
+    /**
+     * Object Methods
+     */
+
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
