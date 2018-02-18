@@ -32,9 +32,14 @@ public class PostServiceImpl implements PostService {
 
         try {
             return postDAO.createPost(parentpost, community, user, text, created);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't create post(ill. Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't create post", e);
-            throw new ServiceException("Can't create post");
+            String msg = "Can't create post";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 
@@ -43,9 +48,14 @@ public class PostServiceImpl implements PostService {
         ArgumentChecker.assertNotNull(post, "post");
         try {
             return postDAO.update(post);
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't update post(ill. Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         } catch (Exception e) {
-            LOG.error("Can't update post", e);
-            throw new ServiceException("Can't create post");
+            String msg = "Can't update post";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
         }
     }
 }
