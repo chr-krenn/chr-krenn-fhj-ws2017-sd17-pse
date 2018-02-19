@@ -16,7 +16,6 @@ public class AdminITCase {
 	private LoginPage loginPage;
 	private CommunityOverviewPage communityOverviewPage;
 	private UserOverviewPage userOverViewPage;
-	private ProfilePage profilePage;
 	private ActivityStreamPage activityStreamPage;
 	private AdminPortalPage adminPortalPage;
 

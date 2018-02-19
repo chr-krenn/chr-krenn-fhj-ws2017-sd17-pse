@@ -20,4 +20,12 @@ public class ProfilePage extends PageObject {
 	public String getMailAddress() {
 		return driver.findElement(By.xpath("//div[@id='j_idt71']/span")).getText();
 	}
+	
+	public int getNumberOfContacts() {
+		return driver.findElements(By.xpath("//table[@id='j_idt118:j_idt119']/tbody/tr")).size();
+	}
+		
+	public int getNumberOfCommunities() {
+		return driver.findElements(By.xpath("//table[@id='j_idt129:j_idt130']/tbody/tr")).size();
+	}
 }
