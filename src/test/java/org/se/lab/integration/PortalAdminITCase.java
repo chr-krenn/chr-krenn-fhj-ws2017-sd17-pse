@@ -1,15 +1,20 @@
 package org.se.lab.integration;
 
 import org.junit.*;
+import org.se.lab.helpers.ListHelper;
 import org.se.lab.pages.ActivityStreamPage;
 import org.se.lab.pages.AdminPortalPage;
 import org.se.lab.pages.CommunityOverviewPage;
+import org.se.lab.pages.CommunityProfilePage;
 import org.se.lab.pages.LoginPage;
 import org.se.lab.pages.ProfilePage;
 import org.se.lab.pages.UserOverviewPage;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public class PortalAdminITCase {
@@ -19,6 +24,7 @@ public class PortalAdminITCase {
 	private ProfilePage profilePage;
 	private ActivityStreamPage activityStreamPage;
 	private AdminPortalPage adminPortalPage;
+	private CommunityProfilePage communityProfilePage;
 
 	private String portalAdminUsername = "baar";
 	private String portalAdminPassword = "pass";
@@ -86,6 +92,24 @@ public class PortalAdminITCase {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 
 		assertTrue(communityOverviewPage.getAvailableCommunities().contains("Bachelorarbeit 1"));
+	}
+	
+
+	@Test
+	public void testUploadFile() throws IOException {	
+		
+		File tempFile;
+		
+		tempFile = File.createTempFile("tmp_upload_", ".jpg");
+		tempFile.deleteOnExit();
+		
+		communityProfilePage = activityStreamPage.getCommunityProfilePage();
+		communityProfilePage.uploadFile(tempFile.getAbsolutePath());
+		communityProfilePage.refresh();
+		
+		List<String> files = communityProfilePage.getFileNames();
+		
+		assertTrue(ListHelper.AnyContains(files, tempFile.getName()));
 	}
 
 	@After

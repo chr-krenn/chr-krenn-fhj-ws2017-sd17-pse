@@ -43,6 +43,15 @@ public abstract class PageObject {
 		driver.findElement(By.id("j_idt10:j_idt13")).click();
 		return new CommunityOverviewPage(driver);
 	}
+	
+	public CommunityProfilePage getCommunityProfilePage() {
+		// navigate to communityoverview.xhtml
+		driver.findElement(By.id("j_idt10:j_idt13")).click();
+		// navigate to community
+		driver.findElement(By.id("j_idt31:j_idt32:2:j_idt37")).click();
+
+		return new CommunityProfilePage(driver);
+	}
 
 	public UserOverviewPage getUserOverviewPage() {
 		// navigate to useroverview.xhtml
