@@ -35,6 +35,17 @@ public class CommunityProfilePage extends PageObject {
 		return this;
 	}
 	
+	public List<String> getMessagePanelHeaders(){
+		List<String> result = new ArrayList<String>();
+		List<WebElement> rows = driver.findElements(By.xpath("//div[@id='j_idt33:1:j_idt42']/div[@class='panel-heading']"));
+		
+		for(int i = 0; i < rows.size(); i++) {
+			result.add(rows.get(i).getText());			
+		}
+		
+		return result;
+	}
+	
 	public List<String> getFileNames() {
 					
 		List<String> result = new ArrayList<String>();
