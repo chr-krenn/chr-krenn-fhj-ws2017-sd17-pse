@@ -7,7 +7,6 @@ import org.se.lab.pages.AdminPortalPage;
 import org.se.lab.pages.CommunityOverviewPage;
 import org.se.lab.pages.CommunityProfilePage;
 import org.se.lab.pages.LoginPage;
-import org.se.lab.pages.ProfilePage;
 import org.se.lab.pages.UserOverviewPage;
 
 import static org.junit.Assert.*;
@@ -21,7 +20,6 @@ public class PortalAdminITCase {
 	private LoginPage loginPage;
 	private CommunityOverviewPage communityOverviewPage;
 	private UserOverviewPage userOverViewPage;
-	private ProfilePage profilePage;
 	private ActivityStreamPage activityStreamPage;
 	private AdminPortalPage adminPortalPage;
 	private CommunityProfilePage communityProfilePage;

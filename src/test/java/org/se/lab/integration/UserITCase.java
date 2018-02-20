@@ -78,6 +78,11 @@ public class UserITCase {
 
 		assertEquals("Login", activityStreamPage.getHeader());
 	}
+	
+	@Test
+	public void testPostsPresent() {
+		assertTrue(activityStreamPage.getAllPosts().toLowerCase().contains("posted"));
+	}
 
 	@Test
 	public void testNewPost() {
@@ -131,6 +136,15 @@ public class UserITCase {
 		assertTrue(profilePage.getFirstName().contains("Robert"));
 		assertTrue(profilePage.getLastName().contains("Ionescu"));
 		assertTrue(profilePage.getMailAddress().contains("robert.ionescu@edu.fh-joanneum.at"));
+	}	
+	
+	
+	@Test
+	public void testDepartmentsAndContactsPresent() {
+		profilePage = activityStreamPage.getProfilePage();
+		
+		assertTrue(profilePage.getNumberOfContacts() > 0);
+		assertTrue(profilePage.getNumberOfCommunities() > 0);
 	}	
 	
 	@Test
