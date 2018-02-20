@@ -22,7 +22,19 @@ public class UserOverviewPage extends PageObject {
 		return driver.findElements(By.className("btn-danger")).size();
 	}
 	
-	public UserOverviewPage addUser(int id) {
+	public UserOverviewPage addUser(int userId) {
+		
+		ClickButton(userId, "td > .btn-primary");		
+		return this;
+	}	
+	
+	public UserOverviewPage removeUser(int userId) {
+		
+		ClickButton(userId, "td > .btn-danger");		
+		return this;
+	}
+	
+	private void ClickButton(int userId, String buttonClass) {
 		
 		List<WebElement> rows = driver.findElements(By.xpath("//table[@id='j_idt22:j_idt23']/tbody/tr"));
 		
@@ -34,18 +46,16 @@ public class UserOverviewPage extends PageObject {
 				continue;
 			
 			int parsedId = Integer.parseInt(userIdColumns.get(0).getText());
-			if(id != parsedId)
+			if(userId != parsedId)
 				continue;
 			
-			List<WebElement> addButtons = row.findElements(By.cssSelector("td > .btn-primary"));		
+			List<WebElement> addButtons = row.findElements(By.cssSelector(buttonClass));		
 			if(addButtons.size() != 1)
 				break;
 						
 			addButtons.get(0).click();
-			
 			break;
 		}
-		
-		return this;
 	}
+	
 }

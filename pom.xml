@@ -164,6 +164,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
 
 				<!-- this is broken: <version>3.0.0-SNAPSHOT</version> -->
 
@@ -284,7 +285,16 @@
         		<groupId>org.apache.maven.plugins</groupId>
         		<artifactId>maven-pmd-plugin</artifactId>
         		<version>3.9.0</version>
+        		<configuration>
+        			<skipEmptyReport>false</skipEmptyReport>
+        			<includeTests>true</includeTests>
+      			</configuration>
       		</plugin>
+      		<plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-jxr-plugin</artifactId>
+            	<version>2.3</version>
+       		</plugin>
 		</plugins>
 	</reporting>
 

@@ -167,6 +167,11 @@ public class UserITCase {
 
 		assertEquals(numberOfAddableUsers - 1, userOverViewPage.getNumberOfAddableUsers());
 		assertEquals(numberOfRemovableUsers + 1, userOverViewPage.getNumberOfRemovableUsers());
+		
+		userOverViewPage = userOverViewPage.removeUser(2);
+
+		assertEquals(numberOfAddableUsers, userOverViewPage.getNumberOfAddableUsers());
+		assertEquals(numberOfRemovableUsers, userOverViewPage.getNumberOfRemovableUsers());		
 	}
 		
 	@After
