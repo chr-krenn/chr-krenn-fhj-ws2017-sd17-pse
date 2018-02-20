@@ -63,6 +63,7 @@ public class UserITCase {
 	public void setUp() throws Exception {
 		loginPage = new LoginPage();
 		activityStreamPage = loginPage.login(username, password);
+		activityStreamPage.getActivityStreamPage();
 	}
 
 	@Test
