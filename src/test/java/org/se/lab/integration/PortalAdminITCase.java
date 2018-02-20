@@ -34,6 +34,7 @@ public class PortalAdminITCase {
 	public void setUp() throws Exception {
 		loginPage = new LoginPage();
 		activityStreamPage = loginPage.login(portalAdminUsername, portalAdminPassword);
+		activityStreamPage.getActivityStreamPage();
 	}
 
 	@Test

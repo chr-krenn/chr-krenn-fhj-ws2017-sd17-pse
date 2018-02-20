@@ -26,6 +26,7 @@ public class AdminITCase {
 	public void setUp() throws Exception {
 		loginPage = new LoginPage();
 		activityStreamPage = loginPage.login(adminUsername, adminPassword);
+		activityStreamPage.getActivityStreamPage();
 	}
 
 	@Test
