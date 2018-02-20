@@ -285,6 +285,10 @@
         		<groupId>org.apache.maven.plugins</groupId>
         		<artifactId>maven-pmd-plugin</artifactId>
         		<version>3.9.0</version>
+        		<configuration>
+        			<skipEmptyReport>false</skipEmptyReport>
+        			<includeTests>true</includeTests>
+      			</configuration>
       		</plugin>
       		<plugin>
             	<groupId>org.apache.maven.plugins</groupId>
