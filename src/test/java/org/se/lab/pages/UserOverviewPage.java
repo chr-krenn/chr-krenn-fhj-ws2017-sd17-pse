@@ -14,6 +14,14 @@ public class UserOverviewPage extends PageObject {
 		return driver.findElement(By.id("j_idt22:j_idt23")).getText();
 	}
 	
+	public int getNumberOfAddableUsers() {
+		return driver.findElements(By.className("btn-primary")).size();
+	}
+	
+	public int getNumberOfRemovableUsers() {
+		return driver.findElements(By.className("btn-danger")).size();
+	}
+	
 	public UserOverviewPage addUser(int id) {
 		
 		List<WebElement> rows = driver.findElements(By.xpath("//table[@id='j_idt22:j_idt23']/tbody/tr"));

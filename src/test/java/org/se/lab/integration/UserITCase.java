@@ -158,10 +158,16 @@ public class UserITCase {
 	@Test
 	public void testAddUser() {
 		userOverViewPage = activityStreamPage.getUserOverviewPage();
-		userOverViewPage= userOverViewPage.addUser(2);
+		
+		int numberOfAddableUsers = userOverViewPage.getNumberOfAddableUsers();
+		int numberOfRemovableUsers = userOverViewPage.getNumberOfRemovableUsers();
+
+		userOverViewPage = userOverViewPage.addUser(2);
+
+		assertEquals(numberOfAddableUsers - 1, userOverViewPage.getNumberOfAddableUsers());
+		assertEquals(numberOfRemovableUsers + 1, userOverViewPage.getNumberOfRemovableUsers());
 	}
-	
-	
+		
 	@After
 	public void tearDown() throws Exception {
 		loginPage.tearDown();
