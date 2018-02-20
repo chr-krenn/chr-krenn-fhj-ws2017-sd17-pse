@@ -133,7 +133,20 @@ public class CommunityDataBean implements Serializable {
 
     public void deleteFile(File file) {
         LOG.info("deleteFile " + file);
-        communityService.deleteFile(file);
+        
+        try {
+            communityService.deleteFile(file);
+            
+            try {
+                context.redirect("/pse/communityprofile.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+            }
+        } catch (ServiceException e) {
+            errorMsg = "Can't delete file without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
     }
 
     public void uploadFile(FileUploadEvent event) {
@@ -141,6 +154,12 @@ public class CommunityDataBean implements Serializable {
 
         try {
             communityService.uploadFile(user, uploadedFile);
+            
+            try {
+                context.redirect("/pse/communityprofile.xhtml");
+            } catch (IOException e) {
+                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+            }
         } catch (ServiceException e) {
             errorMsg = "Can't upload file without errors! - pls contact the admin or try later";
             LOG.error(errorMsg);

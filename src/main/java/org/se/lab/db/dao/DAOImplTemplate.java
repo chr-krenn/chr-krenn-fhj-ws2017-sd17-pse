@@ -35,6 +35,9 @@ public abstract class DAOImplTemplate<E> implements DAOTemplate<E> {
 
 	@Override
 	public void delete(E entity) {
+		if(!em.contains(entity)) {
+			entity = em.merge(entity);
+		}
 		em.remove(entity);
 	}
 
