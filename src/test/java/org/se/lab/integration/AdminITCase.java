@@ -64,9 +64,7 @@ public class AdminITCase {
 		adminPortalPage = activityStreamPage.getAdminPortalPage();
 		firstPendingCommunityName = adminPortalPage.getFirstPendingCommunityName(); 
 		adminPortalPage.declineFirstPendingCommunity(); //decline community in first row                           
-		adminPortalPage.declineLastPendingCommunity(); 
-		firstPendingCommunityNameAfterDecline = adminPortalPage.getLastPendingCommunityName();
-		assertEquals("Heterogene Systeme", adminPortalPage.getLastPendingCommunityName());
+		firstPendingCommunityNameAfterDecline = adminPortalPage.getFirstPendingCommunityName();
 		assertFalse(firstPendingCommunityName.equals(firstPendingCommunityNameAfterDecline)); // name of first community changed after decline
 		assertFalse(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityName)); // community is no longer pending
 		assertTrue(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityNameAfterDecline));
