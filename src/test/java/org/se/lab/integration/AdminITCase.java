@@ -4,11 +4,15 @@ import org.junit.After;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.se.lab.pages.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.UUID;
 
 public class AdminITCase {
 	private LoginPage loginPage;
@@ -27,9 +31,13 @@ public class AdminITCase {
 	}
 
 	@Test
-	public void testValidLogin() {
-		assertEquals("Activity Stream", activityStreamPage.getHeader());
-	}
+	public void testValidAdminLogin() {
+		assertEquals("Activity Stream", activityStreamPage.getHeader()); // check if login refers to Activity Stream
+		assertEquals(activityStreamPage.getProfilePage().getLastName().toLowerCase(), adminUsername); // check if correct user is logged in
+		
+		// check if navigation to admin portal is possible
+		assertNotNull(activityStreamPage.getAdminPortalPage());
+		}
 
 	@Test
 	public void testLogout() {
@@ -39,31 +47,51 @@ public class AdminITCase {
 		assertEquals("Login", activityStreamPage.getHeader());
 	}
 	
+	/* #12 admin wants to see in the admin area a list with pending communitities */
+	@Test
+	public void testPendingCommunitiesListPresent() {
+		adminPortalPage = activityStreamPage.getAdminPortalPage();
+		assertNotNull(adminPortalPage.getPendingCommunities());
+		assertTrue(adminPortalPage.getPendingCommunities().length() > 0);
+		
+	}
+	
+	/* #28 admin wants to decline pending communities */
 	@Test
 	public void testDeclineCommunity() {
 		String firstPendingCommunityName;
 		String firstPendingCommunityNameAfterDecline;
-		
 		adminPortalPage = activityStreamPage.getAdminPortalPage();
-
-		firstPendingCommunityName = adminPortalPage.getFirstPendingCommunityName();
-	
-		adminPortalPage.declineFirstPendingCommunity();
-		
-		firstPendingCommunityNameAfterDecline = adminPortalPage.getFirstPendingCommunityName();
-		
-		assertFalse(firstPendingCommunityName.equals(firstPendingCommunityNameAfterDecline));
-		assertFalse(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityName));
+		firstPendingCommunityName = adminPortalPage.getFirstPendingCommunityName(); 
+		adminPortalPage.declineFirstPendingCommunity(); //decline community in first row                           
+		adminPortalPage.declineLastPendingCommunity(); 
+		firstPendingCommunityNameAfterDecline = adminPortalPage.getLastPendingCommunityName();
+		assertEquals("Heterogene Systeme", adminPortalPage.getLastPendingCommunityName());
+		assertFalse(firstPendingCommunityName.equals(firstPendingCommunityNameAfterDecline)); // name of first community changed after decline
+		assertFalse(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityName)); // community is no longer pending
 		assertTrue(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityNameAfterDecline));
+	
 	}
-
+	
+	/* #28 admin wants to approve pending communities */
 	@Test
-	public void testCommunityListPresent() {
-		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
-
-		// user is part of Computer Vision community
-		assertTrue(communityOverviewPage.getAvailableCommunities().contains("Computer Vision"));
+	public void testApproveCommunity() {
+		String firstPendingCommunityName;
+		String firstPendingCommunityNameAfterApproval;
+		adminPortalPage = activityStreamPage.getAdminPortalPage();
+		firstPendingCommunityName = adminPortalPage.getFirstPendingCommunityName(); 
+	
+		adminPortalPage.approveFirstPendingCommunity(); //approve community
+		
+		assertFalse(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityName)); // community is no longer pending 
+		assertTrue(adminPortalPage.getApprovedCommunities().contains(firstPendingCommunityName)); //community is part of approved communities
+	
+		firstPendingCommunityNameAfterApproval = adminPortalPage.getFirstPendingCommunityName();
+		assertTrue(adminPortalPage.getPendingCommunities().contains(firstPendingCommunityNameAfterApproval));
+		assertFalse(firstPendingCommunityName.equals(firstPendingCommunityNameAfterApproval)); // name of first community changed after decline
+		
 	}
+
 
 	@After
 	public void tearDown() throws Exception {

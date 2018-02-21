@@ -49,6 +49,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class UserITCase {
@@ -65,18 +66,24 @@ public class UserITCase {
 
 	private String adminUsername = "dogic";
 	private String adminPassword = "pass";
-	private String[] userCommunities = {"Computer Vision","Bachelorarbeit 1","English for Scientific Purposes","Heterogene Systeme"};
+	private List<String> userCommunities = new ArrayList<>();
 	;
 	@Before
 	public void setUp() throws Exception {
+		userCommunities.add("Computer Vision");
+		userCommunities.add("Bachelorarbeit 1");
+		userCommunities.add("English for Scientific Purposes");
+		userCommunities.add("Heterogene Systeme");
+		
 		loginPage = new LoginPage();
 		activityStreamPage = loginPage.login(username, password);
+		activityStreamPage.getActivityStreamPage();
 	}
 
 	@Test
 	public void testValidLogin() {
 		assertEquals("Activity Stream", activityStreamPage.getHeader()); // check if login refers to Activitiy Stream
-		assertEquals(activityStreamPage.getProfilePage().getLastName(), username); // check if correct user is logged in
+		assertEquals(activityStreamPage.getProfilePage().getLastName().toLowerCase(), username); // check if correct user is logged in
 	}
 
 	@Test
@@ -135,8 +142,8 @@ public class UserITCase {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 
 		// check if all of user's communities are shown in CommunityOverView
-		for (int i = 0; i < userCommunities.length; i++) {
-			assertTrue(communityOverviewPage.getAvailableCommunities().contains(userCommunities[i]));
+		for (int i = 0; i < userCommunities.size(); i++) {
+			assertTrue(communityOverviewPage.getAvailableCommunities().contains(userCommunities.get(i)));
 		}
 
 	}
@@ -155,8 +162,7 @@ public class UserITCase {
 		activityStreamPage = loginPage.login(adminUsername, adminPassword); 
 		adminPortalPage = activityStreamPage.getAdminPortalPage();
 		String pendingCommunities = adminPortalPage.getPendingCommunities();
-		adminPortalPage.logout();
-
+	
 		assertTrue(pendingCommunities.contains(cname));
 		assertTrue(pendingCommunities.contains(cdesc));
 	}
@@ -189,7 +195,7 @@ public class UserITCase {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 		communityProfilePage = communityOverviewPage.getCommunityProfilePage();
 
-		assertTrue(userCommunities.toString().contains(communityProfilePage.getHeader())); //check if user is community member
+		assertEquals(communityProfilePage.getActionButtonText(), "Leave"); 
 		assertTrue(communityProfilePage.getPostPanelHeaders().size() > 0); // check if there are posts in CommunityStream
 	}
 	/* # 29  user wants to see only Community posts on Community Stream  */

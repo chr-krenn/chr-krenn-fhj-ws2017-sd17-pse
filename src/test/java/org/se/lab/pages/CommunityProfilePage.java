@@ -18,7 +18,9 @@ public class CommunityProfilePage extends PageObject {
 	public String getHeader() {
 		return driver.findElement(By.cssSelector("h2")).getText();
 	}
-	
+	public String getActionButtonText() {
+		return driver.findElement(By.id("j_idt25:j_idt26")).getText();
+	}
 	public CommunityProfilePage uploadFile(String filepath) {
 		
 		String uploadWrapperId = "form2:file2";
