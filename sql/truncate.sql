@@ -7,6 +7,7 @@ TRUNCATE enumeration;
 TRUNCATE enumeration_item;
 TRUNCATE private_message;
 TRUNCATE contact;
+TRUNCATE post_users;
 TRUNCATE post;
 TRUNCATE user_community;
 TRUNCATE userprofile;

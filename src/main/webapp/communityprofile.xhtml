@@ -6,7 +6,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core">>
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head></h:head>
 <h:body>
 	<ui:insert name="header">
@@ -112,7 +112,7 @@
 										<b:column span="6">
 											<h:outputText value="#{children.text}" />
 										</b:column>
-										<p:commandButton value="DELETE Post!"
+										<p:commandButton value="DELETE Comment!"
                                                  actionListener="#{communityDataBean.deletePost(children)}"
                                                  rendered="#{communityDataBean.showDeleteButton(children)}" />
 									</b:row>

@@ -21,15 +21,14 @@ public class UserProfileDAOTest extends AbstractDAOTest {
     @Before
     @Override
     public void setup() {
-        tx.begin();
+		super.setup();
+		
         udao.setEntityManager(em);
         updao.setEntityManager(em);
 
         u = new User("James", "***");
         up = new UserProfile("James", "Bond", "Abbey 12", "72FE4", "London", "England", "43", "MI6", "james.bond@gmail.com", "test", "test", "test userprofile");
         up2 = new UserProfile("Heinz", "Bond", "Neuholdgasse 123", "1130", "Vienan", "Austria", "123", "MI6", "james.bond@gmail.com", "test", "test", "test userprofile");
-
-
     }
 
     @Test
@@ -107,21 +106,24 @@ public class UserProfileDAOTest extends AbstractDAOTest {
     }
     
     @After
+    @Override
     public void tearDown(){
     	//arrange
     	List<User> testUsers = udao.findAll();
-    	List<UserProfile> testUserProfiles = updao.findAll();
     	
     	//act
     	if(testUsers.contains(u))
     		udao.delete(u);
     	
+    	//arrange
+    	List<UserProfile> testUserProfiles = updao.findAll();
+    	
+    	//act  
+    	if(testUserProfiles.contains(up2))
+    		updao.delete(up2);  	
     	if(testUserProfiles.contains(up))
     		updao.delete(up);
-    	
-    	if(testUserProfiles.contains(up2))
-    		updao.delete(up2);
-    	
+
     	//assert
     	testUsers = udao.findAll();
     	testUserProfiles = updao.findAll();
@@ -129,6 +131,8 @@ public class UserProfileDAOTest extends AbstractDAOTest {
     	Assert.assertEquals(false, testUsers.contains(u));
     	Assert.assertEquals(false, testUserProfiles.contains(up));
     	Assert.assertEquals(false, testUserProfiles.contains(up2));
+    	
+    	super.tearDown();
     }
 
 }

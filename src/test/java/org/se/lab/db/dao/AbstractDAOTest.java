@@ -55,7 +55,7 @@ public abstract class AbstractDAOTest {
 	}
 	
 	@After
-	public void teardown() {
+	public void tearDown() {
 		if (tx.isActive() ) {
 			tx.rollback();
 		}

@@ -27,8 +27,12 @@ public class PostServiceImpl implements PostService {
         ArgumentChecker.assertNotNull(user, "user");
         ArgumentChecker.assertNotNullAndEmpty(text, "postMessage");
         ArgumentChecker.assertNotNull(created, "createdDate");
-        assertBothOrNoneNull(parentpost, community);
 
+        // if parentPost null && community null -> Root post
+        // if parentPost not null && community null -> Root post comment
+        // if parentPost null && community not null -> Community root post
+        // if parentPost not null && community not null -> Community post comment
+        
         try {
             return postDAO.createPost(parentpost, community, user, text, created);
         } catch (IllegalArgumentException e) {
@@ -39,12 +43,6 @@ public class PostServiceImpl implements PostService {
             String msg = "Can't create post";
             LOG.error(msg, e);
             throw new ServiceException(msg);
-        }
-    }
-
-    private void assertBothOrNoneNull(Post parentpost, Community community) {
-        if ((parentpost == null) == (community != null)) {
-            throw new IllegalArgumentException("ParentPost and Community have to be both null or none");
         }
     }
 

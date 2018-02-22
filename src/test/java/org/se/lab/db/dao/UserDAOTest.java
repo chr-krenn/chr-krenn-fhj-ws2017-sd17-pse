@@ -23,9 +23,10 @@ public class UserDAOTest extends AbstractDAOTest {
 
     
     @Before
+    @Override
     public void setup() {
-        tx.begin();
-
+    	super.setup();
+    	
         user2 = new User("Donald Trump", "NurSauer");
         user = new User("Donald Duck", "EnteSuessSauer");
    }
@@ -33,10 +34,8 @@ public class UserDAOTest extends AbstractDAOTest {
     @Test
     @Override
     public void testCreate() {
-    	
         udao.insert(user);
-        
-        
+
         Assert.assertEquals(user, udao.findByUsername(user.getUsername()));
     }
 
@@ -54,7 +53,6 @@ public class UserDAOTest extends AbstractDAOTest {
     @Test(expected = PersistenceException.class)
     @Override
     public void testRemove() {
-    	
         testCreate();
                 
         udao.delete(user);
@@ -82,11 +80,10 @@ public class UserDAOTest extends AbstractDAOTest {
     }
     
     @After
+    @Override
     public void tearDown(){
-    	
     	//arrange
     	List<User> testUsers = udao.findAll();
-    	
     	
     	//act
     	if(testUsers.contains(user))
@@ -100,5 +97,7 @@ public class UserDAOTest extends AbstractDAOTest {
     	
     	Assert.assertEquals(false, testUsers.contains(user));
     	Assert.assertEquals(false, testUsers.contains(user2));
+    	
+    	super.tearDown();
     }
 }

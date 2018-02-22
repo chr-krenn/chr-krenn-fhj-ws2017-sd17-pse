@@ -26,21 +26,21 @@ public class PrivateMessageDAOTest extends AbstractDAOTest {
     }
 
     @Before
+    @Override
     public void setup() {
-        tx.begin();
-
+    	super.setup();
+    	
         user = new User("User1", "test");
         user2 = new User("User2", "test");
         pm = new PrivateMessage("Hallo Textmessage Test 1", user, user2);
         pm2 = new PrivateMessage("Hallo Testmessage Test 2", user2, user);
-
     }
 
     @Test
     @Override
     public void testCreate() {
         PrivateMessage persisted = pmdao.insert(pm);
-        
+    	
         Assert.assertEquals(pm, pmdao.findById(persisted.getID()));
     }
 
@@ -48,9 +48,9 @@ public class PrivateMessageDAOTest extends AbstractDAOTest {
     @Override
     public void testRemove() {
     	PrivateMessage persisted = pmdao.insert(pm);
-    	
+
         pmdao.delete(persisted);
-        
+            
         Assert.assertNull(pmdao.findById(pm.getID()));
     }
 
@@ -58,7 +58,7 @@ public class PrivateMessageDAOTest extends AbstractDAOTest {
     public void testfindAll() {
     	PrivateMessage persisted = pmdao.insert(pm);
     	PrivateMessage persisted2 = pmdao.insert(pm2);
-    	
+    	    	
         List<PrivateMessage> pms = pmdao.findAll();
         
         Assert.assertEquals(true, pms.contains(persisted));
@@ -69,7 +69,6 @@ public class PrivateMessageDAOTest extends AbstractDAOTest {
     public void testfindById() {
     	PrivateMessage persisted = pmdao.insert(pm);
     	
-
         Assert.assertEquals(persisted, pmdao.findById(persisted.getID()));
     }
 
@@ -84,29 +83,38 @@ public class PrivateMessageDAOTest extends AbstractDAOTest {
     }
     
     @After
-    @Test
+    @Override
     public void tearDown(){
     	//arrange
-    	List<User> testUsers = udao.findAll();
     	List<PrivateMessage> pms = pmdao.findAll();
     	
-    	//act
-    	if(testUsers.contains(user))
-    		udao.delete(user);
-    	
+    	//act    	
     	if(pms.contains(pm))
     		pmdao.delete(pm);
     	
     	if(pms.contains(pm2))
     		pmdao.delete(pm2);
+
+    	//arrange
+    	List<User> testUsers = udao.findAll();
+
+    	//act   
+    	if(testUsers.contains(user))
+    		udao.delete(user);
+    	
+    	if(testUsers.contains(user2))
+    		udao.delete(user2);
     	
     	//assert
-    	testUsers = udao.findAll();
     	pms = pmdao.findAll();
+    	testUsers = udao.findAll();
     	
-    	Assert.assertEquals(false, testUsers.contains(user));
     	Assert.assertEquals(false, pms.contains(pm));
     	Assert.assertEquals(false, pms.contains(pm2));
+    	Assert.assertEquals(false, testUsers.contains(user));
+    	Assert.assertEquals(false, testUsers.contains(user2));
+    	
+    	super.tearDown();
     }
     
 }

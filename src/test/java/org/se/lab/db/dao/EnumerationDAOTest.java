@@ -30,8 +30,9 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     }
     
     @Before
+    @Override
     public void setup() {
-        tx.begin();
+        super.setup();
                
         user = userDao.createUser("testuserpost", "*****");
         user2 = userDao.createUser("seconduser", "****");
@@ -40,8 +41,6 @@ public class EnumerationDAOTest extends AbstractDAOTest {
                 
         post = postDao.createPost(null, community, user, "Happy Path Test", 
         		new Date(180L));
-        
-        
     }
 
     @Test
@@ -133,7 +132,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     }
     
     @After
-    @Test
+    @Override
     public void tearDown(){
     	//arrange
     	List<Community> communities = commDao.findAll();
@@ -141,18 +140,18 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     	List<User> users = userDao.findAll();
     	List<Enumeration> enums = dao.findAll();
     	
-    	//act
-    	if(users.contains(user))
-    		userDao.delete(user);
-    	
-    	if(communities.contains(community))
-    		commDao.delete(community);
+    	//act       
+    	if(enums.contains(persistedEnumeration))
+    		dao.delete(persistedEnumeration);
     	
     	if(posts.contains(post))
     		postDao.delete(post);
-    	
-    	if(enums.contains(persistedEnumeration))
-    		dao.delete(persistedEnumeration);
+
+    	if(communities.contains(community))
+    		commDao.delete(community);
+
+    	if(users.contains(user))
+    		userDao.delete(user);
     	
     	communities = commDao.findAll();
     	posts = postDao.findAll();
@@ -164,5 +163,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     	Assert.assertFalse(posts.contains(post));
     	Assert.assertFalse(users.contains(user));
     	Assert.assertFalse(enums.contains(persistedEnumeration));
+    	
+    	super.tearDown();
     }
 }

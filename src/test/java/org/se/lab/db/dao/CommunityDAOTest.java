@@ -27,12 +27,12 @@ public class CommunityDAOTest extends AbstractDAOTest {
     }
 	
     @Before
+    @Override
     public void setup() {
-        tx.begin();
+        super.setup();
 
         user1 = udao.createUser("Donald Trump", "NurSauer");
-        community1 = new Community("TestCommunity", "a description", user1.getId());
-        
+        community1 = new Community("TestCommunity", "a description", user1.getId()); 
     }
 
     @Override
@@ -94,19 +94,19 @@ public class CommunityDAOTest extends AbstractDAOTest {
     }
     
     @After
-    @Test
+    @Override
     public void tearDown(){
     	//arrange
     	List<User> testUsers = udao.findAll();
     	List<Community> communities = cdao.findAll();
     	
     	
-    	//act
-    	if(testUsers.contains(user1))
-    		udao.delete(user1);
-    	
+    	//act    	
     	if(communities.contains(community1))
     		cdao.delete(community1);
+    	
+    	if(testUsers.contains(user1))
+    		udao.delete(user1);
     	
     	//assert
     	testUsers = udao.findAll();
@@ -114,6 +114,8 @@ public class CommunityDAOTest extends AbstractDAOTest {
     	
     	Assert.assertEquals(false, testUsers.contains(user1));	
     	Assert.assertEquals(false, communities.contains(community1));	
+    	
+    	super.tearDown();
     }
 
 }

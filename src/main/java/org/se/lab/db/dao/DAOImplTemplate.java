@@ -46,11 +46,14 @@ public abstract class DAOImplTemplate<E> implements DAOTemplate<E> {
 		return em.find(getEntityClass(), id);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> findAll() {
-		final String hql = "SELECT u FROM " + getEntityClass().getName() + " AS u";
-		return em.createQuery(hql).getResultList();
+		return findAll("SELECT u FROM " + getEntityClass().getName() + " AS u");
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<E> findAll(String hql) {
+		return em.createQuery(hql).getResultList();
+	}
 }

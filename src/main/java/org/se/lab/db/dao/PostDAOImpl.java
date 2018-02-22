@@ -11,9 +11,9 @@ import java.util.List;
 public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
 
     private final static Logger LOG = Logger.getLogger(PostDAOImpl.class);
-    private static final String POST_FOR_USER_QUERY = "SELECT p FROM Post p WHERE p.user.id = :id";
-    private static final String POST_FOR_COMMUNITY_QUERY = "SELECT p FROM Post p WHERE p.community.id = :id";
-    private static final String POST_FOR_USER_AND_CONTACT_QUERY = "SELECT p FROM Post p WHERE p.user.id IN :idlist";
+    private static final String POST_FOR_USER_QUERY = "SELECT p FROM Post p WHERE p.user.id = :id ORDER BY p.created DESC";
+    private static final String POST_FOR_COMMUNITY_QUERY = "SELECT p FROM Post p WHERE p.community.id = :id ORDER BY p.created DESC";
+    private static final String POST_FOR_USER_AND_CONTACT_QUERY = "SELECT p FROM Post p WHERE p.user.id IN :idlist ORDER BY p.created DESC";
 
     @Override
     public Post insert(Post post) {
@@ -42,7 +42,7 @@ public class PostDAOImpl extends DAOImplTemplate<Post> implements PostDAO {
     @Override
     public List<Post> findAll() {
         LOG.debug("findAll()");
-        return super.findAll();
+        return super.findAll("SELECT u FROM " + getEntityClass().getName() + " AS u ORDER BY u.created DESC");
     }
 
     @Override

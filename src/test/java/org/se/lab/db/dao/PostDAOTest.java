@@ -1,5 +1,6 @@
 package org.se.lab.db.dao;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,8 +37,9 @@ public class PostDAOTest extends AbstractDAOTest {
     }
 
     @Before
+    @Override
     public void setup() {
-    	tx.begin();
+    	super.setup();
     	
         user1 = new User("testuserpost", "*****");        
         User persistedUser = udao.insert(user1);
@@ -132,7 +134,8 @@ public class PostDAOTest extends AbstractDAOTest {
 		Assert.assertEquals(true, posts.contains(persistedPost2));
     }
     
-    //@After
+    @After
+    @Override
     public void tearDown(){
     	//arrange
     	List<User> testUsers = udao.findAll();
@@ -168,6 +171,8 @@ public class PostDAOTest extends AbstractDAOTest {
     	Assert.assertEquals(false, testUsers.contains(user1));
     	Assert.assertEquals(false, testContacts.contains(userContact));
     	Assert.assertEquals(false, testCommunities.contains(community1));
+    	
+    	super.tearDown();
     }
 
 }

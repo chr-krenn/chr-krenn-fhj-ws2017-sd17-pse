@@ -9,5 +9,5 @@ public interface DAOTemplate<E> {
 	void delete(E entity);
 	E findById(int id);
 	List<E> findAll();
-
+	List<E> findAll(String hql);
 }
