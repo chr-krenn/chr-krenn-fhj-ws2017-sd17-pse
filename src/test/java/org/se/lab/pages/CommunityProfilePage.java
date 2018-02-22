@@ -18,7 +18,9 @@ public class CommunityProfilePage extends PageObject {
 	public String getHeader() {
 		return driver.findElement(By.cssSelector("h2")).getText();
 	}
-	
+	public String getActionButtonText() {
+		return driver.findElement(By.id("j_idt25:j_idt26")).getText();
+	}
 	public CommunityProfilePage uploadFile(String filepath) {
 		
 		String uploadWrapperId = "form2:file2";
@@ -35,7 +37,7 @@ public class CommunityProfilePage extends PageObject {
 		return this;
 	}
 	
-	public List<String> getMessagePanelHeaders(){
+	public List<String> getPostPanelHeaders(){
 		List<String> result = new ArrayList<String>();
 		List<WebElement> rows = driver.findElements(By.xpath("//div[@id='j_idt33:1:j_idt42']/div[@class='panel-heading']"));
 		

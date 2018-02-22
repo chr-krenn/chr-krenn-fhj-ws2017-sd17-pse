@@ -31,6 +31,7 @@ public class CommunityOverviewBean {
 
     private String newCommunityName;
     private String newCommunityDescription;
+    private String visability;
 
     private int userId = 0;
     private ExternalContext context;
@@ -52,6 +53,7 @@ public class CommunityOverviewBean {
     }
 
     public void createNewCommunity() {
+    	LOG.info("Visability: "+ getVisability());
         Community newCommunity;
         if (!newCommunityName.isEmpty()) {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -74,7 +76,15 @@ public class CommunityOverviewBean {
         reset();
     }
 
-    public void gotoCom() {
+    public String getVisability() {
+		return visability;
+	}
+
+	public void setVisability(String visability) {
+		this.visability = visability;
+	}
+
+	public void gotoCom() {
         LOG.info("In Method gotoCom");
         if (selectedCommunity != null) {
             LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());

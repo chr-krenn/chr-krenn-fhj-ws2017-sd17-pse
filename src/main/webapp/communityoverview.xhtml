@@ -35,6 +35,12 @@
 							value="#{communityOverviewBean.newCommunityDescription}"
 							placeholder="Enter your description" />
 					</b:row>
+					
+					<h:outputText value="Visability: " />
+        <p:selectOneButton value="#{communityOverviewBean.visability}">
+            <f:selectItem itemLabel="Public" itemValue="public" />
+            <f:selectItem itemLabel="Private" itemValue="private" />
+        </p:selectOneButton>
 					<b:row>
 						<b:column span="4">
 							<b:commandButton value="Send" look="primary" dismiss="modal"
