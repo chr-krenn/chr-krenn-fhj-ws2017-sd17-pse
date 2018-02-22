@@ -9,6 +9,7 @@ import java.util.Arrays;
 @Entity
 @Table(name = "file")
 public class File implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public File(User user,String filename,byte[] data){
         ArgumentChecker.assertNotNull(user,"user");
@@ -16,6 +17,15 @@ public class File implements Serializable {
         ArgumentChecker.assertNotNull(data,"data");
         setData(data);
         setUser(user);
+        setFilename(filename);
+    }
+    
+    public File (Community community,String filename,byte[] data){
+        ArgumentChecker.assertNotNull(community,"community");
+        ArgumentChecker.assertNotNullAndEmpty(filename,"filename");
+        ArgumentChecker.assertNotNull(data,"data");
+        setData(data);
+        setCommunity(community);
         setFilename(filename);
     }
     
@@ -35,6 +45,10 @@ public class File implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "community_id")
+    private Community community;
 
     public byte[] getData() {
         return Arrays.copyOf(data, data.length);
@@ -52,7 +66,15 @@ public class File implements Serializable {
         this.user = user;
     }
 
-    public String getFilename() {
+    public Community getCommunity() {
+		return community;
+	}
+
+	public void setCommunity(Community community) {
+		this.community = community;
+	}
+
+	public String getFilename() {
         return filename;
     }
 

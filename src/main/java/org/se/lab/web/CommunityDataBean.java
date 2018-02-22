@@ -13,6 +13,7 @@ import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.CommunityService;
 import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
+import org.se.lab.utils.ArgumentChecker;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -130,6 +131,22 @@ public class CommunityDataBean implements Serializable {
         return communityPosts;
 
     }
+    
+    public void deletePost(Post p) {
+        ArgumentChecker.assertNotNull(p, "post");
+        activityStreamService.delete(p, user);
+        
+        try {
+            context.redirect("/pse/communityprofile.xhtml");
+        } catch (IOException e) {
+            LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+        }
+    }
+
+    public boolean showDeleteButton(Post p) {
+        return p != null && p.getCommunity() != null
+                && p.getCommunity().getPortaladminId() == user.getId();
+    }
 
     public void deleteFile(File file) {
         LOG.info("deleteFile " + file);
@@ -152,9 +169,13 @@ public class CommunityDataBean implements Serializable {
     public void uploadFile(FileUploadEvent event) {
         UploadedFile uploadedFile = event.getFile();
 
+        getActualCommunity();
+        
         try {
-            communityService.uploadFile(user, uploadedFile);
-            
+        	if(hasUserPrivilege(User.ROLE.PORTALADMIN)) {
+        		communityService.uploadFile(actualCommunity, uploadedFile);
+        	}
+        	
             try {
                 context.redirect("/pse/communityprofile.xhtml");
             } catch (IOException e) {
@@ -168,9 +189,9 @@ public class CommunityDataBean implements Serializable {
     }
 
     public List<File> getFiles() {
-
-        if (user != null && hasUserPrivilege(User.ROLE.PORTALADMIN)) {
-            setFiles(communityService.getFilesFromUser(user));
+    	getActualCommunity();
+        if (actualCommunity != null) {
+            setFiles(communityService.getFilesFromCommunity(actualCommunity));
             return files;
         }
         return Collections.emptyList();

@@ -34,6 +34,10 @@ public interface CommunityService {
 	void uploadFile(User user,UploadedFile uploadedFile);
 
 	List<File> getFilesFromUser(User user);
+	
+	void uploadFile(Community community,UploadedFile uploadedFile);
+
+	List<File> getFilesFromCommunity(Community community);
 
 	void deleteFile(File file);
 }

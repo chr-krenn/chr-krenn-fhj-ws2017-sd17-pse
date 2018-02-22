@@ -43,19 +43,18 @@
 				</h:form>
 			</b:panel>
 
-			<b:panel title="File Download Bereich" look="success"
-					 rendered="#{not empty communityDataBean.files}" collapsible="false">
-				<c:forEach var="file" items="#{communityDataBean.files}" varStatus="loop">
+			<b:panel title="File Download Bereich" look="success" collapsible="false">
+				<c:forEach var="file" items="#{communityDataBean.files}" varStatus="loop" rendered="#{not empty communityDataBean.files}">
 					<h:form>
 						<p:commandButton value="#{file.filename}" ajax="false"
 										 onclick="PrimeFaces.monitorDownload(start, stop);"
 										 icon="ui-icon-arrowthick-1-s">
 							<p:fileDownload value="#{communityDataBean.getFile(file.id)}" />
 						</p:commandButton>
-						<p:commandButton value="Delete!" actionListener="#{communityDataBean.deleteFile(file)}" />
+						<p:commandButton value="Delete!" actionListener="#{communityDataBean.deleteFile(file)}" rendered="#{communityDataBean.portalAdmin}" />
 					</h:form>
-
 				</c:forEach>
+				<h:outputText rendered="#{empty communityDataBean.files}" value="No files uploaded yet. Please contact the community admin." />
 			</b:panel>
 
 			<p:repeat value="#{communityDataBean.getActualCommunityStream()}"
@@ -94,6 +93,9 @@
 									<b:column span="6">
 										<h:outputText value="#{posts.text}" />
 									</b:column>
+                                    <p:commandButton value="DELETE Post!"
+                                                 actionListener="#{communityDataBean.deletePost(posts)}"
+                                                 rendered="#{communityDataBean.showDeleteButton(posts)}" />
 								</b:row>
 							</b:panel>
 						</b:column>
@@ -110,6 +112,9 @@
 										<b:column span="6">
 											<h:outputText value="#{children.text}" />
 										</b:column>
+										<p:commandButton value="DELETE Post!"
+                                                 actionListener="#{communityDataBean.deletePost(children)}"
+                                                 rendered="#{communityDataBean.showDeleteButton(children)}" />
 									</b:row>
 								</b:panel>
 							</p:repeat>

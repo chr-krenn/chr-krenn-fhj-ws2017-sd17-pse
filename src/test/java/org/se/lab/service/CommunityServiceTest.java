@@ -189,12 +189,19 @@ public class CommunityServiceTest {
 
         communityService.uploadFile(new User(), uploadedFile);
     }
-
+    
     @Test(expected = IllegalArgumentException.class)
     public void uploadFile_throwException_MissingUser() {
         UploadedFile uploadedFile = new NativeUploadedFile();
 
-        communityService.uploadFile(null, uploadedFile);
+        communityService.uploadFile((User) null, uploadedFile);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void uploadFile_throwException_MissingCommunity() {
+        UploadedFile uploadedFile = new NativeUploadedFile();
+
+        communityService.uploadFile((Community) null, uploadedFile);
     }
 
     @Test(expected = IllegalArgumentException.class)

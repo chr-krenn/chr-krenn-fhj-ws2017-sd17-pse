@@ -262,15 +262,15 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
 
-    @Override
-    public void uploadFile(User user, UploadedFile uploadedFile) {
-
-        ArgumentChecker.assertNotNull(user, "user");
+	@Override
+	public void uploadFile(Community community, UploadedFile uploadedFile) {
+		
+        ArgumentChecker.assertNotNull(community, "community");
         ArgumentChecker.assertNotNull(uploadedFile, "uploadedFile");
-
-        LOG.info(String.format("File %s stored in Database", uploadedFile.getFileName()));
+        
         try {
-            fileDAO.insert(new File(user, uploadedFile.getFileName(), uploadedFile.getContents()));
+            fileDAO.insert(new File(community, uploadedFile.getFileName(), uploadedFile.getContents()));
+            LOG.info(String.format("File %s stored in Database", uploadedFile.getFileName()));
         } catch (IllegalArgumentException e) {
             String msg = "Can't upload file (illegal Argument)";
             LOG.error(msg, e);
@@ -280,7 +280,47 @@ public class CommunityServiceImpl implements CommunityService {
             LOG.error(msg, e);
             throw new ServiceException(msg);
         }
+	}
 
+	@Override
+	public List<File> getFilesFromCommunity(Community community) {
+        List<File> files = new ArrayList<File>();
+
+        if (community != null) {
+            try {
+                files = fileDAO.findByCommunity(community);
+            } catch (IllegalArgumentException e) {
+                String msg = "Can't get files for Community (illegal Argument)";
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
+            } catch (Exception e) {
+                String msg = "Can't get file from Community " + community.getId();
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
+            }
+        }
+        
+        return files;
+	}
+	
+    @Override
+    public void uploadFile(User user, UploadedFile uploadedFile) {
+
+        ArgumentChecker.assertNotNull(user, "user");
+        ArgumentChecker.assertNotNull(uploadedFile, "uploadedFile");
+
+        try {
+            fileDAO.insert(new File(user, uploadedFile.getFileName(), uploadedFile.getContents()));
+            LOG.info(String.format("File %s stored in Database", uploadedFile.getFileName()));
+        } catch (IllegalArgumentException e) {
+            String msg = "Can't upload file (illegal Argument)";
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
+        } catch (Exception e) {
+            String msg = "Can't upload file " + uploadedFile.getFileName();
+            LOG.error(msg, e);
+            throw new ServiceException(msg);
+        }
     }
 
     @Override
@@ -299,9 +339,8 @@ public class CommunityServiceImpl implements CommunityService {
                 LOG.error(msg, e);
                 throw new ServiceException(msg);
             }
-
-
         }
+        
         return files;
     }
 

@@ -26,7 +26,8 @@ DROP TABLE IF EXISTS `file`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) NOT NULL,
+  `users_id` int(11) NULL,
+  `community_id` int(11) NULL,
   `filename` varchar(255) NOT NULL,
   `data` mediumblob,
   PRIMARY KEY (`id`)
