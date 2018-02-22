@@ -121,6 +121,7 @@ public class UserProfileDAOTest extends AbstractDAOTest {
     	//act  
     	if(testUserProfiles.contains(up2))
     		updao.delete(up2);  	
+    	
     	if(testUserProfiles.contains(up))
     		updao.delete(up);
 

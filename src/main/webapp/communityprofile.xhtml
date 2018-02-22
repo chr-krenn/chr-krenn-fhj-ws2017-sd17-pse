@@ -18,6 +18,22 @@
 			<h2>
 				<h:outputText value="#{c.name}" />
 			</h2>
+			<b:modal id="newPostModal" title="New post">
+                <h:form>
+                    <b:row>
+                        <b:inputTextarea span="12" rows="4" var="inputText"
+                                         value="#{communityDataBean.inputText}"
+                                         placeholder="Enter your message"/>
+                    </b:row>
+                    <b:row>
+                        <b:column span="4">
+                            <b:commandButton value="Send" look="primary" dismiss="modal"
+                                             actionListener="#{communityDataBean.newPost(null)}"/>
+                            <b:button value="Close" dismiss="modal"/>
+                        </b:column>
+                    </b:row>
+                </h:form>
+            </b:modal>
 			<b:panel collapsible="false">
 				<f:facet name="heading">Actions</f:facet>
 				<h:form>
@@ -25,6 +41,9 @@
 						look="primary"
 						action="#{communityDataBean.joinOrLeaveCommunity()}" />
 				</h:form>
+                <button class="btn btn-success" data-target="#newPostModal"
+                        data-toggle="modal">New post
+                </button>
 			</b:panel>
 			<b:panel title="Description" look="primary" collapsible="false">
 				<b:row>
@@ -57,20 +76,19 @@
 				<h:outputText rendered="#{empty communityDataBean.files}" value="No files uploaded yet. Please contact the community admin." />
 			</b:panel>
 
-			<p:repeat value="#{communityDataBean.getActualCommunityStream()}"
-				var="posts">
+			<c:forEach items="#{communityDataBean.communityPosts}" var="posts">
 				<b:modal title="New comment to #{posts.user.username}'s post"
 					styleClass="newCommentModal_#{posts.id}">
 					<h:form>
 						<b:row>
 							<b:inputTextarea span="12" rows="4" var="inputTextChild"
-								value="#{activityStreamBean.inputTextChild}"
+								value="#{communityDataBean.inputTextChild}"
 								placeholder="Enter your comment" />
 						</b:row>
 						<b:row>
 							<b:column span="4">
 								<b:commandButton value="Reply" look="primary" dismiss="modal"
-									actionListener="#{activityStreamBean.newPost(posts)}" />
+									actionListener="#{communityDataBean.newPost(posts)}" />
 								<b:button value="Close" dismiss="modal" />
 							</b:column>
 						</b:row>
@@ -130,7 +148,7 @@
 						</h:form>
 					</f:facet>
 				</b:panel>
-			</p:repeat>
+			</c:forEach>
 
 		</b:container>
 	</b:jumbotron>

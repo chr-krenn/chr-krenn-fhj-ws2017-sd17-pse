@@ -11,6 +11,7 @@ import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
 import org.se.lab.service.ActivityStreamService;
 import org.se.lab.service.CommunityService;
+import org.se.lab.service.PostService;
 import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
 import org.se.lab.utils.ArgumentChecker;
@@ -28,6 +29,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,12 +44,14 @@ public class CommunityDataBean implements Serializable {
     private String name;
     private boolean publicState;
     private String description;
+    private String inputText;
+    private String inputTextChild;
     private Community dummyCommunity;
     private Community actualCommunity;
     private Map<String, Object> session;
     private User user;
     private List<Post> communityPosts;
-    private String errorMsg = "";
+	private String errorMsg = "";
     private List<File> files = new ArrayList<>();
     private String joinLeaveState;
     private boolean isPortalAdmin = false;
@@ -60,6 +64,9 @@ public class CommunityDataBean implements Serializable {
 
     @Inject
     private ActivityStreamService activityStreamService;
+    
+    @Inject
+    private PostService pservice;
 
     @PostConstruct
     public void init() {
@@ -69,6 +76,8 @@ public class CommunityDataBean implements Serializable {
         user = getUser(userId);
         setPortalAdmin();
         getFiles();
+        
+        getActualCommunityStream();
     }
 
     public User getUser(int id) {
@@ -146,6 +155,29 @@ public class CommunityDataBean implements Serializable {
     public boolean showDeleteButton(Post p) {
         return p != null && p.getCommunity() != null
                 && p.getCommunity().getPortaladminId() == user.getId();
+    }
+    
+    public void newPost(Post parentPost) {
+        if (parentPost == null) {
+            try {
+                 pservice.createChildPost(null, actualCommunity, user, inputText, new Date());
+            } catch (ServiceException e) {
+                LOG.error("could not create root post", e);
+            }
+        } else {
+            LOG.info("appending comment to post: " + inputTextChild);
+            try {
+                pservice.createChildPost(parentPost, actualCommunity, user, inputTextChild, new Date());
+            } catch (ServiceException e) {
+                LOG.error("could not create leaf post", e);
+            }
+        }
+        
+        try {
+            context.redirect("/pse/communityprofile.xhtml");
+        } catch (IOException e) {
+            LOG.error("Can't redirect to /pse/communityprofile.xhtml");
+        }
     }
 
     public void deleteFile(File file) {
@@ -278,7 +310,31 @@ public class CommunityDataBean implements Serializable {
         this.joinLeaveState = joinLeaveState;
     }
 
-    private void writeObject(ObjectOutputStream stream)
+    public String getInputText() {
+		return inputText;
+	}
+
+	public void setInputText(String inputText) {
+		this.inputText = inputText;
+	}
+
+	public String getInputTextChild() {
+		return inputTextChild;
+	}
+
+	public void setInputTextChild(String inputTextChild) {
+		this.inputTextChild = inputTextChild;
+	}
+
+    public List<Post> getCommunityPosts() {
+		return communityPosts;
+	}
+
+	public void setCommunityPosts(List<Post> communityPosts) {
+		this.communityPosts = communityPosts;
+	}
+	
+	private void writeObject(ObjectOutputStream stream)
             throws IOException {
         stream.defaultWriteObject();
     }
