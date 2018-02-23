@@ -40,20 +40,23 @@ public class LoginBean implements Serializable {
     public void doLogin() {
         try {
             user = service.login(getUsername(), getPassword());
-        } catch (ServiceException e) {
-            String erroMsg = "Ooops something went wrong - pls contact the admin or try later";
-            LOG.error(erroMsg, e);
-            setErrorMsg(erroMsg);
-        }
 
-        if (user == null) {
-            setErrorMsg("wrong Credentials - please try again");
-        } else {
             context = FacesContext.getCurrentInstance().getExternalContext();
             context.getSessionMap().put("user", user.getId());
 
             RedirectHelper.redirect("/pse/activityStream.xhtml");
+
+        } catch (ServiceException e) {
+            String erroMsg = "Ooops something went wrong - pls contact the admin or try later";
+            LOG.error(erroMsg, e);
+            setErrorMsg(erroMsg);
+        } catch (Exception e) {
+            String msg = "Something went wrong, pls contact the admin or try again.";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
         }
+
+
     }
 
     public void logout() {

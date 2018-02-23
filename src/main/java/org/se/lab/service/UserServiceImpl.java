@@ -9,6 +9,7 @@ import org.se.lab.utils.ArgumentChecker;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,7 +80,6 @@ public class UserServiceImpl implements UserService {
         ArgumentChecker.assertNotNullAndEmpty(password, "password");
 
         User user = loadUserByUsername(username);
-        ArgumentChecker.assertNotNull(user, "user");
 
         return pwEncoder.checkPassword(password, user.getPassword()) ? user : null;
     }
@@ -89,6 +89,10 @@ public class UserServiceImpl implements UserService {
         ArgumentChecker.assertNotNullAndEmpty(username, "username");
         try {
             return userDAO.findByUsername(username);
+        } catch (NoResultException e) {
+            String msg = "No result on User " + username;
+            LOG.warn(msg, e);
+            throw new ServiceException(msg);
         } catch (IllegalArgumentException e) {
             String msg = "Can't get user by Username(ill.argument)";
             LOG.error(msg, e);

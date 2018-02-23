@@ -17,8 +17,7 @@
 			<h2>Login</h2>
 			<b:panel>
 				<p:messages id="messages" />
-				<h:outputText id="error" value="#{loginBean.errorMsg}"
-							  rendered="#{not empty loginBean.errorMsg}" style="color:#ff0c13;" />
+				<h:outputText id="error" value="#{loginBean.errorMsg}" style="color:#ff0c13;"/>
 				<b:form id="loginForm">
 					<b:inputText id="username" name="username"
 								 value="#{loginBean.username}" label="Username" />
