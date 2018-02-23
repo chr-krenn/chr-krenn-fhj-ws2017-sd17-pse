@@ -50,8 +50,6 @@ public class UserDataBean implements Serializable {
     private String contactName;
     private String id = "";
     private String hideAddRemove = "";
-    private String fromHeader = "";
-    private String fromHeaderCheck;
     private String userProfId;
     private String hideAddRemoveCheck;
     private int userId = 0;
@@ -76,13 +74,7 @@ public class UserDataBean implements Serializable {
 
             userId = (int) session.get("user");
             userProfId = String.valueOf(context.getFlash().get("uid"));
-            fromHeaderCheck = String.valueOf(context.getFlash().get("fromHeader"));
-
-
-            if (fromHeaderCheck != null && fromHeaderCheck.equals("1")) {
-                userProfId = null;
-            }
-
+          
             this.initializeProfile(userId, userProfId);
 
 
@@ -96,8 +88,6 @@ public class UserDataBean implements Serializable {
                 setErrorMsg(errorMsg);
             }
 
-        } else {
-            RedirectHelper.redirect("/pse/index.xhtml");
         }
     }
 
@@ -129,11 +119,9 @@ public class UserDataBean implements Serializable {
 
 
         hideAddRemove = context.getRequestParameterMap().get("hideAddRemove");
-        fromHeader = context.getRequestParameterMap().get("fromHeader");
 
         flash.put("uid", id);
         flash.put("hideAddRemove", hideAddRemove);
-        flash.put("fromHeader", fromHeader);
 
         hideAddRemoveCheck = String.valueOf(context.getFlash().get("hideAddRemove"));
         //Hide Buttons for own profile
