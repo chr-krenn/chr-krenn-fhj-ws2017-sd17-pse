@@ -83,7 +83,8 @@ public class CommunityServiceImpl implements CommunityService {
         LOG.debug("delete " + community);
 
         try {
-            communityDAO.delete(community);
+            /*ToDo bugfix wenn zeit, keine anforderung da nicht in den Userstories, eventuell komplett entfernen!*/
+        	//communityDAO.delete(community);
         } catch (IllegalArgumentException e) {
             String msg = "Can't delete Post - illegal Argument";
             LOG.error(msg, e);

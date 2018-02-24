@@ -44,12 +44,11 @@ public abstract class PageObject {
 		return new CommunityOverviewPage(driver);
 	}
 	
-	public CommunityProfilePage getCommunityProfilePage() {
+	public CommunityProfilePage getCommunityProfilePage(String button) {
 		// navigate to communityoverview.xhtml
 		driver.findElement(By.id("j_idt10:j_idt13")).click();
 		// navigate to community
-		driver.findElement(By.id("j_idt36:j_idt37:0:j_idt42")).click();
-
+		driver.findElement(By.id(button)).click();
 		return new CommunityProfilePage(driver);
 	}
 

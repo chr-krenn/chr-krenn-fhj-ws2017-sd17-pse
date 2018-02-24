@@ -66,4 +66,12 @@ public class CommunityProfilePage extends PageObject {
 	public void refresh() {
 		driver.get(baseUrl + url);
 	}
+
+	public CommunityProfilePage newPost(String message) {
+		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
+		driver.findElement(By.id("input_j_idt24:j_idt26")).clear();
+		driver.findElement(By.id("input_j_idt24:j_idt26")).sendKeys(message);
+		driver.findElement(By.id("j_idt24:j_idt29")).click();
+		return this;
+	}
 }

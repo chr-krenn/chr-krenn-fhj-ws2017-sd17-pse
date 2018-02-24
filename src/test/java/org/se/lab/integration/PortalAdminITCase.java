@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public class PortalAdminITCase {
 	private LoginPage loginPage;
@@ -51,7 +52,7 @@ public class PortalAdminITCase {
 	}
 	
 
-	@Test
+	@Test //#16 als Portaladmin möchte ich Dokumente editieren
 	public void testUploadFile() throws IOException {	
 		
 		File tempFile;
@@ -59,7 +60,7 @@ public class PortalAdminITCase {
 		tempFile = File.createTempFile("tmp_upload_", ".jpg");
 		tempFile.deleteOnExit();
 		
-		communityProfilePage = activityStreamPage.getCommunityProfilePage();
+		communityProfilePage = activityStreamPage.getCommunityProfilePage("j_idt36:j_idt37:0:j_idt42");
 		communityProfilePage.uploadFile(tempFile.getAbsolutePath());
 		communityProfilePage.refresh();
 		
@@ -68,6 +69,22 @@ public class PortalAdminITCase {
 		assertTrue(ListHelper.AnyContains(files, tempFile.getName()));
 	}
 
+	@Test //#20 Als Portaladmin möchte ich News(Posts) bearbeiten (löschen) können.
+	public void testDeletePost() throws IOException {
+		String message = UUID.randomUUID().toString();
+		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
+		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt36:j_idt37:2:j_idt42");
+		communityProfilePage = communityProfilePage.newPost(message);
+		activityStreamPage = communityProfilePage.getActivityStreamPage();
+		assertTrue(activityStreamPage.getAllPosts().contains(message));
+		
+		activityStreamPage = activityStreamPage.deletePost("j_idt52");
+		activityStreamPage = activityStreamPage.getActivityStreamPage();
+
+		assertFalse(activityStreamPage.getAllPosts().contains(message));
+		
+	}
+	
 	@After
 	public void tearDown() throws Exception {
 		loginPage.tearDown();

@@ -106,7 +106,7 @@ public class UserITCase {
 	@Test
 	public void testMostRecentMessagesOnTop() throws ParseException {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
-		communityProfilePage = communityOverviewPage.getCommunityProfilePage();
+		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt36:j_idt37:0:j_idt42");
 
 		List<String> messageHeaders = new ArrayList<String>();
 		messageHeaders = communityProfilePage.getPostPanelHeaders();
@@ -200,7 +200,7 @@ public class UserITCase {
 	@Test
 	public void testUserAccessCommunitiesPage() {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
-		communityProfilePage = communityOverviewPage.getCommunityProfilePage();
+		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt36:j_idt37:0:j_idt42");
 
 		assertEquals(communityProfilePage.getActionButtonText(), "Leave");
 		assertTrue(communityProfilePage.getPostPanelHeaders().size() > 0); // check if there are posts in
@@ -211,7 +211,7 @@ public class UserITCase {
 	@Test
 	public void testOnlyCommunityMessagesOnCommunityProfilePage() {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
-		communityProfilePage = communityOverviewPage.getCommunityProfilePage();
+		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt36:j_idt37:0:j_idt42");
 		for (String header : communityProfilePage.getPostPanelHeaders()) {
 			assertTrue(header.contains(communityProfilePage.getHeader())); // check if each headers in CommunityStream
 																			// contain community name
