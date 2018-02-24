@@ -114,10 +114,9 @@ public class CommunityDataBean implements Serializable {
     public void joinOrLeaveCommunity() {
 
         if (!isUserMember()) {
-            //TODO: getting exception here. Any ideas?
             communityService.join(actualCommunity, user);
         } else {
-            //TODO: missing method to to leave a community e.g. communityService.leave(community, user);
+        	 communityService.leave(actualCommunity, user);
         }
 
     }

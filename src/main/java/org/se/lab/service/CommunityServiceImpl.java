@@ -134,6 +134,30 @@ public class CommunityServiceImpl implements CommunityService {
             throw new ServiceException("Can't join user " + user + " to community " + community);
         }
     }
+    
+    @Override
+    public void leave(Community community, User user) {
+        LOG.debug("adding " + user + " to " + community);
+
+        if (community != null && user != null) {
+            try {
+                community.removeUsers(user);
+                update(community);
+            } catch (IllegalArgumentException e) {
+                String msg = "Can't leave User (illegal Agrument)";
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
+            } catch (Exception e) {
+                String msg = "Can't leave user " + user + " from community " + community;
+                LOG.error(msg, e);
+                throw new ServiceException(msg);
+            }
+
+        } else {
+            LOG.error("Can't join user " + user + " to community " + community);
+            throw new ServiceException("Can't join user " + user + " to community " + community);
+        }
+    }
 
     @Override
     public Community request(String name, String description, int portalAdmin) {

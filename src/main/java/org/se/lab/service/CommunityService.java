@@ -20,6 +20,8 @@ public interface CommunityService {
 	void update(Community community);
 
 	void join(Community community, User user);
+	
+	void leave(Community community, User user);
 
 	Community request(String name, String description, int portalAdminId);
 

@@ -91,8 +91,8 @@ public class Post implements Serializable {
 
     public void setParentpost(Post parentpost) {
         LOG.debug("setParentpost(" + parentpost + ")");
-        // Parent post can be null
-        //todo check if can be simplified
+       
+
         if (parentpost != null && this.id != 0 && parentpost.getId() == this.id)
             throw new IllegalArgumentException(SELF_REFERENTIAL_ERROR);
         this.parentpost = parentpost;

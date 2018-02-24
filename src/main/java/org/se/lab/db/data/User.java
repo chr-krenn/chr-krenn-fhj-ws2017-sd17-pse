@@ -110,6 +110,11 @@ public class User implements Serializable {
         ArgumentChecker.assertNotNull(community, "community");
         communities.add(community);
     }
+    
+    public void removeCommunity(Community community) {
+        ArgumentChecker.assertNotNull(community, "community");
+        communities.remove(community);
+    }
 
     public List<Community> getCommunities() {
         return communities;

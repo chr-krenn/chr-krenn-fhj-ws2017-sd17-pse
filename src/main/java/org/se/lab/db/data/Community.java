@@ -65,6 +65,15 @@ public class Community implements Serializable {
         users.add(user);
         user.addCommunity(this);
     }
+    
+
+    public void removeUsers(User user) {
+        ArgumentChecker.assertNotNull(user, "user");
+
+        users.remove(user);
+        
+        user.removeCommunity(this);
+    }
 
     public Enumeration getState() {
         return state;
