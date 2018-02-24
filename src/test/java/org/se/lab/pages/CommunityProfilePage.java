@@ -19,7 +19,7 @@ public class CommunityProfilePage extends PageObject {
 		return driver.findElement(By.cssSelector("h2")).getText();
 	}
 	public String getActionButtonText() {
-		return driver.findElement(By.id("j_idt25:j_idt26")).getText();
+		return driver.findElement(By.id("j_idt33:j_idt34")).getText();
 	}
 	public CommunityProfilePage uploadFile(String filepath) {
 		
@@ -39,19 +39,21 @@ public class CommunityProfilePage extends PageObject {
 	
 	public List<String> getPostPanelHeaders(){
 		List<String> result = new ArrayList<String>();
-		List<WebElement> rows = driver.findElements(By.xpath("//div[@id='j_idt33:1:j_idt42']/div[@class='panel-heading']"));
+		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='panel-heading']"));
 		
 		for(int i = 0; i < rows.size(); i++) {
 			result.add(rows.get(i).getText());			
 		}
-		
+		for (int i = 0; i < 4; i++) {
+			result.remove(0);
+		}
 		return result;
 	}
 	
 	public List<String> getFileNames() {
 					
 		List<String> result = new ArrayList<String>();
-		List<WebElement> rows = driver.findElements(By.xpath("//div[@id='j_idt32content']/div/form/button[1]/span[2]"));
+		List<WebElement> rows = driver.findElements(By.xpath("//div[@id='j_idt41content']/div/form/button[1]/span[2]"));
 		
 		for(int i = 0; i < rows.size(); i++) {
 			result.add(rows.get(i).getText());			

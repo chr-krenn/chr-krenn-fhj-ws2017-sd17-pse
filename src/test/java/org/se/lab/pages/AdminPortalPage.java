@@ -10,18 +10,18 @@ public class AdminPortalPage extends PageObject {
 	}
 
 	public String getPendingCommunities() {
-		return driver.findElement(By.id("j_idt22:j_idt23")).getText();
+		return driver.findElement(By.id("j_idt23:j_idt24")).getText();
 	}
 
 	public String getApprovedCommunities() {
-		return driver.findElement(By.id("j_idt31:j_idt32")).getText();
+		return driver.findElement(By.id("j_idt32:j_idt33")).getText();
 	}
 
 	public String getFirstPendingCommunityName() {
-		return driver.findElement(By.xpath("//*[@id=\"j_idt22:j_idt23\"]/tbody/tr[1]/td[2]")).getText();
+		return driver.findElement(By.xpath("//*[@id=\"j_idt23:j_idt24\"]/tbody/tr[1]/td[2]")).getText();
 	}
 	public String getLastPendingCommunityName() {
-		return driver.findElement(By.xpath("//*[@id=\"j_idt22:j_idt23\"]/tbody/tr[" + String.valueOf(getPendingCommunityTableRowIndex()) + "]/td[2]")).getText();
+		return driver.findElement(By.xpath("//*[@id=\"j_idt23:j_idt24\"]/tbody/tr[" + String.valueOf(getPendingCommunityTableRowIndex()) + "]/td[2]")).getText();
 	}
 
 	public String getFirstPendingCommunityDescription() {
@@ -35,11 +35,11 @@ public class AdminPortalPage extends PageObject {
 		return driver.findElements(By.xpath("//*[@id=\"j_idt22:j_idt23\"]/tbody/tr")).size()-1;
 	}
 	public void declineFirstPendingCommunity() {
-		driver.findElement(By.id("j_idt22:j_idt23:0:j_idt28")).click();
+		driver.findElement(By.id("j_idt23:j_idt24:0:j_idt29")).click();
 	}
 
 	public void approveFirstPendingCommunity() {
-		driver.findElement(By.id("j_idt22:j_idt23:0:j_idt29")).click();
+		driver.findElement(By.id("j_idt23:j_idt24:0:j_idt30")).click();
 	}
 	
 }

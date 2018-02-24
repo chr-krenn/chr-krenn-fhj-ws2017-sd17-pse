@@ -10,11 +10,11 @@ public class CommunityOverviewPage extends PageObject {
 
 	public void createCommunity(String name, String description) {
 		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
-		driver.findElement(By.id("input_j_idt21:j_idt24")).clear();
-		driver.findElement(By.id("input_j_idt21:j_idt24")).sendKeys(name);
-		driver.findElement(By.id("input_j_idt21:j_idt26")).clear();
-		driver.findElement(By.id("input_j_idt21:j_idt26")).sendKeys(description);
-		driver.findElement(By.id("j_idt21:sendbutton")).click();
+		driver.findElement(By.id("input_j_idt22:j_idt25")).clear();
+		driver.findElement(By.id("input_j_idt22:j_idt25")).sendKeys(name);
+		driver.findElement(By.id("input_j_idt22:j_idt27")).clear();
+		driver.findElement(By.id("input_j_idt22:j_idt27")).sendKeys(description);
+		driver.findElement(By.id("j_idt22:sendbutton")).click();
 	}
 
 	public String getCommunityName() {
@@ -26,6 +26,6 @@ public class CommunityOverviewPage extends PageObject {
 	}
 
 	public String getAvailableCommunities() {
-		return driver.findElement(By.id("j_idt31:j_idt32")).getText();
+		return driver.findElement(By.id("j_idt36:j_idt37")).getText();
 	}
 }

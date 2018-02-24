@@ -66,15 +66,15 @@ public class UserITCase {
 
 	private String adminUsername = "dogic";
 	private String adminPassword = "pass";
-	private List<String> userCommunities = new ArrayList<>();
-	;
+	private List<String> userCommunities = new ArrayList<>();;
+
 	@Before
 	public void setUp() throws Exception {
 		userCommunities.add("Computer Vision");
 		userCommunities.add("Bachelorarbeit 1");
 		userCommunities.add("English for Scientific Purposes");
 		userCommunities.add("Heterogene Systeme");
-		
+
 		loginPage = new LoginPage();
 		activityStreamPage = loginPage.login(username, password);
 		activityStreamPage.getActivityStreamPage();
@@ -83,40 +83,44 @@ public class UserITCase {
 	@Test
 	public void testValidLogin() {
 		assertEquals("Activity Stream", activityStreamPage.getHeader()); // check if login refers to Activitiy Stream
-		assertEquals(activityStreamPage.getProfilePage().getLastName().toLowerCase(), username); // check if correct user is logged in
+		assertEquals(activityStreamPage.getProfilePage().getLastName().toLowerCase(), username); // check if correct
+																									// user is logged in
 	}
 
 	@Test
 	public void testLogout() {
 		activityStreamPage.logout();
 		activityStreamPage.refresh();
-		assertEquals("Login", activityStreamPage.getHeader()); //check if user is still logged out after refresh
+		assertEquals("Login", activityStreamPage.getHeader()); // check if user is still logged out after refresh
 	}
 
 	/* user wants to see posts on Activity Stream */
 	@Test
 	public void testPostsPresent() {
 		assertTrue(activityStreamPage.getAllPosts().length() > 0); // check if there are posts
-		assertTrue(activityStreamPage.getAllPosts().toLowerCase().contains("posted")); // check panel header to identify posts
+		assertTrue(activityStreamPage.getAllPosts().toLowerCase().contains("posted")); // check panel header to identify
+																						// posts
 	}
+
 	/* # 29 user wants to see most recent posts on top of the page */
 	@Test
 	public void testMostRecentMessagesOnTop() throws ParseException {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 		communityProfilePage = communityOverviewPage.getCommunityProfilePage();
 
-		List <String> messageHeaders = new ArrayList<String>();
+		List<String> messageHeaders = new ArrayList<String>();
 		messageHeaders = communityProfilePage.getPostPanelHeaders();
-		//messageHeader = "Posted in Bachelorarbeit 1 at Wed May 31 07:21:26 CEST 2017"
-		for(int i = 1; i < messageHeaders.size(); i++) {	
-			String newDate = messageHeaders.get(i-1).split(" at ")[1]; // start with 0
-			String oldDate = messageHeaders.get(i).split(" at ")[1];
+		// messageHeader = "Posted in Bachelorarbeit 1 at Wed Nov 22 13:31:50 CET 2017"
+		for (int i = 0; i < messageHeaders.size()-1; i++) {
+			String newDate = messageHeaders.get(i).split(" at ")[1]; // start with 0
+			String oldDate = messageHeaders.get(i+1).split(" at ")[1];
 			DateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 			Date actualDate = format.parse(newDate);
 			Date date = format.parse(oldDate);
-			assertTrue(date.before(actualDate));		
+			assertTrue(date.before(actualDate));
 		}
 	}
+
 	/* user wants to post new messages/comments shown in Activity Stream */
 	@Test
 	public void testNewPost() {
@@ -125,18 +129,21 @@ public class UserITCase {
 		assertTrue(activityStreamPage.getAllPosts().contains(message)); // check if new post is shown in Activity Stream
 	}
 
-	/* UserOverView 
-	 * 	- access: link in navigation header */ 
+	/*
+	 * UserOverView - access: link in navigation header
+	 */
 	@Test
 	public void testUserListPresent() {
-		userOverViewPage = activityStreamPage.getUserOverviewPage(); 
-		assertTrue(userOverViewPage.getAvailableUsers().contains("Baar")); // check if contacts are shown in contacts list
+		userOverViewPage = activityStreamPage.getUserOverviewPage();
+		assertTrue(userOverViewPage.getAvailableUsers().contains("Baar")); // check if contacts are shown in contacts
+																			// list
 		assertTrue(userOverViewPage.getAvailableUsers().contains("Gumhold"));
 		assertTrue(userOverViewPage.getAvailableUsers().contains("Ionescu"));
 	}
 
-	/* CommunityOverView 
-	 * 	- access: link in navigation header */ 
+	/*
+	 * CommunityOverView - access: link in navigation header
+	 */
 	@Test
 	public void testCommunityListPresent() {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
@@ -148,7 +155,6 @@ public class UserITCase {
 
 	}
 
-
 	/* user wants to create/request a new community */
 	@Test
 	public void testCreateCommunity() {
@@ -159,10 +165,10 @@ public class UserITCase {
 		communityOverviewPage.createCommunity(cname, cdesc);
 
 		// login as admin to verify community has been requested
-		activityStreamPage = loginPage.login(adminUsername, adminPassword); 
+		activityStreamPage = loginPage.login(adminUsername, adminPassword);
 		adminPortalPage = activityStreamPage.getAdminPortalPage();
 		String pendingCommunities = adminPortalPage.getPendingCommunities();
-	
+
 		assertTrue(pendingCommunities.contains(cname));
 		assertTrue(pendingCommunities.contains(cdesc));
 	}
@@ -171,16 +177,16 @@ public class UserITCase {
 	@Test
 	public void testUserProfilePresent() {
 		profilePage = activityStreamPage.getProfilePage();
-		//verify some profile data
-		assertEquals(profilePage.getLastName().toLowerCase(), username); 
-		assertEquals(profilePage.getFirstName(),"Robert");
-		assertEquals(profilePage.getLastName(),"Ionescu");
-		assertEquals(profilePage.getMailAddress(),"robert.ionescu@edu.fh-joanneum.at");
-	}	
+		// verify some profile data
+		assertEquals(profilePage.getLastName().toLowerCase(), username);
+		assertEquals(profilePage.getFirstName(), "Robert");
+		assertEquals(profilePage.getLastName(), "Ionescu");
+		assertEquals(profilePage.getMailAddress(), "robert.ionescu@edu.fh-joanneum.at");
+	}
 
-	/* user wants to see on his own profile
-	 * 		- list user's contacts
-	 * 		- list of user's communities
+	/*
+	 * user wants to see on his own profile - list user's contacts - list of user's
+	 * communities
 	 */
 	@Test
 	public void testDepartmentsAndContactsPresent() {
@@ -188,31 +194,34 @@ public class UserITCase {
 
 		assertTrue(profilePage.getNumberOfContacts() > 0);
 		assertTrue(profilePage.getNumberOfCommunities() > 0);
-	}	
+	}
+
 	/* # 29 user wants as to read CommunityStream - user is member */
 	@Test
 	public void testUserAccessCommunitiesPage() {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 		communityProfilePage = communityOverviewPage.getCommunityProfilePage();
 
-		assertEquals(communityProfilePage.getActionButtonText(), "Leave"); 
-		assertTrue(communityProfilePage.getPostPanelHeaders().size() > 0); // check if there are posts in CommunityStream
+		assertEquals(communityProfilePage.getActionButtonText(), "Leave");
+		assertTrue(communityProfilePage.getPostPanelHeaders().size() > 0); // check if there are posts in
+																			// CommunityStream
 	}
-	/* # 29  user wants to see only Community posts on Community Stream  */
+
+	/* # 29 user wants to see only Community posts on Community Stream */
 	@Test
 	public void testOnlyCommunityMessagesOnCommunityProfilePage() {
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
 		communityProfilePage = communityOverviewPage.getCommunityProfilePage();
-
-		for(String header : communityProfilePage.getPostPanelHeaders()) {
-			assertTrue(header.contains(communityProfilePage.getHeader())); //check if each headers in CommunityStream contain community name 
-		} 
+		for (String header : communityProfilePage.getPostPanelHeaders()) {
+			assertTrue(header.contains(communityProfilePage.getHeader())); // check if each headers in CommunityStream
+																			// contain community name
+		}
 	}
 
 	/* check if navigation links are present - only when user is logged in */
 	@Test
 	public void testNavigationHeaderLinks() {
-		List<String> links = activityStreamPage.getAllNavbarLinks();	
+		List<String> links = activityStreamPage.getAllNavbarLinks();
 		assertTrue(ListHelper.AnyContains(links, "activityStream.xhtml"));
 		assertTrue(ListHelper.AnyContains(links, "communityoverview.xhtml"));
 	}
@@ -230,9 +239,10 @@ public class UserITCase {
 		assertEquals(numberOfAddableUsers - 1, userOverViewPage.getNumberOfAddableUsers()); // user is no longer addable
 		assertEquals(numberOfRemovableUsers + 1, userOverViewPage.getNumberOfRemovableUsers()); // user is now removable
 
-		userOverViewPage = userOverViewPage.removeUser(2); // remove user from contacts - otherwise user++ with every test-run
+		userOverViewPage = userOverViewPage.removeUser(2); // remove user from contacts - otherwise user++ with every
+															// test-run
 
-		assertEquals(numberOfAddableUsers, userOverViewPage.getNumberOfAddableUsers()); 
+		assertEquals(numberOfAddableUsers, userOverViewPage.getNumberOfAddableUsers());
 		assertEquals(numberOfRemovableUsers, userOverViewPage.getNumberOfRemovableUsers());
 	}
 

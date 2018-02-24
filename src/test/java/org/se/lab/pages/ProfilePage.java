@@ -10,22 +10,22 @@ public class ProfilePage extends PageObject {
 	}
 
 	public String getFirstName() {
-		return driver.findElement(By.xpath("//div[@id='j_idt61']/span")).getText();
+		return driver.findElement(By.xpath("//div[@id='j_idt62']/span")).getText();
 	}
 	
 	public String getLastName() {
-		return driver.findElement(By.xpath("//div[@id='j_idt66']/span")).getText();
+		return driver.findElement(By.xpath("//div[@id='j_idt67']/span")).getText();
 	}	
 	
 	public String getMailAddress() {
-		return driver.findElement(By.xpath("//div[@id='j_idt71']/span")).getText();
+		return driver.findElement(By.xpath("//div[@id='j_idt72']/span")).getText();
 	}
 	
 	public int getNumberOfContacts() {
-		return driver.findElements(By.xpath("//table[@id='j_idt118:j_idt119']/tbody/tr")).size();
+		return driver.findElements(By.xpath("//table[@id='j_idt119:j_idt120']/tbody/tr")).size();
 	}
 		
 	public int getNumberOfCommunities() {
-		return driver.findElements(By.xpath("//table[@id='j_idt129:j_idt130']/tbody/tr")).size();
+		return driver.findElements(By.xpath("//table[@id='j_idt130:j_idt131']/tbody/tr")).size();
 	}
 }

@@ -11,7 +11,7 @@ public class UserOverviewPage extends PageObject {
 	}
 
 	public String getAvailableUsers() {
-		return driver.findElement(By.id("j_idt22:j_idt23")).getText();
+		return driver.findElement(By.id("j_idt23:j_idt24")).getText();
 	}
 	
 	public int getNumberOfAddableUsers() {
@@ -24,13 +24,13 @@ public class UserOverviewPage extends PageObject {
 	
 	public UserOverviewPage addUser(int userId) {
 		
-		ClickButton(userId, "td > .btn-primary");		
+		ClickButton(userId, "td > .btn-primary");		//my click button by button id: j_idt23:j_idt24:1:j_idt30
 		return this;
 	}	
 	
 	public UserOverviewPage removeUser(int userId) {
 		
-		ClickButton(userId, "td > .btn-danger");		
+		ClickButton(userId, "td > .btn-danger");		//my click button dirct with id: j_idt23:j_idt24:1:j_idt33
 		return this;
 	}
 	

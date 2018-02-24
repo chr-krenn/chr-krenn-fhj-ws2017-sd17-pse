@@ -48,7 +48,7 @@ public abstract class PageObject {
 		// navigate to communityoverview.xhtml
 		driver.findElement(By.id("j_idt10:j_idt13")).click();
 		// navigate to community
-		driver.findElement(By.id("j_idt31:j_idt32:2:j_idt37")).click();
+		driver.findElement(By.id("j_idt36:j_idt37:0:j_idt42")).click();
 
 		return new CommunityProfilePage(driver);
 	}

@@ -40,13 +40,14 @@ public class ActivityStreamPage extends PageObject {
 
 	public ActivityStreamPage newPost(String message) {
 		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
-		driver.findElement(By.id("input_j_idt21:j_idt23")).clear();
-		driver.findElement(By.id("input_j_idt21:j_idt23")).sendKeys(message);
-		driver.findElement(By.id("j_idt21:j_idt26")).click();
+		driver.findElement(By.id("input_j_idt22:j_idt24")).clear();
+		driver.findElement(By.id("input_j_idt22:j_idt24")).sendKeys(message);
+		driver.findElement(By.id("j_idt22:j_idt27")).click();
 		return this;
 	}
 
 	public void refresh() {
 		driver.get(baseUrl + url);
 	}
+
 }
