@@ -36,7 +36,7 @@ public class UserOverviewPage extends PageObject {
 	
 	private void ClickButton(int userId, String buttonClass) {
 		
-		List<WebElement> rows = driver.findElements(By.xpath("//table[@id='j_idt22:j_idt23']/tbody/tr"));
+		List<WebElement> rows = driver.findElements(By.xpath("//table[@id='j_idt23:j_idt24']/tbody/tr"));
 		
 		for(int i = 0; i < rows.size(); i++) {
 			WebElement row = rows.get(i);
