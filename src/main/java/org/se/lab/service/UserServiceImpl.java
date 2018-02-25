@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
     @Inject
     private EnumerationDAO enumDAO;
 
-
     private PasswordEncoder pwEncoder = new PasswordEncoder();
 
     @Override

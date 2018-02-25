@@ -63,7 +63,8 @@ public class UserProfile implements Serializable {
         setDescription(description);
     }
 
-    public UserProfile() {}
+    public UserProfile() {
+    }
 
     public int getId() {
         return id;
@@ -74,7 +75,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setFirstname(String firstname) {
-        ArgumentChecker.assertNotNullAndEmpty(firstname,"firstname");
+        ArgumentChecker.assertNotNullAndEmpty(firstname, "firstname");
         this.firstname = firstname;
     }
 
@@ -83,11 +84,14 @@ public class UserProfile implements Serializable {
     }
 
     public void setLastname(String lastname) {
-        ArgumentChecker.assertNotNullAndEmpty(lastname,"lastname");
+        ArgumentChecker.assertNotNullAndEmpty(lastname, "lastname");
         this.lastname = lastname;
     }
 
     public byte[] getPicture() {
+        if (picture == null) {
+            return null;
+        }
         return Arrays.copyOf(picture, picture.length);
     }
 
@@ -100,7 +104,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setAddress(String address) {
-        ArgumentChecker.assertNotNullAndEmpty(address,"address");
+        ArgumentChecker.assertNotNullAndEmpty(address, "address");
         this.address = address;
     }
 

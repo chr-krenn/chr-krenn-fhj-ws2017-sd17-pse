@@ -1,10 +1,6 @@
 package org.se.lab.web;
 
 import org.apache.log4j.Logger;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
@@ -19,7 +15,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -37,7 +32,6 @@ public class UserDataBean implements Serializable {
 
     private Flash flash;
     private ExternalContext context;
-    private StreamedContent photo;
 
     private User user;
     private User loggedInUser;
@@ -74,7 +68,7 @@ public class UserDataBean implements Serializable {
 
             userId = (int) session.get("user");
             userProfId = String.valueOf(context.getFlash().get("uid"));
-          
+
             this.initializeProfile(userId, userProfId);
 
 
@@ -144,35 +138,6 @@ public class UserDataBean implements Serializable {
         RedirectHelper.reload();
     }
 
-    public StreamedContent getImage() {
-        DefaultStreamedContent content = null;
-        try {
-            content = new DefaultStreamedContent(new ByteArrayInputStream(user.getUserProfile().getPicture()));
-        } catch (Exception e) {
-            LOG.error(String.format("Exception during picture processing"), e);
-        }
-        return content;
-    }
-
-    public void uploadPicture(FileUploadEvent event) {
-
-        UploadedFile uploadedFile = event.getFile();
-        UserProfile userProfile = user.getUserProfile();
-        userProfile.setPicture(uploadedFile.getContents());
-        try {
-            service.addPictureToProfile(userProfile);
-            RedirectHelper.redirect("/pse/profile.xhtml");
-        } catch (ServiceException e) {
-            errorMsg = "Fehler beim Hochladen eines Bildes";
-            LOG.error(errorMsg);
-            setErrorMsg(errorMsg);
-        }
-    }
-
-    public boolean isImageExists() {
-        return user != null && user.getUserProfile().getPicture() != null;
-    }
-
     private void validateUserPriviles(User u) {
         try {
             this.isAdmin = service.hasUserTheRole(User.ROLE.ADMIN, u);
@@ -227,14 +192,6 @@ public class UserDataBean implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public StreamedContent getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(StreamedContent photo) {
-        this.photo = photo;
     }
 
     public List<User> getContacts() {
