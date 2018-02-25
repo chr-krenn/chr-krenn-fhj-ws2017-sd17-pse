@@ -2,38 +2,6 @@ package org.se.lab.integration;
 
 import org.junit.After;
 
-/* todo:
- * 
-#11User will Kontakt entfernen 
-
-#13User will mittels Navigation im Header Zugriff zu alle relevanten Seiten haben 
-
-#32Als user möchte ich auf meiner Userseite Abteilungen und Kontake einsehen können. 
-
-#34Als User möchte ich Userinformationen haben
-
-#26User will eine Übersicht der Communities 
-
-#9User will einen Kontakt hinzufügen 
-
-#23User will auf der Startseite nur globale Nachrichten und die seiner Communities sehen 
-
-#10User will im Header einen Link zum eigenen Profil 
-
-#12Als Administrator will ich neu erstellte Communities freischalten.
-
-#21User will Feedback auf Nachrichten in Activity Stream geben können 
-
-#22Der User will den Newsbereich eines Unternehmens lesen können. 
-
-#29User soll in der Community den jeweiligen Activity Stream sehen 
-
-#17Als user möchte ich einen zentralen Activity-Stream um eine gute Übersicht zu haben 
-
-#14Als Portaladmin möchte ich Dokumente für User als Download zur Verfügung stellen. 
-
- */
-
 import org.junit.Before;
 import org.junit.Test;
 import org.se.lab.helpers.ListHelper;
@@ -49,7 +17,6 @@ import java.util.Locale;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class UserITCase {

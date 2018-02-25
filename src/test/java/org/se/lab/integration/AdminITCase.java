@@ -4,7 +4,6 @@ import org.junit.After;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.se.lab.pages.*;
 
 import static org.junit.Assert.assertEquals;
@@ -12,11 +11,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.UUID;
 
 public class AdminITCase {
 	private LoginPage loginPage;
-	private CommunityOverviewPage communityOverviewPage;
 	private ActivityStreamPage activityStreamPage;
 	private AdminPortalPage adminPortalPage;
 
