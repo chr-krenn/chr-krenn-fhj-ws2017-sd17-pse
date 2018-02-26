@@ -1,6 +1,5 @@
 package org.se.lab.db.dao;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,60 +12,30 @@ public class UserTest {
     private User user4;
 
     @Before
-    public void setUp() throws Exception {
-        try {
-            user = new User("Test User", "test");
-            user.setId(1);
+    public void setUp() {
 
-            user2 = new User("Test User2", "test");
-            user2.setId(1);
+        user = new User("Test User", "test");
+        user.setId(1);
 
-            user3 = new User("Test User", "test");
-            user3.setId(1);
-        } catch (Exception ex) {
-            System.out.println(ex.getLocalizedMessage());
-        }
+        user2 = new User("Test User2", "test");
+        user2.setId(2);
+
+        user3 = new User("Test User3", "test");
+        user3.setId(3);
     }
 
-    @After
-    public void tearDown() throws Exception {
-
-    }
 
     @Test
     public void testConstructor() {
         Assert.assertEquals(1, user.getId());
         Assert.assertEquals("Test User", user.getUsername());
         Assert.assertEquals("test", user.getPassword());
-
     }
 
     @Test
     public void testConstructorProtected() {
         User actual = new User();
         Assert.assertTrue(actual instanceof User);
-    }
-
-    @Test
-    public void testHash() {
-        Assert.assertTrue(user.hashCode() == user3.hashCode());
-    }
-
-
-    @Test
-    public void testEquals() {
-        Assert.assertTrue(user.equals(user3));
-    }
-
-
-    @Test
-    public void testToString() {
-        String s = "User [id=1, username=Test User]";
-        Assert.assertTrue(user.toString().equals(s));
-    }
-
-    public void testEqualsFail() {
-        Assert.assertFalse(user.equals(null) && user.equals(new User()));
     }
 
     @Test(expected = IllegalArgumentException.class)
