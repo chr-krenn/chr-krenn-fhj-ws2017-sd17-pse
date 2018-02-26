@@ -26,6 +26,6 @@ public class ProfilePage extends PageObject {
 	}
 		
 	public int getNumberOfCommunities() {
-		return driver.findElements(By.xpath("//table[@id='j_idt130:j_idt131']/tbody/tr")).size();
+		return driver.findElements(By.xpath("//table[@id='j_idt133:j_idt134']/tbody/tr")).size();
 	}
 }
