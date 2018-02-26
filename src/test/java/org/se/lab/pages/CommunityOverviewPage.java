@@ -11,10 +11,9 @@ public class CommunityOverviewPage extends PageObject {
 	public void createCommunity(String name, String description) {
 		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
 		driver.findElement(By.id("input_j_idt25:j_idt28")).clear();
-		driver.findElement(By.id("input_j_idt22:j_idt28")).sendKeys(name);
+		driver.findElement(By.id("input_j_idt25:j_idt28")).sendKeys(name);
 		driver.findElement(By.id("input_j_idt25:j_idt30")).clear();
 		driver.findElement(By.id("input_j_idt25:j_idt30")).sendKeys(description);
-		driver.findElement(By.id("j_idt25:j_idt32:0")).click();
 		driver.findElement(By.id("j_idt25:sendbutton")).click();
 	}
 
