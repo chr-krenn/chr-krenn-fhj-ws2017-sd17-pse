@@ -39,11 +39,12 @@ public class ActivityStreamPage extends PageObject {
 	}
 	
 	public void likeFirstPost( ) {
-		driver.findElement(By.id("j_idt72:j_idt77")).click();
+		driver.findElement(By.xpath("//*/div[@class='panel-footer']/form/button")).click();
 	}
 	
 	public String getFirstPostLikes() {
-		return driver.findElement(By.id("j_idt72:j_idt73")).getText();
+		//return driver.findElement(By.id("j_idt72:j_idt73")).getText();
+		return driver.findElement(By.xpath("//*/div[@class='panel-footer']/form/div/div[contains(@class, 'well well-sm')]")).getText();
 	}
 
 	public ActivityStreamPage newPost(String message) {

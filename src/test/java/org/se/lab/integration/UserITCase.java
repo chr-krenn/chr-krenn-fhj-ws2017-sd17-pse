@@ -63,6 +63,9 @@ public class UserITCase {
 
 	@Test
 	public void testLikeFirstPost() throws Exception {
+		String message = UUID.randomUUID().toString();
+		activityStreamPage.newPost(message);
+		
 		// we don't like the first post
 		assertFalse(activityStreamPage.getFirstPostLikes().contains(username));
 
