@@ -203,9 +203,6 @@ public class UserITCase {
 
 		userOverViewPage = userOverViewPage.addUser(2); // add user with id=2
 
-		System.out.println("number of addable Users: " + numberOfAddableUsers);
-		System.out.println("number of removeable Users: " + numberOfRemovableUsers);
-		
 		assertEquals(numberOfAddableUsers - 1, userOverViewPage.getNumberOfAddableUsers()); // user is no longer addable
 		assertEquals(numberOfRemovableUsers + 1, userOverViewPage.getNumberOfRemovableUsers()); // user is now removable
 
