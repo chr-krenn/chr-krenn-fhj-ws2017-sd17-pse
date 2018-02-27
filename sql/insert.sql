@@ -8,6 +8,9 @@ TRUNCATE user_community;
 TRUNCATE userprofile;
 TRUNCATE users;
 TRUNCATE community;
+TRUNCATE file;
+TRUNCATE likes;
+TRUNCATE post_users;
 SET FOREIGN_KEY_CHECKS = 1;
 
 ALTER TABLE community AUTO_INCREMENT = 1; 
@@ -448,7 +451,7 @@ insert into post_users (Post_id, likedByUsers_id) values (181, 2);
 insert into post_users (Post_id, likedByUsers_id) values (7, 18);
 insert into post_users (Post_id, likedByUsers_id) values (13, 12);
 insert into post_users (Post_id, likedByUsers_id) values (40, 8);
-insert into post_users (Post_id, likedByUsers_id) values (73, 3);
+insert into post_users (Post_id, likedByUsers_id) values (73, 3);t
 insert into post_users (Post_id, likedByUsers_id) values (133, 15);
 insert into post_users (Post_id, likedByUsers_id) values (85, 19);
 insert into post_users (Post_id, likedByUsers_id) values (130, 4);
