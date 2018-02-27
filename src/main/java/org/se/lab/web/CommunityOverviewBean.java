@@ -3,6 +3,7 @@ package org.se.lab.web;
 import org.apache.log4j.Logger;
 import org.se.lab.db.data.Community;
 import org.se.lab.service.CommunityService;
+import org.se.lab.web.helper.RedirectHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -12,7 +13,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +41,7 @@ public class CommunityOverviewBean {
         Map<String, Object> session = context.getSessionMap();
         userId = (int) session.get("user");
 
-        communities = new ArrayList<>();
-        communities = service.findAll();
+        communities = service.getApproved();
     }
 
     public void reset() {
@@ -110,11 +109,7 @@ public class CommunityOverviewBean {
             LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
             service.delete(selectedCommunity);
 
-            try {
-                context.redirect("/pse/communityoverview.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/communityoverview.xhtml");
-            }
+            RedirectHelper.redirect("/pse/communityoverview.xhtml");
         }
     }
 
