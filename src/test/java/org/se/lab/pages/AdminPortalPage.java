@@ -10,11 +10,12 @@ public class AdminPortalPage extends PageObject {
 	}
 
 	public String getPendingCommunities() {
-		return driver.findElement(By.id("j_idt26:j_idt27")).getText();
+		return driver.findElement(By.cssSelector("div[class='panel panel-warning'")).getText();
 	}
 
 	public String getApprovedCommunities() {
-		return driver.findElement(By.id("j_idt36:j_idt37")).getText();
+		return driver.findElement(By.cssSelector("div[class='panel panel-success'")).getText();
+		//return driver.findElement(By.id("j_idt36:j_idt37")).getText();
 	}
 
 	public String getFirstPendingCommunityName() {
