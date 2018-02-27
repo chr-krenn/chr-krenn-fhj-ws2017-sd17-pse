@@ -5,26 +5,19 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
-import org.se.lab.db.data.Community;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
 import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
 import org.se.lab.web.helper.RedirectHelper;
 import org.se.lab.web.helper.Session;
-import org.se.lab.web.helper.SessionHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.context.Flash;
 import javax.inject.Inject;
+
 import javax.inject.Named;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Named
 @SessionScoped

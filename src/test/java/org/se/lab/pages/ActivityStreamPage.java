@@ -1,5 +1,7 @@
 package org.se.lab.pages;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,14 @@ public class ActivityStreamPage extends PageObject {
 		}
 
 		return result;
+	}
+	
+	public void likeFirstPost( ) {
+		driver.findElement(By.id("j_idt84:j_idt89")).click();
+	}
+	
+	public String getFirstPostLikes() {
+		return driver.findElement(By.id("j_idt84:j_idt85")).getText();
 	}
 
 	public ActivityStreamPage newPost(String message) {
