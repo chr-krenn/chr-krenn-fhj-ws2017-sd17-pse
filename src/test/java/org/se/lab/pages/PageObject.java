@@ -1,5 +1,7 @@
 package org.se.lab.pages;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
@@ -7,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public abstract class PageObject {
@@ -18,7 +21,7 @@ public abstract class PageObject {
 
 	private void setDefaults() {
 		baseUrl = "http://localhost:8080/pse/";
-		getDriver().manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	public PageObject() {
@@ -107,6 +110,19 @@ public abstract class PageObject {
 		} finally {
 			acceptNextAlert = true;
 		}
+	}
+	
+	public List<String> getPostPanelHeaders(){
+		List<String> result = new ArrayList<String>();
+		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='panel-heading']"));
+		
+		for(int i = 0; i < rows.size(); i++) {
+			result.add(rows.get(i).getText());			
+		}
+		for (int i = 0; i < 4; i++) {
+			result.remove(0);
+		}
+		return result;
 	}
 
 	public void tearDown() throws Exception {

@@ -63,7 +63,6 @@ public class PortalAdminITCase {
 		communityProfilePage = activityStreamPage.getCommunityProfilePage("j_idt36:j_idt37:0:j_idt42");
 		communityProfilePage.uploadFile(tempFile.getAbsolutePath());
 		communityProfilePage.refresh();
-		
 		List<String> files = communityProfilePage.getFileNames();
 		
 		assertTrue(ListHelper.AnyContains(files, tempFile.getName()));
@@ -76,11 +75,13 @@ public class PortalAdminITCase {
 		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt36:j_idt37:2:j_idt42");
 		communityProfilePage = communityProfilePage.newPost(message);
 		activityStreamPage = communityProfilePage.getActivityStreamPage();
+		activityStreamPage.refresh();
 		assertTrue(activityStreamPage.getAllPosts().contains(message));
 		
 		activityStreamPage = activityStreamPage.deletePost("j_idt52");
 		activityStreamPage = activityStreamPage.getActivityStreamPage();
 
+		activityStreamPage.refresh();
 		assertFalse(activityStreamPage.getAllPosts().contains(message));
 		
 	}

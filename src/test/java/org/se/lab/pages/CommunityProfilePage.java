@@ -37,19 +37,6 @@ public class CommunityProfilePage extends PageObject {
 		return this;
 	}
 	
-	public List<String> getPostPanelHeaders(){
-		List<String> result = new ArrayList<String>();
-		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='panel-heading']"));
-		
-		for(int i = 0; i < rows.size(); i++) {
-			result.add(rows.get(i).getText());			
-		}
-		for (int i = 0; i < 4; i++) {
-			result.remove(0);
-		}
-		return result;
-	}
-	
 	public List<String> getFileNames() {
 					
 		List<String> result = new ArrayList<String>();

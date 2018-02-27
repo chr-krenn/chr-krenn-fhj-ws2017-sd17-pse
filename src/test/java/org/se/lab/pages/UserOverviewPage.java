@@ -5,6 +5,8 @@ import java.util.List;
 import org.openqa.selenium.*;
 
 public class UserOverviewPage extends PageObject {
+	
+	private String url = "useroverview.xhtml";
 
 	public UserOverviewPage(WebDriver driver) {
 		super(driver);
@@ -56,6 +58,10 @@ public class UserOverviewPage extends PageObject {
 			addButtons.get(0).click();
 			break;
 		}
+	}
+
+	public void refresh() {
+		driver.get(baseUrl + url);
 	}
 	
 }
