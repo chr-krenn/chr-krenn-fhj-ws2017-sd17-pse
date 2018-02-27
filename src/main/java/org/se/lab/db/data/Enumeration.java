@@ -16,7 +16,8 @@ public class Enumeration implements Serializable {
     public enum State {
         PENDING(1, "PENDING"),
         APPROVED(2, "APPROVED"),
-        REFUSED(3, "REFUSED");
+        REFUSED(3, "REFUSED"),
+        ARCHIVED(8, "ARCHIVED");
 
         private final int value;
         private final String identifier;

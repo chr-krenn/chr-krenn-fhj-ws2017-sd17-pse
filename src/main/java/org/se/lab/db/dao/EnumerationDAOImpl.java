@@ -53,6 +53,9 @@ public class EnumerationDAOImpl extends DAOImplTemplate<Enumeration> implements 
             case 7:
                 name = "LIKE";
                 break;
+            case 8:
+            	name = "ARCHIVED";
+            	break;
             default:
                 throw new IllegalArgumentException("unknown id for new Enumeration! id = " + id);
         }

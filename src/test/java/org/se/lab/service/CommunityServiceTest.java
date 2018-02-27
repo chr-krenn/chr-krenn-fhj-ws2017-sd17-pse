@@ -130,14 +130,6 @@ public class CommunityServiceTest {
     }
 
     @Test
-    public void delete_Successful() {
-        communityDAO.delete(community1);
-        expectLastCall();
-
-        communityService.delete(community1);
-    }
-
-    @Test
     public void update_Successful() {
         expect(communityDAO.update(community1)).andReturn(community1);
 
