@@ -16,7 +16,6 @@ import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
 import org.se.lab.utils.ArgumentChecker;
 import org.se.lab.web.helper.RedirectHelper;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;

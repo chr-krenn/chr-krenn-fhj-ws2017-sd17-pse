@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.se.lab.db.data.Community;
 import org.se.lab.service.CommunityService;
 import org.se.lab.service.ServiceException;
+import org.se.lab.web.helper.RedirectHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -42,6 +43,16 @@ public class AdminDataBean  implements Serializable {
     private String userProfId;
     private int userId = 0;
     private String reactionOnPendingRequest = null;
+
+    private String errorMsg;
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
     
     @Inject
     private CommunityService service;
@@ -67,21 +78,23 @@ public class AdminDataBean  implements Serializable {
             userId = (int) session.get("user");
             LOG.info("SESSIOn UID: " + userId);
         } else {
-            try {
-                context.redirect("/pse/index.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/index.xhtml");
 
-            }
+            RedirectHelper.redirect("/pse/index.xhtml");
         }
         requestedCommunityList = new ArrayList<>();
         approvedCommunityList = new ArrayList<>();
 
-        requestedCommunityList = service.getPending();
-        LOG.info("Size of Requested Comm: " + requestedCommunityList.size());
+        try {
+            requestedCommunityList = service.getPending();
+            LOG.info("Size of Requested Comm: " + requestedCommunityList.size());
 
-        approvedCommunityList = service.getApproved();
-        LOG.info("Size of Requested Comm: " + approvedCommunityList.size());
+            approvedCommunityList = service.getApproved();
+            LOG.info("Size of Requested Comm: " + approvedCommunityList.size());
+        } catch (ServiceException e) {
+            String msg = "Couldn't load pending and approved communites.";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
+        }
     }
 
     public void declineRequestedCommunity(Community community) {
@@ -95,7 +108,7 @@ public class AdminDataBean  implements Serializable {
         } catch (ServiceException e) {
             reactionOnPendingRequest = "Decline failed";
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, reactionOnPendingRequest, "Please retry"));
-
+            setErrorMsg(reactionOnPendingRequest + " - pls retry");
         }
     }
 
@@ -108,18 +121,15 @@ public class AdminDataBean  implements Serializable {
         } catch (ServiceException e) {
             reactionOnPendingRequest = "Approval failed";
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, reactionOnPendingRequest, "Please retry"));
-
+            setErrorMsg(reactionOnPendingRequest + " - pls retry");
         }
 
     }
 
     private void refreshPage() {
-        try {
-            context.redirect("/pse/adminPortal.xhtml");
-        } catch (IOException e) {
-            LOG.error("Can't redirect to /pse/adminPortal.xhtml");
 
-        }
+        RedirectHelper.redirect("/pse/adminPortal.xhtml");
+
     }
 
     public void goToCommunity() {
@@ -130,11 +140,8 @@ public class AdminDataBean  implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
 
-            try {
-                context.getExternalContext().redirect("/pse/communityprofile.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
-            }
+            RedirectHelper.redirect("/pse/communityprofile.xhtml");
+
         }
     }
 
