@@ -13,7 +13,7 @@ public class UserOverviewPage extends PageObject {
 	}
 
 	public String getAvailableUsers() {
-		return driver.findElement(By.id("j_idt23:j_idt24")).getText();
+		return driver.findElement(By.id("j_idt26:j_idt27")).getText();
 	}
 	
 	public int getNumberOfAddableUsers() {
@@ -38,7 +38,7 @@ public class UserOverviewPage extends PageObject {
 	
 	private void ClickButton(int userId, String buttonClass) {
 		
-		List<WebElement> rows = driver.findElements(By.xpath("//table[@id='j_idt23:j_idt24']/tbody/tr"));
+		List<WebElement> rows = driver.findElements(By.xpath("//table[@id='id=j_idt26:j_idt27']/tbody/tr"));
 		
 		for(int i = 0; i < rows.size(); i++) {
 			WebElement row = rows.get(i);

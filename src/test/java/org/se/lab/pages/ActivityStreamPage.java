@@ -39,18 +39,18 @@ public class ActivityStreamPage extends PageObject {
 	}
 	
 	public void likeFirstPost( ) {
-		driver.findElement(By.id("j_idt84:j_idt89")).click();
+		driver.findElement(By.id("j_idt72:j_idt77")).click();
 	}
 	
 	public String getFirstPostLikes() {
-		return driver.findElement(By.id("j_idt84:j_idt85")).getText();
+		return driver.findElement(By.id("j_idt72:j_idt73")).getText();
 	}
 
 	public ActivityStreamPage newPost(String message) {
 		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
-		driver.findElement(By.id("input_j_idt22:j_idt24")).clear();
-		driver.findElement(By.id("input_j_idt22:j_idt24")).sendKeys(message);
-		driver.findElement(By.id("j_idt22:j_idt27")).click();
+		driver.findElement(By.id("input_j_idt25:j_idt27")).clear();
+		driver.findElement(By.id("input_j_idt25:j_idt27")).sendKeys(message);
+		driver.findElement(By.id("j_idt25:j_idt30")).click();
 		this.refresh();
 		return this;
 	}

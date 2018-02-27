@@ -72,7 +72,7 @@ public class PortalAdminITCase {
 	public void testDeletePost() throws IOException {
 		String message = UUID.randomUUID().toString();
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
-		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt39:j_idt40:2:j_idt46");
+		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt39:j_idt40:0:j_idt46");
 		communityProfilePage = communityProfilePage.newPost(message);
 		activityStreamPage = communityProfilePage.getActivityStreamPage();
 		activityStreamPage.refresh();
