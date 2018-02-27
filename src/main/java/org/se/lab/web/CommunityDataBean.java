@@ -91,16 +91,19 @@ public class CommunityDataBean implements Serializable {
 
         int communityId = 0;
 
-        if (session.size() != 0 && session.get("user") != null) {
-            communityId = (int) session.get("communityId");
-            actualCommunity = communityService.findById(communityId);
-            LOG.info("Opening Communityprofile: " + actualCommunity.getName());
-        }
+        try {
 
-        if (actualCommunity == null) {
-            LOG.error("no community with this id: " + communityId);
-            dummyCommunity = communityService.request("Dummy Community", "A dummy community, needed for prototype", 0);
-            return dummyCommunity;
+
+            if (session.size() != 0 && session.get("user") != null) {
+                communityId = (int) session.get("communityId");
+                actualCommunity = communityService.findById(communityId);
+                LOG.info("Opening Communityprofile: " + actualCommunity.getName());
+            }
+
+        } catch (ServiceException e) {
+            String msg = "Couldn't get current community (Processing Error) ";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
         }
 
         if (isUserMember()) {
@@ -113,10 +116,16 @@ public class CommunityDataBean implements Serializable {
 
     public void joinOrLeaveCommunity() {
 
-        if (!isUserMember()) {
-            communityService.join(actualCommunity, user);
-        } else {
-        	 communityService.leave(actualCommunity, user);
+        try {
+            if (!isUserMember()) {
+                communityService.join(actualCommunity, user);
+            } else {
+                communityService.leave(actualCommunity, user);
+            }
+        } catch (ServiceException e) {
+            String msg = "Join or Leave community failed.";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
         }
 
     }
@@ -133,11 +142,9 @@ public class CommunityDataBean implements Serializable {
         return listCommunity.contains(actualCommunity);
     }
 
-    public List<Post> getActualCommunityStream() {
+    public void getActualCommunityStream() {
         getActualCommunity();
         communityPosts = activityStreamService.getPostsForCommunity(actualCommunity);
-        return communityPosts;
-
     }
     
     public void deletePost(Post p) {

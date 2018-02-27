@@ -13,6 +13,7 @@
 	</ui:insert>
 	<b:jumbotron>
 		<b:container>
+			<h:outputText id="error" value="#{userDataBean.errorMsg}" style="color:#ff0c13;"/>
 			<h2>
 				<h:outputText value="#{userDataBean.user.username}" />
 				's Profile
