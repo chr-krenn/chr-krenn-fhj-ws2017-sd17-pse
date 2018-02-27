@@ -350,6 +350,7 @@ public class UserServiceImpl implements UserService {
 
         ArgumentChecker.assertNotNull(user, "user");
 
+
         User loadedUser = findById(user.getId());
         List<Enumeration> roles = loadedUser.getRoles();
 

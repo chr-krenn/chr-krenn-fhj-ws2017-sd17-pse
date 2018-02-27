@@ -15,6 +15,7 @@ import org.se.lab.service.PostService;
 import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
 import org.se.lab.utils.ArgumentChecker;
+import org.se.lab.web.helper.RedirectHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -46,7 +47,6 @@ public class CommunityDataBean implements Serializable {
     private String description;
     private String inputText;
     private String inputTextChild;
-    private Community dummyCommunity;
     private Community actualCommunity;
     private Map<String, Object> session;
     private User user;
@@ -168,22 +168,22 @@ public class CommunityDataBean implements Serializable {
             try {
                  pservice.createChildPost(null, actualCommunity, user, inputText, new Date());
             } catch (ServiceException e) {
-                LOG.error("could not create root post", e);
+                String msg = "Couln't create root post.";
+                LOG.error(msg, e);
+                setErrorMsg(msg);
             }
         } else {
             LOG.info("appending comment to post: " + inputTextChild);
             try {
                 pservice.createChildPost(parentPost, actualCommunity, user, inputTextChild, new Date());
             } catch (ServiceException e) {
-                LOG.error("could not create leaf post", e);
+                String msg = "Couldn't create child post";
+                LOG.error(msg, e);
+                setErrorMsg(msg);
             }
         }
-        
-        try {
-            context.redirect("/pse/communityprofile.xhtml");
-        } catch (IOException e) {
-            LOG.error("Can't redirect to /pse/communityprofile.xhtml");
-        }
+
+        RedirectHelper.redirect("/pse/communityprofile.xhtml");
     }
 
     public void deleteFile(File file) {
@@ -191,12 +191,9 @@ public class CommunityDataBean implements Serializable {
         
         try {
             communityService.deleteFile(file);
-            
-            try {
-                context.redirect("/pse/communityprofile.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
-            }
+
+            RedirectHelper.redirect("/pse/communityprofile.xhtml");
+
         } catch (ServiceException e) {
             errorMsg = "Can't delete file without errors! - pls contact the admin or try later";
             LOG.error(errorMsg);
@@ -213,12 +210,9 @@ public class CommunityDataBean implements Serializable {
         	if(hasUserPrivilege(User.ROLE.PORTALADMIN)) {
         		communityService.uploadFile(actualCommunity, uploadedFile);
         	}
-        	
-            try {
-                context.redirect("/pse/communityprofile.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
-            }
+
+            RedirectHelper.redirect("/pse/communityprofile.xhtml");
+
         } catch (ServiceException e) {
             errorMsg = "Can't upload file without errors! - pls contact the admin or try later";
             LOG.error(errorMsg);
@@ -229,8 +223,14 @@ public class CommunityDataBean implements Serializable {
     public List<File> getFiles() {
     	getActualCommunity();
         if (actualCommunity != null) {
-            setFiles(communityService.getFilesFromCommunity(actualCommunity));
-            return files;
+            try {
+                setFiles(communityService.getFilesFromCommunity(actualCommunity));
+                return files;
+            } catch (ServiceException e) {
+                String msg = "Can't get files for community";
+                LOG.error(msg, e);
+                setErrorMsg(msg);
+            }
         }
         return Collections.emptyList();
     }

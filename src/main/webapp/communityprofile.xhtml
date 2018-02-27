@@ -14,6 +14,7 @@
 	</ui:insert>
 	<b:jumbotron>
 		<b:container>
+			<h:outputText id="error" value="#{communityDataBean.errorMsg}" style="color:#ff0c13;"/>
 			<ui:param name="c" value="#{communityDataBean.getActualCommunity()}" />
 			<h2>
 				<h:outputText value="#{c.name}" />
