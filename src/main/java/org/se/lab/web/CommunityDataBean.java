@@ -9,29 +9,18 @@ import org.se.lab.db.data.Community;
 import org.se.lab.db.data.File;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
-import org.se.lab.service.ActivityStreamService;
-import org.se.lab.service.CommunityService;
-import org.se.lab.service.PostService;
-import org.se.lab.service.ServiceException;
-import org.se.lab.service.UserService;
+import org.se.lab.service.*;
 import org.se.lab.utils.ArgumentChecker;
 import org.se.lab.web.helper.RedirectHelper;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Named
@@ -88,7 +77,7 @@ public class CommunityDataBean implements Serializable {
 
     public Community getActualCommunity() {
 
-        int communityId = 0;
+        int communityId;
 
         try {
 

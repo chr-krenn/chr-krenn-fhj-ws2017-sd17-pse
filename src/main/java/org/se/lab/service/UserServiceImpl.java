@@ -215,8 +215,7 @@ public class UserServiceImpl implements UserService {
         LOG.debug("find all users");
 
         try {
-            List<User> list = userDAO.findAll();
-            return list;
+            return userDAO.findAll();
         } catch (IllegalArgumentException e) {
             String msg = "Unable to get All users(ill.Argument)";
             LOG.error(msg, e);
