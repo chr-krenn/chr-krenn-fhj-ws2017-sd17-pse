@@ -18,7 +18,7 @@ public abstract class PageObject {
 
 	private void setDefaults() {
 		baseUrl = "http://localhost:8080/pse/";
-		getDriver().manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
 	public PageObject() {

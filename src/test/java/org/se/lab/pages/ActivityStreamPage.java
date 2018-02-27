@@ -43,6 +43,7 @@ public class ActivityStreamPage extends PageObject {
 		driver.findElement(By.id("input_j_idt22:j_idt24")).clear();
 		driver.findElement(By.id("input_j_idt22:j_idt24")).sendKeys(message);
 		driver.findElement(By.id("j_idt22:j_idt27")).click();
+		this.refresh();
 		return this;
 	}
 
