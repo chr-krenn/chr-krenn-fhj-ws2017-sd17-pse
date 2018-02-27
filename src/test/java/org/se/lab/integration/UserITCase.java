@@ -226,6 +226,25 @@ public class UserITCase {
 		assertEquals(numberOfAddableUsers, userOverViewPage.getNumberOfAddableUsers());
 		assertEquals(numberOfRemovableUsers, userOverViewPage.getNumberOfRemovableUsers());
 	}
+	
+	@Test
+	public void testOnlyGlobalAndMemberPosts() {
+		List<String> antiComs = new ArrayList<String>();
+		antiComs.add("Human Computer Interaction");
+		antiComs.add("IT-Security");
+		antiComs.add("Practical Software Engineering");
+		antiComs.add("Social Web");
+		
+		List<String> postHeaders = activityStreamPage.getPostPanelHeaders();
+		
+		for(int i = 0; i < postHeaders.size(); i++) {
+			for(int j = 0; i < antiComs.size(); i++) {
+				assertFalse(postHeaders.get(i).contains(antiComs.get(j)));
+			}
+		}
+	}
+	
+	
 
 	@After
 	public void tearDown() throws Exception {
