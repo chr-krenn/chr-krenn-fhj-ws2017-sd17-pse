@@ -28,6 +28,7 @@ CREATE TABLE `community` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` longtext,
   `name` varchar(255) NOT NULL,
+  `is_private` TINYINT unsigned NOT NULL,
   `picture` tinyblob,
   `portaladmin_id` int(11) DEFAULT NULL,
   `enumeration_id` int(11) DEFAULT NULL,

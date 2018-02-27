@@ -159,13 +159,17 @@ public class CommunityServiceImpl implements CommunityService {
             throw new ServiceException("Can't join user " + user + " to community " + community);
         }
     }
-
     @Override
     public Community request(String name, String description, int portalAdmin) {
+    	return request(name, description, portalAdmin, false);
+    }
+    
+    @Override
+    public Community request(String name, String description, int portalAdmin, boolean isPrivate) {
         LOG.debug("request community with name: " + name + " and description: " + description);
         Community com;
         try {
-            com = communityDAO.createCommunity(name, description, portalAdmin);
+            com = communityDAO.createCommunity(name, description, portalAdmin, isPrivate);
 
             ArgumentChecker.assertNotNull(com, "com");
 

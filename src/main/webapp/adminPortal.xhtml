@@ -20,6 +20,7 @@
 					<b:dataTable value="#{adminDataBean.requestedCommunityList}"
 						var="community">
 						<b:dataTableColumn value="#{community.id}" label="Id" order="asc" />
+						<b:dataTableColumn value="#{community.private}" label="Private" />
 						<b:dataTableColumn value="#{community.name}" label="Name" />
 						<b:dataTableColumn value="#{community.description}"
 							label="Description" />
@@ -40,6 +41,7 @@
 					<b:dataTable value="#{adminDataBean.approvedCommunityList}"
 						var="community">
 						<b:dataTableColumn value="#{community.id}" label="Id" order="asc" />
+						<b:dataTableColumn value="#{community.private}" label="Private" />
 						<b:dataTableColumn value="#{community.name}" label="Name" />
 						<b:dataTableColumn value="#{community.description}"
 							label="Description" />

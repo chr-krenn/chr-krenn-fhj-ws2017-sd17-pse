@@ -201,18 +201,14 @@ insert into private_message (text, fk_user_id_receiver, fk_user_id_sender) value
 insert into private_message (text, fk_user_id_receiver, fk_user_id_sender) values ('In hac habitasse platea dictumst.', 20, 1);
 
 -- insert communities
-insert into community (description, name, picture, enumeration_id, portaladmin_id) values ('Bachelorarbeit 1 für SWD15.','Bachelorarbeit 1','Null',2,1);
-insert into community (description, name, picture, enumeration_id, portaladmin_id) values ('Das Semester ist in 5 Einheiten aufgeteilt, wobei jede Einheit aus einer 3-stündigen Vorlesung und einem thematisch 
-dazu passenden 3-stündigen Übungsblock besteht. Die Übungsblöcke folgen zeitnah (teilweise am selben Tag) der dazugehörigen Vorlesung.','Computer Vision','Null',2,2);
-insert into community (description, name, picture, enumeration_id, portaladmin_id) values ('In  the  course  ESP  students  improve  their  academic  writing  skills.','English for Scientific Purposes','Null',2,3);
-insert into community (description, name, picture, enumeration_id, portaladmin_id) values ('Im Rahmen des Seminars Heterogene Systeme bauen die Studierenden eine vollständige, vernetzte, auf 
-verschiedenen-unterschiedlichen (Betriebs-)Systemen basierende IT Infrastruktur auf. Dabei ist besonderer Wert auf Interoperabilität und (in Bezug auf die Benutzer) weitgehende Transparenz zu legen. 
-Des Weiteren wird auf den Umgang mit Cross Platform Werkzeugen und Entwicklungsumgebungen fokusiert.','Heterogene Systeme','Null',2,4);
-insert into community (description, name, picture, enumeration_id, portaladmin_id) values ('Mitarbeit -> Aktiv bei Lab, Etherpad, Zwischenabgaben, KEINE Klausur','Human Computer Interaction','Null',1,1);
-insert into community (description, name, picture, enumeration_id, portaladmin_id) values ('Die Studierenden haben einen Überblick über möglich e Angriffsszenarien im IT-Umfeld und sind in der Lage 
-Gegen/Abwehrmaßnahmen anzuwenden','IT-Security','Null',1,2);
-insert into community (description, name, picture, enumeration_id, portaladmin_id) values ('Run a “real world” agile software delevopment project','Practical Software Engineering','Null',1,3);
-insert into community (description, name, picture, enumeration_id, portaladmin_id) values ('Social Mining….','Social Web','Null',1,4);
+insert into community (is_private, description, name, picture, enumeration_id, portaladmin_id) values (0, 'Bachelorarbeit 1 für SWD15.','Bachelorarbeit 1','Null',2,1);
+insert into community (is_private, description, name, picture, enumeration_id, portaladmin_id) values (0, 'Das Semester ist in 5 Einheiten aufgeteilt, wobei jede Einheit aus einer 3-stündigen Vorlesung und einem thematisch dazu passenden 3-stündigen Übungsblock besteht. Die Übungsblöcke folgen zeitnah (teilweise am selben Tag) der dazugehörigen Vorlesung.','Computer Vision','Null',2,2);
+insert into community (is_private, description, name, picture, enumeration_id, portaladmin_id) values (0, 'In  the  course  ESP  students  improve  their  academic  writing  skills.','English for Scientific Purposes','Null',2,3);
+insert into community (is_private, description, name, picture, enumeration_id, portaladmin_id) values (0, 'Im Rahmen des Seminars Heterogene Systeme bauen die Studierenden eine vollständige, vernetzte, auf verschiedenen-unterschiedlichen (Betriebs-)Systemen basierende IT Infrastruktur auf. Dabei ist besonderer Wert auf Interoperabilität und (in Bezug auf die Benutzer) weitgehende Transparenz zu legen. Des Weiteren wird auf den Umgang mit Cross Platform Werkzeugen und Entwicklungsumgebungen fokusiert.','Heterogene Systeme','Null',2,4);
+insert into community (is_private, description, name, picture, enumeration_id, portaladmin_id) values (0, 'Mitarbeit -> Aktiv bei Lab, Etherpad, Zwischenabgaben, KEINE Klausur','Human Computer Interaction','Null',1,1);
+insert into community (is_private, description, name, picture, enumeration_id, portaladmin_id) values (0, 'Die Studierenden haben einen Überblick über möglich e Angriffsszenarien im IT-Umfeld und sind in der Lage Gegen/Abwehrmaßnahmen anzuwenden','IT-Security','Null',1,2);
+insert into community (is_private, description, name, picture, enumeration_id, portaladmin_id) values (0, 'Run a “real world” agile software delevopment project','Practical Software Engineering','Null',1,3);
+insert into community (is_private, description, name, picture, enumeration_id, portaladmin_id) values (0, 'Social Mining….','Social Web','Null',1,4);
 
 -- insert posts
 insert into post (created, text, fk_community_id, fk_user_id) values ('2017-07-29 19:09:36', 'Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus. Pellentesque eget nunc.', 3, 3);

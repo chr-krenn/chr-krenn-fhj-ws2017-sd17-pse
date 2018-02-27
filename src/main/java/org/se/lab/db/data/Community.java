@@ -19,9 +19,14 @@ public class Community implements Serializable {
     private static final int MAX_TEXT_LENGTH = 65535;
 
     public Community(String name, String description, int portaladminId) {
+        this(name, description, portaladminId, false);
+    }
+    
+    public Community(String name, String description, int portaladminId, boolean isPrivate) {
         setName(name);
         setDescription(description);
         setPortaladminId(portaladminId);
+        setPrivate(isPrivate);
     }
 
     public Community() {}
@@ -44,6 +49,9 @@ public class Community implements Serializable {
 
     @Column(name = "picture")
     private byte[] picture;
+    
+    @Column(name = "is_private")
+    private boolean isPrivate;
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -128,8 +136,16 @@ public class Community implements Serializable {
         ArgumentChecker.assertNotNullAndEmptyAndUnderMaxLength(description, "description", MAX_TEXT_LENGTH);
         this.description = description;
     }
+    
+    public boolean isPrivate() {
+		return isPrivate;
+	}
 
-    /**
+	public void setPrivate(boolean isPrivate) {
+		this.isPrivate = isPrivate;
+	}
+
+	/**
      * Object Methods
      */
 

@@ -24,6 +24,7 @@ public interface CommunityService {
 	void leave(Community community, User user);
 
 	Community request(String name, String description, int portalAdminId);
+	Community request(String name, String description, int portalAdminId, boolean isPrivate);
 
 	void approve(Community community);
 

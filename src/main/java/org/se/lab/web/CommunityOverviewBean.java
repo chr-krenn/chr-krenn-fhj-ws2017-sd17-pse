@@ -60,9 +60,12 @@ public class CommunityOverviewBean {
             if (newCommunityDescription.isEmpty()) {
                 newCommunityDescription = "<Edit me ...>";
             }
-
+            
+        	String visability = getVisability();            
+            boolean isPrivate = visability != null && visability.equals("private");
+            
             try {
-                newCommunity = service.request(newCommunityName, newCommunityDescription, userId);
+                newCommunity = service.request(newCommunityName, newCommunityDescription, userId, isPrivate);
                 context.getExternalContext().getSessionMap().put("communityId", newCommunity.getId());
                 LOG.info(newCommunity.getName() + " community created with the id: " + newCommunity.getId() + ".");
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Community requested."));

@@ -46,8 +46,13 @@ public class CommunityDAOImpl extends DAOImplTemplate<Community> implements Comm
 
     @Override
     public Community createCommunity(String name, String description, int portaladminId) {
+        return createCommunity(name, description, portaladminId, false);
+    }
+    
+    @Override
+    public Community createCommunity(String name, String description, int portaladminId, boolean isPrivate) {
         LOG.info("createCommunity(name = " + name + ", description = " + description + ")");
-        Community c = new Community(name, description, portaladminId);
+        Community c = new Community(name, description, portaladminId, isPrivate);
         Enumeration e = getValidEnumeration(em.find(Enumeration.class, 1));
         c.setState(e);
         return insert(c);

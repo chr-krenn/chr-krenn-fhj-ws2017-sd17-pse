@@ -12,4 +12,5 @@ public interface CommunityDAO extends DAOTemplate<Community> {
     List<Community> findCommunitiesByState(Enumeration.State state);
 
     Community createCommunity(String name, String description, int portaladminId);
+    Community createCommunity(String name, String description, int portaladminId, boolean isPrivate);
 }
