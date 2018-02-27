@@ -20,7 +20,7 @@ public class ActivityStreamPage extends PageObject {
 	}
 
 	public String getAllPosts() {
-		return driver.findElement(By.id("j_idt19")).getText();
+		return driver.findElement(By.xpath("//*/div[@class='jumbotron']/div[@class='container']")).getText();
 	}
 
 	public List<String> getAllNavbarLinks() {
@@ -59,8 +59,8 @@ public class ActivityStreamPage extends PageObject {
 		driver.get(baseUrl + url);
 	}
 
-	public ActivityStreamPage deletePost(String button) {
-		driver.findElement(By.id(button)).click();
+	public ActivityStreamPage deletePost() {
+		driver.findElement(By.xpath("//*/div/button/span[text()='DELETE Post!']")).click();
 		driver.navigate().refresh();
 		return this;
 

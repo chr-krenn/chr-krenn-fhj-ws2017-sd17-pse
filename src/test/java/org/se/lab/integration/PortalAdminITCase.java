@@ -60,7 +60,7 @@ public class PortalAdminITCase {
 		tempFile = File.createTempFile("tmp_upload_", ".jpg");
 		tempFile.deleteOnExit();
 		
-		communityProfilePage = activityStreamPage.getCommunityProfilePage("j_idt36:j_idt37:0:j_idt42");
+		communityProfilePage = activityStreamPage.getCommunityProfilePage("j_idt39:j_idt40:0:j_idt46");
 		communityProfilePage.uploadFile(tempFile.getAbsolutePath());
 		communityProfilePage.refresh();
 		List<String> files = communityProfilePage.getFileNames();
@@ -72,13 +72,13 @@ public class PortalAdminITCase {
 	public void testDeletePost() throws IOException {
 		String message = UUID.randomUUID().toString();
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
-		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt36:j_idt37:2:j_idt42");
+		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt39:j_idt40:2:j_idt46");
 		communityProfilePage = communityProfilePage.newPost(message);
 		activityStreamPage = communityProfilePage.getActivityStreamPage();
 		activityStreamPage.refresh();
 		assertTrue(activityStreamPage.getAllPosts().contains(message));
 		
-		activityStreamPage = activityStreamPage.deletePost("j_idt52");
+		activityStreamPage = activityStreamPage.deletePost();
 		activityStreamPage = activityStreamPage.getActivityStreamPage();
 
 		activityStreamPage.refresh();

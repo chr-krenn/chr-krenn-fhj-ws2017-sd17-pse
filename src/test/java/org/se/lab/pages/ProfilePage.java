@@ -10,11 +10,11 @@ public class ProfilePage extends PageObject {
 	}
 
 	public String getFirstName() {
-		return driver.findElement(By.xpath("//div[@id='j_idt62']/span")).getText();
+		return driver.findElement(By.xpath("//div[@id='j_idt65']/span")).getText();
 	}
 	
 	public String getLastName() {
-		return driver.findElement(By.xpath("//div[@id='j_idt67']/span")).getText();
+		return driver.findElement(By.xpath("//div[@id='j_idt70']/span")).getText();
 	}	
 	
 	public String getMailAddress() {

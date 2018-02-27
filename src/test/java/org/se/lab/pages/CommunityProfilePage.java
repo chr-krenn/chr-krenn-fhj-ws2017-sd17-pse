@@ -19,7 +19,7 @@ public class CommunityProfilePage extends PageObject {
 		return driver.findElement(By.cssSelector("h2")).getText();
 	}
 	public String getActionButtonText() {
-		return driver.findElement(By.id("j_idt33:j_idt34")).getText();
+		return driver.findElement(By.id("j_idt36:j_idt37")).getText();
 	}
 	public CommunityProfilePage uploadFile(String filepath) {
 		
@@ -40,7 +40,7 @@ public class CommunityProfilePage extends PageObject {
 	public List<String> getFileNames() {
 					
 		List<String> result = new ArrayList<String>();
-		List<WebElement> rows = driver.findElements(By.xpath("//div[@id='j_idt41content']/div/form/button[1]/span[2]"));
+		List<WebElement> rows = driver.findElements(By.xpath("//div[@id='j_idt44content']/div/form/button[1]/span[2]"));
 		
 		for(int i = 0; i < rows.size(); i++) {
 			result.add(rows.get(i).getText());			
@@ -56,9 +56,9 @@ public class CommunityProfilePage extends PageObject {
 
 	public CommunityProfilePage newPost(String message) {
 		driver.findElement(By.cssSelector("button.btn.btn-success")).click();
-		driver.findElement(By.id("input_j_idt24:j_idt26")).clear();
-		driver.findElement(By.id("input_j_idt24:j_idt26")).sendKeys(message);
-		driver.findElement(By.id("j_idt24:j_idt29")).click();
+		driver.findElement(By.id("input_j_idt27:j_idt29")).clear();
+		driver.findElement(By.id("input_j_idt27:j_idt29")).sendKeys(message);
+		driver.findElement(By.id("j_idt27:j_idt32")).click();
 		return this;
 	}
 }
