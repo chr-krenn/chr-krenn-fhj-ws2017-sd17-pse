@@ -28,11 +28,13 @@ public class PostServiceImpl implements PostService {
         ArgumentChecker.assertNotNullAndEmpty(text, "postMessage");
         ArgumentChecker.assertNotNull(created, "createdDate");
 
-        // if parentPost null && community null -> Root post
-        // if parentPost not null && community null -> Root post comment
-        // if parentPost null && community not null -> Community root post
-        // if parentPost not null && community not null -> Community post comment
-        
+        /*
+         * if parentPost null && community null -> Root post
+         * if parentPost not null && community null -> Root post comment
+         * if parentPost null && community not null -> Community root post
+         * if parentPost not null && community not null -> Community post comment
+         */
+
         try {
             return postDAO.createPost(parentpost, community, user, text, created);
         } catch (IllegalArgumentException e) {

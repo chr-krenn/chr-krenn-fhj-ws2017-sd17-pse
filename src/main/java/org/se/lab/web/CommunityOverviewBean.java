@@ -12,7 +12,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +33,16 @@ public class CommunityOverviewBean {
 
     private int userId = 0;
     private ExternalContext context;
+
+    private String errorMsg = "";
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
 
     @PostConstruct
     public void init() {
@@ -93,11 +102,8 @@ public class CommunityOverviewBean {
             FacesContext context = FacesContext.getCurrentInstance();
             context.getExternalContext().getSessionMap().put("communityId", selectedCommunity.getId());
 
-            try {
-                context.getExternalContext().redirect("/pse/communityprofile.xhtml");
-            } catch (IOException e) {
-                LOG.error("Can't redirect to /pse/communityprofile.xhtml");
-            }
+            RedirectHelper.redirect("/pse/communityprofile.xhtml");
+
         }
     }
 
@@ -107,8 +113,18 @@ public class CommunityOverviewBean {
         if (selectedCommunity != null) {
 
             LOG.info("Selected Community: " + selectedCommunity.getId() + " " + selectedCommunity.getDescription());
-            service.delete(selectedCommunity);
 
+            try {
+                service.delete(selectedCommunity);
+            } catch (IllegalArgumentException e) {
+                String msg = "Illegal Argument Error on deleting community " + selectedCommunity;
+                LOG.error(e);
+                setErrorMsg(msg);
+            } catch (Exception e) {
+                String msg = "Error while deleting community " + selectedCommunity;
+                LOG.error(e);
+                setErrorMsg(msg);
+            }
             RedirectHelper.redirect("/pse/communityoverview.xhtml");
         }
     }

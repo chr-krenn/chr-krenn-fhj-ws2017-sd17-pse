@@ -31,14 +31,13 @@ public class UserServiceImpl implements UserService {
 
     private PasswordEncoder pwEncoder = new PasswordEncoder();
 
+
     @Override
     public void insert(User user) {
         LOG.debug("insert " + user);
 
-        ArgumentChecker.assertNotNull(user, "user");
-
-
         try {
+            ArgumentChecker.assertNotNull(user, "user");
             userDAO.insert(user);
         } catch (IllegalArgumentException e) {
             String msg = "Illegal Argument on inserting User";
@@ -78,16 +77,11 @@ public class UserServiceImpl implements UserService {
         ArgumentChecker.assertNotNullAndEmpty(username, "username");
         ArgumentChecker.assertNotNullAndEmpty(password, "password");
 
-        User user = loadUserByUsername(username);
 
-        return pwEncoder.checkPassword(password, user.getPassword()) ? user : null;
-    }
-
-    private User loadUserByUsername(String username) {
-
-        ArgumentChecker.assertNotNullAndEmpty(username, "username");
         try {
-            return userDAO.findByUsername(username);
+            User user = userDAO.findByUsername(username);
+            return pwEncoder.checkPassword(password, user.getPassword()) ? user : null;
+
         } catch (NoResultException e) {
             String msg = "No result on User " + username;
             LOG.warn(msg, e);
@@ -102,6 +96,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(msg);
         }
     }
+
 
     @Override
     public void addContact(User user, String contactName) {
