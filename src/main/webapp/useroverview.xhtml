@@ -2,10 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:b="http://bootsfaces.net/ui">
 <h:head></h:head>
 <h:body>
 	<ui:insert name="header">
@@ -14,6 +14,7 @@
 	<b:jumbotron>
 		<b:container>
 			<h2>Available Users</h2>
+			<h:outputText id="error" value="#{userOverviewBean.errorMsg}" style="color:#ff0c13;"/>
 			<b:panel title="Users" look="success" collapsible="false">
 				<h:form>
 					<b:dataTable value="#{userOverviewBean.profiles}" var="user">

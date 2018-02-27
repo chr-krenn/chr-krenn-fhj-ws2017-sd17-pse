@@ -55,6 +55,16 @@ public class ActivityStreamBean implements Serializable {
     private int id = 0;
     private User loggedInUser;
 
+    private String errorMsg;
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
     @PostConstruct
     public void init() {
         int userId = session.getUserId();
@@ -91,12 +101,22 @@ public class ActivityStreamBean implements Serializable {
 
     public void addLike(Post post) {
 
-        if (!post.getLikes().contains(getLoggedInUser())) {
-            post.addLike(getLoggedInUser());
-            pservice.updatePost(post);
-        } else {
-            post.removeLike(getLoggedInUser());
-            pservice.updatePost(post);
+        try {
+            if (!post.getLikes().contains(getLoggedInUser())) {
+                post.addLike(getLoggedInUser());
+                pservice.updatePost(post);
+            } else {
+                post.removeLike(getLoggedInUser());
+                pservice.updatePost(post);
+            }
+        } catch (IllegalArgumentException e) {
+            String msg = "Post was empty";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
+        } catch (ServiceException e) {
+            String msg = "Couldn't update post";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
         }
     }
 
@@ -120,7 +140,9 @@ public class ActivityStreamBean implements Serializable {
             try {
                 post = pservice.createRootPost(getLoggedInUser(), inputText, new Date());
             } catch (ServiceException e) {
-                LOG.error("could not create root post", e);
+                String msg = "Couldn't create root post";
+                LOG.error(msg, e);
+                setErrorMsg(msg);
             }
         } else {
             flash.put("inputText", inputTextChild);
@@ -129,7 +151,9 @@ public class ActivityStreamBean implements Serializable {
                 post = pservice.createChildPost(parentPost, parentPost.getCommunity(), getLoggedInUser(), inputTextChild,
                         new Date());
             } catch (ServiceException e) {
-                LOG.error("could not create leaf post", e);
+                String msg = "Couldn't create child post";
+                LOG.error(msg, e);
+                setErrorMsg(msg);
             }
         }
         flash.put("post", post);
@@ -150,26 +174,43 @@ public class ActivityStreamBean implements Serializable {
     }
 
     private void refreshPage() {
-        try {
-            context.redirect("/pse/activityStream.xhtml");
-        } catch (IOException e) {
-            LOG.error("Can't redirect to /pse/activityStream.xhtml");
 
-        }
+        RedirectHelper.redirect("/pse/activityStream.xhtml");
+
     }
 
     public User loadLoggedInUser() {
-        return uservice.findById(id);
+        try {
+            return uservice.findById(id);
+        } catch (ServiceException e) {
+            String msg = "Unable to find User with ID = " + id;
+            LOG.error(msg, e);
+            setErrorMsg(msg);
+        }
+        //TODO: What to return, if an error occurs?
+        return null;
     }
 
     public void loadPostsForUser() {
-        List<Post> uposts = service.getPostsForUser(getLoggedInUser());
-        setPosts(uposts);
+        try {
+            List<Post> uposts = service.getPostsForUser(getLoggedInUser());
+            setPosts(uposts);
+        } catch (ServiceException e) {
+            String msg = "Unable get posts of user";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
+        }
     }
 
     public void loadPostsForUserAndContacts() {
-        List<Post> uposts = service.getPostsForUserAndContacts(getLoggedInUser(), contactIds);
-        setPosts(uposts);
+        try {
+            List<Post> uposts = service.getPostsForUserAndContacts(getLoggedInUser(), contactIds);
+            setPosts(uposts);
+        } catch (ServiceException e) {
+            String msg = "Unable get posts of user and contacts";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
+        }
     }
 
     /**

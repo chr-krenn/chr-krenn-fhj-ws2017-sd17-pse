@@ -4,6 +4,7 @@ package org.se.lab.web;
 import org.apache.log4j.Logger;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
+import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
 import org.se.lab.web.helper.Session;
 
@@ -24,6 +25,16 @@ public class UserOverviewBean {
     private List<User> contacts;
     private int userId;
 
+    private String errorMsg;
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
     @Inject
     private UserService service;
 
@@ -38,10 +49,23 @@ public class UserOverviewBean {
                 
         try {
             profiles = service.getAllUserProfiles();
-        } catch (Exception e) {
-            LOG.error("Error in UserOverview", e);
+        } catch (ServiceException e) {
+            String msg = "Couldn't load all user profiles";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
         }
-        contacts = service.getContactsOfUser(session.getUser());
+
+        try {
+            contacts = service.getContactsOfUser(session.getUser());
+        } catch (IllegalArgumentException e) {
+            String msg = "Illegal Argument USER - coudln't load contacts";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
+        } catch (ServiceException e) {
+            String msg = "Couldn't get contacts of user";
+            LOG.error(msg, e);
+            setErrorMsg(msg);
+        }
     }
     
     public boolean userIsContact(int id)
