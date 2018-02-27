@@ -27,10 +27,16 @@
 			<b:navbarLinks pull="right">
 				<b:dropMenu icon="user" value="#{userDataBean.loggedInUser.username}">
 					<b:navCommandLink id="profileButton" value="Profil" action="#{userDataBean.redirect}">
-					<f:param name="userid" value="#{userDataBean.loggedInUser.id}" /></b:navCommandLink>
+						<f:param name="userid" value="#{userDataBean.loggedInUser.id}" />
+					</b:navCommandLink>
 					<b:navCommandLink id="adminAreaButton" value="Admin Area" action="adminPortal.xhtml?faces-redirect=true" rendered="#{userDataBean.admin}"></b:navCommandLink>	
 					<b:navCommandLink id="logoutButton" value="Logout" action="#{loginBean.logout}">
 					</b:navCommandLink>
+				</b:dropMenu>
+				<b:dropMenu icon="envelope" value="[#{userDataBean.messages.size()}] Admin-Messages" rendered="#{userDataBean.messages != null and userDataBean.admin}">
+					<p:repeat value="#{userDataBean.messages}" var="msg">
+						<b:navCommandLink value="#{msg.text} [mark read]" action="#{userDataBean.markRead(msg)}"></b:navCommandLink>
+					</p:repeat>
 				</b:dropMenu>
 			</b:navbarLinks>
 		</h:form>

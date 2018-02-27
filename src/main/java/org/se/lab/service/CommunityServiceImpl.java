@@ -273,7 +273,7 @@ public class CommunityServiceImpl implements CommunityService {
             User u = userServcie.findById(com.getPortaladminId());
 
             for (User user : userServcie.getAdmins()) {
-                PrivateMessage message = new PrivateMessage(u + " created new community", user, user);
+                PrivateMessage message = new PrivateMessage(u.getUsername() + " created new community '"+com.getName()+"'", user, user);
                 pmService.sendMessage(message);
             }
         } catch (IllegalArgumentException e) {

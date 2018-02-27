@@ -29,11 +29,11 @@ public class PrivateMessage implements Serializable {
     @Column(name = "text")
     private String text;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "fk_user_id_sender")
     private User usersender;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "fk_user_id_receiver")
     private User userreceiver;
 

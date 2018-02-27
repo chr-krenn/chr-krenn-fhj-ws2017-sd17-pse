@@ -2,8 +2,10 @@ package org.se.lab.web;
 
 import org.apache.log4j.Logger;
 import org.se.lab.db.data.Community;
+import org.se.lab.db.data.PrivateMessage;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserProfile;
+import org.se.lab.service.PrivateMessageService;
 import org.se.lab.service.ServiceException;
 import org.se.lab.service.UserService;
 import org.se.lab.web.helper.RedirectHelper;
@@ -52,9 +54,14 @@ public class UserDataBean implements Serializable {
     private boolean isAdmin = false;
     private String visibility;
 
+    private List<PrivateMessage> messages;
+    
     @Inject
     private UserService service;
 
+    @Inject
+    private PrivateMessageService pmService;
+    
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance().getExternalContext();
@@ -90,7 +97,7 @@ public class UserDataBean implements Serializable {
             contacts = service.getContactsOfUser(user);
             communities = user.getCommunities();
             userProfile = service.getUserProfilById(user.getId());
-
+            messages = pmService.getMessagesOfUser(user);
         } catch (ServiceException e) {
             errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
             LOG.error(errorMsg);
@@ -180,7 +187,20 @@ public class UserDataBean implements Serializable {
             loggedInUser = user;
         }
     }
-
+    
+    public String markRead(PrivateMessage msg) {
+    	try {
+	    	pmService.markMessageRead(msg);
+	    	if(isAdmin()) {
+	    		return "/adminPortal.xhtml?faces-redirect=true";
+	    	}
+        } catch (ServiceException e) {
+            errorMsg = "Can't load your profile without errors! - pls contact the admin or try later";
+            LOG.error(errorMsg);
+            setErrorMsg(errorMsg);
+        }
+    	return "";
+    }
 
     public User getUser(int id) {
         return service.findById(id);
@@ -270,7 +290,11 @@ public class UserDataBean implements Serializable {
         this.visibility = visibility;
     }
 
-    private void writeObject(ObjectOutputStream stream)
+    public List<PrivateMessage> getMessages() {
+		return messages;
+	}
+
+	private void writeObject(ObjectOutputStream stream)
             throws IOException {
         stream.defaultWriteObject();
     }
