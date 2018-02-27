@@ -150,12 +150,9 @@ public class CommunityDataBean implements Serializable {
     public void deletePost(Post p) {
         ArgumentChecker.assertNotNull(p, "post");
         activityStreamService.delete(p, user);
-        
-        try {
-            context.redirect("/pse/communityprofile.xhtml");
-        } catch (IOException e) {
-            LOG.error("Can't redirect to /pse/communityprofile.xhtml");
-        }
+
+        RedirectHelper.redirect("/pse/communityprofile.xhtml");
+
     }
 
     public boolean showDeleteButton(Post p) {
