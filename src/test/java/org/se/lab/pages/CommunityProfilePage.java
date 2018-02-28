@@ -33,6 +33,8 @@ public class CommunityProfilePage extends PageObject {
 
 		webElement= driver.findElement(By.xpath(".//*[@id='" + uploadWrapperId + "']/div[1]/button[1]"));
 		webElement.click();
+		
+		this.waitForElementRefresh(webElement, 30);
 	
 		return this;
 	}

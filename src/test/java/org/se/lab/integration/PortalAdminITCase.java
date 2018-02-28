@@ -62,7 +62,7 @@ public class PortalAdminITCase {
 		
 		communityProfilePage = activityStreamPage.getCommunityProfilePage("j_idt39:j_idt40:0:j_idt46");
 		communityProfilePage.uploadFile(tempFile.getAbsolutePath());
-		communityProfilePage.refresh();
+
 		List<String> files = communityProfilePage.getFileNames();
 		
 		assertTrue(ListHelper.AnyContains(files, tempFile.getName()));

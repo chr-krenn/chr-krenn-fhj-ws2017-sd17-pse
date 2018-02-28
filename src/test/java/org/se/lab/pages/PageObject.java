@@ -11,6 +11,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class PageObject {
 
@@ -139,5 +141,10 @@ public abstract class PageObject {
 
 	public void setDriver(WebDriver driver) {
 		this.driver = driver;
+	}	
+	
+	public void waitForElementRefresh(WebElement webElement, int timeoutSeconds) {
+		WebDriverWait wait = new WebDriverWait(this.driver, timeoutSeconds);	
+		wait.until(ExpectedConditions.stalenessOf(webElement));
 	}
 }
