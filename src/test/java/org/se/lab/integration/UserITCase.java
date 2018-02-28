@@ -62,7 +62,7 @@ public class UserITCase {
 	
 
 	@Test
-	public void testLikeFirstPost() throws Exception {
+	public void testLikeFirstPost() {
 		String message = UUID.randomUUID().toString();
 		activityStreamPage.newPost(message);
 		

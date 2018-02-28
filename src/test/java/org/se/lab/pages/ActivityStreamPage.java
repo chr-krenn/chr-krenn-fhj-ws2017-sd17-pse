@@ -39,7 +39,10 @@ public class ActivityStreamPage extends PageObject {
 	}
 	
 	public void likeFirstPost( ) {
-		driver.findElement(By.xpath("//*/div[@class='panel-footer']/form/button")).click();
+		WebElement button = driver.findElement(By.xpath("//*/div[@class='panel-footer']/form/button"));
+		button.click();
+		
+		this.waitForElementRefresh(button, 30);
 	}
 	
 	public String getFirstPostLikes() {
