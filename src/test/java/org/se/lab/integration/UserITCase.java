@@ -219,13 +219,11 @@ public class UserITCase {
 		int numberOfRemovableUsers = userOverViewPage.getNumberOfRemovableUsers();
 
 		userOverViewPage = userOverViewPage.addUser(2); // add user with id=2
-		userOverViewPage.refresh();
+
 		assertEquals(numberOfAddableUsers - 1, userOverViewPage.getNumberOfAddableUsers()); // user is no longer addable
 		assertEquals(numberOfRemovableUsers + 1, userOverViewPage.getNumberOfRemovableUsers()); // user is now removable
 
-		userOverViewPage = userOverViewPage.removeUser(2); // remove user from contacts - otherwise user++ with every
-															// test-run
-		userOverViewPage.refresh();
+		userOverViewPage = userOverViewPage.removeUser(2); // remove user from contacts - otherwise user++ with every test-run
 		assertEquals(numberOfAddableUsers, userOverViewPage.getNumberOfAddableUsers());
 		assertEquals(numberOfRemovableUsers, userOverViewPage.getNumberOfRemovableUsers());
 	}
