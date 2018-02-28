@@ -64,10 +64,12 @@ public class ActivityStreamPage extends PageObject {
 	}
 
 	public ActivityStreamPage deletePost() {
-		driver.findElement(By.xpath("//*/div/button/span[text()='DELETE Post!']")).click();
-		driver.navigate().refresh();
+		
+		WebElement button = driver.findElement(By.xpath("//*/div/button/span[text()='DELETE Post!']"));
+		button.click();
+		
+		this.waitForElementRefresh(button, 30);
+		
 		return this;
-
 	}
-
 }
