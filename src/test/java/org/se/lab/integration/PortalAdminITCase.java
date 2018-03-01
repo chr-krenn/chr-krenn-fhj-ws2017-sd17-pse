@@ -60,7 +60,7 @@ public class PortalAdminITCase {
 		tempFile = File.createTempFile("tmp_upload_", ".jpg");
 		tempFile.deleteOnExit();
 		
-		communityProfilePage = activityStreamPage.getCommunityProfilePage("j_idt39:j_idt40:0:j_idt46");
+		communityProfilePage = activityStreamPage.getCommunityProfilePageByIndex(0);
 		communityProfilePage.uploadFile(tempFile.getAbsolutePath());
 
 		List<String> files = communityProfilePage.getFileNames();
@@ -71,13 +71,17 @@ public class PortalAdminITCase {
 	@Test //#20 Als Portaladmin möchte ich News(Posts) bearbeiten (löschen) können.
 	public void testDeletePost() {
 		String message = UUID.randomUUID().toString();
-		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
-		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt39:j_idt40:0:j_idt46");
+		communityProfilePage = activityStreamPage.getCommunityProfilePageByIndex(0);
 		communityProfilePage = communityProfilePage.newPost(message);
 		activityStreamPage = communityProfilePage.getActivityStreamPage();
+		activityStreamPage.refresh();
 
 		assertTrue(activityStreamPage.getAllPosts().contains(message));
+		
 		activityStreamPage = activityStreamPage.deletePost();
+		activityStreamPage = activityStreamPage.getActivityStreamPage();
+		activityStreamPage.refresh();
+		
 		assertFalse(activityStreamPage.getAllPosts().contains(message));		
 	}
 	
