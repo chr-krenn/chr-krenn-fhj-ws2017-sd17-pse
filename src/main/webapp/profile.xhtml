@@ -237,13 +237,13 @@
 						<b:dataTableColumn value="#{community.description}"
 							label="Description" />
 						<b:dataTableColumn label="Details">
-							<p:commandLink action="#{communityOverviewBean.gotoCom()}"
-								title="View Detail">
+							<b:commandButton action="#{communityOverviewBean.gotoCom()}"
+								value="View Detail">
 								<h:outputText styleClass="ui-icon ui-icon-search"
 									style="margin:0 auto;" />
 								<f:setPropertyActionListener value="#{community}"
 									target="#{communityOverviewBean.selectedCommunity}" />
-							</p:commandLink>
+							</b:commandButton>
 						</b:dataTableColumn>
 					</b:dataTable>
 				</h:form>

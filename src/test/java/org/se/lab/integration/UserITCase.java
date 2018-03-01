@@ -36,8 +36,9 @@ public class UserITCase {
 
 	@Before
 	public void setUp() throws Exception {
-		userCommunities.add("Computer Vision");
+		
 		userCommunities.add("Bachelorarbeit 1");
+		userCommunities.add("Computer Vision");
 		userCommunities.add("English for Scientific Purposes");
 		userCommunities.add("Heterogene Systeme");
 
@@ -95,9 +96,9 @@ public class UserITCase {
 		List<String> messageHeaders = new ArrayList<String>();
 		messageHeaders = communityProfilePage.getPostPanelHeaders();
 		// messageHeader = "Posted in Bachelorarbeit 1 at Wed Nov 22 13:31:50 CET 2017"
-		for (int i = 0; i < messageHeaders.size()-1; i++) {
-			String newDate = messageHeaders.get(i).split(" at ")[1]; // start with 0
-			String oldDate = messageHeaders.get(i+1).split(" at ")[1];
+		for (int i = 1; i < messageHeaders.size(); i++) {
+			String newDate = messageHeaders.get(i-1).split(" at ")[1]; // start with 0
+			String oldDate = messageHeaders.get(i).split(" at ")[1];
 			DateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 			Date actualDate = format.parse(newDate);
 			Date date = format.parse(oldDate);
@@ -157,7 +158,7 @@ public class UserITCase {
 		assertTrue(pendingCommunities.contains(cdesc));
 	}
 
-	/* check if correct user profile is shown **/
+	/* check if correct user data are shown in user profile **/
 	@Test
 	public void testUserProfilePresent() {
 		profilePage = activityStreamPage.getProfilePage();
@@ -168,6 +169,44 @@ public class UserITCase {
 		assertEquals(profilePage.getMailAddress(), "robert.ionescu@edu.fh-joanneum.at");
 	}
 
+	/*
+	 * #10 user wants to access his own profile from every page - link in header
+	 */
+	@Test
+	public void testAccessUserProfileFromActivityStream() {
+		assertEquals("Activity Stream", activityStreamPage.getHeader());
+		
+		profilePage = activityStreamPage.getProfilePage();
+		assertEquals("ionescu 's Profile", profilePage.getHeader());
+	}
+	
+	@Test
+	public void testAccessUserProfileFromCommunityOverview() {
+		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
+		assertEquals("Available Communities", communityOverviewPage.getHeader());
+		
+		profilePage = communityOverviewPage.getProfilePage();
+		assertEquals("ionescu 's Profile", profilePage.getHeader());
+	}
+	
+	@Test
+	public void testAccessUserProfileFromCommunityProfile() {
+		communityProfilePage = activityStreamPage.getCommunityProfilePageByIndex(0);
+		assertTrue(userCommunities.contains(communityProfilePage.getHeader()));
+		
+		profilePage = communityProfilePage.getProfilePage();
+		assertEquals("ionescu 's Profile", profilePage.getHeader());
+	}
+	@Test
+	public void testAccessUserProfileFromUserOverview() {
+		userOverViewPage = activityStreamPage.getUserOverviewPage();
+		assertEquals("Available Users", userOverViewPage.getHeader());
+		
+		profilePage = userOverViewPage.getProfilePage();
+		assertEquals("ionescu 's Profile", profilePage.getHeader());
+	}
+	
+	
 	/*
 	 * user wants to see on his own profile - list user's contacts - list of user's
 	 * communities
@@ -194,8 +233,8 @@ public class UserITCase {
 	/* # 29 user wants to see only Community posts on Community Stream */
 	@Test
 	public void testOnlyCommunityMessagesOnCommunityProfilePage() {
-		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
-		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt39:j_idt40:0:j_idt46");
+		communityProfilePage = activityStreamPage.getCommunityProfilePageByIndex(0);
+		
 		for (String header : communityProfilePage.getPostPanelHeaders()) {
 			assertTrue(header.contains(communityProfilePage.getHeader())); // check if each headers in CommunityStream
 																			// contain community name

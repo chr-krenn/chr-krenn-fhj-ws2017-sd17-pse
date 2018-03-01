@@ -75,7 +75,7 @@ public class PortalAdminITCase {
 		communityProfilePage = communityOverviewPage.getCommunityProfilePage("j_idt39:j_idt40:0:j_idt46");
 		communityProfilePage = communityProfilePage.newPost(message);
 		activityStreamPage = communityProfilePage.getActivityStreamPage();
-		
+
 		assertTrue(activityStreamPage.getAllPosts().contains(message));
 		activityStreamPage = activityStreamPage.deletePost();
 		assertFalse(activityStreamPage.getAllPosts().contains(message));		

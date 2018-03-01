@@ -56,7 +56,10 @@ public abstract class PageObject {
 		driver.findElement(By.id(button)).click();
 		return new CommunityProfilePage(driver);
 	}
-
+	public CommunityProfilePage getCommunityProfilePageByIndex(int index) {
+		// TODO Auto-generated method stub
+		return getCommunityProfilePage("j_idt39:j_idt40:" + index + ":j_idt46");
+	}
 	public UserOverviewPage getUserOverviewPage() {
 		// navigate to useroverview.xhtml
 		driver.findElement(By.id("j_idt10:j_idt14")).click();
@@ -73,6 +76,11 @@ public abstract class PageObject {
 		driver.findElement(By.id("dtLj_idt10:j_idt16")).click();
 		driver.findElement(By.id("j_idt10:profileButton")).click();
 		return new ProfilePage(driver);
+	}
+	
+	//returns header of each page {"Login", "Activity Stream", "Available Communities", "Available User", username +"'s Profile", "Admin Portal"}
+	public String getHeader() {
+		return driver.findElement(By.cssSelector("h2")).getText();
 	}
 	
 	public LoginPage logout() {

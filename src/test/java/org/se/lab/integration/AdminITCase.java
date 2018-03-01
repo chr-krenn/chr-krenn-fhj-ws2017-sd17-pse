@@ -16,7 +16,7 @@ public class AdminITCase {
 	private LoginPage loginPage;
 	private ActivityStreamPage activityStreamPage;
 	private AdminPortalPage adminPortalPage;
-
+	private ProfilePage profilePage;
 	private String adminUsername = "dogic";
 	private String adminPassword = "pass";
 
@@ -42,6 +42,18 @@ public class AdminITCase {
 		activityStreamPage.refresh();
 
 		assertEquals("Login", activityStreamPage.getHeader());
+	}
+	
+	/*
+	 * #10 user wants to access his own profile from every page - link in header
+	 */
+	@Test
+	public void testAccessUserProfileFromAdminPortal() {
+		adminPortalPage = activityStreamPage.getAdminPortalPage();
+		assertEquals("Admin Portal", adminPortalPage.getHeader());
+		
+		profilePage = adminPortalPage.getProfilePage();
+		assertEquals("dogic 's Profile", profilePage.getHeader());
 	}
 	
 	/* #12 admin wants to see in the admin area a list with pending communitities */
