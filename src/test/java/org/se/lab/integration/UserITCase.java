@@ -143,22 +143,36 @@ public class UserITCase {
 
 	/* user wants to create/request a new community */
 	@Test
-	public void testCreateCommunity() {
+	public void testCreatePublicCommunity() {
 		String cname = UUID.randomUUID().toString();
 		String cdesc = "Community description created by functional test.";
 
 		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
-		communityOverviewPage.createCommunity(cname, cdesc);
+		communityOverviewPage.createCommunity(cname, cdesc, false);
 
 		// login as admin to verify community has been requested
-		activityStreamPage = loginPage.login(adminUsername, adminPassword);
-		adminPortalPage = activityStreamPage.getAdminPortalPage();
-		String pendingCommunities = adminPortalPage.getPendingCommunities();
-
+		String pendingCommunities = getPendingComunitiesAsUser();
+		
 		assertTrue(pendingCommunities.contains(cname));
 		assertTrue(pendingCommunities.contains(cdesc));
 	}
 
+	@Test
+	public void testCreatePrivateCommunity() {
+		String cname = UUID.randomUUID().toString();
+		String cdesc = "Community description created by functional test.";
+
+		communityOverviewPage = activityStreamPage.getCommunityOverviewPage();
+		communityOverviewPage.createCommunity(cname, cdesc, true);
+		
+		String pendingCommunities = getPendingComunitiesAsUser();
+		
+		assertTrue(pendingCommunities.contains(cname));
+		assertTrue(pendingCommunities.contains(cdesc));
+		assertTrue(pendingCommunities.contains("true"));
+	}
+	
+	
 	/* check if correct user data are shown in user profile **/
 	@Test
 	public void testUserProfilePresent() {
@@ -284,11 +298,20 @@ public class UserITCase {
 			}
 		}
 	}
-	
-	
 
 	@After
 	public void tearDown() throws Exception {
 		loginPage.tearDown();
+	}
+	
+	
+	/*
+	 * helper
+	 */
+	
+	public String getPendingComunitiesAsUser() {
+		activityStreamPage = loginPage.login(adminUsername, adminPassword);
+		adminPortalPage = activityStreamPage.getAdminPortalPage();
+		return adminPortalPage.getPendingCommunities();
 	}
 }
