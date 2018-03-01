@@ -8,7 +8,6 @@ import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserContact;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,20 +56,23 @@ public class PostDAOTest extends AbstractDAOTest {
     @Test
     @Override
     public void testCreate() {
-    	//TODO: FRAGILE! should be refactored!!
+
     	
     	Community persistedCommunity = cdao.insert(community1);
-    	User persistedUser = udao.insert(user1);
-    	UserContact persistedUserContact = ucdao.insert(userContact);
+    	udao.insert(user1);
+    	ucdao.insert(userContact);
     	
     	Post insertedPost1 = pdao.insert(post1);
     	Post insertedPost2 = pdao.insert(post2);
     	
     	
-    	Post parentPost = pdao.createPost(null, null, user1, "Parent Post Test", new Date(180L));
     	
-    	//TODO: throws Constraint violation exception 
-    	//Post childPost = pdao.createPost(parentPost, persistedCommunity, user1, "Child Post Test", new Date(180L));
+    	Post parentPost = pdao.createPost(null, null, user1, "Parent Post Test", new Date(180L));
+
+
+    	Post childPost = pdao.createPost(parentPost, persistedCommunity, user1,
+    			"Child Post Test", new Date(190L));
+    	
     	
     	
     	Post clonePost = pdao.clonePost(post1);
@@ -89,7 +91,7 @@ public class PostDAOTest extends AbstractDAOTest {
     	Assert.assertEquals(insertedPost1, postsOfUser1.get(0));
     	Assert.assertEquals(insertedPost2, postsOfUser1.get(1));
     	Assert.assertEquals(parentPost, postsOfUser1.get(2));
-    	//Assert.assertEquals(childPost, postsOfUser1.get(2).getChildPosts().get(0));
+    	Assert.assertEquals(childPost, postsOfUser1.get(2).getChildPosts().get(0));
     	Assert.assertEquals(insertedPost2, pdao.getPostsForCommunity(persistedCommunity).get(0));
     	Assert.assertEquals(clonePost, pdao.getPostsForUser(user1).get(3));
     	
@@ -173,16 +175,17 @@ public class PostDAOTest extends AbstractDAOTest {
     	}
     	
     	
+    	
     	//assert
-    	testUsers = udao.findAll();
-    	testContacts = ucdao.findAll();
-    	testCommunities = cdao.findAll();
+
+    	Assert.assertNull(udao.findById(user1.getId()));
+    	Assert.assertNull(ucdao.findById(userContact.getId()));
+    	Assert.assertNull(cdao.findById(community1.getId()));
     	
-    	Assert.assertEquals(0, pdao.getPostsForUser(user1).size());
-    	Assert.assertEquals(false, testUsers.contains(user1));
-    	Assert.assertEquals(false, testContacts.contains(userContact));
-    	Assert.assertEquals(false, testCommunities.contains(community1));
-    	
+    	for(Post post : testPosts){
+    		Assert.assertNull(pdao.findById(post.getId()));
+    	}
+
     	super.tearDown();
     }
 
