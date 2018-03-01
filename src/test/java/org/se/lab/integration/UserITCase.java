@@ -62,7 +62,8 @@ public class UserITCase {
 	}
 	
 
-	@Test
+	/* #21 user wants to be able to give feedback to posts in activity stream */
+	@Test 
 	public void testLikeFirstPost() {
 		String message = UUID.randomUUID().toString();
 		activityStreamPage.newPost(message);
@@ -106,7 +107,7 @@ public class UserITCase {
 		}
 	}
 
-	/* user wants to post new messages/comments shown in Activity Stream */
+	/* #21 user wants to post new messages/comments shown in Activity Stream */
 	@Test
 	public void testNewPost() {
 		String message = UUID.randomUUID().toString(); // generate random message for test
