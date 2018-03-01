@@ -90,8 +90,8 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     	persistedEnumeration.setCom(community);
     	persistedEnumeration.setUser(user);
     	
-    	//TODO: cuases Error
-    	//persistedEnumeration.addUserToLike(user2);
+
+    	persistedEnumeration.addUserToLike(user2);
     	
     	dao.update(persistedEnumeration);
     	
@@ -105,7 +105,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     	
     	boolean userLikedCheck = false;
     	for(User u : likedUsers){
-    		if(u.equals(user)){
+    		if(u.equals(user2)){
     			List<Enumeration> likes = u.getLikes();
     			userLikedCheck = true;
     			Assert.assertEquals(true, likes.contains(persistedEnumeration));
@@ -124,7 +124,7 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     	}
     	
     	
-    	//Assert.assertTrue(userLikedCheck);
+    	Assert.assertTrue(userLikedCheck);
     	Assert.assertTrue(userEnumCheck);
     	Assert.assertEquals(communities, persistedEnumeration.getCom());
     	Assert.assertEquals(posts, persistedEnumeration.getLikedPosts());
@@ -134,36 +134,34 @@ public class EnumerationDAOTest extends AbstractDAOTest {
     @After
     @Override
     public void tearDown(){
-    	//arrange
-    	List<Community> communities = commDao.findAll();
-    	List<Post> posts = postDao.findAll();
-    	List<User> users = userDao.findAll();
-    	List<Enumeration> enums = dao.findAll();
+    	    	
+    	//act
     	
-    	//act       
-    	if(enums.contains(persistedEnumeration))
-    		dao.delete(persistedEnumeration);
-    	
-    	if(posts.contains(post))
-    		postDao.delete(post);
-
-    	if(communities.contains(community))
+    	if(commDao.findById(community.getId()) != null)
     		commDao.delete(community);
-
-    	if(users.contains(user))
+    	
+    	if(postDao.findById(post.getId()) != null)
+    		postDao.delete(post);
+    	
+    	if(userDao.findById(user.getId()) != null)
     		userDao.delete(user);
     	
-    	communities = commDao.findAll();
-    	posts = postDao.findAll();
-    	users = userDao.findAll();
-    	enums = dao.findAll();
+    	if(userDao.findById(user2.getId()) != null)
+    		userDao.delete(user2);
+    	
+    	if(dao.findById(persistedEnumeration.getId()) != null)
+    		dao.delete(persistedEnumeration);
     	
     	//assert
-    	Assert.assertFalse(communities.contains(community));
-    	Assert.assertFalse(posts.contains(post));
-    	Assert.assertFalse(users.contains(user));
-    	Assert.assertFalse(enums.contains(persistedEnumeration));
+    	
+    	Assert.assertNull(commDao.findById(community.getId()));
+    	Assert.assertNull(userDao.findById(user.getId()));
+    	Assert.assertNull(userDao.findById(user2.getId()));
+    	Assert.assertNull(postDao.findById(post.getId()));
+    	Assert.assertNull(dao.findById(persistedEnumeration.getId()));
+
     	
     	super.tearDown();
+    	
     }
 }
