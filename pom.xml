@@ -121,11 +121,12 @@
 					<!-- exclude DAO tests -->
 					<excludes>
 						<exclude>**/*DAO*.java</exclude>
+						<exclude>**/*IC*.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
 
-			<!-- DAO and UI tests -->
+			<!-- DAO, Container and UI tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
@@ -144,6 +145,7 @@
 
 							<includes>
 								<include>**/*DAO*.java</include>
+								<include>**/*IC*.java</include>
 							</includes>
 						</configuration>
 					</execution>
@@ -310,6 +312,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			
 		</dependencies>
 	</dependencyManagement>
 
@@ -419,6 +422,47 @@
 			<version>5.1.0.Final</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- In Container Tests -->
+		<!-- xnio Wildfly version is 3.2.2.final -->
+		<dependency>
+			<groupId>org.jboss.xnio</groupId>
+			<artifactId>xnio-api</artifactId>
+			<version>3.2.2.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.xnio</groupId>
+			<artifactId>xnio-nio</artifactId>
+			<version>3.2.2.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jboss-ejb-client</artifactId>
+			<version>2.0.1.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jboss-remote-naming</artifactId>
+			<version>2.0.1.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>javax</groupId>
+		    <artifactId>javaee-api</artifactId>
+		    <version>7.0</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+	    		<groupId>org.wildfly</groupId>
+	    		<artifactId>wildfly-ejb-client-bom</artifactId>
+	    		<version>10.1.0.Final</version>
+	    		<type>pom</type>
+	    		<scope>import</scope>
+			</dependency>
+		
 
 		<!-- UI tests -->
 		<dependency>
