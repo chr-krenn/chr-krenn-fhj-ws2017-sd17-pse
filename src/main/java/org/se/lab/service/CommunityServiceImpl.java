@@ -160,6 +160,7 @@ public class CommunityServiceImpl implements CommunityService {
             throw new ServiceException("Can't join user " + user + " to community " + community);
         }
     }
+    
     @Override
     public Community request(String name, String description, int portalAdmin) {
     	return request(name, description, portalAdmin, false);
@@ -390,5 +391,12 @@ public class CommunityServiceImpl implements CommunityService {
             LOG.error(msg, e);
             throw new ServiceException(msg);
         }
+    }
+    
+    public void setEnumerationService (EnumerationService es) {
+    	this.enumerationService = es;
+    }
+    public void setFileDAO (FileDAO f) {
+    	this.fileDAO = f;
     }
 }

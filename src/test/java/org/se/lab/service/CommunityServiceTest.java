@@ -24,17 +24,30 @@ public class CommunityServiceTest {
     public static final int ID = 1;
     public static final String NAME = "testcommunity";
     public static final String DESCRIPTION = "testcommunity description";
+	private static final User user1 = new User("Test", "User");
+    
     @Rule
     public EasyMockRule mocks = new EasyMockRule(this);
     List<Community> communities;
+    
     @TestSubject
     private CommunityService communityService = new CommunityServiceImpl();
+    
     @Mock
     private EnumerationService enumerationService;
+    
+    @Mock
+    private UserService userService;
+    
+    @Mock
+    private PrivateMessageService pmService;
+    
     @Mock
     private CommunityDAO communityDAO;
+    
     @Mock
     private FileDAO fileDAO;
+    
     private Community community1;
     private Community community2;
     private Community community3;
@@ -63,6 +76,53 @@ public class CommunityServiceTest {
 
         communities = new ArrayList<>();
     }
+    
+    /*
+     * Happy path
+     */
+    
+    
+    @Test
+    public void test_leave() {
+    	expect(communityDAO.update(community1)).andReturn(community1);
+    	replay(communityDAO);
+       
+        communityService.leave(community1, new User("username2", "pwd"));
+    }
+    
+    @Test
+    public void test_uploadFile() {
+    	UploadedFile file = EasyMock.createMock(UploadedFile.class);
+    	
+    	expect(file.getFileName()).andStubReturn("Mockfile");
+    	expect(file.getContents()).andStubReturn(new byte[1]);
+    	expect(fileDAO.insert(EasyMock.anyObject())).andStubReturn(new File());
+    	replay(file, fileDAO);
+    	communityService.uploadFile(community1, file);
+    	communityService.uploadFile(user1, file);
+    }
+    
+    @Test
+    public void test_getFilesFromCommunity() {
+    	expect(fileDAO.findByCommunity(EasyMock.anyObject())).andReturn(new ArrayList<>());
+    	replay(fileDAO);
+    	communityService.getFilesFromCommunity(community1);
+    }
+    
+    @Test
+    public void test_delete() {
+    	enumerationService = EasyMock.createMock(EnumerationService.class);
+    	expect(enumerationService.findById(8)).andStubReturn(new Enumeration(8));
+    	replay(enumerationService);
+       
+    	((CommunityServiceImpl) communityService).setEnumerationService(enumerationService);
+    	
+    	expect(communityDAO.update(community1)).andReturn(community1);
+    	replay(communityDAO);
+       
+        
+        communityService.delete(community1);
+    }
 
     @Test
     public void aatest() {
@@ -86,19 +146,15 @@ public class CommunityServiceTest {
         Assert.assertThat(communityCapture.getValue().getState(), is(enumerationService.getApproved()));
     }
 
-    @Ignore("something wrong with mock configuration for new method request")
     @Test
     public void request() {
-        Community community = new Community(NAME, DESCRIPTION, 1);
-
-        Community communityResult = new Community(NAME, DESCRIPTION, 1);
-        community.setState(enumerationService.getPending());
-
-        Capture<Community> communityCapture = EasyMock.newCapture();
-        expect(communityDAO.insert(capture(communityCapture))).andReturn(communityResult);
-        replay(communityDAO);
-
-        Assert.assertThat(communityCapture.getValue().getState(), is(enumerationService.getPending()));
+    	List<User> admins = new ArrayList<>();
+    	admins.add(user1);
+        expect(communityDAO.createCommunity(EasyMock.anyString(), EasyMock.anyString(), eq(1), eq(false))).andReturn(community1);
+        expect(userService.findById(1)).andReturn(user1); 
+        expect(userService.getAdmins()).andReturn(admins);
+        replay(communityDAO, userService);
+        communityService.request("Easy", "Mock", 1);
     }
 
     @Test
@@ -109,6 +165,15 @@ public class CommunityServiceTest {
         expect(communityDAO.findAll()).andReturn(communities);
 
         communityService.findAll();
+    }
+    
+    @Test
+    public void test_findByName() {
+    	final String name = "Hello";
+    	expect(communityDAO.findByName(EasyMock.anyString())).andReturn(community1);
+        replay(communityDAO);
+        Assert.assertEquals(communityService.findByName(name).toString(), community1.toString());
+        EasyMock.verify(communityDAO);
     }
 
     @Test
@@ -170,6 +235,381 @@ public class CommunityServiceTest {
         Assert.assertThat(community3.getState(), is(enumerationService.getRefused()));
     }
 
+    
+    /*
+     * Exception testing
+     */
+    
+    @Test(expected = ServiceException.class)
+    public void findAll_withIllegalArgumentException() {
+    	expect(communityDAO.findAll()).andThrow(new IllegalArgumentException());
+        replay(communityDAO);
+        communityService.findAll();
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void findAll_withException() {
+    	expect(communityDAO.findAll()).andThrow(new RuntimeException());
+        replay(communityDAO);
+
+        communityService.findAll();
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void getApproved_withIllegalArgumentException() {
+    	expect(communityDAO.findCommunitiesByState(Enumeration.State.APPROVED)).andThrow(new IllegalArgumentException());
+        replay(communityDAO);
+        communityService.getApproved();
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void getApproved_withException() {
+    	expect(communityDAO.findCommunitiesByState(Enumeration.State.APPROVED)).andThrow(new RuntimeException());
+        replay(communityDAO);
+        communityService.getApproved();
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void getPending_withIllegalArgumentException() {
+    	expect(communityDAO.findCommunitiesByState(Enumeration.State.PENDING)).andThrow(new IllegalArgumentException());
+        replay(communityDAO);
+        communityService.getPending();
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void getPending_withException() {
+    	expect(communityDAO.findCommunitiesByState(Enumeration.State.PENDING)).andThrow(new RuntimeException());
+        replay(communityDAO);
+        communityService.getPending();
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void notifyAdmins_withIllegalArgumentException() {
+    	expect(communityDAO.createCommunity(EasyMock.anyString(), EasyMock.anyString(), eq(1), eq(false))).andReturn(community1);
+        expect(userService.findById(1)).andThrow(new IllegalArgumentException());
+        replay(communityDAO, userService);
+        communityService.request("Easy", "Mock", 1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void notifyAdmins_withException() {
+    	expect(communityDAO.createCommunity(EasyMock.anyString(), EasyMock.anyString(), eq(1), eq(false))).andReturn(community1);
+        expect(userService.findById(1)).andThrow(new RuntimeException());
+        replay(communityDAO, userService);
+        communityService.request("Easy", "Mock", 1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void request_withIllegalArgumentException() {
+    	expect(communityDAO.createCommunity(EasyMock.anyString(), EasyMock.anyString(), eq(1), eq(false))).andThrow(new IllegalArgumentException());
+        replay(communityDAO);
+        communityService.request("Easy", "Mock", 1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void request_withException() {
+    	expect(communityDAO.createCommunity(EasyMock.anyString(), EasyMock.anyString(), eq(1), eq(false))).andThrow(new RuntimeException());
+        replay(communityDAO);
+        communityService.request("Easy", "Mock", 1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void findById_withIllegalArgumentException() {
+    	expect(communityDAO.findById(eq(1))).andThrow(new IllegalArgumentException());
+        replay(communityDAO);
+        communityService.findById(1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void findById_withException() {
+    	expect(communityDAO.findById(eq(1))).andThrow(new RuntimeException());
+        replay(communityDAO);
+        communityService.findById(1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void getFilesFromUser_withIllegalArgumentException() {
+    	expect(fileDAO.findByUser(EasyMock.anyObject())).andThrow(new IllegalArgumentException());
+        replay(fileDAO);
+        communityService.getFilesFromUser(user1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void getFilesFromUser_withException() {
+    	expect(fileDAO.findByUser(EasyMock.anyObject())).andThrow(new RuntimeException());
+        replay(fileDAO);
+        communityService.getFilesFromUser(user1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void deleteFile_withIllegalArgumentException() {
+    	File file = EasyMock.createMock(File.class);
+    	fileDAO.delete(file);
+    	EasyMock.expectLastCall().andThrow(new IllegalArgumentException());
+    	replay(file, fileDAO);
+    	communityService.deleteFile(file);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void deleteFile_withException() {
+    	File file = EasyMock.createMock(File.class);
+    	expect(file.getFilename()).andStubReturn("Stub");
+    	fileDAO.delete(file);
+    	EasyMock.expectLastCall().andThrow(new RuntimeException());
+    	replay(file, fileDAO);
+    	communityService.deleteFile(file);
+    	
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void findByName_withIllegalArgumentException() {
+    	expect(communityDAO.findByName(EasyMock.anyString())).andThrow(new IllegalArgumentException());
+        replay(communityDAO);
+        communityService.findByName("");
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void uploadFile_withIllegalArgumentException() {
+    	UploadedFile file = EasyMock.createMock(UploadedFile.class);
+    	
+    	expect(file.getFileName()).andStubReturn("Mockfile");
+    	expect(file.getContents()).andStubReturn(new byte[1]);
+    	expect(fileDAO.insert(EasyMock.anyObject())).andThrow(new IllegalArgumentException());
+    	replay(file, fileDAO);
+    	communityService.uploadFile(user1, file);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void findByName_withException() {
+    	expect(communityDAO.findByName(EasyMock.anyString())).andThrow(new RuntimeException());
+        replay(communityDAO);
+        communityService.findByName("");
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void fileUpload_withIllegalArgumentException() {
+    	UploadedFile file = EasyMock.createMock(UploadedFile.class);
+    	
+    	expect(file.getFileName()).andStubReturn("Mockfile");
+    	expect(file.getContents()).andReturn(new byte[1]);
+    	expect(fileDAO.insert(EasyMock.anyObject())).andThrow(new IllegalArgumentException());
+    	replay(file, fileDAO);
+    	communityService.uploadFile(community1, file);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void fileUpload_withException() {
+    	UploadedFile file = EasyMock.createMock(UploadedFile.class);
+    	
+    	expect(file.getFileName()).andStubReturn("Mockfile");
+    	expect(file.getContents()).andReturn(new byte[1]);
+    	expect(fileDAO.insert(EasyMock.anyObject())).andThrow(new RuntimeException());
+    	replay(file, fileDAO);
+    	communityService.uploadFile(community1, file);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void getFilesFfromCommunityd_withIllegalArgumentException() {
+    	expect(fileDAO.findByCommunity(EasyMock.anyObject())).andThrow(new IllegalArgumentException());
+    	replay(fileDAO);
+    	communityService.getFilesFromCommunity(community1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void getFilesFfromCommunity_withException() {
+    	expect(fileDAO.findByCommunity(EasyMock.anyObject())).andThrow(new RuntimeException());
+    	replay(fileDAO);
+    	communityService.getFilesFromCommunity(community1);
+    }
+
+    
+    @Test(expected = ServiceException.class)
+    public void approve_withIllegalArgumentException() {
+    	@SuppressWarnings("serial")
+		Community badCommunity = new Community() {
+    		@Override
+    		public void setState(Enumeration state) {
+    			throw new IllegalArgumentException();
+    		}
+    		
+    		@Override
+    		public Enumeration getState() {
+    	        return enumerationService.getPending();
+    	    }
+    	};
+        communityService.approve(badCommunity);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void approve_withException() {
+    	@SuppressWarnings("serial")
+		Community badCommunity = new Community() {
+    		@Override
+    		public void setState(Enumeration state) {
+    			throw new RuntimeException();
+    		}
+    		
+    		@Override
+    		public Enumeration getState() {
+    	        return enumerationService.getPending();
+    	    }
+    	};
+        communityService.approve(badCommunity);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void refuse_withIllegalArgumentException() {
+    	@SuppressWarnings("serial")
+		Community badCommunity = new Community() {
+    		@Override
+    		public void setState(Enumeration state) {
+    			throw new IllegalArgumentException();
+    		}
+    		
+    		@Override
+    		public Enumeration getState() {
+    	        return enumerationService.getPending();
+    	    }
+    	};
+        communityService.refuse(badCommunity);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void refuse_withException() {
+    	@SuppressWarnings("serial")
+		Community badCommunity = new Community() {
+    		@Override
+    		public void setState(Enumeration state) {
+    			throw new RuntimeException();
+    		}
+    		
+    		@Override
+    		public Enumeration getState() {
+    	        return enumerationService.getPending();
+    	    }
+    	};
+        communityService.refuse(badCommunity);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void approve_withException_NotPendingCommunity() {
+    	communityService.approve(community1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void delete_withIllegalArgumentException() {
+    	enumerationService = EasyMock.createMock(EnumerationService.class);
+    	expect(enumerationService.findById(8)).andStubReturn(new Enumeration(8));
+    	replay(enumerationService);
+       
+    	((CommunityServiceImpl) communityService).setEnumerationService(enumerationService);
+    	
+    	expect(communityDAO.update(community1)).andThrow(new IllegalArgumentException());
+    	replay(communityDAO);
+       
+        
+        communityService.delete(community1);
+
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void delete_withException() {
+    	enumerationService = EasyMock.createMock(EnumerationService.class);
+    	expect(enumerationService.findById(8)).andStubReturn(new Enumeration(8));
+    	replay(enumerationService);
+       
+    	((CommunityServiceImpl) communityService).setEnumerationService(enumerationService);
+    	
+    	expect(communityDAO.update(community1)).andThrow(new RuntimeException());
+    	replay(communityDAO);
+       
+        
+        communityService.delete(community1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void update_withIllegalArgumentException() {
+    	enumerationService = EasyMock.createMock(EnumerationService.class);
+    	expect(enumerationService.findById(8)).andStubReturn(new Enumeration(8));
+    	replay(enumerationService);
+       
+    	((CommunityServiceImpl) communityService).setEnumerationService(enumerationService);
+    	
+    	expect(communityDAO.update(community1)).andThrow(new IllegalArgumentException());
+    	replay(communityDAO);
+       
+        
+        communityService.update(community1);
+
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void update_withException() {
+    	enumerationService = EasyMock.createMock(EnumerationService.class);
+    	expect(enumerationService.findById(8)).andStubReturn(new Enumeration(8));
+    	replay(enumerationService);
+       
+    	((CommunityServiceImpl) communityService).setEnumerationService(enumerationService);
+    	
+    	expect(communityDAO.update(community1)).andThrow(new RuntimeException());
+    	replay(communityDAO);
+       
+        
+        communityService.update(community1);
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void join_withIllegalArgumentException() {
+    	@SuppressWarnings("serial")
+		Community badCommuntiy = new Community() {
+    		@Override
+    		public void addUsers(User user) {
+    			throw  new IllegalArgumentException();
+    		}
+    	};
+        communityService.join(badCommuntiy, new User("username2", "pwd"));
+        
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void leave_withIllegalArgumentException() {
+    	@SuppressWarnings("serial")
+		Community badCommuntiy = new Community() {
+    		@Override
+    		public void removeUsers(User user) {
+    			throw  new IllegalArgumentException();
+    		}
+    	};
+        communityService.leave(badCommuntiy, new User("username2", "pwd")); 
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void leave_withException() {
+    	@SuppressWarnings("serial")
+		Community badCommuntiy = new Community() {
+    		@Override
+    		public void removeUsers(User user) {
+    			throw  new RuntimeException();
+    		}
+    	};
+        communityService.leave(badCommuntiy, new User("username2", "pwd")); 
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void leave_withException_MissingUser() {
+    	
+        communityService.leave(community1, null); 
+    }
+    
+    @Test(expected = ServiceException.class)
+    public void join_withException() {
+    	expect(communityDAO.update(community1)).andThrow(new RuntimeException());
+    	replay(communityDAO);
+       
+        
+        communityService.join(community1, new User("username2", "pwd"));
+    }
+    
     @Test(expected = ServiceException.class)
     public void refuse_Fail() {
         communityService.refuse(community3);

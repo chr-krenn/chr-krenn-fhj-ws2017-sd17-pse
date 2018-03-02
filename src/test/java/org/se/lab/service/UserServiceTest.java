@@ -1,5 +1,6 @@
 package org.se.lab.service;
 
+import org.easymock.EasyMock;
 import org.easymock.EasyMockRule;
 import org.easymock.EasyMockRunner;
 import org.easymock.Mock;
@@ -7,15 +8,21 @@ import org.easymock.TestSubject;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mindrot.jbcrypt.BCrypt;
+import org.se.lab.db.dao.CommunityDAO;
+import org.se.lab.db.dao.EnumerationDAO;
 import org.se.lab.db.dao.UserContactDAO;
 import org.se.lab.db.dao.UserDAO;
 import org.se.lab.db.dao.UserProfileDAO;
+import org.se.lab.db.data.Community;
+import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.User;
 import org.se.lab.db.data.UserContact;
 import org.se.lab.db.data.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.NoResultException;
 
 import static org.easymock.EasyMock.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -39,6 +46,12 @@ public class UserServiceTest {
     private UserContactDAO userContactDAO;
     @Mock
     private UserProfileDAO userProfileDAO;
+    
+    @Mock
+    private CommunityDAO communityDAO;
+    
+    @Mock
+    private EnumerationDAO enumDAO;
 
     private User user1;
     private User user2;
@@ -101,27 +114,28 @@ public class UserServiceTest {
         Assert.assertThat(user, nullValue());
     }
 
-    @Ignore
     @Test
     public void getAllContactsByUser() {
         List<UserContact> userContactList = new ArrayList<>();
         UserContact contact1 = null;
         UserContact contact2 = null;
 
-        contact1 = new UserContact(user1, 3);
-        contact2 = new UserContact(user2, 2);
+        contact1 = new UserContact(user1, 2);
+        contact2 = new UserContact(user2, 1);
 
 
         userContactList.add(contact1);
         userContactList.add(contact2);
 
-        expect(userContactDAO.findAll()).andReturn(userContactList);
-        replay(userContactDAO);
+        expect(userContactDAO.findContactsbyUser(user1)).andReturn(userContactList);
+        expect(userDAO.findById(eq(1))).andStubReturn(user1);
+        expect(userDAO.findById(eq(2))).andStubReturn(user2);
+        replay(userContactDAO, userDAO);
         List<User> allContacts = userService.getContactsOfUser(user1);
 
-        Assert.assertThat(allContacts.size(), is(1));
-        Assert.assertThat(allContacts.get(0), is(contact1));
+        Assert.assertEquals(allContacts.size(), userContactList.size());
     }
+    
 
     @Test
     public void update_Successful() {
@@ -152,6 +166,15 @@ public class UserServiceTest {
         UserProfile userProfile1Result = userService.getUserProfilById(1);
         Assert.assertThat(userProfile1Result.getUser(), is(user1));
     }
+    
+    @Test
+    public void addPictureToProfile() {
+        expect(userProfileDAO.update(userProfile1)).andReturn(userProfile1);
+        replay(userProfileDAO);
+
+        userService.addPictureToProfile(userProfile1);
+        EasyMock.verify(userProfileDAO);
+    }
 
     @Test
     public void getAllUserProfiles() {
@@ -164,6 +187,69 @@ public class UserServiceTest {
 
         List<UserProfile> userProfilesResult = userService.getAllUserProfiles();
         Assert.assertThat(userProfilesResult.size(), is(2));
+    }
+    
+    @Test
+    public void getAllCommunitiesForUser() {
+    	List<Community> communities =  new ArrayList<>();
+    	communities.add(new Community("1", "one", 1));
+    	communities.add(new Community("2", "two", 1));
+    	communities.get(0).addUsers(user1);
+    	communities.get(1).addUsers(user1);
+    	
+        expect(communityDAO.findAll()).andStubReturn(communities);
+        replay(communityDAO);
+        
+        Assert.assertEquals(communities.size(), userService.getAllCommunitiesForUser(user1).size());
+        
+    }
+    
+    @Test
+    public void getAdmins() {
+    	List<User> admin = new ArrayList<>();
+    	admin.add(user1);
+    	expect(enumDAO.findUsersByEnumeration(4)).andStubReturn(admin);
+        replay(enumDAO);
+        
+        Assert.assertEquals(admin.size(), userService.getAdmins().size());
+        EasyMock.verify(enumDAO);
+        
+    }
+    
+    @SuppressWarnings("serial")
+	@Test
+    public void hasUserTheRole_true() {
+    	User mock = EasyMock.createMock(User.class);
+    	List<Enumeration> roles = new ArrayList<>();
+    	
+    	roles.add(new Enumeration() {
+    		@Override
+    		public String getName() {
+				return User.ROLE.ADMIN.name();	
+    		}
+    	});
+    	roles.add(new Enumeration() {
+    		@Override
+    		public String getName() {
+				return User.ROLE.PORTALADMIN.name();	
+    		}
+    	});
+    	expect(mock.getId()).andStubReturn(1);
+    	expect(mock.getRoles()).andStubReturn(roles);
+    	replay(mock);
+    	expect(userDAO.findById(mock.getId())).andStubReturn(mock);
+    	replay(userDAO);
+    	
+    	userService.hasUserTheRole(User.ROLE.PORTALADMIN, user1);
+    }
+    
+    @Test
+    public void hasUserTheRole_false() {
+
+    	expect(userDAO.findById(user1.getId())).andStubReturn(user1);
+    	replay(userDAO);
+    	
+    	userService.hasUserTheRole(User.ROLE.PORTALADMIN, user1);
     }
 
     @Test
@@ -226,5 +312,270 @@ public class UserServiceTest {
 
         userService.delete(user1.getId());
     }
+    
+    /*
+     * Exceptions
+     */
+    
+    @Test(expected=ServiceException.class)
+    public void insert_withIllegalArgument() {
+    	expect(userDAO.insert(user1)).andThrow(new IllegalArgumentException());
+    	replay(userDAO);
+    	
+    	userService.insert(user1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void insert_withExceptionArgument() {
+    	expect(userDAO.insert(user1)).andThrow(new RuntimeException());
+    	replay(userDAO);
+    	
+    	userService.insert(user1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void delete_withIllegalArgument() {
+    	userDAO.delete(user1);
+    	expectLastCall().andThrow(new IllegalArgumentException());
+    	replay(userDAO);
+    	
+    	userService.delete(user1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void delete_withExceptionArgument() {
+    	userDAO.delete(user1);
+    	expectLastCall().andThrow(new RuntimeException());
+    	replay(userDAO);
+    	
+    	userService.delete(user1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void login_withNoResult() {
+    	expect(userDAO.findByUsername(EasyMock.anyString())).andThrow(new NoResultException());
+    	replay(userDAO);
+    	
+    	userService.login("Scriptkiddy", "passwort1");
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void login_withIllegalArgument() {
+    	expect(userDAO.findByUsername(EasyMock.anyString())).andThrow(new IllegalArgumentException());
+    	replay(userDAO);
+    	
+    	userService.login("Scriptkiddy", "passwort1");
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void login_withExceptionArgument() {
+    	expect(userDAO.findByUsername(EasyMock.anyString())).andThrow(new RuntimeException());
+    	replay(userDAO);
+    	
+    	userService.login("Scriptkiddy", "passwort1");
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void addContact_withIllegalArgument() {
+    	expect(userDAO.findByUsername(EasyMock.anyString())).andThrow(new IllegalArgumentException());
+    	replay(userDAO);
+    	
+    	userService.addContact(user1, "Irgendwer");
+    }
+    
+    
+    @Test(expected=ServiceException.class)
+    public void addContact_withExistingContactFails() {
+    	expect(userDAO.findByUsername(EasyMock.anyString())).andThrow(new RuntimeException());
+    	replay(userDAO);
+    	
+    	userService.addContact(user1, "irgendwer");
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void emoveContact_withExceptionArgument() {
+    	expect(userDAO.findByUsername(EasyMock.anyString())).andThrow(new RuntimeException());
+    	replay(userDAO);
+    	
+    	userService.removeContact(user1, "SomeName");
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void removeContact_withIllegalArgument() {
+    	expect(userDAO.findByUsername(EasyMock.anyString())).andThrow(new IllegalArgumentException());
+    	replay(userDAO);
+    	
+    	userService.removeContact(user1, "SomeName");
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getAllContactsByUser_withExceptionArgument() {
+    	expect(userContactDAO.findContactsbyUser(user1)).andThrow(new RuntimeException());
+    	replay(userContactDAO);
+    	
+    	userService.getAllContactsByUser(user1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getAllContactsByUser_withIllegalArgument() {
+    	expect(userContactDAO.findContactsbyUser(user1)).andThrow(new IllegalArgumentException());
+    	replay(userContactDAO);
+    	
+    	userService.getAllContactsByUser(user1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void updateUser_withExceptionArgument() {
+    	expect(userDAO.update(user1)).andThrow(new RuntimeException());
+    	replay(userDAO);
+    	
+    	userService.update(user1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void updateUser_withIllegalArgument() {
+    	expect(userDAO.update(user1)).andThrow(new IllegalArgumentException());
+    	replay(userDAO);
+    	
+    	userService.update(user1);
+    }
 
+    @Test(expected=ServiceException.class)
+    public void findAll_withExceptionArgument() {
+    	expect(userDAO.findAll()).andThrow(new RuntimeException());
+    	replay(userDAO);
+    	
+    	userService.findAll();
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void findAll_withIllegalArgument() {
+    	expect(userDAO.findAll()).andThrow(new IllegalArgumentException());
+    	replay(userDAO);
+    	
+    	userService.findAll();
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getUserProfilById_withExceptionArgument() {
+    	expect(userProfileDAO.findById(1)).andThrow(new RuntimeException());
+    	replay(userProfileDAO);
+    	
+    	userService.getUserProfilById(1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getUserProfilById_withIllegalArgument() {
+    	expect(userProfileDAO.findById(1)).andThrow(new IllegalArgumentException());
+    	replay(userProfileDAO);
+    	
+    	userService.getUserProfilById(1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getAllUserProfiles_withExceptionArgument() {
+    	expect(userProfileDAO.findAll()).andThrow(new RuntimeException());
+    	replay(userProfileDAO);
+    	
+    	userService.getAllUserProfiles();
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getAllUserProfiles_withIllegalArgument() {
+    	expect(userProfileDAO.findAll()).andThrow(new IllegalArgumentException());
+    	replay(userProfileDAO);
+    	
+    	userService.getAllUserProfiles();
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getAllCommunitiesForUser_withExceptionArgument() {
+    	expect(communityDAO.findAll()).andThrow(new RuntimeException());
+    	replay(communityDAO);
+    	
+    	userService.getAllCommunitiesForUser(user1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getAllCommunitiesForUser_withIllegalArgument() {
+    	expect(communityDAO.findAll()).andThrow(new IllegalArgumentException());
+    	replay(communityDAO);
+    	
+    	userService.getAllCommunitiesForUser(user1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void deleteUser_withExceptionArgument() {
+    	
+    	expect(userDAO.findById(1)).andStubReturn(user1);
+    	userDAO.delete(user1);
+    	EasyMock.expectLastCall().andThrow(new RuntimeException());
+    	replay(userDAO);
+    	
+    	userService.delete(1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void deleteUser_withIllegalArgument() {
+    	expect(userDAO.findById(1)).andStubReturn(user1);
+    	userDAO.delete(user1);
+    	EasyMock.expectLastCall().andThrow(new IllegalArgumentException());
+    	replay(userDAO);
+    	
+    	userService.delete(1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void findById_withExceptionArgument() {
+    	
+    	expect(userDAO.findById(1)).andThrow(new RuntimeException());
+    	replay(userDAO);
+    	
+    	userService.findById(1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void findById_withIllegalArgument() {
+    	expect(userDAO.findById(1)).andThrow(new IllegalArgumentException());
+    	replay(userDAO);
+    	
+    	userService.findById(1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void addPictureToProfile_withExceptionArgument() {
+    	
+    	userProfileDAO.update(userProfile1);
+    	EasyMock.expectLastCall().andThrow(new RuntimeException());
+    	replay(userProfileDAO);
+    	
+    	userService.addPictureToProfile(userProfile1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void addPictureToProfile_withIllegalArgument() {
+    	userProfileDAO.update(userProfile1);
+    	EasyMock.expectLastCall().andThrow(new IllegalArgumentException());
+    	replay(userProfileDAO);
+    	
+    	userService.addPictureToProfile(userProfile1);
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getAdmins_withExceptionArgument() {
+    	
+    	expect(enumDAO.findUsersByEnumeration(4)).andThrow(new RuntimeException());
+    	replay(enumDAO);
+    	
+    	userService.getAdmins();
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void getAdmins_withIllegalArgument() {
+    	expect(enumDAO.findUsersByEnumeration(4)).andThrow(new IllegalArgumentException());
+    	replay(enumDAO);
+    	
+    	userService.getAdmins();
+    }
+    
 }
