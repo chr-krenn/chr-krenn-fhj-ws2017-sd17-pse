@@ -57,7 +57,7 @@ public abstract class PageObject {
 		return new CommunityProfilePage(driver);
 	}
 	public CommunityProfilePage getCommunityProfilePageByIndex(int index) {
-		// TODO Auto-generated method stub
+		
 		return getCommunityProfilePage("j_idt39:j_idt40:" + index + ":j_idt46");
 	}
 	public UserOverviewPage getUserOverviewPage() {

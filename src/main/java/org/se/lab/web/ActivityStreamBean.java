@@ -187,7 +187,6 @@ public class ActivityStreamBean implements Serializable {
             LOG.error(msg, e);
             setErrorMsg(msg);
         }
-        //TODO: What to return, if an error occurs?
         return null;
     }
 
