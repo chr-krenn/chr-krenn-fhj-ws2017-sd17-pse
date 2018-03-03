@@ -30,6 +30,7 @@ public class ComponentTest {
 	public void givenWord_WhenUppercase_ThenLowercase(){
 	    assertTrue("capitalize".equals(capsService.getConvertedCaps("CAPITALIZE")));
 	    assertEquals("capitalize", capsService.getConvertedCaps("CAPITALIZE"));
+	    
 	}
 	
 	
