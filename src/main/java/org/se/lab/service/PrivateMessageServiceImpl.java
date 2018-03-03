@@ -10,7 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-@Stateless
+@Stateless 
 public class PrivateMessageServiceImpl implements PrivateMessageService {
 
     private final static Logger LOG = Logger.getLogger(PostServiceImpl.class);
