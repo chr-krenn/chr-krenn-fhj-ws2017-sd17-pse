@@ -52,6 +52,7 @@ public class EnumerationServiceTest {
 		verify(enumDAO);
 	}
 	
+	
 	/*
 	 * Exception handling
 	 */
@@ -71,8 +72,5 @@ public class EnumerationServiceTest {
 		enumService.findById(1);
 	}
 	
-	@Test(expected=ServiceException.class)
-	public void testServiceException() {
-		throw new ServiceException("With Stack", new RuntimeException());
-	}
+	
 }

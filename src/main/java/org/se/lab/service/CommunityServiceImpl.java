@@ -393,10 +393,6 @@ public class CommunityServiceImpl implements CommunityService {
         }
     }
     
-    public void setEnumerationService (EnumerationService es) {
-    	this.enumerationService = es;
-    }
-    public void setFileDAO (FileDAO f) {
-    	this.fileDAO = f;
-    }
+ 
+
 }

@@ -140,11 +140,5 @@ public class ActivityStreamServiceImpl implements ActivityStreamService {
         }
     }
     
-    /*
-     * This method helps with tests, since EasyMock cannot create
-     * undeclared exceptions, but a custom PostDAOimpl can
-     */
-    public void setPostDAO(PostDAO dao) {
-    	this.dao = dao;
-    }
+   
 }

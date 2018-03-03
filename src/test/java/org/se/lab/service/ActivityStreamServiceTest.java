@@ -1,5 +1,6 @@
 package org.se.lab.service;
 
+import org.easymock.EasyMock;
 import org.easymock.EasyMockRule;
 import org.easymock.EasyMockRunner;
 import org.easymock.Mock;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 @RunWith(EasyMockRunner.class)
 public class ActivityStreamServiceTest {
@@ -30,7 +32,6 @@ public class ActivityStreamServiceTest {
     
     @TestSubject
     private ActivityStreamService activityStreamService = new ActivityStreamServiceImpl();
-    private ActivityStreamServiceImpl throwingService = new ActivityStreamServiceImpl();
 
     
     @Mock
@@ -67,6 +68,82 @@ public class ActivityStreamServiceTest {
     }
 
    
+    
+    /*
+     * Happy path
+     */ 
+    
+    @Test
+    public void insert_withoutCommunity() {
+        expect(postDAO.insert(post1)).andReturn(post1);
+        replay(postDAO);
+
+        activityStreamService.insert(post1);
+        verify(postDAO);
+    }
+
+    @Test
+    public void insert_withCommunity() {
+        expect(postDAO.insert(post1,community)).andReturn(post1);
+        replay(postDAO);
+
+        activityStreamService.insert(post1,community);
+        verify(postDAO);
+    }
+
+    @Test
+    public void delete_Successful(){
+
+        // delete childpost
+        expect(postDAO.findById(childPost.getId())).andStubReturn(childPost);
+        enumerationDAO.delete(alike);
+        postDAO.delete(childPost);
+        // delete mainpost
+        expect(postDAO.findById(post1.getId())).andStubReturn(post1);
+        postDAO.delete(post1);
+        replay(postDAO, enumerationDAO);
+
+        activityStreamService.delete(post1,user);
+        verify(postDAO);
+    }
+
+    @Test
+    public void update_Successful(){
+        expect(postDAO.update(post1)).andReturn(post1);
+        replay(postDAO);
+
+        activityStreamService.update(post1);
+        verify(postDAO);
+    }
+
+    @Test
+    public void test_getPostsForUser(){
+        expect(postDAO.getPostsForUser(user)).andReturn(postList);
+        replay(postDAO);
+
+        activityStreamService.getPostsForUser(user);
+        verify(postDAO);
+    }
+
+    @Test
+    public void test_getPostsForCommunity(){
+        expect(postDAO.getPostsForCommunity(community)).andReturn(postList);
+        replay(postDAO);
+
+        activityStreamService.getPostsForCommunity(community);
+        verify(postDAO);
+    }
+
+    @Test
+    public void test_getPostsForUserAndContacts(){
+        expect(postDAO.getPostsForUserAndContacts(user, new ArrayList<>())).andReturn(postList);
+        replay(postDAO);
+
+        activityStreamService.getPostsForUserAndContacts(user, new ArrayList<>());
+        verify(postDAO);
+    }
+    
+    
     
     /*
      * Exceptionahandling
@@ -120,182 +197,56 @@ public class ActivityStreamServiceTest {
     	activityStreamService.getPostsForUserAndContacts(user, new ArrayList<>());
     }
     
-    /*
-     * Catch Exception
-     * cannot be tested with easy mock
-     * undeclared checked exceptions cannot be thrown with easy mock
-     */
+    
     @Test(expected=ServiceException.class)
     public void insert_withException() {
-    	throwingService.setPostDAO(new RuntimeExceptionPostDAO());
-    	throwingService.insert(post1);
+    	expect(postDAO.insert(post1)).andThrow(new RuntimeException());
+    	replay(postDAO);
+    	
+    	activityStreamService.insert(post1);
     }
     
     @Test(expected=ServiceException.class)
     public void update_withException() {
-    	throwingService.setPostDAO(new RuntimeExceptionPostDAO());
-    	throwingService.update(post1);
+    	expect(postDAO.update(post1)).andThrow(new RuntimeException());
+    	replay(postDAO);
+    	
+    	activityStreamService.update(post1);
     }
     
     @Test(expected=ServiceException.class)
     public void getPostforUser_withException() {
-    	throwingService.setPostDAO(new RuntimeExceptionPostDAO());
-    	throwingService.getPostsForUser(user);
+    	expect(postDAO.getPostsForUser(user)).andThrow(new RuntimeException());
+    	replay(postDAO);
+    	
+    	activityStreamService.getPostsForUser(user);
     }
     
     @Test(expected=ServiceException.class)
     public void getPostforCommunity_withException() {
-    	throwingService.setPostDAO(new RuntimeExceptionPostDAO());
-    	throwingService.getPostsForCommunity(community);
+    	expect(postDAO.getPostsForCommunity(community)).andThrow(new RuntimeException());
+    	replay(postDAO);
+    	
+    	activityStreamService.getPostsForCommunity(community);
     }
     
     @Test(expected=ServiceException.class)
     public void getPostforUserandContacts_withException() {
-    	throwingService.setPostDAO(new RuntimeExceptionPostDAO());
-    	throwingService.getPostsForUserAndContacts(user, new ArrayList<>());
+    	expect(postDAO.getPostsForUserAndContacts(EasyMock.anyObject(), EasyMock.anyObject()))
+    	.andThrow(new RuntimeException());
+    	replay(postDAO);
+    	
+    	activityStreamService.getPostsForUserAndContacts(user, new ArrayList<>());
     }
     
     @Test(expected=ServiceException.class)
     public void delete_withException() {
-    	// setup exception
-    	throwingService.setPostDAO(new RuntimeExceptionPostDAO());
-    	throwingService.delete(post1, user);
+    	expect(postDAO.findById(post1.getId())).andThrow(new RuntimeException());
+    	replay(postDAO);
+    	activityStreamService.delete(post1, user);
     }
     
-    /*
-     * Happy path
-     */ 
     
-    @Test
-    public void insert_withoutCommunity() {
-        expect(postDAO.insert(post1)).andReturn(post1);
-        replay(postDAO);
-
-        activityStreamService.insert(post1);
-    }
-
-    @Test
-    public void insert_withCommunity() {
-        expect(postDAO.insert(post1,community)).andReturn(post1);
-        replay(postDAO);
-
-        activityStreamService.insert(post1,community);
-    }
-
-    @Test
-    public void delete_Successful(){
-
-        // delete childpost
-        expect(postDAO.findById(childPost.getId())).andReturn(childPost);
-        enumerationDAO.delete(alike);
-        postDAO.delete(childPost);
-        // delete mainpost
-        expect(postDAO.findById(post1.getId())).andReturn(post1);
-        postDAO.delete(post1);
-        replay(postDAO, enumerationDAO);
-
-        activityStreamService.delete(post1,user);
-    }
-
-    @Test
-    public void update_Successful(){
-        expect(postDAO.update(post1)).andReturn(post1);
-        replay(postDAO);
-
-        activityStreamService.update(post1);
-    }
-
-    @Test
-    public void test_getPostsForUser(){
-        expect(postDAO.getPostsForUser(user)).andReturn(postList);
-        replay(postDAO);
-
-        activityStreamService.getPostsForUser(user);
-    }
-
-    @Test
-    public void test_getPostsForCommunity(){
-        expect(postDAO.getPostsForCommunity(community)).andReturn(postList);
-        replay(postDAO);
-
-        activityStreamService.getPostsForCommunity(community);
-    }
-
-    @Test
-    public void test_getPostsForUserAndContacts(){
-        expect(postDAO.getPostsForUserAndContacts(user, new ArrayList<>())).andReturn(postList);
-        replay(postDAO);
-
-        activityStreamService.getPostsForUserAndContacts(user, new ArrayList<>());
-    }
     
-    /**
-     * A PostDAOImpl that always throws RuntimeExceptions,
-     * because EasyMock cannot throw undeclared exceptions 
-     * @author Stefan Moder
-     *
-     */
-    class RuntimeExceptionPostDAO implements PostDAO {
-
-		@Override
-		public Post insert(Post entity) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public Post update(Post entity) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public void delete(Post entity) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public Post findById(int id) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public List<Post> findAll() {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public List<Post> findAll(String hql) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public Post insert(Post post, Community community) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public List<Post> getPostsForUser(User user) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public List<Post> getPostsForUserAndContacts(User user, List<Integer> contactIds) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public List<Post> getPostsForCommunity(Community community) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public Post clonePost(Post post) {
-			throw new RuntimeException();
-		}
-
-		@Override
-		public Post createPost(Post parentpost, Community community, User user, String text, Date created) {
-			throw new RuntimeException();
-		}
-    	
-    }
+    
 }

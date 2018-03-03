@@ -80,19 +80,28 @@ public class UserServiceTest {
     public void tearDown() throws Exception {
     }
 
+    
+    /*
+     * Happy path
+     */
+    
     @Test
     public void insert_Successful() {
         expect(userDAO.insert(user1)).andReturn(user1);
-
+        replay(userDAO);
+        
         userService.insert(user1);
+        verify(userDAO);
     }
 
     @Test
     public void deleteByUser_Successful() {
         userDAO.delete(user1);
         expectLastCall();
+        replay(userDAO);
 
         userService.delete(user1);
+        verify(userDAO);
     }
 
     @Test
@@ -103,6 +112,7 @@ public class UserServiceTest {
         User user = userService.login(user1.getUsername(), "password");
         Assert.assertTrue(BCrypt.checkpw("password", user.getPassword()));
         Assert.assertThat(user, equalTo(user1));
+        verify(userDAO);
     }
 
     @Test
@@ -112,6 +122,7 @@ public class UserServiceTest {
 
         User user = userService.login(USERNAME, "wrongPassword");
         Assert.assertThat(user, nullValue());
+        verify(userDAO);
     }
 
     @Test
@@ -121,19 +132,24 @@ public class UserServiceTest {
         UserContact contact2 = null;
 
         contact1 = new UserContact(user1, 2);
+        UserContact contact3 = new UserContact(user1, 3);
         contact2 = new UserContact(user2, 1);
 
 
         userContactList.add(contact1);
         userContactList.add(contact2);
+        userContactList.add(contact3);
 
         expect(userContactDAO.findContactsbyUser(user1)).andReturn(userContactList);
         expect(userDAO.findById(eq(1))).andStubReturn(user1);
         expect(userDAO.findById(eq(2))).andStubReturn(user2);
+        expect(userDAO.findById(eq(3))).andStubReturn(null);
         replay(userContactDAO, userDAO);
         List<User> allContacts = userService.getContactsOfUser(user1);
 
-        Assert.assertEquals(allContacts.size(), userContactList.size());
+        Assert.assertEquals(userContactList.size()-1, allContacts.size()); // null is not a contact
+        verify(userDAO);
+        verify(userContactDAO);
     }
     
 
@@ -143,6 +159,7 @@ public class UserServiceTest {
         replay(userDAO);
 
         userService.update(user1);
+        verify(userDAO);
     }
 
     @Test
@@ -156,6 +173,7 @@ public class UserServiceTest {
 
         List<User> allUsers = userService.findAll();
         Assert.assertThat(allUsers.size(), is(2));
+        verify(userDAO);
     }
 
     @Test
@@ -165,6 +183,7 @@ public class UserServiceTest {
 
         UserProfile userProfile1Result = userService.getUserProfilById(1);
         Assert.assertThat(userProfile1Result.getUser(), is(user1));
+        verify(userProfileDAO);
     }
     
     @Test
@@ -173,7 +192,7 @@ public class UserServiceTest {
         replay(userProfileDAO);
 
         userService.addPictureToProfile(userProfile1);
-        EasyMock.verify(userProfileDAO);
+        verify(userProfileDAO);
     }
 
     @Test
@@ -187,6 +206,7 @@ public class UserServiceTest {
 
         List<UserProfile> userProfilesResult = userService.getAllUserProfiles();
         Assert.assertThat(userProfilesResult.size(), is(2));
+        verify(userProfileDAO);
     }
     
     @Test
@@ -201,7 +221,7 @@ public class UserServiceTest {
         replay(communityDAO);
         
         Assert.assertEquals(communities.size(), userService.getAllCommunitiesForUser(user1).size());
-        
+        verify(communityDAO);
     }
     
     @Test
@@ -212,7 +232,7 @@ public class UserServiceTest {
         replay(enumDAO);
         
         Assert.assertEquals(admin.size(), userService.getAdmins().size());
-        EasyMock.verify(enumDAO);
+        verify(enumDAO);
         
     }
     
@@ -241,6 +261,7 @@ public class UserServiceTest {
     	replay(userDAO);
     	
     	userService.hasUserTheRole(User.ROLE.PORTALADMIN, user1);
+    	verify(userDAO);
     }
     
     @Test
@@ -250,6 +271,7 @@ public class UserServiceTest {
     	replay(userDAO);
     	
     	userService.hasUserTheRole(User.ROLE.PORTALADMIN, user1);
+    	verify(userDAO);
     }
 
     @Test
@@ -263,6 +285,8 @@ public class UserServiceTest {
         replay(userContactDAO);
 
         userService.addContact(user2, user1.getUsername());
+        verify(userContactDAO);
+        verify(userDAO);
     }
 
     @Test(expected = ServiceException.class)
@@ -274,6 +298,8 @@ public class UserServiceTest {
         replay(userContactDAO);
 
         userService.addContact(user2, user1.getUsername());
+        verify(userDAO);
+        verify(userContactDAO);
     }
 
     @Test(expected = ServiceException.class)
@@ -285,6 +311,8 @@ public class UserServiceTest {
         replay(userContactDAO);
 
         userService.removeContact(user2, user1.getUsername());
+        verify(userDAO);
+        verify(userContactDAO);
     }
 
     @Test
@@ -299,6 +327,8 @@ public class UserServiceTest {
         replay(userContactDAO);
 
         userService.removeContact(user2, user1.getUsername());
+        verify(userDAO);
+        verify(userContactDAO);
     }
 
     @Test
@@ -311,6 +341,7 @@ public class UserServiceTest {
         replay(userDAO);
 
         userService.delete(user1.getId());
+        verify(userDAO);
     }
     
     /*
@@ -383,6 +414,43 @@ public class UserServiceTest {
     	userService.addContact(user1, "Irgendwer");
     }
     
+    @Test(expected=ServiceException.class)
+    public void addContact_withIllegalArgumentinUser() {
+
+    	User corrupted = EasyMock.createMock(User.class);
+    	
+    	expect(corrupted.getId()).andReturn(user1.getId()).once()
+    		.andThrow(new IllegalArgumentException());
+    	
+    	replay(corrupted);
+        expect(userDAO.findByUsername(USERNAME)).andReturn(corrupted);
+        replay(userDAO);
+
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(), user2.getId())).andReturn(false);
+        expect(userContactDAO.insert(userContact2)).andReturn(userContact2);
+        replay(userContactDAO);
+
+        userService.addContact(user2, user1.getUsername());
+    }
+    
+    @Test(expected=ServiceException.class)
+    public void addContact_withExceptioninUser() {
+
+    	User corrupted = EasyMock.createMock(User.class);
+    	
+    	expect(corrupted.getId()).andReturn(user1.getId()).once()
+    		.andThrow(new RuntimeException());
+    	
+    	replay(corrupted);
+        expect(userDAO.findByUsername(USERNAME)).andReturn(corrupted);
+        replay(userDAO);
+
+        expect(userContactDAO.doesContactExistForUserId(user1.getId(), user2.getId())).andReturn(false);
+        expect(userContactDAO.insert(userContact2)).andReturn(userContact2);
+        replay(userContactDAO);
+
+        userService.addContact(user2, user1.getUsername());
+    }
     
     @Test(expected=ServiceException.class)
     public void addContact_withExistingContactFails() {
