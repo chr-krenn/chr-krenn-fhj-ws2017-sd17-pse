@@ -64,6 +64,8 @@ public class TemplateServiceICTest {
 
 	@Before
 	public void setup() throws Exception {
+		tx.begin();
+		
 		user1 = new User("Homer", "password");
 		user2 = new User("Lisa", "*****");
 		community1 = new Community("Container", "Glassfish", 1, false);
@@ -73,12 +75,15 @@ public class TemplateServiceICTest {
 		profile1 = new UserProfile("Homer", "Simpson", "742 Evergreen Terrace", "?????", "Springfield", "USA", "????", "Atoms", "chunkylover53@aol.com", "555-7334", "555-7334", "Nucular Expert");
 		contact1 = new UserContact(user1, 2);
 		
+		tx.commit();
 		
 		tx.begin();
+		
 	}
 	
 	@After
 	public void tearDown() throws Exception {
+		
 		tx.rollback();
 	}
 	
