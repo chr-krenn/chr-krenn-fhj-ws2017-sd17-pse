@@ -20,7 +20,7 @@ public class UserProfile implements Serializable {
     private String firstname;
     @Column(name = "lastname")
     private String lastname;
-    @Column(name = "picture", columnDefinition = "mediumblob")
+    @Column(name = "picture", columnDefinition = "blob")
     private byte[] picture;
     @Column(name = "address")
     private String address;

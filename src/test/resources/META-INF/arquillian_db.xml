@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="pse">
+		<class>org.se.lab.db.data.Post</class>
+		<class>org.se.lab.db.data.Community</class>
+		<class>org.se.lab.db.data.Enumeration</class>
+		<class>org.se.lab.db.data.User</class>
+		<class>org.se.lab.db.data.UserContact</class>
+		<class>org.se.lab.db.data.UserProfile</class>
+		<class>org.se.lab.db.data.PrivateMessage</class>
+		<class>org.se.lab.db.data.File</class>
+		
+
+
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:testdb" />
+			<property name="javax.persistence.jdbc.user" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		</properties>
+
+
+	</persistence-unit>
+</persistence>
