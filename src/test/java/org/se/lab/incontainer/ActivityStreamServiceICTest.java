@@ -2,16 +2,13 @@ package org.se.lab.incontainer;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.User;
-import org.se.lab.db.data.UserContact;
 
 public class ActivityStreamServiceICTest extends TemplateServiceICTest {
 
@@ -105,30 +102,7 @@ public class ActivityStreamServiceICTest extends TemplateServiceICTest {
     //List<Post> getPostsForUserAndContacts(User user, List<Integer> contactIds);
 	@Test @Ignore
 	public void getPostsForUserAndContacts() {
-		User user = new User("Bart", "*******");
-		userService.insert(user);
-		user = userService.findAll().stream().filter(u -> u.getUsername().equals("Bart")).findFirst().get();
-		User user2 = new User("Lisa", "*******");
-		userService.insert(user2);
-		user2 = userService.findAll().stream().filter(u -> u.getUsername().equals("Lisa")).findFirst().get();
-		Post post = new Post(null, null, user, "El Barto", new Date());
-		Post post2 = new Post(null, null, user2, "Ḱnow it all", new Date());
-		try {
-			userService.addContact(user, "Lisa");
-			userService.addContact(user2, "Bart");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		user = userService.findAll().stream().filter(u -> u.getUsername().equals("Bart")).findFirst().get();
-		user2 = userService.findAll().stream().filter(u -> u.getUsername().equals("Lisa")).findFirst().get();
-		
-		activityStreamService.insert(post);
-		
-		List<Integer> contacts = new ArrayList<>();
-		for (UserContact uc : user.getUserContacts())
-			contacts.add(uc.getContactId());
-		activityStreamService.getPostsForUserAndContacts(user, contacts);
+		fail();
 	}
 	
 	
