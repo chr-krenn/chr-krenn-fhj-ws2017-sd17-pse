@@ -1,8 +1,7 @@
-package org.se.lab.integration;
+package org.se.lab.incontainer;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Ignore;

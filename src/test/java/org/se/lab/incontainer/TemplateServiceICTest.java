@@ -1,4 +1,4 @@
-package org.se.lab.integration;
+package org.se.lab.incontainer;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 
@@ -12,18 +12,7 @@ import org.junit.runner.RunWith;
 import org.se.lab.db.dao.EnumerationDAO;
 import org.se.lab.db.dao.UserContactDAO;
 import org.se.lab.db.dao.UserProfileDAO;
-import org.se.lab.db.dao.PostDAO;
-import org.se.lab.db.data.Community;
-import org.se.lab.db.data.Enumeration;
-import org.se.lab.db.data.File;
-import org.se.lab.db.data.Post;
-import org.se.lab.db.data.PrivateMessage;
-import org.se.lab.db.data.User;
-import org.se.lab.db.data.UserContact;
-import org.se.lab.db.data.UserProfile;
 import org.se.lab.service.*;
-
-import java.util.Date;
 
 import javax.inject.Inject;
 import javax.transaction.UserTransaction;

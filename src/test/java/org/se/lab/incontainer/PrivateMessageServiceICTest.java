@@ -1,4 +1,4 @@
-package org.se.lab.integration;
+package org.se.lab.incontainer;
 
 import static org.junit.Assert.*;
 
