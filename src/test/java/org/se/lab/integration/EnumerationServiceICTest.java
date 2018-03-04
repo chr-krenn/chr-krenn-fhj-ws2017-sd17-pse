@@ -16,6 +16,7 @@ public class EnumerationServiceICTest extends TemplateServiceICTest {
 		List<Enumeration> enums = enumDao.findAll();
 		
 		for (Enumeration e : enums) {
+			System.out.println(e);
 			assertEquals(e.getName(), enumerationService.findById(e.getId()).getName());
 		}
 		
@@ -25,21 +26,27 @@ public class EnumerationServiceICTest extends TemplateServiceICTest {
 	@Test
 	public void getPending() {
 		Enumeration pending = enumerationService.getPending();
-		assertEquals("PENDING", pending.getName());
+		assertEquals(
+				enumerationService.findById(Enumeration.State.PENDING.getValue()),
+				pending.getName());
 	}
 
     //Enumeration getApproved();
 	@Test
 	public void getApproved() {
 		Enumeration approved = enumerationService.getApproved();
-		assertEquals("APPROVED", approved.getName());
+		assertEquals(
+				enumerationService.findById(Enumeration.State.APPROVED.getValue()), 
+				approved.getName());
 	}
 
     //Enumeration getRefused();
 	@Test
 	public void getRefused() {
 		Enumeration refused = enumerationService.getRefused();
-		assertEquals("REFUSED", refused.getName());
+		assertEquals(
+				enumerationService.findById(Enumeration.State.REFUSED.getValue()),
+				refused.getName());
 	}
 	
 }
