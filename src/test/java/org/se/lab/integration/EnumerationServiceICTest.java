@@ -27,7 +27,7 @@ public class EnumerationServiceICTest extends TemplateServiceICTest {
 	public void getPending() {
 		Enumeration pending = enumerationService.getPending();
 		assertEquals(
-				enumerationService.findById(Enumeration.State.PENDING.getValue()),
+				enumerationService.findById(Enumeration.State.PENDING.getValue()).getName(),
 				pending.getName());
 	}
 
@@ -36,7 +36,7 @@ public class EnumerationServiceICTest extends TemplateServiceICTest {
 	public void getApproved() {
 		Enumeration approved = enumerationService.getApproved();
 		assertEquals(
-				enumerationService.findById(Enumeration.State.APPROVED.getValue()), 
+				enumerationService.findById(Enumeration.State.APPROVED.getValue()).getName(), 
 				approved.getName());
 	}
 
@@ -45,7 +45,7 @@ public class EnumerationServiceICTest extends TemplateServiceICTest {
 	public void getRefused() {
 		Enumeration refused = enumerationService.getRefused();
 		assertEquals(
-				enumerationService.findById(Enumeration.State.REFUSED.getValue()),
+				enumerationService.findById(Enumeration.State.REFUSED.getValue()).getName(),
 				refused.getName());
 	}
 	
