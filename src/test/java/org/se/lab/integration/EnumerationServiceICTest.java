@@ -1,5 +1,9 @@
 package org.se.lab.integration;
 
+import static org.junit.Assert.*;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.se.lab.db.data.Enumeration;
 
@@ -9,25 +13,33 @@ public class EnumerationServiceICTest extends TemplateServiceICTest {
 	//Enumeration findById(int id);
 	@Test
 	public void findById() {
+		List<Enumeration> enums = enumDao.findAll();
+		
+		for (Enumeration e : enums) {
+			assertEquals(e.getName(), enumerationService.findById(e.getId()).getName());
+		}
 		
 	}
 
     //Enumeration getPending();
 	@Test
 	public void getPending() {
-		
+		Enumeration pending = enumerationService.getPending();
+		assertEquals("PENDING", pending.getName());
 	}
 
     //Enumeration getApproved();
 	@Test
 	public void getApproved() {
-		
+		Enumeration approved = enumerationService.getApproved();
+		assertEquals("APPROVED", approved.getName());
 	}
 
     //Enumeration getRefused();
 	@Test
 	public void getRefused() {
-		
+		Enumeration refused = enumerationService.getRefused();
+		assertEquals("REFUSED", refused.getName());
 	}
 	
 }
