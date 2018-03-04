@@ -22,7 +22,10 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<dependency.locations.enabled>false</dependency.locations.enabled>
-		
+		<resteasy.version>3.0.19.Final</resteasy.version>
+		<wildfly.version>10.1.0.Final</wildfly.version>
+		<undertow-websockets-jsr.version>1.4.6.Final</undertow-websockets-jsr.version>
+
 	</properties>
 
 	<build>
@@ -35,10 +38,8 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.5.201505241946</version>
 				<executions>
-					<!--
-                        Prepares the property pointing to the JaCoCo runtime agent which
-                        is passed as VM argument when Maven the Surefire plugin is executed.
-                    -->
+					<!-- Prepares the property pointing to the JaCoCo runtime agent which 
+						is passed as VM argument when Maven the Surefire plugin is executed. -->
 					<execution>
 						<id>pre-unit-test</id>
 						<goals>
@@ -47,17 +48,13 @@
 						<configuration>
 							<!-- Sets the path to the file which contains the execution data. -->
 							<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-							<!--
-                                Sets the name of the property containing the settings
-                                for JaCoCo runtime agent.
-                            -->
+							<!-- Sets the name of the property containing the settings for JaCoCo 
+								runtime agent. -->
 							<propertyName>surefireArgLine</propertyName>
 						</configuration>
 					</execution>
-					<!--
-                        Ensures that the code coverage report for unit tests is created after
-                        unit tests have been run.
-                    -->
+					<!-- Ensures that the code coverage report for unit tests is created 
+						after unit tests have been run. -->
 					<execution>
 						<id>post-unit-test</id>
 						<phase>test</phase>
@@ -82,17 +79,13 @@
 						<configuration>
 							<!-- Sets the path to the file which contains the execution data. -->
 							<destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
-							<!--
-                                Sets the name of the property containing the settings
-                                for JaCoCo runtime agent.
-                            -->
+							<!-- Sets the name of the property containing the settings for JaCoCo 
+								runtime agent. -->
 							<propertyName>failsafeArgLine</propertyName>
 						</configuration>
 					</execution>
-					<!--
-                        Ensures that the code coverage report for integration tests after
-                        integration tests have been run.
-                    -->
+					<!-- Ensures that the code coverage report for integration tests after 
+						integration tests have been run. -->
 					<execution>
 						<id>post-integration-test</id>
 						<phase>post-integration-test</phase>
@@ -250,30 +243,17 @@
 
 				<executions>
 					<!-- Run wildfly and deploy application for integration tests. -->
-					<!--
-					<execution>
-						<id>wildfly-run</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start</goal>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>wildfly-shutdown</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>undeploy</goal>
-							<goal>shutdown</goal>
-						</goals>
-					</execution>-->
+					<!-- <execution> <id>wildfly-run</id> <phase>pre-integration-test</phase> 
+						<goals> <goal>start</goal> <goal>deploy</goal> </goals> </execution> <execution> 
+						<id>wildfly-shutdown</id> <phase>post-integration-test</phase> <goals> <goal>undeploy</goal> 
+						<goal>shutdown</goal> </goals> </execution> -->
 				</executions>
 
 			</plugin>
 
 		</plugins>
 	</build>
-	
+
 	<reporting>
 		<plugins>
 			<plugin>
@@ -281,20 +261,20 @@
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>3.0.4</version>
 			</plugin>
-		    <plugin>
-        		<groupId>org.apache.maven.plugins</groupId>
-        		<artifactId>maven-pmd-plugin</artifactId>
-        		<version>3.9.0</version>
-        		<configuration>
-        			<skipEmptyReport>false</skipEmptyReport>
-        			<includeTests>true</includeTests>
-      			</configuration>
-      		</plugin>
-      		<plugin>
-            	<groupId>org.apache.maven.plugins</groupId>
-            	<artifactId>maven-jxr-plugin</artifactId>
-            	<version>2.3</version>
-       		</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.9.0</version>
+				<configuration>
+					<skipEmptyReport>false</skipEmptyReport>
+					<includeTests>true</includeTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.3</version>
+			</plugin>
 		</plugins>
 	</reporting>
 
@@ -310,6 +290,13 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>1.4.0.Final</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -317,14 +304,8 @@
 	<dependencies>
 
 		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-junit -->
-		<!--
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-junit</artifactId>
-			<version>2.0.0.0</version>
-			<scope>test</scope>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>org.hamcrest</groupId> <artifactId>hamcrest-junit</artifactId> 
+			<version>2.0.0.0</version> <scope>test</scope> </dependency> -->
 
 
 		<dependency>
@@ -442,26 +423,58 @@
 			<version>5.1.37</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-    <groupId>net.sourceforge.pmd</groupId>
-    <artifactId>pmd</artifactId>
-    <version>5.5.2</version>
-    <type>pom</type>
-</dependency>
-<!-- https://mvnrepository.com/artifact/jdepend/jdepend -->
-<dependency>
-    <groupId>jdepend</groupId>
-    <artifactId>jdepend</artifactId>
-    <version>2.9.1</version>
-    <scope>test</scope>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
-<dependency>
-    <groupId>org.mindrot</groupId>
-    <artifactId>jbcrypt</artifactId>
-    <version>0.3m</version>
-</dependency>
+			<groupId>net.sourceforge.pmd</groupId>
+			<artifactId>pmd</artifactId>
+			<version>5.5.2</version>
+			<type>pom</type>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/jdepend/jdepend -->
+		<dependency>
+			<groupId>jdepend</groupId>
+			<artifactId>jdepend</artifactId>
+			<version>2.9.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.3m</version>
+		</dependency>
+
+		<!-- Arquillian -->
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian</groupId>
+			<artifactId>arquillian-bom</artifactId>
+			<version>1.1.13.Final</version>
+			<scope>import</scope>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.main.extras</groupId>
+			<artifactId>glassfish-embedded-all</artifactId>
+			<version>4.1.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.container</groupId>
+			<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>test</scope>
+		</dependency>
 		
+		
+		
+		
+
+
 	</dependencies>
 </project>

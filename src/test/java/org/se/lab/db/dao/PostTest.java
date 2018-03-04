@@ -164,11 +164,6 @@ public class PostTest {
 		if (!actual.equals(expected))
 			fail(actual + " post is not equal to expected " + expected);
 	}
-	
-	private void assertEquals(Enumeration expected, Enumeration actual) {
-		if (!actual.equals(expected))
-			fail(actual + " enumerationItem is not equal to expected " + expected);
-	}
 
 	/*
 	 * Helper class to test not equals
