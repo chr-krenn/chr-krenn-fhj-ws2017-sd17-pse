@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.se.lab.db.dao.EnumerationDAO;
+import org.se.lab.db.dao.UserContactDAO;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.File;
@@ -35,15 +36,8 @@ public abstract class TemplateServiceICTest {
 	@Inject protected PostService postService;
 	@Inject protected PrivateMessageService pmService;
 	@Inject protected EnumerationDAO enumDao;
+	@Inject protected UserContactDAO contactDao;
 	
-	protected User user1;
-	protected User user2;
-	protected Community community1;
-	protected File file1;
-	protected Post post1;
-	protected PrivateMessage pm1;
-	protected UserContact contact1;
-	protected UserProfile profile1;
 	protected boolean isset = false;
 	
 	@Inject protected UserTransaction tx;
