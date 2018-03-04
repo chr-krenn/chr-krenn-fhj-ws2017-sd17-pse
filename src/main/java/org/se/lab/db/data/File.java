@@ -36,7 +36,7 @@ public class File implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "data", columnDefinition="blob")
+    @Column(name = "data", columnDefinition="mediumblob")
     private byte[] data;
 
     @Column(name="filename", nullable = false, unique = true)

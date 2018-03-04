@@ -26,7 +26,7 @@ import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
 @RunWith(Arquillian.class)
-public class TemplateServiceICTest {
+public abstract class TemplateServiceICTest {
 	
 	@Inject protected UserService userService;
 	@Inject protected ActivityStreamService activityStreamService;

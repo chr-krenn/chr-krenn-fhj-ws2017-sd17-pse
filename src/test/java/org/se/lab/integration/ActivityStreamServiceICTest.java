@@ -18,11 +18,11 @@ public class ActivityStreamServiceICTest extends TemplateServiceICTest {
 		
 		
 		
-		activityStreamService.insert(post1);
+		//activityStreamService.insert(post1);
 		
-		List<Post> posts = activityStreamService.getPostsForUser(user1);
+		//List<Post> posts = activityStreamService.getPostsForUser(user1);
 		
-		assertEquals(post1.getText(), posts.get(posts.size()-1).getText());
+		//assertEquals(post1.getText(), posts.get(posts.size()-1).getText());
 	}
 
     //void insert(Post post, Community community);
