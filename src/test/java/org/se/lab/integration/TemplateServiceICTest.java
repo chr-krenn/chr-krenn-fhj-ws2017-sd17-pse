@@ -8,10 +8,10 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.se.lab.db.dao.UserDAO;
+import org.se.lab.db.dao.EnumerationDAO;
 import org.se.lab.db.data.Community;
+import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.File;
 import org.se.lab.db.data.Post;
 import org.se.lab.db.data.PrivateMessage;
@@ -34,6 +34,7 @@ public abstract class TemplateServiceICTest {
 	@Inject protected EnumerationService enumerationService;
 	@Inject protected PostService postService;
 	@Inject protected PrivateMessageService pmService;
+	@Inject protected EnumerationDAO enumDao;
 	
 	protected User user1;
 	protected User user2;
@@ -43,7 +44,7 @@ public abstract class TemplateServiceICTest {
 	protected PrivateMessage pm1;
 	protected UserContact contact1;
 	protected UserProfile profile1;
-	
+	protected boolean isset = false;
 	
 	@Inject protected UserTransaction tx;
 	
@@ -65,21 +66,33 @@ public abstract class TemplateServiceICTest {
 	@Before
 	public void setup() throws Exception {
 		tx.begin();
-		
-		user1 = new User("Homer", "password");
-		user2 = new User("Lisa", "*****");
-		community1 = new Community("Container", "Glassfish", 1, false);
-		post1 = new Post(null, community1, user1, "This took way longer than i thought", new Date());
-		file1 = new File();
-		file1.setData(new byte[4]);
-		profile1 = new UserProfile("Homer", "Simpson", "742 Evergreen Terrace", "?????", "Springfield", "USA", "????", "Atoms", "chunkylover53@aol.com", "555-7334", "555-7334", "Nucular Expert");
-		contact1 = new UserContact(user1, 2);
+		createEnums();
 		
 		tx.commit();
 		
 		tx.begin();
 		
 	}
+	
+	public void createEnums() {
+		
+		if(isset) {
+			return;
+		}else {
+			enumDao.createEnumeration(1);
+			enumDao.createEnumeration(2);
+			enumDao.createEnumeration(3);
+			enumDao.createEnumeration(4);
+			enumDao.createEnumeration(5);
+			enumDao.createEnumeration(6);
+			enumDao.createEnumeration(7);
+			enumDao.createEnumeration(8);
+			isset = true;
+		}
+		
+
+	}
+	
 	
 	@After
 	public void tearDown() throws Exception {

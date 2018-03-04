@@ -1,12 +1,15 @@
 package org.se.lab.integration;
 
+import static org.junit.Assert.*;
+
 import java.util.List;
 
 import org.junit.Test;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.User;
-import org.se.lab.db.data.UserContact;
 import org.se.lab.db.data.UserProfile;
+import org.se.lab.service.helper.PasswordEncoder;
+
 
 public class UserServiceICTest extends TemplateServiceICTest {
 
@@ -14,12 +17,34 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	//void insert(User user);
 	@Test
 	public void insertUser() {
+		User user = new User("Homer", "password");
+		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile.setUser(user);
+		userService.insert(user);
+		
+		List<User> users = userService.findAll();
+		assertTrue(users.contains(user));
 		
 	}
 	
     //void delete(User user);
 	@Test
 	public void deleteUser() {
+		User user = new User("Homer", "password");
+		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile.setUser(user);
+		userService.insert(user);
+		
+		List<User> users = userService.findAll();
+		assertTrue(users.contains(user));
+		
+		for(User u : users) {
+			userService.delete(u.getId());
+		}
+		
+		users = userService.findAll();
+		assertFalse(users.contains(user));
+		
 		
 	}
 	
@@ -27,7 +52,14 @@ public class UserServiceICTest extends TemplateServiceICTest {
     //User login(String username, String password);
 	@Test
 	public void login() {
+		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile.setUser(user);
+		userService.insert(user);
 		
+		User loggedin = userService.login("Homer", "password");
+		
+		assertTrue(loggedin.equals(user));
 	}
 	
 	
@@ -80,7 +112,22 @@ public class UserServiceICTest extends TemplateServiceICTest {
     //List<Community> getAllCommunitiesForUser(User user);
 	@Test
 	public void getAllCommunitiesForUser() {
+		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile.setUser(user);
+		User user2 = new User("Marge", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile2 = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile2.setUser(user2);
+		userService.insert(user);
+		userService.insert(user2);
+		Community com1 = communityService.request("test", "Test of arquillian", 1);
+		com1.addUsers(user);
+		com1.addUsers(user2);
+		communityService.update(com1);
 		
+		List<Community> coms = userService.getAllCommunitiesForUser(user);
+		System.out.println(coms);
+		assertNotNull(coms);
 	}
 	
 	
@@ -94,7 +141,14 @@ public class UserServiceICTest extends TemplateServiceICTest {
     //User findById(int id);
 	@Test
 	public void findById() {
+		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile.setUser(user);
+		userService.insert(user);
 		
+		int id = userService.findAll().size();
+		
+		User tmp = userService.findById(id);
 	}
 	
 	
@@ -128,8 +182,7 @@ public class UserServiceICTest extends TemplateServiceICTest {
     
 	@Test
 	public void test_test() {
-		User user = new User("Homer", "password");
-		userService.insert(user);
+
 	}
 	
 }
