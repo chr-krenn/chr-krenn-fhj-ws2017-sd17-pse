@@ -16,7 +16,6 @@ public class EnumerationServiceICTest extends TemplateServiceICTest {
 		List<Enumeration> enums = enumDao.findAll();
 		
 		for (Enumeration e : enums) {
-			System.out.println(e);
 			assertEquals(e.getName(), enumerationService.findById(e.getId()).getName());
 		}
 		

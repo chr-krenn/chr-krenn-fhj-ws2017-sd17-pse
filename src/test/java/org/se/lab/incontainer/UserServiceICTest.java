@@ -69,7 +69,6 @@ public class UserServiceICTest extends TemplateServiceICTest {
 		
 		contactDao.insert(new UserContact(user2, user.getId()));
 		userService.addContact(user, user2.getUsername());
-		System.out.println(contactDao.findAll());
 
 		assertNotNull(userService.getAllContactsByUser(user2));
 
@@ -136,8 +135,7 @@ public class UserServiceICTest extends TemplateServiceICTest {
 			profile = (p.getFirstname().equals(profile.getFirstname())) ? p : profile;
 			profile2 = (p.getFirstname().equals(profile2.getFirstname())) ? p : profile2;
 		}
-		System.out.print(profile);
-		System.out.print(profile2);
+
 		UserProfile actual = userService.getUserProfilById(profile.getId());
 		
 		assertEquals(profile, actual);
@@ -175,7 +173,6 @@ public class UserServiceICTest extends TemplateServiceICTest {
 		communityService.update(com1);
 
 		List<Community> coms = userService.getAllCommunitiesForUser(user);
-		System.out.println(coms);
 		assertNotNull(coms);
 	}
 
@@ -227,8 +224,7 @@ public class UserServiceICTest extends TemplateServiceICTest {
 		userService.insert(user);
 		
 		user.setId(userService.findAll().stream().filter(u -> u.getUsername().equals(user.getUsername())).findFirst().get().getId());
-		
-		System.out.println(user.getRoles());
+
 		assertTrue(userService.hasUserTheRole(User.ROLE.ADMIN, user));
 	}
 
