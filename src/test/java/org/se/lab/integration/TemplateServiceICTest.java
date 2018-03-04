@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.se.lab.db.dao.EnumerationDAO;
 import org.se.lab.db.dao.UserContactDAO;
+import org.se.lab.db.dao.UserProfileDAO;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.File;
@@ -37,6 +38,7 @@ public abstract class TemplateServiceICTest {
 	@Inject protected PrivateMessageService pmService;
 	@Inject protected EnumerationDAO enumDao;
 	@Inject protected UserContactDAO contactDao;
+	@Inject protected UserProfileDAO profileDao;
 	
 	protected boolean isset = false;
 	

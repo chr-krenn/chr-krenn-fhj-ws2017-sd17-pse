@@ -65,7 +65,7 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	}
 
 	// void addContact(User user, String contactName);
-	@Ignore
+	
 	@Test
 	public void addContact() {
 		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
@@ -79,7 +79,12 @@ public class UserServiceICTest extends TemplateServiceICTest {
 		userService.insert(user);
 		userService.insert(user2);
 
-		user.addUserContacts(new UserContact(user2, user.getId()));
+		for (User u : userService.findAll()) {
+			user = (u.getUsername().equals(user.getUsername())) ? u : user;
+			user2 = (u.getUsername().equals(user2.getUsername())) ? u : user2;
+		}
+		
+		userService.addContact(user, user2.getUsername());
 
 		userService.update(user2);
 		userService.update(user);
@@ -108,25 +113,77 @@ public class UserServiceICTest extends TemplateServiceICTest {
 				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
 		profile.setUser(user);
 		userService.insert(user);
-
+		
+		for (User u : userService.findAll()) {
+			user = (u.getUsername().equals(user.getUsername())) ? u : user;
+		}
+		
+		user.setPassword((new PasswordEncoder()).encryptPasword("NeuesPasswort"));
+		userService.update(user);
+		
+		assertTrue(user.getPassword().equals(userService.findById(user.getId()).getPassword()));
 	}
 
 	// List<User> findAll();
 	@Test
 	public void findAll() {
-
+		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1",
+				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile.setUser(user);
+		User user2 = new User("Marge", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile2 = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria",
+				"1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile2.setUser(user2);
+		userService.insert(user);
+		userService.insert(user2);
+		
+		assertNotNull(userService.findAll());
 	}
 
 	// UserProfile getUserProfilById(int id);
+	@Ignore
 	@Test
 	public void getUserProfilById() {
+		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1",
+				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile.setUser(user);
+		User user2 = new User("Marge", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile2 = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria",
+				"1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile2.setUser(user2);
+		userService.insert(user);
+		userService.insert(user2);
 
+		for (UserProfile p : userService.getAllUserProfiles()) {
+			profile = (p.getFirstname().equals(profile.getFirstname())) ? p : profile;
+			profile2 = (p.getFirstname().equals(profile2.getFirstname())) ? p : profile2;
+		}
+		System.out.print(profile);
+		System.out.print(profile2);
+		UserProfile actual = userService.getUserProfilById(profile.getId());
+		
+		assertEquals(profile, actual);
+		
 	}
 
 	// List<UserProfile> getAllUserProfiles();
+	@Ignore
 	@Test
 	public void getAllUserProfiles() {
-
+		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile.setUser(user);
+		User user2 = new User("Marge", (new PasswordEncoder()).encryptPasword("password"));
+		UserProfile profile2 = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
+		profile2.setUser(user2);
+		userService.insert(user);
+		userService.insert(user2);
+		profileDao.insert(profile);
+		profileDao.insert(profile2);
+		
+		assertNotNull(userService.getAllUserProfiles());
 	}
 
 	// List<Community> getAllCommunitiesForUser(User user);
@@ -189,7 +246,7 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	// void addPictureToProfile(UserProfile userProfile);
 	@Test
 	public void addPictureToProfile() {
-
+		
 	}
 
 	// boolean hasUserTheRole(User.ROLE privileg, User user);
@@ -210,11 +267,6 @@ public class UserServiceICTest extends TemplateServiceICTest {
 
 	}
 
-	@Test
-	public void test_test() {
-
-	}
-
 	/*
 	 * helper
 	 */
@@ -224,14 +276,13 @@ public class UserServiceICTest extends TemplateServiceICTest {
 		User user = null;
 		User user2 = null;
 		
-
 		for (User u : userService.findAll()) {
 			user = (u.getUsername().equals(user.getUsername())) ? u : user;
 			user2 = (u.getUsername().equals(user2.getUsername())) ? u : user2;
-
-			users.add(user);
-			users.add(user2);
 		}
+		
+		users.add(user);
+		users.add(user2);
 
 		return users;
 
