@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.se.lab.db.data.Community;
+import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.User;
-import org.se.lab.db.data.UserContact;
 import org.se.lab.db.data.UserProfile;
 import org.se.lab.service.helper.PasswordEncoder;
 
@@ -19,9 +19,6 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	@Test
 	public void insertUser() {
 		User user = new User("Homer", "password");
-		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1",
-				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile.setUser(user);
 		userService.insert(user);
 
 		List<User> users = userService.findAll();
@@ -33,9 +30,6 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	@Test
 	public void deleteUser() {
 		User user = new User("Homer", "password");
-		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1",
-				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile.setUser(user);
 		userService.insert(user);
 
 		List<User> users = userService.findAll();
@@ -54,9 +48,6 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	@Test
 	public void login() {
 		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
-		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1",
-				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile.setUser(user);
 		userService.insert(user);
 
 		User loggedin = userService.login("Homer", "password");
@@ -69,13 +60,7 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	@Test
 	public void addContact() {
 		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
-		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1",
-				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile.setUser(user);
 		User user2 = new User("Marge", (new PasswordEncoder()).encryptPasword("password"));
-		UserProfile profile2 = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria",
-				"1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile2.setUser(user2);
 		userService.insert(user);
 		userService.insert(user2);
 
@@ -96,22 +81,19 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	// void removeContact(User user, String contactName);
 	@Test
 	public void removeContact() {
-
+		fail();
 	}
 
 	// List<UserContact> getAllContactsByUser(User user);
 	@Test
 	public void getAllContactsByUser() {
-
+		fail();
 	}
 
 	// void update(User user);
 	@Test
 	public void updateUser() {
 		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
-		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1",
-				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile.setUser(user);
 		userService.insert(user);
 		
 		for (User u : userService.findAll()) {
@@ -128,13 +110,8 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	@Test
 	public void findAll() {
 		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
-		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1",
-				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile.setUser(user);
 		User user2 = new User("Marge", (new PasswordEncoder()).encryptPasword("password"));
-		UserProfile profile2 = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria",
-				"1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile2.setUser(user2);
+
 		userService.insert(user);
 		userService.insert(user2);
 		
@@ -142,7 +119,6 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	}
 
 	// UserProfile getUserProfilById(int id);
-	@Ignore
 	@Test
 	public void getUserProfilById() {
 		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
@@ -169,7 +145,6 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	}
 
 	// List<UserProfile> getAllUserProfiles();
-	@Ignore
 	@Test
 	public void getAllUserProfiles() {
 		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
@@ -190,13 +165,7 @@ public class UserServiceICTest extends TemplateServiceICTest {
 	@Test
 	public void getAllCommunitiesForUser() {
 		User user = new User("Homer", (new PasswordEncoder()).encryptPasword("password"));
-		UserProfile profile = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria", "1",
-				"Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile.setUser(user);
 		User user2 = new User("Marge", (new PasswordEncoder()).encryptPasword("password"));
-		UserProfile profile2 = new UserProfile("Christian", "Hofer", "Petzoldstraße", "8642", "Lorenzen", "Austria",
-				"1", "Test", "christian@gmail.com", "06641234567", "06641234567", "Testgruppe");
-		profile2.setUser(user2);
 		userService.insert(user);
 		userService.insert(user2);
 		Community com1 = communityService.request("test", "Test of arquillian", 1);
@@ -241,30 +210,44 @@ public class UserServiceICTest extends TemplateServiceICTest {
 		int id = userService.findAll().size();
 
 		User tmp = userService.findById(id);
+		
+		assertEquals(tmp, user);
 	}
 
 	// void addPictureToProfile(UserProfile userProfile);
 	@Test
 	public void addPictureToProfile() {
-		
+		fail();
 	}
 
 	// boolean hasUserTheRole(User.ROLE privileg, User user);
 	@Test
 	public void hasUserTheRole() {
-
+		User user = new User("Homer", "password");
+		Enumeration role = null;
+		for(Enumeration e : enumDao.findAll()) {
+			role = (e.getName().equals("ADMIN")) ? e:null;
+		}
+		user.addRole(role);
+		userService.insert(user);
+		
+		for (User u : userService.findAll()) {
+			user = (u.getUsername().equals(user.getUsername())) ? u : user;
+		}
+		System.out.println(user.getRoles());
+		assertTrue(userService.hasUserTheRole(User.ROLE.ADMIN, user));
 	}
 
 	// List<User> getContactsOfUser(User user);
 	@Test
 	public void getContactsOfUser() {
-
+		fail();
 	}
 
 	// List<User> getAdmins();
 	@Test
 	public void getAdmins() {
-
+		fail();
 	}
 
 	/*

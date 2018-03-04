@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.se.lab.db.dao.EnumerationDAO;
 import org.se.lab.db.dao.UserContactDAO;
 import org.se.lab.db.dao.UserProfileDAO;
+import org.se.lab.db.dao.PostDAO;
 import org.se.lab.db.data.Community;
 import org.se.lab.db.data.Enumeration;
 import org.se.lab.db.data.File;
